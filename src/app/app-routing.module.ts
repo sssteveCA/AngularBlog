@@ -4,6 +4,7 @@ import { BlogComponent } from './content/blog/blog.component';
 import { ContactsComponent } from './content/contacts/contacts.component';
 import { IndexComponent } from './content/index/index.component';
 import { NewsComponent } from './content/news/news.component';
+import { NotFound404Component } from './content/not-found404/not-found404.component';
 import { WhoWeAreComponent } from './content/who-we-are/who-we-are.component';
 
 const routes: Routes = [
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: "contatti",
     component: ContactsComponent
+  },
+  {
+    path: "**",
+    component: NotFound404Component
   }
 ];
 
