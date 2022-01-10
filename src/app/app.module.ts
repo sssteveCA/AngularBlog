@@ -11,6 +11,7 @@ import { WhoWeAreComponent } from './content/who-we-are/who-we-are.component';
 import { NewsComponent } from './content/news/news.component';
 import { ContactsComponent } from './content/contacts/contacts.component';
 import { SidebarComponent } from './content/sidebar/sidebar.component';
+import { NotFound404Component } from './content/not-found404/not-found404.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { SidebarComponent } from './content/sidebar/sidebar.component';
     WhoWeAreComponent,
     NewsComponent,
     ContactsComponent,
-    SidebarComponent
+    SidebarComponent,
+    NotFound404Component
   ],
   imports: [
     BrowserModule,
