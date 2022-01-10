@@ -1,0 +1,15 @@
+
+//xs bootstrap breakpoint (0- 575px)
+@media screen and(max-width: $xs-max){
+    li#navForm {
+        min-width: $sf-minWidth;
+        * {
+            margin-bottom: $sf-marginBottom;
+        }
+    } 
+}
+
+nav#menu{
+    margin-bottom: $menu-marginBottom;
+}
+
