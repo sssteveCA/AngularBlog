@@ -10,6 +10,7 @@ import { BlogComponent } from './content/blog/blog.component';
 import { WhoWeAreComponent } from './content/who-we-are/who-we-are.component';
 import { NewsComponent } from './content/news/news.component';
 import { ContactsComponent } from './content/contacts/contacts.component';
+import { SidebarComponent } from './content/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ContactsComponent } from './content/contacts/contacts.component';
     BlogComponent,
     WhoWeAreComponent,
     NewsComponent,
-    ContactsComponent
+    ContactsComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
