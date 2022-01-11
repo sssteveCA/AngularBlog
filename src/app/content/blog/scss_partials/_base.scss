@@ -1,0 +1,8 @@
+div#divSearch{
+    input{
+        @include dv-input();
+    }
+    button{
+        @include dv-buttons();
+    }
+}

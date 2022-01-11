@@ -1,0 +1,14 @@
+
+//properties for divForm input
+@mixin dv-buttons(){
+    width: $button-width;
+    min-width: $button-minWidth;
+    margin: $button-margin;
+}
+
+//properties for divForm input
+@mixin dv-input(){
+    width: $input-width;
+    min-width: $input-minWidth;
+    margin: $input-margin;
+}

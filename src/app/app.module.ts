@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import {HttpClientModule} from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,6 +13,8 @@ import { NewsComponent } from './content/news/news.component';
 import { ContactsComponent } from './content/contacts/contacts.component';
 import { SidebarComponent } from './content/sidebar/sidebar.component';
 import { NotFound404Component } from './content/not-found404/not-found404.component';
+import { ArticleComponent } from './content/article/article.component';
+
 
 @NgModule({
   declarations: [
@@ -24,11 +27,13 @@ import { NotFound404Component } from './content/not-found404/not-found404.compon
     NewsComponent,
     ContactsComponent,
     SidebarComponent,
-    NotFound404Component
+    NotFound404Component,
+    ArticleComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
