@@ -1,6 +1,25 @@
 <div class="p-5 mb-4 bg-light rounded-3">
     <div class="container-fluid py-5">
-      <h1 class="display-5 fw-bold">Pagina contatti</h1>
-      <p class="col-md-8 fs-4">Questa è la pagina dei contatti. Scrivi per informazioni</p>
+      <h1 class="display-5 fw-bold headerPage">Contatti</h1>
+      <form>
+        <fieldset>
+          <div class="mb-3">
+            <label for="email" class="form-label">Il tuo indirizzo email</label>
+            <input type="email" class="form-control" id="email" name="email">
+          </div>
+          <div class="mb-3">
+            <label for="subject" class="form-label">Oggetto</label>
+            <input type="text" class="form-control" id="subject" name="subject">
+          </div>
+          <div class="form-group mb-3">
+            <label for="message">Messaggio</label>
+            <textarea id="message" class="form-control" name="message" rows="6"></textarea>
+          </div>
+          <div class="mb-3 d-flex flex-column flex-md-row justify-content-evenly">
+            <button type="button" class="btn btn-primary">INVIA</button>
+            <button type="reset" class="btn btn-secondary">ANNULLA</button>
+          </div>
+        </fieldset>
+      </form>
     </div>
   </div>
