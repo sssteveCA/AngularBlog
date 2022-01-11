@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Article } from 'src/app/models/article.model';
 
 @Component({
@@ -14,7 +14,7 @@ export class ArticleComponent implements OnInit {
   //articles: Article = new Array();
   url: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/search_article.php";
 
-  constructor(public route: ActivatedRoute, public http: HttpClient) {
+  constructor(public route: ActivatedRoute, public http: HttpClient, private router: Router) {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.article = params.get('article');
       console.log("Articolo: "+this.article);
@@ -26,8 +26,11 @@ export class ArticleComponent implements OnInit {
    //get articles list from input query
    getArticle(query: string){
      let params = new HttpParams().append('query',query);
-     this.http.post(this.url,params).subscribe(res =>{
-       console.log(res);
+     const options = {responseType: 'string'};
+     this.http.post(this.url,params,{responseType: 'text'}).subscribe(res =>{
+       //console.log(res);
+       let rJson = JSON.parse(res);
+       console.log(rJson);
      });
    }
 

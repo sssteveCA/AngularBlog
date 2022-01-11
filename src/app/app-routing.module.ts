@@ -34,8 +34,12 @@ const routes: Routes = [
     component: ArticleComponent
   },
   {
-    path: "**",
+    path: "404",
     component: NotFound404Component
+  },
+  {
+    path: "**",
+    redirectTo: '/404'
   }
 ];
 
