@@ -1,7 +1,7 @@
 <nav id="menu" class="navbar navbar-expand-sm navbar-dark bg-dark">
     <div class="container-fluid">
-      <div id="navbarSupportedContent" class="w-100">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex justify-content-between col-sm-8">
+      <div id="navbarSupportedContent" class="row w-100 flex-column flex-sm-row">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex justify-content-between col col-sm-8">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="javascript:void(0)" [routerLink]="['/']">Home</a>
           </li>
@@ -16,6 +16,14 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="javascript:void(0)" [routerLink]="['/contatti']">Contatti</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex justify-content-between col col-sm-2 offset-sm-2">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Accedi</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Registrati</a>
           </li>
         </ul>
       </div>

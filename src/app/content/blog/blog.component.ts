@@ -36,6 +36,7 @@ export class BlogComponent implements OnInit {
 
   //print the articles list in blog page
   printResult(res: Article[]): void{
+    $('#articlesList').html('');
     let divR, divC;
     let title,intro;
     let multi = false;
@@ -59,7 +60,7 @@ export class BlogComponent implements OnInit {
             intro.addClass('intro');
             intro.text(elem.introtext);
           divC.append(intro);
-        if(multi && (index != res.length - 1 )){
+        if(multi && (index >= res.length - 1 )){
           //If there are more than one article and it's not the last iteration
           divR.css('border-bottom','1px solid black');
         }
@@ -70,10 +71,18 @@ export class BlogComponent implements OnInit {
           window.open(link, '_blank');
         });
         divR.on('mouseenter',function(){
-          $(this).css('cursor','pointer');
+          $(this).css({
+            cursor : 'pointer',
+            'background-color': 'rgba(255,215,0,0.3)', //gold
+            opacity : '0.9'
+          });
         });
         divR.on('mouseleave',function(){
-          $(this).css('cursor','auto');
+          $(this).css({
+            cursor : 'auto',
+            'background-color' : 'transparent',
+            opacity : '1'
+          });
         });
       divCont.append(divR);
     });
