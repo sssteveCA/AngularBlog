@@ -4,7 +4,10 @@
     </div>
 </div>
 <div id="divSearch" class="nav-item d-flex flex-column flex-sm-row">
-  <input id="pageQuery" name="pageQuery" type="search" placeholder="Cerca articolo">
-  <button class="btn btn-outline-success" type="button">Cerca</button>
+  <input id="pageQuery" name="pageQuery" type="search" placeholder="Cerca articolo" #query>
+  <button class="btn btn-outline-success" type="button" (click)="onSearchClick(query)">Cerca</button>
+</div>
+<div id="articlesList">
+
 </div>
 

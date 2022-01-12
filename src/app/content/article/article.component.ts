@@ -31,7 +31,13 @@ export class ArticleComponent implements OnInit {
        //console.log(res);
        let rJson = JSON.parse(res);
        console.log(rJson);
-       this.showArticle(rJson['article']);
+       if(rJson['done'] == true)
+        this.showArticle(rJson['article']);
+      else{
+        if(rJson['notfound'] == true){
+          this.router.navigate(['/404']);
+        }
+      }//else{
      });
    }
 
