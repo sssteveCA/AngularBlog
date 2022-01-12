@@ -9,6 +9,7 @@ import { NavigationEnd, Router } from '@angular/router';
 export class AppComponent {
   title = 'AngularBlog';
   path : string;
+  imgUrl : string = "http://localhost:4200/assets/img/background.jfif"; //background image url
 
   constructor(private router: Router){
     //console.log(this.router);
@@ -19,5 +20,15 @@ export class AppComponent {
         this.path = event.url;
       }
     });
+  }
+
+  //show the background-image
+  backgroundStyle() : Object{
+    return {
+      'background-image' : "url('"+this.imgUrl+"')",
+      'background-repeat' : 'repeat',
+      'z-index': '-1',
+      height: '-webkit-fill-available'
+    }
   }
 }

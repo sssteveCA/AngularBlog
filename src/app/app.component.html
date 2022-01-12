@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" [ngStyle]="backgroundStyle()">
   <div class="row">
     <app-menu *ngIf="path != '/login' && path != '/register'" class="col-12"></app-menu>
   </div>
