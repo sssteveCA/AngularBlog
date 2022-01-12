@@ -9,38 +9,14 @@ import { NotFound404Component } from './content/not-found404/not-found404.compon
 import { WhoWeAreComponent } from './content/who-we-are/who-we-are.component';
 
 const routes: Routes = [
-  {
-    path : "",
-    component : IndexComponent
-  },
-  {
-    path: "blog",
-    component: BlogComponent
-  },
-  {
-    path: "chisiamo",
-    component: WhoWeAreComponent
-  },
-  {
-    path: "news",
-    component: NewsComponent
-  },
-  {
-    path: "contatti",
-    component: ContactsComponent
-  },
-  {
-    path: "blog/:article",
-    component: ArticleComponent
-  },
-  {
-    path: "404",
-    component: NotFound404Component
-  },
-  {
-    path: "**",
-    redirectTo: '/404'
-  }
+  {path : "", component : IndexComponent},
+  {path: "blog", component: BlogComponent},
+  {path: "chisiamo", component: WhoWeAreComponent},
+  {path: "news", component: NewsComponent},
+  {path: "contatti", component: ContactsComponent},
+  {path: "blog/:article", component: ArticleComponent},
+  {path: "404", component: NotFound404Component},
+  {path: "**", redirectTo: '/404'}
 ];
 
 @NgModule({
