@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row">
-    <app-menu class="col-12"></app-menu>
+    <app-menu *ngIf="path != '/login' && path != '/register'" class="col-12"></app-menu>
   </div>
   <div class="row">
     <div class="col-12">
@@ -8,6 +8,6 @@
     </div>
   </div>
   <div class="row">
-    <app-footer class="col-12"></app-footer>
+    <app-footer *ngIf="path != '/login' && path != '/register'" class="col-12"></app-footer>
   </div>
 </div>

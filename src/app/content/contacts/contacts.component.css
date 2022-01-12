@@ -1,1 +1,7 @@
-/* No CSS */
+button {
+  margin: 10px auto auto;
+}
+
+textarea {
+  resize: none;
+}

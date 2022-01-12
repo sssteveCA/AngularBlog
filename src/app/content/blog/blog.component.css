@@ -1,1 +1,11 @@
-/* No CSS */
+div#divSearch input {
+  width: 75%;
+  min-width: 250px;
+  margin: 10px auto 10px;
+}
+
+div#divSearch button {
+  width: 20%;
+  min-width: 100px;
+  margin: auto;
+}

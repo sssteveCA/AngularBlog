@@ -15,6 +15,8 @@ import { ContactsComponent } from './content/contacts/contacts.component';
 import { SidebarComponent } from './content/sidebar/sidebar.component';
 import { NotFound404Component } from './content/not-found404/not-found404.component';
 import { ArticleComponent } from './content/article/article.component';
+import { RegisterComponent } from './account/register/register.component';
+import { LoginComponent } from './account/login/login.component';
 
 
 @NgModule({
@@ -30,6 +32,8 @@ import { ArticleComponent } from './content/article/article.component';
     SidebarComponent,
     NotFound404Component,
     ArticleComponent,
+    RegisterComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
