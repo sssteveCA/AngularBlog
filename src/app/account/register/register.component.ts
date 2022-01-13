@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -40,12 +40,12 @@ export class RegisterComponent implements OnInit {
         cognome : this.formGroup.controls['cognome'].value,
         username : this.formGroup.controls['username'].value,
         email : this.formGroup.controls['email'].value,
-        password : this.formGroup.controls['cognome'].value,
+        password : this.formGroup.controls['password'].value,
         confPwd : this.formGroup.controls['confPwd'].value
       };
       console.log(dati);
       if(dati['password'] == dati['confPwd']){
-
+        this.subscribe(dati);
       }
       else{
         console.log("Le due password non coincidono");
@@ -73,8 +73,17 @@ export class RegisterComponent implements OnInit {
   }
 
   //if data are correct subscribe to blog
-  subscribe(data: Object): void{
-
+  subscribe(data: any): void{
+    let params = new HttpParams({fromObject: data});
+    /*Object.keys(data).forEach(function(key){
+      //append data from Object to HttpParams
+      params.append(key,data[key]);
+    });*/
+    console.log(params);
+    this.http.post(this.registerUrl, params,{responseType: 'text'}).subscribe(res => {
+      console.log(res);
+      let rJson = JSON.parse(res);
+    });
   }
 
 }
