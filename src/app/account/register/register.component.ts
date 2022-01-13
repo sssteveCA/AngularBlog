@@ -41,7 +41,7 @@ export class RegisterComponent implements OnInit {
         username : this.formGroup.controls['username'].value,
         email : this.formGroup.controls['email'].value,
         password : this.formGroup.controls['password'].value,
-        confPwd : this.formGroup.controls['confPwd'].value
+        confPwd : this.formGroup.controls['confPwd'].value,
       };
       console.log(dati);
       if(dati['password'] == dati['confPwd']){

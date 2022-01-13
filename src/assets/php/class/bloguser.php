@@ -1,7 +1,5 @@
 <?php
 
-require_once("../config.php");
-
 define("BLOGUSER_INCORRECTLOGINDATA", "1");
 define("BLOGUSER_ACTIVEYOURACCOUNT", "2");
 define("BLOGUSER_DATANOTUPDATED", "3");
@@ -14,6 +12,7 @@ define("BLOGUSER_INVALIDFIELD", "9");
 define("BLOGUSER_DATANOTSET", "10");
 define("BLOGUSER_ACCOUNTNOTRECOVERED", "11");
 define("BLOGUSER_INVALIDDATAFORMAT", "12");
+define("BLOGUSER_STATEMENTERROR", "13");
 
 class BlogUser{
     private $h; //MySql connection handle 
@@ -50,12 +49,12 @@ class BlogUser{
     );
 
     public function __construct($dati){
-        $this->connesso = false;
+        $this->connect = false;
         $mysqlHost=isset($dati['mysqlHost'])? $dati['mysqlHost']:HOSTNAME;
         $mysqlUser=isset($dati['mysqlUser'])? $dati['mysqlUser']:USERNAME;
         $mysqlPass=isset($dati['mysqlPass'])? $dati['mysqlPass']:PASSWORD;
         $mysqlDb=isset($dati['mysqlDb'])? $dati['mysqlDb']:DATABASE;
-        $this->tabella=isset($dati['tabella'])? $dati['tabella']:TABLE_USERS;
+        $this->table=isset($dati['tabella'])? $dati['tabella']:TABLE_USERS;
         $this->h = new mysqli($mysqlHost,$mysqlUser,$mysqlPass,$mysqlDb);
         if($this->h->connect_errno !== 0){
             throw new Exception("Connessione a MySql fallita: ".$this->h->connect_error);
@@ -163,6 +162,31 @@ SQL;
         return $ok;
     }//private function createTable(){
 
+    /*check if field has particular value
+    1 = the field already has that value
+    0 = the field has not that value
+    -1 = error */
+    private function exists($where){
+        $this->errno = 0;
+        $query = <<<SQL
+SELECT * FROM `{$this->table}` WHERE {$where};
+SQL;
+        $this->query = $query;
+        $this->queries[] = $this->query;
+        $r = $this->h->query($this->query);
+        if($r){
+            if($r->num_rows > 0){
+                $ret = 1; 
+            }
+            else $ret = 0;
+        }
+        else{
+            $ret = -1;
+            $this->errno = BLOGUSER_QUERYERROR; 
+        }
+        return $ret;
+    }//public function Exists
+
      //create the account activation or password recovery code 
      public function codAutGen($ordine){
         $codAut = str_replace('.','a',microtime());
@@ -181,8 +205,110 @@ SQL;
         else return $s.$codAut;
     }
 
-    public function registration(){
+    //insert class properties in database
+    private function insert(){
+        $insert = false;
+        $this->errno = 0;
+        $this->emailVerif = $this->codAutGen('0');
+        $this->cr_time = date('Y-m-d H:i:s');
+        $this->last_mod = date('Y-m-d H:i:s');
+        $this->query = <<<SQL
+INSERT INTO `{$this->table}` (`nome`,`cognome`,`username`,`email`,`password`,`emailVerif`,`creation_time`,`last_modified`)
+VALUES (?,?,?,?,?,?,?,?);
+SQL;
+        $this->queries[] = $this->query;
+        $stat = $this->h->prepare($this->query);
+        if($stat !== false){
+            $stat->bind_param("ssssssss",$this->nome,$this->cognome,$this->username,$this->email,$this->password,$this->emailVerif,$this->cr_time,$this->last_mod);
+            $exec = $stat->execute();
+            if($exec !== false){
+                //successufly inserted data in DB
+                $insert = true;
+            }//if($result !== false){
+            else{
+                $this->errno = BLOGUSER_DATANOTINSERTED;
+            }
+        }//if($stat !== false){
+        else{
+            $this->errno = BLOGUSER_STATEMENTERROR;
+        }
+        return $insert;
+    }
 
+    public function registration(){
+        $this->errno = 0;
+        $registration = false;
+        $verify = $this->validate();
+        //check for duplicates on UNIQUE keys
+        if($verify){
+            //values are all valid
+            $where = <<<SQL
+`username` = '{$this->username}' OR `email` = '{$this->email}';
+SQL;
+            $exists = $this->exists($where);
+            if($exists == 0){
+                //the values compared were not found in all UNIQUE index
+                $insert = $this->insert();
+                if($insert)
+                    $registration = true;
+            }
+            else if($exists == 1){
+                $this->errno = BLOGUSER_USERNAMEMAILEXIST;
+            }
+        }//if($verify){
+        else{
+            $this->errno = BLOGUSER_INVALIDDATAFORMAT;
+        }
+        return $registration;
+    }
+
+    //check if properties are all valid before insert
+    private function validate(){
+        $valid = true;
+        if(isset($this->id) && !preg_match(BlogUser::$regex['id'],$this->id)){
+            file_put_contents("log.txt","BlogUser validate() id ",FILE_APPEND);
+            $valid = false;
+        }
+        if(isset($this->nome) && !preg_match(BlogUser::$regex['nome'],$this->nome)){
+            file_put_contents("log.txt","BlogUser validate() nome ",FILE_APPEND);
+            $valid = false;
+        }
+        if(isset($this->cognome) && !preg_match(BlogUser::$regex['cognome'],$this->cognome)){
+            file_put_contents("log.txt","BlogUser validate() cognome ",FILE_APPEND);
+            $valid = false;
+        }
+        if(isset($this->username) && !preg_match(BlogUser::$regex['username'],$this->username)){
+            file_put_contents("log.txt","BlogUser validate() username ",FILE_APPEND);
+            $valid = false;
+        }
+        if(isset($this->email) && !preg_match(BlogUser::$regex['email'],$this->email)){
+            file_put_contents("log.txt","BlogUser validate() email {$this->email} ",FILE_APPEND);
+            $valid = false;
+        }
+        /*if(isset($this->password) && !preg_match(BlogUser::$regex['password'],$this->password)){
+            $valid = false;
+        }*/
+        if(isset($this->emailVerif) && !preg_match(BlogUser::$regex['emailVerif'],$this->emailVerif)){
+            file_put_contents("log.txt","BlogUser validate() emailVerif ",FILE_APPEND);
+            $valid = false;
+        }
+        if(isset($this->changeVerif) && !preg_match(BlogUser::$regex['changeVerif'],$this->changeVerif)){
+            file_put_contents("log.txt","BlogUser validate() changeVerif ",FILE_APPEND);
+            $valid = false;
+        }
+        if(isset($this->dataCambioPwd) && !preg_match(BlogUser::$regex['dataCambioPwd'],$this->dataCambioPwd)){
+            file_put_contents("log.txt","BlogUser validate() dataCambioPwd ",FILE_APPEND);
+            $valid = false;
+        }
+        if(isset($this->cr_time) && !preg_match(BlogUser::$regex['cr_time'],$this->cr_time)){
+            file_put_contents("log.txt","BlogUser validate() cr_time ",FILE_APPEND);
+            $valid = false;
+        }
+        if(isset($this->last_mod) && !preg_match(BlogUser::$regex['last_mod'],$this->last_mod)){
+            file_put_contents("log.txt","BlogUser validate() last_mod ",FILE_APPEND);
+            $valid = false;
+        }
+        return $valid;
     }
 
         
