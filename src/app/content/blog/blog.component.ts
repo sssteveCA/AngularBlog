@@ -9,7 +9,7 @@ import {Article} from '../../models/article.model';
 })
 export class BlogComponent implements OnInit {
 
-  url: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/search_articles.php";
+  url: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/article/search_articles.php";
   articles: Article[] = new Array();
 
   constructor(public http: HttpClient) { }

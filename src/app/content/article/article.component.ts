@@ -12,7 +12,7 @@ export class ArticleComponent implements OnInit {
 
   article: string | null;
   //articles: Article = new Array();
-  url: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/search_article.php";
+  url: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/article/search_article.php";
 
   constructor(public route: ActivatedRoute, public http: HttpClient, private router: Router) {
     this.route.paramMap.subscribe((params: ParamMap) => {

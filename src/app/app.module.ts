@@ -18,6 +18,8 @@ import { ArticleComponent } from './content/article/article.component';
 import { RegisterComponent } from './account/register/register.component';
 import { LoginComponent } from './account/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AttivaComponent } from './account/attiva/attiva.component';
+
 
 
 @NgModule({
@@ -35,6 +37,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ArticleComponent,
     RegisterComponent,
     LoginComponent,
+    AttivaComponent
   ],
   imports: [
     BrowserModule,

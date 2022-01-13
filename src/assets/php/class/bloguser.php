@@ -13,6 +13,8 @@ define("BLOGUSER_DATANOTSET", "10");
 define("BLOGUSER_ACCOUNTNOTRECOVERED", "11");
 define("BLOGUSER_INVALIDDATAFORMAT", "12");
 define("BLOGUSER_STATEMENTERROR", "13");
+define("BLOGUSER_INVALIDINDEX", "14");
+define("BLOGUSER_NORESULT", "15");
 
 class BlogUser{
     private $h; //MySql connection handle 
@@ -27,8 +29,8 @@ class BlogUser{
     private $emailVerif; //verification code to complete the registration
     private $changeVerif; //code for request new password
     private $dataCambioPwd;
-    private $cr_time; //account creation time
-    private $last_mod; //last account modified time
+    private $creation_time; //account creation time
+    private $last_modified; //last account modified time
     private $action; /*action that the user perform
     1 = login, 2 = registration, 3 = recovery*/
     private $logged; //true if user it's logged
@@ -79,8 +81,8 @@ class BlogUser{
         $this->emailVerif=isset($dati['emailVerif'])? $dati['emailVerif']:null;
         $this->changeVerif=isset($dati['changeVerif'])? $dati['changeVerif']:null;
         /*$this->dataCambioPwd=isset($dati['dataCambioPwd'])? $dati['dataCambioPwd']:null;
-        $this->cr_time=isset($dati['cr_time'])? $dati['cr_time']:null;
-        $this->last_mod=isset($dati['last_mod'])? $dati['last_mod']:null;*/
+        $this->$creation_time=isset($dati['$creation_time'])? $dati['$creation_time']:null;
+        $this->last_modified=isset($dati['last_modified'])? $dati['last_modified']:null;*/
 
     }//public function __construct($dati){
 
@@ -98,8 +100,8 @@ class BlogUser{
     public function getEmailVerif(){return $this->emailVerif;}
     public function getChangeVerif(){return $this->changeVerif;}
     public function getDataCambioPwd(){return $this->dataCambioPwd;}
-    public function getCrTime(){return $this->cr_time;}
-    public function getLastMod(){return $this->last_mod;}
+    public function getCrTime(){return $this->creation_time;}
+    public function getLastMod(){return $this->last_modified;}
     public function getAction(){return $this->action;}
     public function getQuery(){return $this->query;}
     public function getQueries(){return $this->queries;}
@@ -205,13 +207,54 @@ SQL;
         else return $s.$codAut;
     }
 
+    //retrieve table row specifing an index
+    private function getData($index){
+        $get = false;
+        $this->errno = 0;
+        if(in_array($index,BlogUser::$campi)){
+            $this->query = <<<SQL
+SELECT * FROM `{$this->table}` WHERE `{$index}` = '{$this->{$index}}';
+SQL;
+            $this->queries[] = $this->query;
+            $res = $this->h->query($this->query);
+            if($res !== false){
+                if($res->num_rows == 1){
+                    $row = $res->fetch_assoc();
+                    $this->id = $row["id"];
+                    $this->nome = $row["nome"];
+                    $this->nome = $row["nome"];
+                    $this->cognome = $row["cognome"];
+                    $this->username = $row["username"];
+                    $this->email = $row["email"];
+                    $this->password = $row["password"];
+                    $this->emailVerif = $row["emailVerif"];
+                    $this->changeVerif = $row["changeVerif"];
+                    $this->creation_time = $row["creation_time"];
+                    $this->last_modified = $row["last_modified"];
+                    $get = true;
+                }
+                else{
+                    $this->errno = BLOGUSER_NORESULT;
+                }
+                $res->free_result();
+            }//if($res !== false){
+            else{
+                $this->errno = BLOGUSER_QUERYERROR;
+            }
+        }//if(in_array($index,BlogUser::$campi)){
+        else{
+            $this->errno = BLOGUSER_INVALIDINDEX;
+        }
+        return $get;
+    }
+
     //insert class properties in database
     private function insert(){
         $insert = false;
         $this->errno = 0;
         $this->emailVerif = $this->codAutGen('0');
-        $this->cr_time = date('Y-m-d H:i:s');
-        $this->last_mod = date('Y-m-d H:i:s');
+        $this->creation_time = date('Y-m-d H:i:s');
+        $this->last_modified = date('Y-m-d H:i:s');
         $this->query = <<<SQL
 INSERT INTO `{$this->table}` (`nome`,`cognome`,`username`,`email`,`password`,`emailVerif`,`creation_time`,`last_modified`)
 VALUES (?,?,?,?,?,?,?,?);
@@ -219,7 +262,7 @@ SQL;
         $this->queries[] = $this->query;
         $stat = $this->h->prepare($this->query);
         if($stat !== false){
-            $stat->bind_param("ssssssss",$this->nome,$this->cognome,$this->username,$this->email,$this->password,$this->emailVerif,$this->cr_time,$this->last_mod);
+            $stat->bind_param("ssssssss",$this->nome,$this->cognome,$this->username,$this->email,$this->password,$this->emailVerif,$this->creation_time,$this->last_mod);
             $exec = $stat->execute();
             if($exec !== false){
                 //successufly inserted data in DB
@@ -235,6 +278,48 @@ SQL;
         return $insert;
     }
 
+    //set email verification code
+    private function setEmailVerif($emailVerif){$this->emailVerif = $emailVerif;}
+
+    //set LastModified value specifing also the index
+    private function setLastModified($lastModified,$index){
+        $set = false;
+        $this->errno = 0;
+        if(in_array($index,BlogUser::$campi)){
+            $this->query = <<<SQL
+SQL;
+        }//if(in_array($index,BlogUser::$campi)){
+        else{
+            $this->errno = BLOGUSER_INVALIDINDEX;
+        }
+        return $set;
+    }
+
+    //complete registration and activate account
+    public function attiva(){
+        $ok = false;
+        $this->errno = 0;
+        if(isset($this->emailVerif)){
+            $this->query = <<<SQL
+UPDATE `{$this->table}` SET `emailVerif` = NULL WHERE `emailVerif` = '{$this->emailVerif}';
+SQL;
+            $this->queries[] = $this->query;
+            $update = $this->h->query($this->query);
+            if($update !== false){
+                if($this->h->affected_rows == 1){
+                    $ok = true;
+                }
+                else $this->errno = BLOGUSER_ACCOUNTNOTACTIVATED;
+            }
+            else $this->errno = BLOGUSER_QUERYERROR;
+        }//if(isset($this->emailVerif)){
+        else{
+            $this->errno = BLOGUSER_DATANOTSET;
+        }
+        return $ok;
+    }
+
+    //store account registration values in DB
     public function registration(){
         $this->errno = 0;
         $registration = false;
@@ -261,6 +346,82 @@ SQL;
         }
         return $registration;
     }
+
+    //user send an email
+    public function sendEmail($to,$subject,$body,$headers){
+        $this->errno = 0;
+        $from = $this->getEmail();
+        $send = @mail($to,$subject,$body,$headers);
+        if(!$send) $this->errno = BLOGUSER_MAILNOTSENT; //email non inviata
+        return $send;
+    }
+
+    public function update($index){
+        $ok = false;
+        $this->errno = 0;
+        if(in_array($index,BlogUser::$campi)){
+            $u = 1; //count field to be updated
+            $sql = "UPDATE `{$this->table}` ";
+            if(isset($this->nome)){
+                if($u <= 1){$sql .= "SET "; $u++;}
+                $sql .= "`nome` = '{$this->nome}'";
+            }
+            if(isset($this->cognome)){
+                if($u <= 1){$sql .= "SET "; $u++;}
+                $sql .= "`cognome` = '{$this->cognome}'";
+            }
+            if(isset($this->username)){
+                if($u <= 1){$sql .= "SET "; $u++;}
+                $sql .= "`username` = '{$this->username}'";
+            }
+            if(isset($this->email)){
+                if($u <= 1){$sql .= "SET "; $u++;}
+                $sql .= "`email` = '{$this->email}'";
+            }
+            if(isset($this->password)){
+                if($u <= 1){$sql .= "SET "; $u++;}
+                $sql .= "`password` = '{$this->password}'";
+            }
+            if(isset($this->emailVerif)){
+                if($u <= 1){$sql .= "SET "; $u++;}
+                $sql .= "`emailVerif` = '{$this->emailVerif}'";
+            }
+            else{
+                if($u <= 1){$sql .= "SET "; $u++;}
+                $sql .= "`emailVerif` = NULL";
+            }
+            if(isset($this->changeVerif)){
+                if($u <= 1){$sql .= "SET "; $u++;}
+                $sql .= "`changeVerif` = '{$this->changeVerif}'";
+            }
+            else{
+                if($u <= 1){$sql .= "SET "; $u++;}
+                $sql .= "`changeVerif` = NULL";
+            }
+            if(isset($this->last_modified)){
+                if($u <= 1){$sql .= "SET "; $u++;}
+                $sql .= "`last_modified` = '{$this->last_modified}'";
+            }
+            $sql .= ";";
+            $this->query = $sql;
+            $this->queries[] = $this->query;
+            $update = $this->h->query($this->query);
+            if($update !== false){
+                if($this->h->affected_rows == 1)
+                    $ok = true;
+                else 
+                    $this->errno = BLOGUSER_DATANOTUPDATED;
+            }//if($update !== false){
+            else{
+                $this->errno = BLOGUSER_QUERYERROR;
+            }
+        }//if(in_array($index,BlogUser::$campi)){
+        else{
+            $this->errno = BLOGUSER_INVALIDINDEX;
+        }
+        return $ok;
+    }
+
 
     //check if properties are all valid before insert
     private function validate(){
@@ -300,11 +461,11 @@ SQL;
             file_put_contents("log.txt","BlogUser validate() dataCambioPwd ",FILE_APPEND);
             $valid = false;
         }
-        if(isset($this->cr_time) && !preg_match(BlogUser::$regex['cr_time'],$this->cr_time)){
+        if(isset($this->creation_time) && !preg_match(BlogUser::$regex['cr_time'],$this->creation_time)){
             file_put_contents("log.txt","BlogUser validate() cr_time ",FILE_APPEND);
             $valid = false;
         }
-        if(isset($this->last_mod) && !preg_match(BlogUser::$regex['last_mod'],$this->last_mod)){
+        if(isset($this->last_modified) && !preg_match(BlogUser::$regex['last_modified'],$this->last_modified)){
             file_put_contents("log.txt","BlogUser validate() last_mod ",FILE_APPEND);
             $valid = false;
         }

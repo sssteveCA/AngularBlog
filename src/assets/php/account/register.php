@@ -4,8 +4,8 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: *');
 
-require_once("config.php");
-require_once("class/bloguser.php");
+require_once("../config.php");
+require_once("../class/bloguser.php");
 
 $response = array();
 $response['post'] = $_POST;
@@ -25,8 +25,22 @@ if(isset($_POST['nome'],$_POST['cognome'],$_POST['username'],$_POST['email'],$_P
                 $bUser = new BlogUser($dati);
                 $reg = $bUser->registration();
                 if($reg){
-                    $response['msg'] = 'Account creato con successo. Per completare la registrazione accedi alla tua casella di posta';
-                }
+                    $emailCode = $bUser->getEmailVerif();
+                    //$indAtt = dirname($_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'],1).'/attiva.php';
+                    $indAtt = $att;
+                    $codIndAtt = $indAtt.'?emailVerif='.$emailCode;
+                    $htmlM = mailHtml($emailCode,$indAtt,$codIndAtt);
+                    $send = $bUser->sendEmail($bUser->getEmail(),'Attivazione account',$htmlM,$headers);
+                    if($send){
+                        //Mail successufly sent
+                        $response['done'] = true;
+                        $response['msg'] = 'Account creato con successo. Per completare la registrazione accedi alla tua casella di posta';
+                    }
+                    else{
+                        $errno = $bUser->getErrno();
+                        $response['msg'] = 'Errore durante l\' invio della mail. Codice '.$errno;
+                    } 
+                }//if($reg){
                 else{
                     $errno = $bUser->getErrno();
                     $response['msg'] = 'Errore durante la registrazione dell\' account. Codice '.$errno;

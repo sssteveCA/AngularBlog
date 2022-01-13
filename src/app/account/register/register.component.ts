@@ -12,7 +12,7 @@ export class RegisterComponent implements OnInit {
   @ViewChild('password',{static: false}) iPass: ElementRef;
   @ViewChild('confPwd',{static: false}) iConfPwd: ElementRef;
 
-  registerUrl : string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/register.php";
+  registerUrl : string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/account/register.php";
   formGroup: FormGroup;
   showPassword: boolean = false;
   showConf: boolean = false;
