@@ -28,7 +28,13 @@
         </style>
     </head>
     <body>
-        <div id="activeBox" class="col col-md-6 offset-md-3 mt-5 mx-auto"> 
+        <div *ngIf="status == 1" class="w-100 h-100">
+            <div class="alert alert-success" role="alert">
+                Account attivato con successo
+              </div>
+        </div>
+        <!-- No URL verification code -->
+        <div *ngIf="status == 0" id="activeBox" class="col col-md-6 offset-md-3 mt-5 mx-auto"> 
             <h2 class="text-center">Inserisci il codice di attivazione</h2>
             <form>
                 <div class="form-group mt-3">
@@ -39,6 +45,12 @@
                     <button type="submit" class="btn btn-primary">ATTIVA</button>
                 </div>
             </form>
+        </div>
+        <!-- Invalid verification code -->
+        <div *ngIf="status == -1" class="w-100 h-100">
+            <div class="alert alert-danger" role="alert">
+                Codice non valido
+            </div>
         </div>
     </body>
 </html>

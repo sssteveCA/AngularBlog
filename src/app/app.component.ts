@@ -12,12 +12,12 @@ export class AppComponent {
   imgUrl : string = "http://localhost:4200/assets/img/background.jfif"; //background image url
 
   constructor(private router: Router){
-    //console.log(this.router);
+    console.log(this.router);
     this.router.events.subscribe((event) => {
       //console.log(event);
       if(event instanceof NavigationEnd){
-        console.log(event.url);
-        this.path = event.url;
+        this.path = event.url.split('?')[0];
+        console.log(this.path);
       }
     });
   }
