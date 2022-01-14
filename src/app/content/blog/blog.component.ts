@@ -45,8 +45,8 @@ export class BlogComponent implements OnInit {
     let divCont = $('<div>');
     divCont.addClass('container');
     res.forEach(function(elem, index){
-      console.log(index);
-      console.log(elem);
+      /*console.log(index);
+      console.log(elem);*/
         divR = $('<div>');
         divR.addClass('row');
           divC = $('<div>');
@@ -60,10 +60,11 @@ export class BlogComponent implements OnInit {
             intro.addClass('intro');
             intro.text(elem.introtext);
           divC.append(intro);
-        if(multi && (index >= res.length - 1 )){
+        if(multi && (index <= res.length - 2 )){
           //If there are more than one article and it's not the last iteration
           divR.css('border-bottom','1px solid black');
         }
+        divR.css('margin','20px 0px');
         divR.append(divC);
         divR.on('click',function(){
           //go to article link if user clicks on the div

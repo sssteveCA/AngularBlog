@@ -46,11 +46,9 @@ SQL;
             $result = $mysqli->query($sql);
             if($result !== false){
                 if($result->num_rows > 0){
-                    $results['done'] = true;
-                    $i = 0;
                     while(($row = $result->fetch_array(MYSQLI_ASSOC)) != null){
-                        $results['articles'][$i] = $row;
-                        $i++;
+                        $article = new Article($row);
+                        $results['articles'][] = $article;
                     }
                 }//if($result->num_rows > 0){
                 else
