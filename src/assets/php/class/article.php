@@ -32,6 +32,40 @@ class Article{
         'tempo' => '/^([0-9]+)\s(2[0-3]|1[0-9]|[0-9])\s([0-5][0-9]|[0-9])\s([0-5][0-9]|[0-9])$/'
     );
 
+    public static function getMultiData($field,$query){
+        //retrieve multiple Article object from SELECT query
+        $results = array();
+        $mysqli = new mysqli(HOSTNAME,USERNAME,PASSWORD,DATABASE);
+        if($mysqli->connect_errno == 0){
+            $mysqli->set_charset("utf8mb4");
+            $tabella = TABLE_ARTICLES;
+            $queryE = $mysqli->real_escape_string($query);
+            $sql = <<<SQL
+SELECT * FROM `{$tabella}` WHERE `{$field}` LIKE '%{$queryE}%';
+SQL;
+            $result = $mysqli->query($sql);
+            if($result !== false){
+                if($result->num_rows > 0){
+                    $results['done'] = true;
+                    $i = 0;
+                    while(($row = $result->fetch_array(MYSQLI_ASSOC)) != null){
+                        $results['articles'][$i] = $row;
+                        $i++;
+                    }
+                }//if($result->num_rows > 0){
+                else
+                    $results['msg'] = 'La ricerca di '.$queryE.' non ha fornito alcun risultato';
+                $result->free_result();
+            }//if($result !== false){
+            else
+                $results['msg'] = $mysqli->error;
+            $mysqli->close();
+        }//if($mysqli->connect_errno == 0){
+        else
+            $results['msg'] = $mysqli->connect_error;
+        return $results;
+    }
+
     public function __construct($dati){
         $this->connect = false;
         $mysqlHost=isset($dati['mysqlHost'])? $dati['mysqlHost']:HOSTNAME;
