@@ -262,7 +262,7 @@ SQL;
         $this->queries[] = $this->query;
         $stat = $this->h->prepare($this->query);
         if($stat !== false){
-            $stat->bind_param("ssssssss",$this->nome,$this->cognome,$this->username,$this->email,$this->password,$this->emailVerif,$this->creation_time,$this->last_mod);
+            $stat->bind_param("ssssssss",$this->nome,$this->cognome,$this->username,$this->email,$this->password,$this->emailVerif,$this->creation_time,$this->last_modified);
             $exec = $stat->execute();
             if($exec !== false){
                 //successufly inserted data in DB

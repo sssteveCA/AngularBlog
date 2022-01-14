@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AttivaComponent implements OnInit {
 
-  activationUrl: string = "http://localhost/angular/ex6/AngularBlog/assets/php/account/attiva.php";
+  activationUrl: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/account/attiva.php";
 
   constructor(public http: HttpClient, private route: ActivatedRoute) {
     this.route.queryParams.subscribe(params =>{
@@ -26,6 +26,9 @@ export class AttivaComponent implements OnInit {
   active(urlParams: any): void{
     //account activation
     console.log(urlParams);
+    this.http.get(urlParams,{responseType: 'text'}).subscribe(resp => {
+      console.log(resp);
+    });
   }
 
 }

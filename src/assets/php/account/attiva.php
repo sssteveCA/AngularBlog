@@ -4,6 +4,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET');
 header('Access-Control-Allow-Headers: *');
 
+require_once("../config.php");
 require_once("../class/bloguser.php");
 
 $response = array();
@@ -19,12 +20,13 @@ $regex = '/^[a-z0-9]{64}$/i';
         $activate = $bUser->attiva();
         $errno = $bUser->getErrno();
         //account attivato
-        if(!isset($codAut) && $errno === 0){
-            echo 'L\' account è stato attivato';
+        if(!isset($codAut) && $errno == 0){
+            $response['msg'] = 'L\' account è stato attivato';
+            $response['done'] = true;
         }
         //account non attivato
         else{
-            $risposta['msg'] = 'Account non attivato. Codice '.$errno;
+            $response['msg'] = 'Account non attivato. Codice '.$errno;
         }
     }//if(isset($_REQUEST['codAut']) && preg_match($regex,$_REQUEST['codAut']))  
 
