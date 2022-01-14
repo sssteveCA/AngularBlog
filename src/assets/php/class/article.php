@@ -1,5 +1,15 @@
 <?php
 
+define("ARTICLE_DATANOTUPDATED", "1");
+define("ARTICLE_DATANOTINSERTED", "2");
+define("ARTICLE_QUERYERROR", "3");
+define("ARTICLE_INVALIDFIELD", "4");
+define("ARTICLE_DATANOTSET", "5");
+define("ARTICLE_INVALIDDATAFORMAT", "6");
+define("ARTICLE_STATEMENTERROR", "7");
+define("ARTICLE_INVALIDINDEX", "8");
+define("ARTICLE_NORESULT", "9");
+
 class Article{
     private $h; //MySQL connection handle
     private $connect; //true if there is a MySql connection opened
@@ -88,16 +98,16 @@ SQL;
     }
 
         //create table if not exists
-        private function createTable(){
-            $ok = false;
-            $this->query = <<<SQL
+    private function createTable(){
+        $ok = false;
+        $this->query = <<<SQL
 SHOW TABLES LIKE '{$this->table}';
 SQL;
-            $this->queries[] = $this->query;
-            $show = $this->h->query($this->query);
-            if($show !== false){
-                if($show->num_rows == 0){
-                    $this->query = <<<SQL
+        $this->queries[] = $this->query;
+        $show = $this->h->query($this->query);
+        if($show !== false){
+            if($show->num_rows == 0){
+                $this->query = <<<SQL
 CREATE TABLE `{$this->table}` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(100) NOT NULL,
@@ -114,16 +124,56 @@ CREATE TABLE `{$this->table}` (
   KEY `author` (`author`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4
 SQL;
-                $this->queries[] = $this->query;
-                $create = $this->h->query($this->query);
-                if($create !== false)
-                    $ok = true;
-                }//if($show->num_rows == 0){
-                else
-                    $ok = true;
-            }//if($show !== false){        
-            return $ok;
-        }//private function createTable(){
+            $this->queries[] = $this->query;
+            $create = $this->h->query($this->query);
+            if($create !== false)
+                $ok = true;
+            }//if($show->num_rows == 0){
+            else
+                $ok = true;
+        }//if($show !== false){        
+        return $ok;
+    }//private function createTable(){
+
+    //retrieve table row specifing an index
+    private function getData($index){
+        $get = false;
+        $this->errno = 0;
+        if(in_array($index,Article::$campi)){
+            $this->query = <<<SQL
+SELECT * FROM `{$this->table}` WHERE `{$index}` = '{$this->{$index}}';
+SQL;
+            $this->queries[] = $this->query;
+            $res = $this->h->query($this->query);
+            if($res !== false){
+                if($res->num_rows == 1){
+                    $row = $res->fetch_assoc();
+                    $this->id = $row["id"];
+                    $this->title = $row["title"];
+                    $this->author = $row["author"];
+                    $this->permalink = $row["cognome"];
+                    $this->content = $row["content"];
+                    $this->introtext = $row["introtext"];
+                    $this->categories = $row["categories"];
+                    $this->tags = $row["tags"];
+                    $this->creation_time = $row["creation_time"];
+                    $this->last_modified = $row["last_modified"];
+                    $get = true;
+                }
+                else{
+                    $this->errno = ARTICLE_NORESULT;
+                }
+                $res->free_result();
+            }//if($res !== false){
+            else{
+                $this->errno = ARTICLE_QUERYERROR;
+            }
+        }//if(in_array($index,ARTICLE::$campi)){
+        else{
+            $this->errno = ARTICLE_INVALIDINDEX;
+        }
+        return $get;
+    }//private function getData($index){
 }
 
 
