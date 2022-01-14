@@ -73,6 +73,7 @@ class BlogUser{
         $this->errno = 0;
         $this->connect = true;
         $this->logged = false;
+        $this->id = isset($dati['id'])? $dati['id']:null;
         $this->nome = isset($dati['nome'])? $dati['nome']:null;
         $this->cognome = isset($dati['cognome'])? $dati['cognome']:null;
         $this->email = isset($dati['email'])? $dati['email']:null;
@@ -105,7 +106,7 @@ class BlogUser{
     public function getAction(){return $this->action;}
     public function getQuery(){return $this->query;}
     public function getQueries(){return $this->queries;}
-    public function getTabella(){return $this->tabella;}
+    public function getTable(){return $this->table;}
     public function getErrno(){return $this->errno;}
 
     public function isConnected(){return $this->connect;}
