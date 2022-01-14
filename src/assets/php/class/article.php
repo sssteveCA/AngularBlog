@@ -136,7 +136,7 @@ SQL;
     }//private function createTable(){
 
     //retrieve table row specifing an index
-    private function getData($index){
+    public function getData($index){
         $get = false;
         $this->errno = 0;
         if(in_array($index,Article::$campi)){
@@ -151,7 +151,7 @@ SQL;
                     $this->id = $row["id"];
                     $this->title = $row["title"];
                     $this->author = $row["author"];
-                    $this->permalink = $row["cognome"];
+                    $this->permalink = $row["permalink"];
                     $this->content = $row["content"];
                     $this->introtext = $row["introtext"];
                     $this->categories = $row["categories"];

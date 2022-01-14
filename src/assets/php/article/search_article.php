@@ -4,41 +4,42 @@ header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: *');
 
 require_once("../config.php");
+require_once("../class/article.php");
 
 $response = array();
 $response['msg'] = '';
 $response['done'] = false; 
+$params = array();
 //$response['post'] = $_POST;
 
 if(isset($_POST['query']) && $_POST['query'] != ''){
-    $mysqli = new mysqli(HOSTNAME,USERNAME,PASSWORD,DATABASE);
-    if($mysqli->connect_errno == 0)
-    {
-        $mysqli->set_charset("utf8mb4");
-        $tabella = TABLE_ARTICLES;
-        $query = $mysqli->real_escape_string($_POST['query']);
-        $sql = <<<SQL
-SELECT * FROM `{$tabella}` WHERE `permalink` = '$query';
-SQL;
-        $result = $mysqli->query($sql);
-        if($result !== false){
-            if($result->num_rows == 1){
-                $article = $result->fetch_assoc();
-                $response['article'] = $article;
-                $response['done'] = true;
-            }//if($result->num_rows == 1){
-            else{
-                $response['notfound'] = true;
-            }
-            $result->free_result();
-        }//if($result !== false){
-        else{
-            $response['msg'] = $mysqli->error;
+    try{
+        $params['permalink'] = $_POST['query'];
+        $article = new Article($params);
+        $get = $article->getData('permalink');
+        if($get){
+            //data article retrieved
+            $response['article']['id'] = $article->getId();
+            $response['article']['title'] = $article->getTitle();
+            $response['article']['author'] = $article->getAuthor();
+            $response['article']['permalink'] = $article->getPermalink();
+            $response['article']['content'] = $article->getContent();
+            $response['article']['introtext'] = $article->getIntrotext();
+            $response['article']['categories'] = $article->getCategories();
+            $response['article']['tags'] = $article->getTags();
+            $response['article']['creation_time'] = $article->getCrTime();
+            $response['article']['last_modified'] = $article->getLastMod();
+            $response['done'] = true;
         }
-        $mysqli->close();
+        else{
+            /*$errno = $article->getErrno();
+            $response['msg'] = 'Errore durante la lettura dell\' articolo. Codice '.$errno;*/
+            $response['notfound'] = true;
+        }
+        $response['queries'] = $article->getQueries();
     }
-    else{
-        $response['msg'] = $mysqli->connect_error;
+    catch(Exception $e){
+        $response['msg'] = $e->getMessage();
     }
 }
 else{
