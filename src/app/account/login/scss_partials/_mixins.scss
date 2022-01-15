@@ -1,6 +1,5 @@
 
 @mixin container(){
-    height: $fc-height;
     width: $fc-width;
     min-width: $fc-minWidth;
 }
@@ -13,4 +12,8 @@
 @mixin buttons(){
     width: $bt-width;
     margin: $bt-margin;
+}
+
+@mixin registrationMsg(){
+    text-align: $reg-align;
 }

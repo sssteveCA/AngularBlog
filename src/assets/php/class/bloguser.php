@@ -25,7 +25,8 @@ class BlogUser{
     private $cognome;
     private $username; 
     private $email;
-    private $password;
+    private $password; 
+    private $passwordHash; //password created with hash algorithm
     private $emailVerif; //verification code to complete the registration
     private $changeVerif; //code for request new password
     private $dataCambioPwd;
@@ -78,7 +79,8 @@ class BlogUser{
         $this->cognome = isset($dati['cognome'])? $dati['cognome']:null;
         $this->email = isset($dati['email'])? $dati['email']:null;
         $this->username = isset($dati['username'])? $dati['username']:null;
-        $this->password = isset($dati['password'])? password_hash($dati['password'],PASSWORD_DEFAULT):null;
+        $this->password = isset($dati['password'])? $dati['password']:null;
+        $this->passwordHash = password_hash($this->password,PASSWORD_DEFAULT);
         $this->emailVerif=isset($dati['emailVerif'])? $dati['emailVerif']:null;
         $this->changeVerif=isset($dati['changeVerif'])? $dati['changeVerif']:null;
         /*$this->dataCambioPwd=isset($dati['dataCambioPwd'])? $dati['dataCambioPwd']:null;
@@ -97,7 +99,7 @@ class BlogUser{
     public function getCognome(){return $this->cognome;}
     public function getEmail(){return $this->email;}
     public function getUsername(){return $this->username;}
-    public function getPassword(){return $this->password;}
+    public function getPasswordHash(){return $this->passwordHash;}
     public function getEmailVerif(){return $this->emailVerif;}
     public function getChangeVerif(){return $this->changeVerif;}
     public function getDataCambioPwd(){return $this->dataCambioPwd;}
@@ -190,24 +192,6 @@ SQL;
         return $ret;
     }//public function Exists
 
-     //create the account activation or password recovery code 
-     public function codAutGen($ordine){
-        $codAut = str_replace('.','a',microtime());
-        $codAut = str_replace(' ','b',$codAut);
-        $lCod = strlen($codAut);
-        $lCas = 64 - $lCod;
-        $c = 'ABCDEFGHIJKLMNOPQRSTUVWXYzabcdefghijklmnopqrstuvwxyz0123456789';
-        $lc = strlen($c) - 1;
-        $s = '';
-        for($i = 0; $i < $lCas; $i++)
-        {
-            $j = mt_rand(0,$lc);
-            $s .= $c[$j];
-        }
-        if($ordine == '0') return $codAut.$s;
-        else return $s.$codAut;
-    }
-
     //retrieve table row specifing an index
     private function getData($index){
         $get = false;
@@ -223,11 +207,10 @@ SQL;
                     $row = $res->fetch_assoc();
                     $this->id = $row["id"];
                     $this->nome = $row["nome"];
-                    $this->nome = $row["nome"];
                     $this->cognome = $row["cognome"];
                     $this->username = $row["username"];
                     $this->email = $row["email"];
-                    $this->password = $row["password"];
+                    $this->passwordHash = $row["password"];
                     $this->emailVerif = $row["emailVerif"];
                     $this->changeVerif = $row["changeVerif"];
                     $this->creation_time = $row["creation_time"];
@@ -320,6 +303,56 @@ SQL;
         return $ok;
     }
 
+    //create the account activation or password recovery code 
+    public function codAutGen($ordine){
+        $codAut = str_replace('.','a',microtime());
+        $codAut = str_replace(' ','b',$codAut);
+        $lCod = strlen($codAut);
+        $lCas = 64 - $lCod;
+        $c = 'ABCDEFGHIJKLMNOPQRSTUVWXYzabcdefghijklmnopqrstuvwxyz0123456789';
+        $lc = strlen($c) - 1;
+        $s = '';
+        for($i = 0; $i < $lCas; $i++)
+        {
+            $j = mt_rand(0,$lc);
+            $s .= $c[$j];
+        }
+        if($ordine == '0') return $codAut.$s;
+        else return $s.$codAut;
+    }
+
+    //login with credentials passed to this object
+    public function login(){
+        $ok = false;
+        $this->errno = 0;
+        if(isset($this->username) && isset($this->password)){
+            $usernameE = $this->h->real_escape_string($this->username);
+            //check if there is a username with '$this->username' in DB and store all data in properties object
+            $get = $this->getData('username');
+            if($get){
+                //user found
+                if(password_verify($this->password,$this->passwordHash)){
+                    //if password is of the user with username '$this->username'
+                    file_put_contents("log.txt","emailVerif => ".var_export($this->emailVerif,true));
+                    if($this->emailVerif != null){
+                        //if user has activated his account
+                        $this->logged = true;
+                        $ok = true;
+                    }
+                    else
+                        $this->erno = BLOGUSER_ACCOUNTNOTACTIVATED;
+                }
+                else
+                    $this->errno = BLOGUSER_NORESULT;
+            }
+
+        }//if(isset($this->username) && isset($this->password)){
+        else{
+
+        }
+        return $ok;
+    }
+
     //store account registration values in DB
     public function registration(){
         $this->errno = 0;
@@ -379,9 +412,9 @@ SQL;
                 if($u <= 1){$sql .= "SET "; $u++;}
                 $sql .= "`email` = '{$this->email}'";
             }
-            if(isset($this->password)){
+            if(isset($this->passwordHash)){
                 if($u <= 1){$sql .= "SET "; $u++;}
-                $sql .= "`password` = '{$this->password}'";
+                $sql .= "`password` = '{$this->passwordHash}'";
             }
             if(isset($this->emailVerif)){
                 if($u <= 1){$sql .= "SET "; $u++;}

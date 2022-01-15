@@ -47,7 +47,7 @@ if(isset($_POST['nome'],$_POST['cognome'],$_POST['username'],$_POST['email'],$_P
                 }
                 $response['queries'] = $bUser->getQueries();
             }catch(Exception $e){
-                $response['msg'] = $e->getMessage();
+                $response['msg'] = UNKNOWN_ERROR;
             }
         }//if(preg_match(BlogUser::$regex['password'],$_POST['password'])){
     }//if($_POST['password'] == $_POST['confPwd']){

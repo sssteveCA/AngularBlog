@@ -7,6 +7,9 @@ const DATABASE = 'stefano';
 const TABLE_ARTICLES = 'articoli';
 const TABLE_USERS = 'utentiBlog';
 
+//error messages
+const UNKNOWN_ERROR = 'Errore sconosciuto';
+
 //account activation link
 $att = "http://localhost:4200/attiva";
 
