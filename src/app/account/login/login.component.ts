@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ApiService } from 'src/app/api.service';
 import * as constants from '../../../constants/constants';
 
 @Component({
@@ -14,8 +15,9 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   showPassword: boolean = false;
   @ViewChild('password',{static: false}) iPass: ElementRef;
+  public usernameCookie : any;
 
-  constructor(private fb: FormBuilder,private router: Router, private http:HttpClient) {
+  constructor(private fb: FormBuilder,private router: Router, private http:HttpClient, private api: ApiService) {
     this.loginForm = fb.group({
       'username' : ['',Validators.compose([Validators.required,Validators.minLength(5)])],
       'password' : ['',Validators.compose([Validators.required,Validators.minLength(6)])]
@@ -45,7 +47,15 @@ export class LoginComponent implements OnInit {
       console.log(res);
       try{
         let rJson = JSON.parse(res);
-        console.log(rJson);
+        if(rJson['done'] && typeof rJson['username'] !== 'undefined'){
+          localStorage.setItem("username",rJson["username"]);
+          this.usernameCookie = localStorage.getItem("username");
+          this.api.changeUsername(this.usernameCookie);
+          this.router.navigate([constants.loginRedirect]);
+        }
+        else{
+          console.log(rJson);
+        }
       }catch(e){
         console.warn(e);
       }

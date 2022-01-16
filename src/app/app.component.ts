@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { ApiService } from './api.service';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +12,8 @@ export class AppComponent {
   path : string;
   imgUrl : string = "http://localhost:4200/assets/img/background.jfif"; //background image url
 
-  constructor(private router: Router){
-    console.log(this.router);
+  constructor(private router: Router, private api: ApiService){
+    //console.log(this.router);
     this.router.events.subscribe((event) => {
       //console.log(event);
       if(event instanceof NavigationEnd){

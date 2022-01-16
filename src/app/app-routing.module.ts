@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AttivaComponent } from './account/attiva/attiva.component';
 import { LoginComponent } from './account/login/login.component';
+import { ProfileComponent } from './account/profile/profile.component';
 import { RegisterComponent } from './account/register/register.component';
 import { ArticleComponent } from './content/article/article.component';
 import { BlogComponent } from './content/blog/blog.component';
@@ -21,6 +22,7 @@ const routes: Routes = [
   {path: "login", component: LoginComponent},
   {path: "register", component: RegisterComponent},
   {path: "attiva", component: AttivaComponent},
+  {path: "profile", component:ProfileComponent},
   {path: "404", component: NotFound404Component},
   {path: "**", redirectTo: '/404'}
 ];

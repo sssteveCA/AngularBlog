@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 require_once("../cors.php");
 require_once("../config.php");
@@ -19,7 +20,10 @@ if(isset($_POST['username'],$_POST['password']) && $_POST['username'] != '' && $
         $blogUser->login();
         if($blogUser->isLogged()){
             //login success
-            $response['msg'] = 'Login effettuato con successo';
+            //$response['msg'] = 'Login effettuato con successo';
+            $response['done'] = true;
+            $_SESSION['username'] = $blogUser->getUsername();
+            $response['username'] = $blogUser->getUsername();
         }//if($blogUser->isLogged()){
         else{
             //login failure
@@ -35,8 +39,7 @@ if(isset($_POST['username'],$_POST['password']) && $_POST['username'] != '' && $
                     $response['msg'] = UNKNOWN_ERROR;
                     break;
             }
-        }
-        
+        }        
     }
     catch(Exception $e){
         $response['msg'] = UNKNOWN_ERROR;

@@ -19,6 +19,7 @@ import { RegisterComponent } from './account/register/register.component';
 import { LoginComponent } from './account/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AttivaComponent } from './account/attiva/attiva.component';
+import { ProfileComponent } from './account/profile/profile.component';
 
 
 
@@ -37,7 +38,8 @@ import { AttivaComponent } from './account/attiva/attiva.component';
     ArticleComponent,
     RegisterComponent,
     LoginComponent,
-    AttivaComponent
+    AttivaComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
