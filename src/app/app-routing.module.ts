@@ -11,6 +11,8 @@ import { IndexComponent } from './content/index/index.component';
 import { NewsComponent } from './content/news/news.component';
 import { NotFound404Component } from './content/not-found404/not-found404.component';
 import { WhoWeAreComponent } from './content/who-we-are/who-we-are.component';
+import { AuthGuard } from './guard/auth.guard';
+import { NotAuthGuard } from './guard/not-auth.guard';
 
 const routes: Routes = [
   {path : "", component : IndexComponent},
@@ -19,10 +21,10 @@ const routes: Routes = [
   {path: "news", component: NewsComponent},
   {path: "contatti", component: ContactsComponent},
   {path: "blog/:article", component: ArticleComponent},
-  {path: "login", component: LoginComponent},
-  {path: "register", component: RegisterComponent},
-  {path: "attiva", component: AttivaComponent},
-  {path: "profile", component:ProfileComponent},
+  {path: "login", component: LoginComponent,canActivate:[NotAuthGuard]},
+  {path: "register", component: RegisterComponent,canActivate:[NotAuthGuard]},
+  {path: "attiva", component: AttivaComponent,canActivate:[NotAuthGuard]},
+  {path: "profile", component:ProfileComponent, canActivate:[AuthGuard]},
   {path: "404", component: NotFound404Component},
   {path: "**", redirectTo: '/404'}
 ];
