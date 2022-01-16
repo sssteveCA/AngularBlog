@@ -1,13 +1,33 @@
 <div class="formContainer">
     <h1 class="pt-5 text-center">Accedi</h1>
-    <form class="col col-sm-6 mx-auto pt-3">
+    <form class="col col-sm-6 mx-auto pt-3" [formGroup]="loginForm" (submit)="onSubmit()">
         <div class="mb-3">
           <label for="username" class="form-label">Username</label>
-          <input type="text" class="form-control" id="username" name="username">
+          <input type="text" class="form-control" id="username" name="username" formControlName="username">
+          <small class="text-danger"
+            *ngIf="loginForm.get('username')?.hasError('required')">
+            Campo obbligatorio
+          </small>
+          <small class="text-danger"
+            *ngIf="loginForm.get('username')?.hasError('minlength')">
+            Almeno 5 caratteri
+          </small>
         </div>
         <div class="mb-3">
           <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" id="password" name="password">
+          <input type="password" class="form-control" id="password" name="password" formControlName="password" #password>
+          <small class="text-danger"
+            *ngIf="loginForm.get('password')?.hasError('required')">
+            Campo obbligatorio
+          </small>
+          <small class="text-danger"
+            *ngIf="loginForm.get('password')?.hasError('minlength')">
+            Almeno 6 caratteri
+          </small>
+        </div>
+        <div>
+          <input type="checkbox" id="cbPass" value="1" (change)="fShowPassword()">
+          <label for="cbPass">Mostra password</label>
         </div>
         <div class="mb-3 d-flex flex-column flex-sm-row justify-content-sm-evenly">
             <button type="submit" class="btn btn-primary">ACCEDI</button>
