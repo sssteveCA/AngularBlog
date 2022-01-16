@@ -22,7 +22,7 @@ if(isset($_POST['username'],$_POST['password']) && $_POST['username'] != '' && $
             //login success
             //$response['msg'] = 'Login effettuato con successo';
             $response['done'] = true;
-            $_SESSION['username'] = $blogUser->getUsername();
+            $_SESSION[COOKIE_NAME] = $blogUser->getUsername();
             $response['username'] = $blogUser->getUsername();
         }//if($blogUser->isLogged()){
         else{

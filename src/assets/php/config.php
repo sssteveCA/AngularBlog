@@ -13,6 +13,9 @@ const UNKNOWN_ERROR = 'Errore sconosciuto';
 //account activation link
 $att = "http://localhost:4200/attiva";
 
+//cookie
+const COOKIE_NAME = 'username';
+
 //mail headers
 $headers = <<<HEADER
 From: Admin <noreply@localhost.lan>
