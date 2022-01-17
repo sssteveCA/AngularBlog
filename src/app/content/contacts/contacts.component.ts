@@ -47,10 +47,10 @@ export class ContactsComponent implements OnInit {
   sendEmail(data: any): void{
     let params = new HttpParams({fromObject: data});
     this.http.post(constants.contactUrl,params,{responseType: 'text'}).subscribe(res => {
-      console.log(res);
+      //console.log(res);
       try{
         let rJson = JSON.parse(res);
-        console.log(rJson);
+        //console.log(rJson);
         functions.dialogMessage($,'Contatti',rJson['msg']);
       }catch(e){
         console.warn(e);

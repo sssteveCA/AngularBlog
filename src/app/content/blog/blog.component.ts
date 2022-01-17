@@ -31,6 +31,15 @@ export class BlogComponent implements OnInit {
         //console.log(this.articles);
         this.printResult(this.articles);
       }
+      else{
+        $('#articlesList').html('');
+        let divAlert = $('<div>');
+        divAlert.addClass("alert alert-danger");
+        divAlert.attr('role','alert');
+        divAlert.css('text-align','center');
+        divAlert.text(rJson['msg']);
+        $('#articlesList').append(divAlert);
+      }
     });
   }
 

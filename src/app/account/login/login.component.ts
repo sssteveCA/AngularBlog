@@ -4,6 +4,8 @@ import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
 import * as constants from '../../../constants/constants';
+import * as functions from '../../../functions/functions';
+declare var $:any;
 
 @Component({
   selector: 'app-login',
@@ -44,7 +46,7 @@ export class LoginComponent implements OnInit {
   login(data: any): void{
     let params = new HttpParams({fromObject: data});
     this.http.post(constants.loginUrl, params, {responseType: 'text'}).subscribe(res => {
-      console.log(res);
+      //console.log(res);
       try{
         let rJson = JSON.parse(res);
         if(rJson['done'] && typeof rJson['username'] !== 'undefined'){
@@ -54,7 +56,8 @@ export class LoginComponent implements OnInit {
           this.router.navigate([constants.loginRedirect]);
         }
         else{
-          console.log(rJson);
+          //console.log(rJson);
+          functions.dialogMessage($,'Login',rJson['msg']);
         }
       }catch(e){
         console.warn(e);
