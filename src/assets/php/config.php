@@ -1,5 +1,6 @@
 <?php
 
+//database constants
 const HOSTNAME = 'localhost';
 const USERNAME = 'root';
 const PASSWORD = '';
@@ -56,6 +57,35 @@ oppure vai all'indirizzo <p><a href="{$indAtt}">{$indAtt}</a></p> e incolla il s
 HTML;
     return $html;
 }
+
+//html for email contact
+function htmlMailContact($message){
+    $html = <<<HTML
+<!DOCTYPE html>
+<html lang="it">
+    <head>
+        <title>Attivazione account</title>
+        <meta charset="utf-8">
+        <style>
+            div{
+                padding: 20px;
+                outline: 5px groove black;
+                font-size: 20px;
+                font-weight: bold;
+            }
+        </style>
+    <head>
+    <body>
+        <div>{$message}</div>
+    </body>
+</html>
+HTML;
+    return $html;
+}
+
+//email constants
+const ADMINEMAIL = 'admin@localhost.lan';
+const EMAILREGEX = '/^[a-zA-Z-_0-9]{4,20}@([a-z]{3,15}\.){1,6}[a-z]{2,10}$/';
 
 
 ?>
