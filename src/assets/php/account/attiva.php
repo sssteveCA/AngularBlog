@@ -12,35 +12,44 @@ $response['done'] = false;
 $response['status'] = 0; //no code in URL
 
 $regex = '/^[a-z0-9]{64}$/i';
-    if(isset($_REQUEST['emailVerif']) && preg_match($regex,$_REQUEST['emailVerif'])){
-        $dati = array();
-        $dati['campo'] = 'codAut';
-        $dati['emailVerif'] = $_REQUEST['emailVerif'];
-        $bUser = new BlogUser($dati);
-        $codAut = $bUser->getEmailVerif();
-        $activate = $bUser->attiva();
-        $errno = $bUser->getErrno();
-        //account attivato
-        if($errno == 0){
-            $response['msg'] = 'L\' account è stato attivato';
-            $response['status'] = 1;
-            $response['done'] = true;
-        }
-        //account non attivato
-        else{
-            $response['msg'] = 'Account non attivato. Codice '.$errno;
-            switch($errno){
-                case BLOGUSER_ACCOUNTNOTACTIVATED:
-                    $response['status'] = -1; //invalid email verification code
-                    break;
-                case BLOGUSER_DATANOTSET:
-                default:
-                    $response['status'] = 0;
-                    break;     
+    if(isset($_REQUEST['emailVerif']) && $_REQUEST['emailVerif'] != ''){
+        $response['emailVerif'] = $_REQUEST['emailVerif'];
+        if(preg_match($regex,$_REQUEST['emailVerif'])){
+            $dati = array();
+            $dati['campo'] = 'codAut';
+            $dati['emailVerif'] = $_REQUEST['emailVerif'];
+            $bUser = new BlogUser($dati);
+            $codAut = $bUser->getEmailVerif();
+            $activate = $bUser->attiva();
+            $errno = $bUser->getErrno();
+            //account attivato
+            if($errno == 0){
+                //$response['msg'] = 'L\' account è stato attivato';
+                $response['status'] = 1;
+                $response['done'] = true;
             }
-        }//else di if($errno == 0){
-        $response['queries'] = $bUser->getQueries();
-    }//if(isset($_REQUEST['codAut']) && preg_match($regex,$_REQUEST['codAut'])) 
+            //account non attivato
+            else{
+                //$response['msg'] = 'Account non attivato. Codice '.$errno;
+                switch($errno){
+                    case BLOGUSER_ACCOUNTNOTACTIVATED:
+                        $response['status'] = -1; //invalid email verification code
+                        break;
+                    case BLOGUSER_DATANOTSET:
+                    default:
+                        $response['status'] = 0;
+                        break;     
+                }
+            }//else di if($errno == 0){
+            //$response['queries'] = $bUser->getQueries();
+        }//if(preg_match($regex,$_REQUEST['emailVerif'])){
+        else{
+            $response['status'] = -1;
+        }
+    }//if(isset($_REQUEST['codAut']) && preg_match($rege
+    else{
+        $response['status'] = 0;
+    }
 
 echo json_encode($response,JSON_UNESCAPED_UNICODE);
 ?>

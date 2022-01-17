@@ -18,7 +18,6 @@ export class AppComponent {
       //console.log(event);
       if(event instanceof NavigationEnd){
         this.path = event.url.split('?')[0];
-        console.log(this.path);
       }
     });
   }
