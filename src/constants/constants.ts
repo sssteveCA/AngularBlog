@@ -1,3 +1,6 @@
+//php script for send assistance email
+export const contactUrl: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/contact.php";
+
 //url redirect after login success
 export const loginRedirect: string = "/";
 
