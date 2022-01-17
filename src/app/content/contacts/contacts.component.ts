@@ -2,7 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as constants from '../../../constants/constants';
-import * as functions from '../../../functions/functions';
+//import * as functions from '../../../functions/functions';
+declare var $:any;
 
 @Component({
   selector: 'app-contacts',
@@ -22,6 +23,39 @@ export class ContactsComponent implements OnInit {
       'message' : ['',Validators.required]
     });
    }
+
+   dialogMessage(title: string,message: string): void{
+    let dialogHtml = `
+<div id="dialog" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">${title}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>${message}</p>
+      </div>
+      <div class="modal-footer">
+        <button id="okBtn" type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+    `;
+    let div = $('<div>');
+    div.html(dialogHtml);
+    $('body').append(div);
+    $('#dialog').modal('show');
+    $('#okBtn').on('click',function(){
+        $('#dialog').modal('hide');
+    });
+    $('#dialog').on('hidden.bs.modal',function(){
+        $('#dialog').modal('dispose');
+    });
+}
 
   ngOnInit(): void {
   }
@@ -50,7 +84,7 @@ export class ContactsComponent implements OnInit {
       try{
         let rJson = JSON.parse(res);
         console.log(rJson);
-        functions.dialogMessage('Contatti',rJson['msg']);
+        this.dialogMessage('Contatti',rJson['msg']);
       }catch(e){
         console.warn(e);
       }
