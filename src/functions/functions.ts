@@ -1,5 +1,5 @@
 
-export function dialogMessage(title: string,message: string): void{
+export function dialogMessage(jQuery: any, title: string,message: string): void{
     let dialogHtml = `
 <div id="dialog" class="modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
@@ -22,12 +22,12 @@ export function dialogMessage(title: string,message: string): void{
     `;
     let div = $('<div>');
     div.html(dialogHtml);
-    $('body').append(div);
-    $('#dialog').modal('show');
-    $('#okBtn').on('click',function(){
-        $('#dialog').modal('hide');
+    jQuery('body').append(div);
+    jQuery('#dialog').modal('show');
+    jQuery('#okBtn').on('click',function(){
+        jQuery('#dialog').modal('hide');
     });
-    $('#dialog').on('hidden.bs.modal',function(){
-        $(this).modal('dispose');
+    jQuery('#dialog').on('hidden.bs.modal',function(){
+        jQuery('#dialog').modal('dispose');
     });
 }
