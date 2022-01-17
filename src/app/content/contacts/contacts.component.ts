@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as constants from '../../../constants/constants';
+import * as functions from '../../../functions/functions';
 
 @Component({
   selector: 'app-contacts',
@@ -49,6 +50,7 @@ export class ContactsComponent implements OnInit {
       try{
         let rJson = JSON.parse(res);
         console.log(rJson);
+        functions.dialogMessage('Contatti',rJson['msg']);
       }catch(e){
         console.warn(e);
       }
