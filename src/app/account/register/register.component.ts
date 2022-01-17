@@ -1,6 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import * as constants from '../../../constants/constants';
+import * as functions from '../../../functions/functions';
+declare var $:any;
 
 @Component({
   selector: 'app-register',
@@ -12,7 +15,6 @@ export class RegisterComponent implements OnInit {
   @ViewChild('password',{static: false}) iPass: ElementRef;
   @ViewChild('confPwd',{static: false}) iConfPwd: ElementRef;
 
-  registerUrl : string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/account/register.php";
   formGroup: FormGroup;
   showPassword: boolean = false;
   showConf: boolean = false;
@@ -48,12 +50,12 @@ export class RegisterComponent implements OnInit {
         this.subscribe(dati);
       }
       else{
-        console.log("Le due password non coincidono");
+        functions.dialogMessage($,"Registrazione","Le due password non coincidono");
       }
     }//if(this.formGroup.valid){
     else{
       //invalid form data
-      console.log("I dati inseriti non sono validi, riprova");
+      functions.dialogMessage($,"Registrazione","I dati inseriti non sono validi, riprova");
     }
   }
 
@@ -80,9 +82,10 @@ export class RegisterComponent implements OnInit {
       params.append(key,data[key]);
     });*/
     console.log(params);
-    this.http.post(this.registerUrl, params,{responseType: 'text'}).subscribe(res => {
+    this.http.post(constants.registerUrl, params,{responseType: 'text'}).subscribe(res => {
       console.log(res);
       let rJson = JSON.parse(res);
+      functions.dialogMessage($,"Registrazione",rJson["msg"]);
     });
   }
 

@@ -1,3 +1,6 @@
+//php script fro account activation
+export const activationUrl: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/account/attiva.php";
+
 //php script for send assistance email
 export const contactUrl: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/contact.php";
 

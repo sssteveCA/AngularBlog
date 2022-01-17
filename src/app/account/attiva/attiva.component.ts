@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import * as constants from '../../../constants/constants';
 
 @Component({
   selector: 'app-attiva',
@@ -10,12 +11,11 @@ import { ActivatedRoute } from '@angular/router';
 export class AttivaComponent implements OnInit {
 
   status : number = 0;
-  activationUrl: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/account/attiva.php";
 
   constructor(public http: HttpClient, private route: ActivatedRoute) {
     this.route.queryParams.subscribe(params =>{
       console.log(params);
-      let urlParams = this.activationUrl+'?emailVerif='+params['emailVerif'];
+      let urlParams = constants.activationUrl+'?emailVerif='+params['emailVerif'];
       this.active(urlParams);
     });
     

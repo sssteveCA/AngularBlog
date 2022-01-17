@@ -246,7 +246,7 @@ SQL;
         $this->queries[] = $this->query;
         $stat = $this->h->prepare($this->query);
         if($stat !== false){
-            $stat->bind_param("ssssssss",$this->nome,$this->cognome,$this->username,$this->email,$this->password,$this->emailVerif,$this->creation_time,$this->last_modified);
+            $stat->bind_param("ssssssss",$this->nome,$this->cognome,$this->username,$this->email,$this->passwordHash,$this->emailVerif,$this->creation_time,$this->last_modified);
             $exec = $stat->execute();
             if($exec !== false){
                 //successufly inserted data in DB
@@ -333,14 +333,14 @@ SQL;
                 //user found
                 if(password_verify($this->password,$this->passwordHash)){
                     //if password is of the user with username '$this->username'
-                    file_put_contents("log.txt","emailVerif => ".var_export($this->emailVerif,true));
-                    if($this->emailVerif != null){
+                    file_put_contents("log.txt","emailVerif => ".var_export($this->emailVerif,true),FILE_APPEND);
+                    if($this->emailVerif == null){
                         //if user has activated his account
                         $this->logged = true;
                         $ok = true;
                     }
                     else
-                        $this->erno = BLOGUSER_ACCOUNTNOTACTIVATED;
+                        $this->errno = BLOGUSER_ACCOUNTNOTACTIVATED;
                 }
                 else
                     $this->errno = BLOGUSER_NORESULT;
