@@ -29,6 +29,8 @@ class BlogUser implements Bue,C{
     private $action; /*action that the user perform
     1 = login, 2 = registration, 3 = recovery*/
     private bool $logged = false; //Check if user is logged
+    private $headers; //Email headers
+    private $message; //Email message
     private int $errno = 0; //error code
     private ?string $error = null;
     public static array $fields = array('id','email','username','emailVerif','changeVerif');
@@ -49,18 +51,18 @@ class BlogUser implements Bue,C{
         $this->h = new Client(C::MONGODB_CONNECTION_STRING);
         $this->database = $this->h->${C::MONGODB_DATABASE}; //Access to the database
         $this->collection = $this->h->${C::MONGODB_DATABASE}->${C::MONGODB_COLLECTION_USERS};
-        $this->id = isset($dati['id'])? $dati['id']:null;
-        $this->name = isset($dati['name'])? $dati['name']:null;
-        $this->surname = isset($dati['surname'])? $dati['surname']:null;
-        $this->email = isset($dati['email'])? $dati['email']:null;
-        $this->username = isset($dati['username'])? $dati['username']:null;
-        $this->password = isset($dati['password'])? $dati['password']:null;
+        $this->id = isset($data['id'])? $data['id']:null;
+        $this->name = isset($data['name'])? $data['name']:null;
+        $this->surname = isset($data['surname'])? $data['surname']:null;
+        $this->email = isset($data['email'])? $data['email']:null;
+        $this->username = isset($data['username'])? $data['username']:null;
+        $this->password = isset($data['password'])? $data['password']:null;
         $this->passwordHash = password_hash($this->password,PASSWORD_DEFAULT);
-        $this->emailVerif=isset($dati['emailVerif'])? $dati['emailVerif']:null;
-        $this->changeVerif=isset($dati['changeVerif'])? $dati['changeVerif']:null;
-        /*$this->pwdChangeDate=isset($dati['pwdChangeDate'])? $dati['pwdChangeDate']:null;
-        $this->$creation_time=isset($dati['$creation_time'])? $dati['$creation_time']:null;
-        $this->last_modified=isset($dati['last_modified'])? $dati['last_modified']:null;*/
+        $this->emailVerif=isset($data['emailVerif'])? $data['emailVerif']:null;
+        $this->changeVerif=isset($data['changeVerif'])? $data['changeVerif']:null;
+        /*$this->pwdChangeDate=isset($data['pwdChangeDate'])? $data['pwdChangeDate']:null;
+        $this->$creation_time=isset($data['$creation_time'])? $data['$creation_time']:null;
+        $this->last_modified=isset($data['last_modified'])? $data['last_modified']:null;*/
     }
 
     public function __destruct()
@@ -164,6 +166,62 @@ class BlogUser implements Bue,C{
         else
             $this->errno = Bue::INVALIDDATAFORMAT;
         return $registration; 
+    }
+
+    //user send an email
+    public function sendEmail(): bool{
+        $this->errno = 0;
+        $this->setHeaders();
+        $this->setMessage();
+        $from = $this->getEmail();
+        $send = @mail($this->email,C::EMAIL_ACTIVATION_SUBJECT,$this->message,$this->headers);
+        if(!$send) $this->errno = Bue::MAILNOTSENT; //email non inviata
+        return $send;
+    }
+
+    //Set the email headers
+    private function setHeaders(){
+        //mail headers
+$this->headers = <<<HEADER
+From: Admin <noreply@localhost.lan>
+Reply-to: <noreply@localhost.lan>
+Content-type: text/html
+MIME-Version: 1.0
+HEADER;
+    }
+
+    //Set email message
+    private function setMessage(){
+        $indAtt = C::REG_SUBSCRIBE_LINK;
+        $codIndAtt = $indAtt.'?emailVerif='.$this->emailVerif;
+        $this->message = <<<HTML
+<!DOCTYPE html>
+<html lang="it">
+    <head>
+        <title>Attivazione account</title>
+        <meta charset="utf-8">
+        <style>
+            body{
+                display: flex;
+                justify-content: center;
+            }
+            div#linkAtt{
+                padding: 10px;
+                background-color: orange;
+                font-size: 20px;
+            }
+        </style>
+    <head>
+    <body>
+        <div id="linkAtt">
+Completa la registrazione facendo click sul link sottostante:
+<p><a href="{$codIndAtt}">{$codIndAtt}</a></p>
+oppure vai all'indirizzo <p><a href="{$indAtt}">{$indAtt}</a></p> e incolla il seguente codice: 
+<p>{$this->emailVerif}</p>
+        </div>
+    </body>
+</html>
+HTML;
     }
 
 

@@ -11,9 +11,11 @@ interface BlogUserErrors{
     //Numbers
     const INVALIDDATAFORMAT = 1;
     const USERNAMEMAILEXIST = 2;
+    const MAILNOTSENT = 3;
 
     //Messages
     const INVALIDDATAFORMAT_MSG = "";
     const USERNAMEMAILEXIST_MSG = "";
+    const MAILNOTSENT_MSG = "";
 }
 ?>
