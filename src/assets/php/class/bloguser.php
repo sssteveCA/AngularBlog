@@ -155,6 +155,9 @@ class BlogUser implements Bue,C{
             $exists = $this->exists($filter);
             if($exists == 0){
                 //Account with username or email guven not extst, values can be inserted
+                $insert = $this->insert();
+                if($insert)
+                    $registration = true;
             }//if($exists == 0){
 
         }//if($verify){

@@ -7,5 +7,14 @@ require_once('../class/bloguser.php');
 
 use AngularBlog\Classes\BlogUser;
 
-$blogUser = new BlogUser();
+$response = array();
+$response['msg'] = '';
+$response['done'] = false;
+
+$input = file_get_contents('php://input');
+$post = json_decode($input,true);
+
+$response['post'] = $post;
+
+echo json_encode($response);
 ?>
