@@ -1,1 +1,0 @@
-BlogUser validate() emailBlogUser validate() email 1234567 

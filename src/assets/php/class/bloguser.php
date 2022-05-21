@@ -3,14 +3,17 @@
 namespace AngularBlog\Classes;
 
 use AngularBlog\Interfaces\BlogUserErrors as Bue;
+use AngularBlog\Interfaces\Constants as C;
 use MongoDB\Client;
-
+use MongoDB\Collection;
+use MongoDB\Database;
 
 //This class interacts with DB for users operations
-class BlogUser implements Bue{
+class BlogUser implements Bue,C{
     private ?Client $h = null; //MongoDB connection handle 
     private bool $connect = false; //true if there is a MongoDB connection
-    private $collection; //MongoDB collection of registered users
+    private ?Database $database ; //MongoDB database used by this class
+    private ?Collection $collection; //MongoDB collection of registered users
     private $id;
     private $name;
     private $surname;
@@ -42,7 +45,9 @@ class BlogUser implements Bue{
 
     public function __construct()
     {
-        
+        $this->h = new Client(C::MONGODB_CONNECTION_STRING);
+        $this->database = $this->h->${C::MONGODB_DATABASE}; //Access to the database
+        $this->collection = $this->h->${C::MONGODB_DATABASE}->${C::MONGODB_COLLECTION_USERS};
     }
 
     public function __destruct()
