@@ -88,6 +88,82 @@ class BlogUser implements Bue,C{
 
     public function isLogged(){return $this->logged;}
 
+    //create the account activation or password recovery code 
+    public function codAutGen($order): string{
+        $codAut = str_replace('.','a',microtime());
+        $codAut = str_replace(' ','b',$codAut);
+        $lCod = strlen($codAut);
+        $lCas = 64 - $lCod;
+        $c = 'ABCDEFGHIJKLMNOPQRSTUVWXYzabcdefghijklmnopqrstuvwxyz0123456789';
+        $lc = strlen($c) - 1;
+        $s = '';
+        for($i = 0; $i < $lCas; $i++)
+        {
+            $j = mt_rand(0,$lc);
+            $s .= $c[$j];
+        }
+        if($order == '0') return $codAut.$s;
+        else return $s.$codAut;
+    }
+
+    /*check if field has particular value
+    1 = the field already has that value
+    0 = the field has not that value
+    -1 = error */
+    private function exists($filter): int{
+        $this->errno = 0;
+        $ret = 0;
+        $document = $this->collection->findOne($filter);
+        if($document != null)$ret = 1; //Document found with this filter
+        return $ret;
+    }
+
+    //insert class properties in database
+    private function insert(): bool{
+        $insert = false;
+        $this->errno = 0;
+        $this->emailVerif = $this->codAutGen('0');
+        $this->creation_time = date('Y-m-d H:i:s');
+        $this->last_modified = date('Y-m-d H:i:s');
+        $values = array(
+            'name' => $this->name,
+            'surname' => $this->surname,
+            'username' => $this->username,
+            'email' => $this->email,
+            'password' => $this->passwordHash,
+            'creation_time' => $this->creation_time,
+            'last_modified' => $this->last_modified
+        );
+        $insertOne = $this->collection->insertOne($values);
+        $insert = true;
+        return $insert;
+    }
+
+    //store account registration values in DB
+    public function registration() : bool{
+        $this->errno = 0;
+        $registration = false;
+        $verify = $this->validate();
+        if($verify){
+            //values are all valid
+            $filter = array(
+                '$or' => [
+                    ['username' => $this->username],
+                    ['email' => $this->email]
+                ]
+            );
+            $exists = $this->exists($filter);
+            if($exists == 0){
+                //Account with username or email guven not extst, values can be inserted
+            }//if($exists == 0){
+
+        }//if($verify){
+        else
+            $this->errno = Bue::INVALIDDATAFORMAT;
+        return $registration; 
+    }
+
+
      //check if properties are all valid before insert
      private function validate(){
         $valid = true;
