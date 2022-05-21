@@ -6,7 +6,13 @@ namespace AngularBlog\Interfaces;
 interface Constants{
 
     //Email
+    const EMAIL_ACCOUNT_CREATED = 'Account creato con successo. Per completare la registrazione accedi alla tua casella di posta';
     const EMAIL_ACTIVATION_SUBJECT = 'Attivazione account';
+
+    //Generic errors
+    const ERROR_UNKNOWN = 'Errore sconosciuto';
+    const ERROR_CONFIRM_PASSWORD_DIFFERENT = 'Le due password non coincidono';
+    const FILL_ALL_FIELDS = 'Inserisci tutti i dati richiesti per continuare';
 
     //File
     const FILE_LOG = "./log.txt";
