@@ -87,5 +87,54 @@ class BlogUser implements Bue,C{
     public function getErrno(){return $this->errno;}
 
     public function isLogged(){return $this->logged;}
+
+     //check if properties are all valid before insert
+     private function validate(){
+        $valid = true;
+        if(isset($this->id) && !preg_match(BlogUser::$regex['id'],$this->id)){
+            file_put_contents("log.txt","BlogUser validate() id ",FILE_APPEND);
+            $valid = false;
+        }
+        if(isset($this->name) && !preg_match(BlogUser::$regex['name'],$this->name)){
+            file_put_contents("log.txt","BlogUser validate() name ",FILE_APPEND);
+            $valid = false;
+        }
+        if(isset($this->surname) && !preg_match(BlogUser::$regex['surname'],$this->surname)){
+            file_put_contents("log.txt","BlogUser validate() surname ",FILE_APPEND);
+            $valid = false;
+        }
+        if(isset($this->username) && !preg_match(BlogUser::$regex['username'],$this->username)){
+            file_put_contents("log.txt","BlogUser validate() username ",FILE_APPEND);
+            $valid = false;
+        }
+        if(isset($this->email) && !preg_match(BlogUser::$regex['email'],$this->email)){
+            file_put_contents("log.txt","BlogUser validate() email {$this->email} ",FILE_APPEND);
+            $valid = false;
+        }
+        /*if(isset($this->password) && !preg_match(BlogUser::$regex['password'],$this->password)){
+            $valid = false;
+        }*/
+        if(isset($this->emailVerif) && !preg_match(BlogUser::$regex['emailVerif'],$this->emailVerif)){
+            file_put_contents("log.txt","BlogUser validate() emailVerif ",FILE_APPEND);
+            $valid = false;
+        }
+        if(isset($this->changeVerif) && !preg_match(BlogUser::$regex['changeVerif'],$this->changeVerif)){
+            file_put_contents("log.txt","BlogUser validate() changeVerif ",FILE_APPEND);
+            $valid = false;
+        }
+        if(isset($this->pwdChangeDate) && !preg_match(BlogUser::$regex['pwdChangeDate'],$this->pwdChangeDate)){
+            file_put_contents("log.txt","BlogUser validate() pwdChangeDate ",FILE_APPEND);
+            $valid = false;
+        }
+        if(isset($this->creation_time) && !preg_match(BlogUser::$regex['cr_time'],$this->creation_time)){
+            file_put_contents("log.txt","BlogUser validate() cr_time ",FILE_APPEND);
+            $valid = false;
+        }
+        if(isset($this->last_modified) && !preg_match(BlogUser::$regex['last_modified'],$this->last_modified)){
+            file_put_contents("log.txt","BlogUser validate() last_mod ",FILE_APPEND);
+            $valid = false;
+        }
+        return $valid;
+    }
 }
 ?>
