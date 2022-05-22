@@ -21,8 +21,8 @@ export class RegisterComponent implements OnInit {
 
   constructor(public fb: FormBuilder, public http: HttpClient) {
     this.formGroup = fb.group({
-      'nome' : ['',Validators.compose([Validators.required,Validators.minLength(3)])],
-      'cognome' : ['',Validators.compose([Validators.required,Validators.minLength(2)])],
+      'name' : ['',Validators.compose([Validators.required,Validators.minLength(3)])],
+      'surname' : ['',Validators.compose([Validators.required,Validators.minLength(2)])],
       'username' : ['',Validators.compose([Validators.required,Validators.minLength(5)])],
       'email' : ['',Validators.compose([Validators.required,Validators.email])],
       'password' : ['',Validators.compose([Validators.required,Validators.minLength(6)])],
@@ -38,8 +38,8 @@ export class RegisterComponent implements OnInit {
     if(this.formGroup.valid){
       //form data are all valid
       let dati = {
-        nome : this.formGroup.controls['nome'].value,
-        cognome : this.formGroup.controls['cognome'].value,
+        name : this.formGroup.controls['name'].value,
+        surname : this.formGroup.controls['surname'].value,
         username : this.formGroup.controls['username'].value,
         email : this.formGroup.controls['email'].value,
         password : this.formGroup.controls['password'].value,

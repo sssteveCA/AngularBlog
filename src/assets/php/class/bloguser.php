@@ -33,6 +33,7 @@ class BlogUser implements Bue,C{
     private $message; //Email message
     private int $errno = 0; //error code
     private ?string $error = null;
+    private static string $logFile = C::FILE_LOG;
     public static array $fields = array('id','email','username','emailVerif','changeVerif');
     public static array $regex = array(
         'id' => '/^[0-9]+$/',
@@ -46,11 +47,13 @@ class BlogUser implements Bue,C{
         'tempo' => '/^([0-9]+)\s(2[0-3]|1[0-9]|[0-9])\s([0-5][0-9]|[0-9])\s([0-5][0-9]|[0-9])$/'
     );
 
+
     public function __construct(array $data)
     {
         $this->h = new Client(C::MONGODB_CONNECTION_STRING);
-        $this->database = $this->h->${C::MONGODB_DATABASE}; //Access to the database
-        $this->collection = $this->h->${C::MONGODB_DATABASE}->${C::MONGODB_COLLECTION_USERS};
+        file_put_contents(BlogUser::$logFile,var_export($this->h,true)."\r\n",FILE_APPEND);
+        $this->database = $this->h->{C::MONGODB_DATABASE}; //Access to the database
+        $this->collection = $this->database->{C::MONGODB_COLLECTION_USERS};
         $this->id = isset($data['id'])? $data['id']:null;
         $this->name = isset($data['name'])? $data['name']:null;
         $this->surname = isset($data['surname'])? $data['surname']:null;

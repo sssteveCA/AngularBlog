@@ -1,0 +1,13 @@
+MongoDB\Client::__set_state(array(
+   'manager' => 
+  MongoDB\Driver\Manager::__set_state(array(
+  )),
+   'uri' => 'mongodb://localhost:27017',
+   'typeMap' => 
+  array (
+    'array' => 'MongoDB\\Model\\BSONArray',
+    'document' => 'MongoDB\\Model\\BSONDocument',
+    'root' => 'MongoDB\\Model\\BSONDocument',
+  ),
+))
+BlogUser validate() name BlogUser validate() surname 
