@@ -14,6 +14,8 @@ interface BlogUserErrors{
     const MAILNOTSENT = 3;
     const ACCOUNTNOTACTIVATED = 4;
     const DATANOTSET = 5;
+    const INVALIDINDEX = 6;
+    const NORESULT = 7;
 
     //Messages
     const INVALIDDATAFORMAT_MSG = "I dati sono in un formato non valido";
@@ -21,5 +23,7 @@ interface BlogUserErrors{
     const MAILNOTSENT_MSG = "Errore durante l' invio della mail.";
     const ACCOUNTNOTACTIVATED_MSG = "";
     const DATANOTSET_MSG = "";
+    const INVALIDINDEX_MSG = "";
+    const NORESULT_MSG = "";
 }
 ?>

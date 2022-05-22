@@ -124,17 +124,20 @@ class BlogUser implements Bue,C{
         $ok = false;
         $this->errno = 0;
         if(isset($this->emailVerif)){
-            $updateFilter = array(
+            $updateFilter = [
                 '$and' => [
                     ['emailVerif' => $this->emailVerif],
                     ['subscribed' => 0]]
-            );
-           $updateSet = array(
-              '$set' => ['emailVerif' => null, 'subscribed' => 1]
-           );
+            ];
+           $updateSet = [
+              '$set' => ['emailVerif' => null, 'subscribed' => 1] 
+           ];
            $updateOne = $this->collection->updateOne($updateFilter,$updateSet);
            $matched = $updateOne->getMatchedCount();
            $updated = $updateOne->getUpsertedCount();
+           file_put_contents(BlogUser::$logFile,var_export($updateOne,true)."\r\n",FILE_APPEND);
+           file_put_contents(BlogUser::$logFile,var_export($updateFilter,true)."\r\n",FILE_APPEND);
+           file_put_contents(BlogUser::$logFile,var_export($updateSet,true)."\r\n",FILE_APPEND);
            if($matched > 0 && $updated > 0){
                //Account to activate found
                $ok = true;
@@ -176,6 +179,38 @@ class BlogUser implements Bue,C{
         $document = $this->collection->findOne($filter);
         if($document != null)$ret = 1; //Document found with this filter
         return $ret;
+    }
+
+    //retrieve table row specifing an index
+    private function getData(string $index): bool{
+        $get = false;
+        $this->errno = 0;
+        if(in_array($index,BlogUser::$fields)){
+            $filter = [$index => $this->{$index}];
+            $findOne = $this->collection->findOne($filter);
+            file_put_contents(BlogUser::$logFile,"BlogUser getData findOne => \r\n",FILE_APPEND);
+            file_put_contents(BlogUser::$logFile,"{$findOne}\r\n",FILE_APPEND);
+            if($findOne != null){
+                $this->id = $findOne["_id"];
+                $this->name = $findOne["name"];
+                $this->surname = $findOne["surname"];
+                $this->username = $findOne["username"];
+                $this->email = $findOne["email"];
+                $this->passwordHash = $findOne["password"];
+                $this->emailVerif = $findOne["emailVerif"];
+                $this->changeVerif = $findOne["changeVerif"];
+                $this->creation_time = $findOne["creation_time"];
+                $this->last_modified = $findOne["last_modified"];
+                $get = true;
+            }//if($findOne != null){
+            else{
+                $this->errno = Bue::NORESULT;
+            }
+        }//if(in_array($index,BlogUser::$campi)){
+        else{
+            $this->errno = Bue::INVALIDINDEX;
+        }
+        return $get;
     }
 
     //insert class properties in database

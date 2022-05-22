@@ -19,7 +19,7 @@ $regex = '/^[a-z0-9]{64}$/i';
         $response['emailVerif'] = $_REQUEST['emailVerif'];
         if(preg_match($regex,$_REQUEST['emailVerif'])){
             $dati = array();
-            $dati['campo'] = 'codAut';
+            $dati['field'] = 'codAut';
             $dati['emailVerif'] = $_REQUEST['emailVerif'];
             $bUser = new BlogUser($dati);
             $codAut = $bUser->getEmailVerif();
