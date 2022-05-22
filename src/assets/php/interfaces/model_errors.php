@@ -10,7 +10,15 @@ interface ModelErrors{
     const COLLECTION_NAME_EXC = "Nessuna collezione specificata";
 
     //number
+    const NORESULT = 1; //No result from get operation
+    const NOTCREATED = 2; //Document not inserted
+    const NOTUPDATED = 3; //Document not updated
+    const NOTDELETED = 4; //Document not deleted
 
     //messages
+    const NORESULT_MSG = "Nessun documento restituito";
+    const NOTCREATED_MSG = "Nessun documento creato";
+    const NOTUPDATED_MSG = "Nessun documento aggiornato";
+    const NOTDELETED_MSG = "Nessun documento eliminato";
 }
 ?>

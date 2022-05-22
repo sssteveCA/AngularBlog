@@ -21,6 +21,8 @@ abstract class Model implements C,Me{
     protected bool $connect = false; //true if there is a MongoDB connection
     protected ?Database $database ; //MongoDB database used by this class
     protected ?Collection $collection; //MongoDB collection of registered users
+    private int $errno = 0; //error code
+    private ?string $error = null;
     protected static string $logFile = C::FILE_LOG;
 
     public function __constructor(array $data){
@@ -38,6 +40,28 @@ abstract class Model implements C,Me{
     public function __destruct()
     {
         
+    }
+
+    public function getErrno(){return $this->errno;}
+    public function getError(){
+        switch($this->errno){
+            case Me::NORESULT:
+                $this->error = Me::NORESULT_MSG;
+                break;
+            case Me::NOTCREATED:
+                $this->error = Me::NOTCREATED_MSG;
+                break;
+            case Me::NOTUPDATED:
+                $this->error = Me::NOTUPDATED_MSG;
+                break;
+            case Me::NOTDELETED:
+                $this->error = mE::NOTDELETED_MSG;
+                break;
+            default:
+                $this->error = null;
+                break;
+        }
+        return $this->error;
     }
 
 
