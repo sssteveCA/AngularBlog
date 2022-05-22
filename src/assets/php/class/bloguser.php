@@ -29,6 +29,7 @@ class BlogUser implements Bue,C{
     private $action; /*action that the user perform
     1 = login, 2 = registration, 3 = recovery*/
     private bool $logged = false; //Check if user is logged
+    private bool $subscribed = false; //Check if user has completed subscribe process
     private $headers; //Email headers
     private $message; //Email message
     private int $errno = 0; //error code
@@ -37,8 +38,8 @@ class BlogUser implements Bue,C{
     public static array $fields = array('id','email','username','emailVerif','changeVerif');
     public static array $regex = array(
         'id' => '/^[0-9]+$/',
-        'nome' => '/^[a-z]{3,}$/i',
-        'cognome' => '/^[a-z]{2,}$/i',
+        'name' => '/^[a-z]{3,}$/i',
+        'surname' => '/^[a-z]{2,}$/i',
         'email' => '/^[a-zA-Z-_0-9]{4,20}@([a-z]{3,15}\.){1,6}[a-z]{2,10}$/',
         'username' => '/^.+$/i',
         'password' => '/^.{6,}$/i',
@@ -63,6 +64,7 @@ class BlogUser implements Bue,C{
         $this->passwordHash = password_hash($this->password,PASSWORD_DEFAULT);
         $this->emailVerif=isset($data['emailVerif'])? $data['emailVerif']:null;
         $this->changeVerif=isset($data['changeVerif'])? $data['changeVerif']:null;
+        $this->subscribed=isset($data['subscribed'])? $data['subscribed']: false;
         /*$this->pwdChangeDate=isset($data['pwdChangeDate'])? $data['pwdChangeDate']:null;
         $this->$creation_time=isset($data['$creation_time'])? $data['$creation_time']:null;
         $this->last_modified=isset($data['last_modified'])? $data['last_modified']:null;*/
@@ -101,6 +103,12 @@ class BlogUser implements Bue,C{
             case Bue::MAILNOTSENT:
                 $this->error = Bue::MAILNOTSENT_MSG;
                 break;
+            case Bue::ACCOUNTNOTACTIVATED:
+                $this->error = Bue::ACCOUNTNOTACTIVATED_MSG;
+                break;
+            case Bue::DATANOTSET:
+                $this->error = Bue::DATANOTSET_MSG;
+                break;
             default:
                 $this->error = null;
                 break;
@@ -109,6 +117,36 @@ class BlogUser implements Bue,C{
     }
 
     public function isLogged(){return $this->logged;}
+    public function isSubscribed(){return $this->subscribed;}
+
+    //complete registration and activate account
+    public function attiva(): bool{
+        $ok = false;
+        $this->errno = 0;
+        if(isset($this->emailVerif)){
+            $updateFilter = array(
+                '$and' => [
+                    ['emailVerif' => $this->emailVerif],
+                    ['subscribed' => 0]]
+            );
+           $updateSet = array(
+              '$set' => ['emailVerif' => null, 'subscribed' => 1]
+           );
+           $updateOne = $this->collection->updateOne($updateFilter,$updateSet);
+           $matched = $updateOne->getMatchedCount();
+           $updated = $updateOne->getUpsertedCount();
+           if($matched > 0 && $updated > 0){
+               //Account to activate found
+               $ok = true;
+           }//if($matched > 0 && $updated > 0){
+           else
+            $this->errno = Bue::ACCOUNTNOTACTIVATED;
+        }//if(isset($this->emailVerif)){
+        else{
+            $this->errno = BLOGUSER_DATANOTSET;
+        }
+        return $ok;
+    }
 
     //create the account activation or password recovery code 
     public function codAutGen($order): string{
@@ -153,8 +191,10 @@ class BlogUser implements Bue,C{
             'username' => $this->username,
             'email' => $this->email,
             'password' => $this->passwordHash,
+            'emailVerif' => $this->emailVerif,
             'creation_time' => $this->creation_time,
-            'last_modified' => $this->last_modified
+            'last_modified' => $this->last_modified,
+            'subscribed' => $this->subscribed
         );
         $insertOne = $this->collection->insertOne($values);
         $insert = true;

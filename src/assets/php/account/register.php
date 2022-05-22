@@ -16,7 +16,7 @@ $response['done'] = false;
 
 $response['post'] = $_POST;
 
-if(isset($_POST['name'],$_POST['surname'],$_POST['username'],$_POST['email'],$_POST['password'],$_POST['confPwd'])){
+if(isset($_POST['name'],$_POST['surname'],$_POST['username'],$_POST['email'],$_POST['password'],$_POST['confPwd'],$_POST['subscribed'])){
     if($_POST['password'] == $_POST['confPwd']){
         if(preg_match(BlogUser::$regex['password'],$_POST['password'])){
             try{
@@ -25,7 +25,8 @@ if(isset($_POST['name'],$_POST['surname'],$_POST['username'],$_POST['email'],$_P
                     'surname' => $_POST['surname'],
                     'username' => $_POST['username'],
                     'email' => $_POST['email'],
-                    'password' => $_POST['password']
+                    'password' => $_POST['password'],
+                    'subscribed' => $_POST['subscribed']
                 );
                 $bUser = new BlogUser($data);
                 $reg = $bUser->registration();

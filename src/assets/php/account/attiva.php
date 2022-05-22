@@ -1,11 +1,14 @@
 <?php
 
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET');
-header('Access-Control-Allow-Headers: *');
-
+require_once("../cors.php");
 require_once("../config.php");
+require_once("../interfaces/constants.php");
+require_once("../interfaces/bloguser_errors.php");
+require_once("../vendor/autoload.php");
 require_once("../class/bloguser.php");
+
+use AngularBlog\Classes\BlogUser;
+use AngularBlog\Interfaces\BlogUserErrors as Bue;
 
 $response = array();
 $response['done'] = false;
@@ -32,10 +35,10 @@ $regex = '/^[a-z0-9]{64}$/i';
             else{
                 //$response['msg'] = 'Account non attivato. Codice '.$errno;
                 switch($errno){
-                    case BLOGUSER_ACCOUNTNOTACTIVATED:
+                    case Bue::ACCOUNTNOTACTIVATED:
                         $response['status'] = -1; //invalid email verification code
                         break;
-                    case BLOGUSER_DATANOTSET:
+                    case Bue::DATANOTSET:
                     default:
                         $response['status'] = 0;
                         break;     

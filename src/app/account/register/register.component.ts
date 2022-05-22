@@ -44,6 +44,7 @@ export class RegisterComponent implements OnInit {
         email : this.formGroup.controls['email'].value,
         password : this.formGroup.controls['password'].value,
         confPwd : this.formGroup.controls['confPwd'].value,
+        subscribed: 0
       };
       console.log(dati);
       if(dati['password'] == dati['confPwd']){
