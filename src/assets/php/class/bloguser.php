@@ -87,6 +87,23 @@ class BlogUser implements Bue,C{
     public function getQueries(){return $this->queries;}
     public function getTable(){return $this->table;}
     public function getErrno(){return $this->errno;}
+    public function getError(){
+        switch($this->errno){
+            case Bue::INVALIDDATAFORMAT:
+                $this->error = Bue::INVALIDDATAFORMAT_MSG;
+                break;
+            case Bue::USERNAMEMAILEXIST:
+                $this->error = Bue::USERNAMEMAILEXIST_MSG;
+                break;
+            case Bue::MAILNOTSENT:
+                $this->error = Bue::MAILNOTSENT_MSG;
+                break;
+            default:
+                $this->error = null;
+                break;
+        }
+        return $this->error;
+    }
 
     public function isLogged(){return $this->logged;}
 
@@ -158,9 +175,15 @@ class BlogUser implements Bue,C{
             if($exists == 0){
                 //Account with username or email guven not extst, values can be inserted
                 $insert = $this->insert();
-                if($insert)
-                    $registration = true;
+                if($insert){
+                    $send = $this->sendEmail();
+                    if($send){
+                        $registration = true;
+                    }
+                }//if($insert){        
             }//if($exists == 0){
+            else
+                $this->errno = Bue::USERNAMEMAILEXIST;
 
         }//if($verify){
         else
@@ -173,7 +196,6 @@ class BlogUser implements Bue,C{
         $this->errno = 0;
         $this->setHeaders();
         $this->setMessage();
-        $from = $this->getEmail();
         $send = @mail($this->email,C::EMAIL_ACTIVATION_SUBJECT,$this->message,$this->headers);
         if(!$send) $this->errno = Bue::MAILNOTSENT; //email non inviata
         return $send;

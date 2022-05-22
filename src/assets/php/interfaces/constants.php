@@ -23,6 +23,7 @@ interface Constants{
     const MONGODB_COLLECTION_USERS = 'users';
 
     //Registration
+    const REG_ERROR = "Errore durante la registrazione dell\' account";
     const REG_SUBSCRIBE_LINK = 'http://localhost:4200/attiva';
 }
 ?>

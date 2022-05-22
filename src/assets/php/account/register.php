@@ -7,6 +7,7 @@ require_once('../class/bloguser.php');
 
 use AngularBlog\Classes\BlogUser;
 use AngularBlog\Interfaces\Constants as C;
+use AngularBlog\Interfaces\BlogUserErrors as Bue;
 
 $response = array();
 $response['msg'] = '';
@@ -28,21 +29,23 @@ if(isset($_POST['name'],$_POST['surname'],$_POST['username'],$_POST['email'],$_P
                 $bUser = new BlogUser($data);
                 $reg = $bUser->registration();
                 if($reg){
-                    $send = $bUser->sendEmail();
-                    if($send){
-                        //Mail successufly sent
-                        $response['done'] = true;
-                        $response['msg'] = C::EMAIL_ACCOUNT_CREATED;
-                    }
-                    else{
-                        $errno = $bUser->getErrno();
-                        $response['msg'] = 'Errore durante l\' invio della mail. Codice '.$errno;
-                    } 
+                    //Data added to DB and Mail successufly sent
+                    $response['done'] = true;
+                    $response['msg'] = C::EMAIL_ACCOUNT_CREATED;
                 }//if($reg){
                 else{
                     $errno = $bUser->getErrno();
-                    $response['msg'] = 'Errore durante la registrazione dell\' account. Codice '.$errno;
-                }
+                    switch($errno){
+                        case Bue::INVALIDDATAFORMAT:
+                        case Bue::USERNAMEMAILEXIST:
+                        case Bue::MAILNOTSENT:
+                            $response['msg'] = $bUser->getError();
+                            break;
+                        default:
+                            $response['msg'] = C::REG_ERROR;
+                            break;
+                    }
+                }//else di if($reg){
             }
             catch(Exception $e){
                 $response['msg'] = C::ERROR_UNKNOWN;

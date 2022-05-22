@@ -14,8 +14,8 @@ interface BlogUserErrors{
     const MAILNOTSENT = 3;
 
     //Messages
-    const INVALIDDATAFORMAT_MSG = "";
-    const USERNAMEMAILEXIST_MSG = "";
-    const MAILNOTSENT_MSG = "";
+    const INVALIDDATAFORMAT_MSG = "I dati sono in un formato non valido";
+    const USERNAMEMAILEXIST_MSG = "Lo username o l'indirizzo email specificato esistono già";
+    const MAILNOTSENT_MSG = "Errore durante l' invio della mail.";
 }
 ?>
