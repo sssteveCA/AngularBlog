@@ -135,6 +135,42 @@ class User extends Model implements Ue{
         return $insert;
     }
 
+    public function user_delete(array $filter): bool{
+        $deleted = false;
+        $this->errno = 0;
+        parent::delete($filter);
+        if($this->errno == 0)$deleted = true;
+        return $deleted;
+    }
+
+    public function user_get(array $filter): bool{
+        $get = false;
+        $this->errno = 0;
+        $user = parent::get($filter);
+        if($this->errno == 0){
+            $this->id = $user["_id"];
+                $this->name = $user["name"];
+                $this->surname = $user["surname"];
+                $this->username = $user["username"];
+                $this->email = $user["email"];
+                $this->passwordHash = $user["password"];
+                $this->emailVerif = $user["emailVerif"];
+                $this->changeVerif = $user["changeVerif"];
+                $this->creation_time = $user["creation_time"];
+                $this->last_modified = $user["last_modified"];
+                $get = true;
+        }//if($this->errno == 0){
+        return $get;
+    }
+
+    public function user_update(array $filter, array $data): bool{
+        $updated = false;
+        $this->errno = 0;
+        parent::update($filter,$data);
+        if($this->errno == 0)$updated = true;
+        return $updated;
+    }
+
 
 
     //check if properties are all valid before insert
