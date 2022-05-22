@@ -3,6 +3,7 @@
 namespace AngularBlog\Classes;
 
 use AngularBlog\Interfaces\Constants as C;
+use AngularBlog\Interfaces\ModelErrors as Me;
 use MongoDB\Client;
 use MongoDB\Collection;
 use MongoDB\Database;
@@ -12,7 +13,7 @@ use MongoDB\Model\BSONDocument;
 use MongoDB\UpdateResult;
 
 //Base class that interfaces with MongoDB database
-abstract class Model implements C{
+abstract class Model implements C,Me{
     private ?string $connection_url = null;
     private ?string $database_name = null;
     private ?string $collection_name = null;
@@ -23,9 +24,12 @@ abstract class Model implements C{
     protected static string $logFile = C::FILE_LOG;
 
     public function __constructor(array $data){
-        $this->connection_url = isset($data['connection_url'])? $data['connection_url']: C::MONGODB_CONNECTION_STRING;
-        $this->database_name = isset($data['database_name'])? $data['database_name']: C::MONGODB_DATABASE;
-        $this->collection_name = isset($data['collection_name'])? $data['collection_name']: C::MONGODB_COLLECTION_USERS;
+        if(!isset($data['connection_url']))throw new \Exception(Me::CONNECTION_URL_EXC);
+        if(!isset($data['database_name']))throw new \Exception(Me::DATABASE_NAME_EXC);
+        if(!isset($data['collection_name']))throw new \Exception(Me::COLLECTION_NAME_EXC);
+        $this->connection_url = $data['connection_url'];
+        $this->database_name = $data['database_name'];
+        $this->collection_name =  $data['collection_name'];
         $this->h = new Client($this->connection_url);
         $this->database = $this->h->{$this->database_name}; //Access to the database
         $this->collection = $this->database->{$this->collection_name};
