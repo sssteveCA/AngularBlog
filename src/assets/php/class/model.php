@@ -67,25 +67,37 @@ abstract class Model implements C,Me{
 
     //Get one document with given array filter
     public function get(array $filter): BSONDocument{
+        $this->errno = 0;
         $findOne = $this->collection->findOne($filter);
+        if(!$findOne)$this->errno = Me::NORESULT;
         return $findOne;
     }
 
     //Create one document and insert it
     public function create(array $data): InsertOneResult{
+        $this->errno = 0;
         $insertOne = $this->collection->insertOne($data);
+        $count = $insertOne->getInsertedCount();
+        if($count <= 0)$this->errno = Me::NOTCREATED;
         return $insertOne;
     }
 
     //Update one document that match a filter with data
     public function update(array $filter, array $data): UpdateResult{
+        $this->errno = 0;
         $updateOne = $this->collection->updateOne($filter,$data);
+        $matched = $updateOne->getMatchedCount();
+        $updated = $updateOne->getModifiedCount();
+        if(!($matched > 0 && $updated > 0))$this->errno = Me::NOTUPDATED;
         return $updateOne;
     }
 
     //Delete one document that match with a filter
     public function delete(array $filter): DeleteResult{
+        $this->errno = 0;
         $deleteOne = $this->collection->deleteOne($filter);
+        $deleted = $deleteOne->getDeletedCount();
+        if($deleted <= 0)$this->errno = Me::NOTDELETED;
         return $deleteOne;
     }
 }

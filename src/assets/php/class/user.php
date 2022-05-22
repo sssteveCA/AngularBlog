@@ -3,10 +3,12 @@
 namespace AngularBlog\Classes;
 
 use AngularBlog\Interfaces\Constants as C;
+use AngularBlog\Interfaces\ModelErrors as Me;
+use AngularBlog\Interfaces\UserErrors as Ue;
 use AngularBlog\Classes\Model;
 
 //This class interacts with MongoDB database for the User collection
-class User extends Model implements C{
+class User extends Model implements Ue{
     private $id;
     private $name;
     private $surname;
@@ -70,14 +72,120 @@ class User extends Model implements C{
     public function getPwdChangeDate(){return $this->pwdChangeDate;}
     public function getCrTime(){return $this->creation_time;}
     public function getLastMod(){return $this->last_modified;}
-    public function getErrno(){return $this->errno;}
+    public function getErrno(){
+        return $this->errno;
+    }
     public function getError(){
-        switch($this->errno){
-            default:
-                $this->error = null;
-                break;
+        if($this->errno <= Me::RANGE_MAX){
+            //An error of superclass
+            return parent::getError();
+        }
+        else{
+            switch($this->errno){
+                case Ue::INVALIDDATAFORMAT:
+                    $this->error = Ue::INVALIDDATAFORMAT_MSG;
+                    break;
+            }
         }
         return $this->error;
     }
+
+    //create the account activation or password recovery code 
+    public function codAutGen($order): string{
+        $codAut = str_replace('.','a',microtime());
+        $codAut = str_replace(' ','b',$codAut);
+        $lCod = strlen($codAut);
+        $lCas = 64 - $lCod;
+        $c = 'ABCDEFGHIJKLMNOPQRSTUVWXYzabcdefghijklmnopqrstuvwxyz0123456789';
+        $lc = strlen($c) - 1;
+        $s = '';
+        for($i = 0; $i < $lCas; $i++)
+        {
+            $j = mt_rand(0,$lc);
+            $s .= $c[$j];
+        }
+        if($order == '0') return $codAut.$s;
+        else return $s.$codAut;
+    }
+
+    public function user_create(): bool{
+        $insert = false;
+        $this->errno = 0;
+        $this->emailVerif = $this->codAutGen('0');
+        $this->creation_time = date('Y-m-d H:i:s');
+        $this->last_modified = date('Y-m-d H:i:s');
+        if($this->validate()){
+            //All data are valid and can be inserted
+            $values = array(
+                'name' => $this->name,
+                'surname' => $this->surname,
+                'username' => $this->username,
+                'email' => $this->email,
+                'password' => $this->passwordHash,
+                'emailVerif' => $this->emailVerif,
+                'creation_time' => $this->creation_time,
+                'last_modified' => $this->last_modified,
+                'subscribed' => $this->subscribed
+            );
+            parent::create($values);
+            if($this->errno == 0)$insert = true;
+        }//if($this->validate()){
+        else
+            $this->errno = Ue::INVALIDDATAFORMAT;
+        return $insert;
+    }
+
+
+
+    //check if properties are all valid before insert
+    private function validate(){
+        $valid = true;
+        if(isset($this->id) && !preg_match(User::$regex['id'],$this->id)){
+            file_put_contents(C::FILE_LOG,"User validate() id ",FILE_APPEND);
+            $valid = false;
+        }
+        if(isset($this->name) && !preg_match(User::$regex['name'],$this->name)){
+            file_put_contents(C::FILE_LOG,"User validate() name ",FILE_APPEND);
+            $valid = false;
+        }
+        if(isset($this->surname) && !preg_match(User::$regex['surname'],$this->surname)){
+            file_put_contents(C::FILE_LOG,"User validate() surname ",FILE_APPEND);
+            $valid = false;
+        }
+        if(isset($this->username) && !preg_match(User::$regex['username'],$this->username)){
+            file_put_contents(C::FILE_LOG,"User validate() username ",FILE_APPEND);
+            $valid = false;
+        }
+        if(isset($this->email) && !preg_match(User::$regex['email'],$this->email)){
+            file_put_contents(C::FILE_LOG,"User validate() email {$this->email} ",FILE_APPEND);
+            $valid = false;
+        }
+        /*if(isset($this->password) && !preg_match(User::$regex['password'],$this->password)){
+            $valid = false;
+        }*/
+        if(isset($this->emailVerif) && !preg_match(User::$regex['emailVerif'],$this->emailVerif)){
+            file_put_contents(C::FILE_LOG,"User validate() emailVerif ",FILE_APPEND);
+            $valid = false;
+        }
+        if(isset($this->changeVerif) && !preg_match(User::$regex['changeVerif'],$this->changeVerif)){
+            file_put_contents(C::FILE_LOG,"User validate() changeVerif ",FILE_APPEND);
+            $valid = false;
+        }
+        if(isset($this->pwdChangeDate) && !preg_match(User::$regex['pwdChangeDate'],$this->pwdChangeDate)){
+            file_put_contents(C::FILE_LOG,"User validate() pwdChangeDate ",FILE_APPEND);
+            $valid = false;
+        }
+        if(isset($this->creation_time) && !preg_match(User::$regex['cr_time'],$this->creation_time)){
+            file_put_contents(C::FILE_LOG,"User validate() cr_time ",FILE_APPEND);
+            $valid = false;
+        }
+        if(isset($this->last_modified) && !preg_match(User::$regex['last_modified'],$this->last_modified)){
+            file_put_contents(C::FILE_LOG,"User validate() last_mod ",FILE_APPEND);
+            $valid = false;
+        }
+        return $valid;
+    }
+
+
 }
 ?>
