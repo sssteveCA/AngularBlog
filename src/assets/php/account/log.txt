@@ -1,0 +1,280 @@
+MongoDB\Client::__set_state(array(
+   'manager' => 
+  MongoDB\Driver\Manager::__set_state(array(
+  )),
+   'uri' => 'mongodb://localhost:27017',
+   'typeMap' => 
+  array (
+    'array' => 'MongoDB\\Model\\BSONArray',
+    'document' => 'MongoDB\\Model\\BSONDocument',
+    'root' => 'MongoDB\\Model\\BSONDocument',
+  ),
+))
+MongoDB\UpdateResult::__set_state(array(
+   'writeResult' => 
+  MongoDB\Driver\WriteResult::__set_state(array(
+  )),
+   'isAcknowledged' => true,
+))
+array (
+  '$and' => 
+  array (
+    0 => 
+    array (
+      'emailVerif' => '0a16939200b1653207907fMx8sX1R6l8l2cyWN06s5gvNkQdimaXF7OoXldDIyzY',
+    ),
+    1 => 
+    array (
+      'subscribed' => 0,
+    ),
+  ),
+)
+array (
+  '$set' => 
+  array (
+    'emailVerif' => NULL,
+    'subscribed' => 1,
+  ),
+)
+MongoDB\Client::__set_state(array(
+   'manager' => 
+  MongoDB\Driver\Manager::__set_state(array(
+  )),
+   'uri' => 'mongodb://localhost:27017',
+   'typeMap' => 
+  array (
+    'array' => 'MongoDB\\Model\\BSONArray',
+    'document' => 'MongoDB\\Model\\BSONDocument',
+    'root' => 'MongoDB\\Model\\BSONDocument',
+  ),
+))
+MongoDB\UpdateResult::__set_state(array(
+   'writeResult' => 
+  MongoDB\Driver\WriteResult::__set_state(array(
+  )),
+   'isAcknowledged' => true,
+))
+array (
+  '$and' => 
+  array (
+    0 => 
+    array (
+      'emailVerif' => '0a16939200b1653207907fMx8sX1R6l8l2cyWN06s5gvNkQdimaXF7OoXldDIyzY',
+    ),
+    1 => 
+    array (
+      'subscribed' => false,
+    ),
+  ),
+)
+array (
+  '$set' => 
+  array (
+    'emailVerif' => NULL,
+    'subscribed' => 1,
+  ),
+)
+MongoDB\Client::__set_state(array(
+   'manager' => 
+  MongoDB\Driver\Manager::__set_state(array(
+  )),
+   'uri' => 'mongodb://localhost:27017',
+   'typeMap' => 
+  array (
+    'array' => 'MongoDB\\Model\\BSONArray',
+    'document' => 'MongoDB\\Model\\BSONDocument',
+    'root' => 'MongoDB\\Model\\BSONDocument',
+  ),
+))
+MongoDB\Client::__set_state(array(
+   'manager' => 
+  MongoDB\Driver\Manager::__set_state(array(
+  )),
+   'uri' => 'mongodb://localhost:27017',
+   'typeMap' => 
+  array (
+    'array' => 'MongoDB\\Model\\BSONArray',
+    'document' => 'MongoDB\\Model\\BSONDocument',
+    'root' => 'MongoDB\\Model\\BSONDocument',
+  ),
+))
+MongoDB\Client::__set_state(array(
+   'manager' => 
+  MongoDB\Driver\Manager::__set_state(array(
+  )),
+   'uri' => 'mongodb://localhost:27017',
+   'typeMap' => 
+  array (
+    'array' => 'MongoDB\\Model\\BSONArray',
+    'document' => 'MongoDB\\Model\\BSONDocument',
+    'root' => 'MongoDB\\Model\\BSONDocument',
+  ),
+))
+MongoDB\UpdateResult::__set_state(array(
+   'writeResult' => 
+  MongoDB\Driver\WriteResult::__set_state(array(
+  )),
+   'isAcknowledged' => true,
+))
+array (
+  '$and' => 
+  array (
+    0 => 
+    array (
+      'emailVerif' => '0a62943800b1653211793LiTd9w5hd9RHQV1s1KW9ECbTmxJciHgvzVzGqhnkRf8',
+    ),
+    1 => 
+    array (
+      'subscribed' => false,
+    ),
+  ),
+)
+array (
+  '$set' => 
+  array (
+    'emailVerif' => NULL,
+    'subscribed' => 1,
+  ),
+)
+Matched => 1 Updated => 0
+MongoDB\Client::__set_state(array(
+   'manager' => 
+  MongoDB\Driver\Manager::__set_state(array(
+  )),
+   'uri' => 'mongodb://localhost:27017',
+   'typeMap' => 
+  array (
+    'array' => 'MongoDB\\Model\\BSONArray',
+    'document' => 'MongoDB\\Model\\BSONDocument',
+    'root' => 'MongoDB\\Model\\BSONDocument',
+  ),
+))
+MongoDB\Client::__set_state(array(
+   'manager' => 
+  MongoDB\Driver\Manager::__set_state(array(
+  )),
+   'uri' => 'mongodb://localhost:27017',
+   'typeMap' => 
+  array (
+    'array' => 'MongoDB\\Model\\BSONArray',
+    'document' => 'MongoDB\\Model\\BSONDocument',
+    'root' => 'MongoDB\\Model\\BSONDocument',
+  ),
+))
+MongoDB\UpdateResult::__set_state(array(
+   'writeResult' => 
+  MongoDB\Driver\WriteResult::__set_state(array(
+  )),
+   'isAcknowledged' => true,
+))
+array (
+  '$and' => 
+  array (
+    0 => 
+    array (
+      'emailVerif' => '0a62943800b1653211793LiTd9w5hd9RHQV1s1KW9ECbTmxJciHgvzVzGqhnkRf8',
+    ),
+    1 => 
+    array (
+      'subscribed' => false,
+    ),
+  ),
+)
+array (
+  '$set' => 
+  array (
+    'emailVerif' => NULL,
+    'subscribed' => 1,
+  ),
+)
+Matched => 0 Updated => 0
+MongoDB\Client::__set_state(array(
+   'manager' => 
+  MongoDB\Driver\Manager::__set_state(array(
+  )),
+   'uri' => 'mongodb://localhost:27017',
+   'typeMap' => 
+  array (
+    'array' => 'MongoDB\\Model\\BSONArray',
+    'document' => 'MongoDB\\Model\\BSONDocument',
+    'root' => 'MongoDB\\Model\\BSONDocument',
+  ),
+))
+MongoDB\UpdateResult::__set_state(array(
+   'writeResult' => 
+  MongoDB\Driver\WriteResult::__set_state(array(
+  )),
+   'isAcknowledged' => true,
+))
+array (
+  '$and' => 
+  array (
+    0 => 
+    array (
+      'emailVerif' => '0a90109000b1653211956EM7zM2Uv0bGVzANKWblaVgp7Gj2fhaJKwAfPPasoH73',
+    ),
+    1 => 
+    array (
+      'subscribed' => false,
+    ),
+  ),
+)
+array (
+  '$set' => 
+  array (
+    'emailVerif' => NULL,
+    'subscribed' => 1,
+  ),
+)
+Matched => 1 Updated => 1
+MongoDB\Client::__set_state(array(
+   'manager' => 
+  MongoDB\Driver\Manager::__set_state(array(
+  )),
+   'uri' => 'mongodb://localhost:27017',
+   'typeMap' => 
+  array (
+    'array' => 'MongoDB\\Model\\BSONArray',
+    'document' => 'MongoDB\\Model\\BSONDocument',
+    'root' => 'MongoDB\\Model\\BSONDocument',
+  ),
+))
+MongoDB\Client::__set_state(array(
+   'manager' => 
+  MongoDB\Driver\Manager::__set_state(array(
+  )),
+   'uri' => 'mongodb://localhost:27017',
+   'typeMap' => 
+  array (
+    'array' => 'MongoDB\\Model\\BSONArray',
+    'document' => 'MongoDB\\Model\\BSONDocument',
+    'root' => 'MongoDB\\Model\\BSONDocument',
+  ),
+))
+MongoDB\UpdateResult::__set_state(array(
+   'writeResult' => 
+  MongoDB\Driver\WriteResult::__set_state(array(
+  )),
+   'isAcknowledged' => true,
+))
+array (
+  '$and' => 
+  array (
+    0 => 
+    array (
+      'emailVerif' => '0a76115600b1653212037whhXu0KIb7sBGie7L6GRDRYIOL2lab2zwPEXlV7DCRk',
+    ),
+    1 => 
+    array (
+      'subscribed' => false,
+    ),
+  ),
+)
+array (
+  '$set' => 
+  array (
+    'emailVerif' => NULL,
+    'subscribed' => true,
+  ),
+)
+Matched => 1 Updated => 1

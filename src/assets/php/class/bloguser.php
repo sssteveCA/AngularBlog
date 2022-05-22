@@ -127,17 +127,18 @@ class BlogUser implements Bue,C{
             $updateFilter = [
                 '$and' => [
                     ['emailVerif' => $this->emailVerif],
-                    ['subscribed' => 0]]
+                    ['subscribed' => false]]
             ];
            $updateSet = [
-              '$set' => ['emailVerif' => null, 'subscribed' => 1] 
+              '$set' => ['emailVerif' => null, 'subscribed' => true] 
            ];
            $updateOne = $this->collection->updateOne($updateFilter,$updateSet);
            $matched = $updateOne->getMatchedCount();
-           $updated = $updateOne->getUpsertedCount();
+           $updated = $updateOne->getModifiedCount();
            file_put_contents(BlogUser::$logFile,var_export($updateOne,true)."\r\n",FILE_APPEND);
            file_put_contents(BlogUser::$logFile,var_export($updateFilter,true)."\r\n",FILE_APPEND);
            file_put_contents(BlogUser::$logFile,var_export($updateSet,true)."\r\n",FILE_APPEND);
+           file_put_contents(BlogUser::$logFile,"Matched => {$matched} Updated => {$updated}\r\n",FILE_APPEND);
            if($matched > 0 && $updated > 0){
                //Account to activate found
                $ok = true;

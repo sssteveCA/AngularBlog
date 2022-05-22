@@ -22,7 +22,6 @@ $regex = '/^[a-z0-9]{64}$/i';
             $dati['field'] = 'codAut';
             $dati['emailVerif'] = $_REQUEST['emailVerif'];
             $bUser = new BlogUser($dati);
-            $codAut = $bUser->getEmailVerif();
             $activate = $bUser->attiva();
             $errno = $bUser->getErrno();
             //account attivato
