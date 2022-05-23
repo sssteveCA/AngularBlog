@@ -52,5 +52,10 @@
                 Codice non valido
             </div>
         </div>
+		<div *ngIf="status == -2" class="w-100 h-100">
+			<div class="alert alert-danger" role="alert">
+				Errore durante l'ativazione dell'account. Se il problema persiste contattare l' amministratore del sito
+			</div>
+		</div>
     </body>
 </html>

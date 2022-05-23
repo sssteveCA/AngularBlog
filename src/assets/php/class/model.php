@@ -21,8 +21,8 @@ abstract class Model implements C,Me{
     protected bool $connect = false; //true if there is a MongoDB connection
     protected ?Database $database ; //MongoDB database used by this class
     protected ?Collection $collection; //MongoDB collection of registered users
-    private int $errno = 0; //error code
-    private ?string $error = null;
+    protected int $errno = 0; //error code
+    protected ?string $error = null;
     private static string $logFile = C::FILE_LOG;
 
     public function __constructor(array $data){

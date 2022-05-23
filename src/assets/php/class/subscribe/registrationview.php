@@ -12,8 +12,8 @@ class RegistrationView implements Rve{
 
     public function __construct(?RegistrationController $rc)
     {
+        if(!$rc)throw new \Exception(Rve::NOREGISTRATIONCONTROLLERINSTANCE_EXC);
         $this->rc = $rc;
-        if(!$this->rc)throw new \Exception(Rve::NOREGISTRATIONCONTROLLERINSTANCE_EXC);
         $this->message = $this->rc->getResponse();
     }
 

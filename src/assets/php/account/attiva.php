@@ -2,56 +2,51 @@
 
 require_once("../cors.php");
 require_once("../config.php");
-require_once("../interfaces/constants.php");
-require_once("../interfaces/bloguser_errors.php");
-require_once("../vendor/autoload.php");
-require_once("../class/bloguser.php");
+require_once('../interfaces/constants.php');
+require_once('../interfaces/model_errors.php');
+require_once('../interfaces/user_errors.php');
+require_once('../interfaces/subscribe/verifycontroller_errors.php');
+require_once('../interfaces/subscribe/verifyview_errors.php');
+require_once('../class/model.php');
+require_once('../class/user.php');
+require_once('../class/subscribe/verifycontroller.php');
+require_once('../class/subscribe/verifyview.php');
 
-use AngularBlog\Classes\BlogUser;
-use AngularBlog\Interfaces\BlogUserErrors as Bue;
+use AngularBlog\Interfaces\Constants as C;
+use AngularBlog\Classes\User;
+use AngularBlog\Classes\Subscribe\VerifyController;
+use AngularBlog\Classes\Subscribe\VerifyView;
 
 $response = array();
+$response['msg'] = '';
 $response['done'] = false;
-$response['status'] = 0; //no code in URL
 
-$regex = '/^[a-z0-9]{64}$/i';
-    if(isset($_REQUEST['emailVerif']) && $_REQUEST['emailVerif'] != ''){
-        $response['emailVerif'] = $_REQUEST['emailVerif'];
-        if(preg_match($regex,$_REQUEST['emailVerif'])){
-            $dati = array();
-            $dati['field'] = 'codAut';
-            $dati['emailVerif'] = $_REQUEST['emailVerif'];
-            $bUser = new BlogUser($dati);
-            $activate = $bUser->attiva();
-            $errno = $bUser->getErrno();
-            //account attivato
-            if($errno == 0){
-                //$response['msg'] = 'L\' account è stato attivato';
-                $response['status'] = 1;
-                $response['done'] = true;
+if(isset($_REQUEST['emailVerif']) && $_REQUEST['emailVerif'] != ''){
+    if(preg_match(User::$regex['emailVerif'],$_REQUEST['emailVerif'])){     
+        try{
+            $emailVerif = $_REQUEST['emailVerif'];
+            $data = array('emailVerif' => $emailVerif);
+            $user = new User($data);
+            $vc = new VerifyController($user);
+            $vv = new VerifyView($vc);
+            $msg = $vv->getMessage();
+            switch($msg){
+                case C::ACTIVATION_OK:
+                    $response['status'] = 0;
+                    break;
+                case C::ACTIVATION_INVALID_CODE:
+                    $response['status'] = -1;
+                    break;
+                default:
+                    $response['status'] = -2;
+                    break;
             }
-            //account non attivato
-            else{
-                //$response['msg'] = 'Account non attivato. Codice '.$errno;
-                switch($errno){
-                    case Bue::ACCOUNTNOTACTIVATED:
-                        $response['status'] = -1; //invalid email verification code
-                        break;
-                    case Bue::DATANOTSET:
-                    default:
-                        $response['status'] = 0;
-                        break;     
-                }
-            }//else di if($errno == 0){
-            //$response['queries'] = $bUser->getQueries();
-        }//if(preg_match($regex,$_REQUEST['emailVerif'])){
-        else{
-            $response['status'] = -1;
         }
-    }//if(isset($_REQUEST['codAut']) && preg_match($rege
-    else{
-        $response['status'] = 0;
-    }
+        catch(Exception $e){
+            $response['status'] = -2;
+        }
+    }//if(preg_match(User::$regex['emailVerif'],$_REQUEST['emailVerif'])){
+}//if(isset($_REQUEST['emailVerif']) && $_REQUEST['emailVerif'] != ''){
 
-echo json_encode($response,JSON_UNESCAPED_UNICODE);
+echo json_encode($response);
 ?>

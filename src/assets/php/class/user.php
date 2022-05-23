@@ -22,8 +22,6 @@ class User extends Model implements Ue{
     private $creation_time; //account creation time
     private $last_modified; //last account modified time
 
-    private int $errno = 0; //error code
-    private ?string $error = null;
     private static string $logFile = C::FILE_LOG;
 
     public static array $regex = array(
@@ -73,9 +71,6 @@ class User extends Model implements Ue{
     public function getPwdChangeDate(){return $this->pwdChangeDate;}
     public function getCrTime(){return $this->creation_time;}
     public function getLastMod(){return $this->last_modified;}
-    public function getErrno(){
-        return $this->errno;
-    }
     public function getError(){
         if($this->errno <= Me::MODEL_RANGE_MAX){
             //An error of superclass
