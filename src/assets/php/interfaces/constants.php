@@ -7,7 +7,7 @@ interface Constants{
 
     //Activation
     const ACTIVATION_INVALID_CODE = "Codice non valido";
-    const ACTIVATION_OK = "L'account è stato attivato con successo";
+    const ACTIVATION_OK = "L' account è stato attivato con successo";
     const ACTIVATION_ERROR = "Errore durante l'ativazione dell'account. Se il problema persiste contattare l' amministratore del sito";
 
     //Email

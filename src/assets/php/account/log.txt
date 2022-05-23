@@ -1,1 +1,31 @@
-2022-05-23 10:16:25User validate() cr_time 2022-05-23 10:16:25User validate() last_mod 
+array (
+  '$and' => 
+  array (
+    0 => 
+    array (
+      'emailVerif' => '0a60303400b1653304001qzn32yew6ifABrEHAVQiywN52jaoaVP0x1MKd1ty7WT',
+    ),
+    1 => 
+    array (
+      'subscribed' => false,
+    ),
+  ),
+)
+array (
+  '$set' => 
+  array (
+    'emailVerif' => NULL,
+    'last_modified' => '2022-05-23 13:07:09',
+    'subscribed' => true,
+  ),
+)
+Matched => 1
+Updated => 1
+Update true
+Vc errno 0
+Response L' account è stato attivato con successo
+Response in constructor => 'L\' account è stato attivato con successo'
+VerifyView response => 'L\' account è stato attivato con successo'
+Message => L' account è stato attivato con successo
+Msg => 
+L' account è stato attivato con successo

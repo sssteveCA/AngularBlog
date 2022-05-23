@@ -12,6 +12,7 @@ class VerifyController implements Vce,Me,C{
     private string $response = "";
     private int $errno = 0;
     private ?string $error = null;
+    private static string $logFile = C::FILE_LOG;
 
     public function __construct(?User $user)
     {
@@ -19,9 +20,10 @@ class VerifyController implements Vce,Me,C{
         $this->user = $user;
         $this->active();
         $this->setResponse();
+        file_put_contents(VerifyController::$logFile,"Response in constructor => ".var_export($this->response,true)."\r\n",FILE_APPEND);
     }
 
-    public function getResponse(){$this->response;}
+    public function getResponse(){return $this->response;}
     public function getErrno(){return $this->errno;}
     public function getError(){
         switch($this->error){
@@ -53,8 +55,9 @@ class VerifyController implements Vce,Me,C{
             $updateSet = [
                 '$set' => ['emailVerif' => null, 'last_modified' => $lastMod,'subscribed' => true] 
              ];
-             $update = $this->user->update($updateFilter,$updateSet);
+             $update = $this->user->user_update($updateFilter,$updateSet);
              if($update){
+                file_put_contents(VerifyController::$logFile,"Update true\r\n",FILE_APPEND);
                  $ok = true;
              }
              else $this->errno = Vce::FROMUSER;
@@ -65,6 +68,7 @@ class VerifyController implements Vce,Me,C{
 
     //Set the response to send to the view
     private function setResponse(){
+        file_put_contents(VerifyController::$logFile,"Vc errno {$this->errno}\r\n",FILE_APPEND);
         switch($this->errno){
             case 0:
                 $this->response = C::ACTIVATION_OK;
@@ -83,7 +87,8 @@ class VerifyController implements Vce,Me,C{
             default:
                 $this->response = C::ACTIVATION_ERROR;
                 break;
-        }
+        }//switch($this->errno){
+            file_put_contents(VerifyController::$logFile,"Response {$this->response}\r\n",FILE_APPEND);
     }
 }
 ?>

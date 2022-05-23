@@ -21,6 +21,7 @@ class User extends Model implements Ue{
     private $pwdChangeDate;
     private $creation_time; //account creation time
     private $last_modified; //last account modified time
+    private $subscribed; //true if user is alterady susbscribed to blog
 
     private static string $logFile = C::FILE_LOG;
 
@@ -86,6 +87,8 @@ class User extends Model implements Ue{
         return $this->error;
     }
 
+    public function isSubscribed(){return $this->subscribed;}
+
     //create the account activation or password recovery code 
     public function codAutGen($order): string{
         $codAut = str_replace('.','a',microtime());
@@ -110,6 +113,7 @@ class User extends Model implements Ue{
         $this->emailVerif = $this->codAutGen('0');
         $this->creation_time = date('Y-m-d H:i:s');
         $this->last_modified = date('Y-m-d H:i:s');
+        $this->subscribed = false;
         if($this->validate()){
             //All data are valid and can be inserted
             $values = array(
@@ -154,6 +158,7 @@ class User extends Model implements Ue{
                 $this->changeVerif = $user["changeVerif"];
                 $this->creation_time = $user["creation_time"];
                 $this->last_modified = $user["last_modified"];
+                $this->subscribed = $user["subscribed"];
                 $get = true;
         }//if($this->errno == 0){
         return $get;
