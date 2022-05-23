@@ -29,14 +29,16 @@ if(isset($_POST['name'],$_POST['surname'],$_POST['username'],$_POST['email'],$_P
                 'username' => $_POST['username'],
                 'email' => $_POST['email'],
                 'password' => $_POST['password'],
-                'subscribed' => $_POST['subscribed']
+                'subscribed' => $_POST['subscribed'],
             );
             $user = new User($data);
             $rc = new RegistrationController($user);
             $rv = new RegistrationView($rc);
+            if($rc->getErrno() == 0)$response['done'] = true;
             $response['msg'] = $rv->getMessage();
         }
         catch(Exception $e){
+            file_put_contents(C::FILE_LOG,$e->getMessage()."\r\n",FILE_APPEND);
             $response['msg'] = C::REG_ERROR;
         }
     }//if(preg_match(User::$regex['password'],$_POST['password'])){

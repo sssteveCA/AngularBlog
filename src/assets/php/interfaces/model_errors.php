@@ -22,7 +22,7 @@ interface ModelErrors{
     const NOTDELETED_MSG = "Nessun documento eliminato";
 
     //other
-    const RANGE_MIN = 0; //minimum error code of Model class
-    const RANGE_MAX = 20; //maximum error code of Model class
+    const MODEL_RANGE_MIN = 0; //minimum error code of Model class
+    const MODEL_RANGE_MAX = 20; //maximum error code of Model class
 }
 ?>

@@ -23,7 +23,7 @@ abstract class Model implements C,Me{
     protected ?Collection $collection; //MongoDB collection of registered users
     private int $errno = 0; //error code
     private ?string $error = null;
-    protected static string $logFile = C::FILE_LOG;
+    private static string $logFile = C::FILE_LOG;
 
     public function __constructor(array $data){
         if(!isset($data['connection_url']))throw new \Exception(Me::CONNECTION_URL_EXC);

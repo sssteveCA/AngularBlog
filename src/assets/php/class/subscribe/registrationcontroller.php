@@ -85,7 +85,8 @@ HEADER;
     //Set email message
     private function setMessage(){
         $indAtt = C::REG_SUBSCRIBE_LINK;
-        $codIndAtt = $indAtt.'?emailVerif='.$this->emailVerif;
+        $emailVerif = $this->user->getEmailVerif();
+        $codIndAtt = $indAtt.'?emailVerif='.$emailVerif;
         $this->message = <<<HTML
 <!DOCTYPE html>
 <html lang="it">
@@ -109,7 +110,7 @@ HEADER;
 Completa la registrazione facendo click sul link sottostante:
 <p><a href="{$codIndAtt}">{$codIndAtt}</a></p>
 oppure vai all'indirizzo <p><a href="{$indAtt}">{$indAtt}</a></p> e incolla il seguente codice: 
-<p>{$this->emailVerif}</p>
+<p>{$emailVerif}</p>
         </div>
     </body>
 </html>

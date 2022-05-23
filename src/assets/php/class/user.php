@@ -35,14 +35,15 @@ class User extends Model implements Ue{
         'password' => '/^.{6,}$/i',
         'emailVerif' => '/^[a-z0-9]{64}$/i',
         'changeVerif' => '/^[a-z0-9]{64}$/i',
-        'time' => '/^([0-9]+)\s(2[0-3]|1[0-9]|[0-9])\s([0-5][0-9]|[0-9])\s([0-5][0-9]|[0-9])$/'
+        /*'time' => '/^([0-9]+)\s(2[0-3]|1[0-9]|[0-9])\s([0-5][0-9]|[0-9])\s([0-5][0-9]|[0-9])$/'*/
+        'time' => '/^[0-9]{4}-(0[1-9]|1[0-2])-([012][0-9]|3[01])\s+([0-1][0-9]|2[0-3])(:[0-5][0-9]){2}$/i'
     );
 
     public function __construct(array $data)
     {
-        $this->connection_url = isset($data['connection_url']) ? $data['connection_url']: C::MONGODB_CONNECTION_STRING;
-        $this->database_name = isset($data['database_name']) ? $data['database_name']: C::MONGODB_DATABASE;
-        $this->collection_name = isset($data['collection_name']) ? $data['collection_name']: C::MONGODB_COLLECTION_USERS;
+        $data['connection_url'] = isset($data['connection_url']) ? $data['connection_url']: C::MONGODB_CONNECTION_STRING;
+        $data['database_name'] = isset($data['database_name']) ? $data['database_name']: C::MONGODB_DATABASE;
+        $data['collection_name'] = isset($data['collection_name']) ? $data['collection_name']: C::MONGODB_COLLECTION_USERS;
         parent::__constructor($data);
         $this->id = isset($data['id'])? $data['id']:null;
         $this->name = isset($data['name'])? $data['name']:null;
@@ -54,9 +55,9 @@ class User extends Model implements Ue{
         $this->emailVerif=isset($data['emailVerif'])? $data['emailVerif']:null;
         $this->changeVerif=isset($data['changeVerif'])? $data['changeVerif']:null;
         $this->subscribed=isset($data['subscribed'])? $data['subscribed']: false;
-        /*$this->pwdChangeDate=isset($data['pwdChangeDate'])? $data['pwdChangeDate']:null;
-        $this->$creation_time=isset($data['$creation_time'])? $data['$creation_time']:null;
-        $this->last_modified=isset($data['last_modified'])? $data['last_modified']:null;*/
+        $this->pwdChangeDate=isset($data['pwdChangeDate'])? $data['pwdChangeDate']:null;
+        $this->creation_time=isset($data['$creation_time'])? $data['$creation_time']:null;
+        $this->last_modified=isset($data['last_modified'])? $data['last_modified']:null;
 
     }
 
@@ -76,7 +77,7 @@ class User extends Model implements Ue{
         return $this->errno;
     }
     public function getError(){
-        if($this->errno <= Me::RANGE_MAX){
+        if($this->errno <= Me::MODEL_RANGE_MAX){
             //An error of superclass
             return parent::getError();
         }
@@ -207,15 +208,18 @@ class User extends Model implements Ue{
             file_put_contents(C::FILE_LOG,"User validate() changeVerif ",FILE_APPEND);
             $valid = false;
         }
-        if(isset($this->pwdChangeDate) && !preg_match(User::$regex['pwdChangeDate'],$this->pwdChangeDate)){
+        if(isset($this->pwdChangeDate) && !preg_match(User::$regex['time'],$this->pwdChangeDate)){
+            file_put_contents(C::FILE_LOG,"{$this->pwdChangeDate}",FILE_APPEND);
             file_put_contents(C::FILE_LOG,"User validate() pwdChangeDate ",FILE_APPEND);
             $valid = false;
         }
-        if(isset($this->creation_time) && !preg_match(User::$regex['cr_time'],$this->creation_time)){
+        if(isset($this->creation_time) && !preg_match(User::$regex['time'],$this->creation_time)){
+            file_put_contents(C::FILE_LOG,"{$this->creation_time}",FILE_APPEND);
             file_put_contents(C::FILE_LOG,"User validate() cr_time ",FILE_APPEND);
             $valid = false;
         }
-        if(isset($this->last_modified) && !preg_match(User::$regex['last_modified'],$this->last_modified)){
+        if(isset($this->last_modified) && !preg_match(User::$regex['time'],$this->last_modified)){
+            file_put_contents(C::FILE_LOG,"{$this->last_modified}",FILE_APPEND);
             file_put_contents(C::FILE_LOG,"User validate() last_mod ",FILE_APPEND);
             $valid = false;
         }
