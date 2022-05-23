@@ -8,6 +8,7 @@ interface Constants{
     //Email
     const EMAIL_ACCOUNT_CREATED = 'Account creato con successo. Per completare la registrazione accedi alla tua casella di posta';
     const EMAIL_ACTIVATION_SUBJECT = 'Attivazione account';
+    const EMAIL_ERROR = "Errore durante l'invio della mail. Se il problema persiste contattare l' amministratore del sito";
 
     //Generic errors
     const ERROR_UNKNOWN = 'Errore sconosciuto';
@@ -23,7 +24,7 @@ interface Constants{
     const MONGODB_COLLECTION_USERS = 'users';
 
     //Registration
-    const REG_ERROR = "Errore durante la registrazione dell\' account";
+    const REG_ERROR = "Errore durante la registrazione dell' account. Se il problema persiste contattare l' amministratore del sito";
     const REG_SUBSCRIBE_LINK = 'http://localhost:4200/attiva';
 }
 ?>
