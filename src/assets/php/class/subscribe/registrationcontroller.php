@@ -23,8 +23,10 @@ class RegistrationController implements Rce,Ue,C{
         if(!$this->user)throw new \Exception(Rce::NOUSERINSTANCE_EXC);
         $reg = $this->registration();
         if($reg){
-
+            //Send email if data are added to DB
+            $this->sendEmail();
         }
+        $this->setResponse();
     }
 
     public function getUser(){return $this->user;}
