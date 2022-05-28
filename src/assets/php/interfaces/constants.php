@@ -32,6 +32,7 @@ interface Constants{
     //MongoDB
     const MONGODB_CONNECTION_STRING = "mongodb://localhost:27017";
     const MONGODB_DATABASE = 'AngularBlog';
+    const MONGODB_COLLECTION_ARTICLES = 'articles';
     const MONGODB_COLLECTION_USERS = 'users';
 
     //Registration

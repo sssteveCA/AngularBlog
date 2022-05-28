@@ -43,7 +43,7 @@ class User extends Model implements Ue{
         $data['connection_url'] = isset($data['connection_url']) ? $data['connection_url']: C::MONGODB_CONNECTION_STRING;
         $data['database_name'] = isset($data['database_name']) ? $data['database_name']: C::MONGODB_DATABASE;
         $data['collection_name'] = isset($data['collection_name']) ? $data['collection_name']: C::MONGODB_COLLECTION_USERS;
-        parent::__constructor($data);
+        parent::__construct($data);
         $this->id = isset($data['id'])? $data['id']:null;
         $this->name = isset($data['name'])? $data['name']:null;
         $this->surname = isset($data['surname'])? $data['surname']:null;
@@ -109,7 +109,7 @@ class User extends Model implements Ue{
     }
 
     public function user_create(): bool{
-        $insert = false;
+        $inserted = false;
         $this->errno = 0;
         $this->emailVerif = $this->codAutGen('0');
         $this->creation_time = date('Y-m-d H:i:s');
@@ -130,11 +130,11 @@ class User extends Model implements Ue{
                 'subscribed' => $this->subscribed
             );
             parent::create($values);
-            if($this->errno == 0)$insert = true;
+            if($this->errno == 0)$inserted = true;
         }//if($this->validate()){
         else
             $this->errno = Ue::INVALIDDATAFORMAT;
-        return $insert;
+        return $inserted;
     }
 
     public function user_delete(array $filter): bool{
@@ -146,24 +146,24 @@ class User extends Model implements Ue{
     }
 
     public function user_get(array $filter): bool{
-        $get = false;
+        $got = false;
         $this->errno = 0;
         $user = parent::get($filter);
         if($this->errno == 0){
             $this->id = $user["_id"];
-                $this->name = $user["name"];
-                $this->surname = $user["surname"];
-                $this->username = $user["username"];
-                $this->email = $user["email"];
-                $this->passwordHash = $user["password"];
-                $this->emailVerif = $user["emailVerif"];
-                $this->changeVerif = $user["changeVerif"];
-                $this->creation_time = $user["creation_time"];
-                $this->last_modified = $user["last_modified"];
-                $this->subscribed = $user["subscribed"];
-                $get = true;
+            $this->name = $user["name"];
+            $this->surname = $user["surname"];
+            $this->username = $user["username"];
+            $this->email = $user["email"];
+            $this->passwordHash = $user["password"];
+            $this->emailVerif = $user["emailVerif"];
+            $this->changeVerif = $user["changeVerif"];
+            $this->creation_time = $user["creation_time"];
+            $this->last_modified = $user["last_modified"];
+            $this->subscribed = $user["subscribed"];
+            $got = true;
         }//if($this->errno == 0){
-        return $get;
+        return $got;
     }
 
     public function user_update(array $filter, array $data): bool{
@@ -173,9 +173,7 @@ class User extends Model implements Ue{
         if($this->errno == 0)$updated = true;
         return $updated;
     }
-
-
-
+    
     //check if properties are all valid before insert
     private function validate(){
         $valid = true;

@@ -2,9 +2,94 @@
 
 namespace AngularBlog\Classes;
 
+use AngularBlog\Interfaces\Constants as C;
+use AngularBlog\Interfaces\ArticleErrors as Ae;
 use AngularBlog\Classes\Model;
 
-class Article extends Model{
-    
+class Article extends Model implements Ae,C{
+    private ?string $id; //Unique id of the article
+    private ?string $title;
+    private ?string $author; //author id that created this article
+    private ?string $permalink;
+    private ?string $content;
+    private string $introttext; //Text for quick article description
+    private array $categories = array();
+    private array $tags = array();
+    private ?string $creation_time; //Date of creation
+    private ?string $last_modified; //Date of last update
+    private int $errno = 0; //Last error code
+    private ?string $error = null; //Error message
+
+    public function __construct(array $data)
+    {
+        $data['connection_url'] = isset($data['connection_url']) ? $data['connection_url']: C::MONGODB_CONNECTION_STRING;
+        $data['database_name'] = isset($data['database_name']) ? $data['database_name']: C::MONGODB_DATABASE;
+        $data['collection_name'] = isset($data['collection_name']) ? $data['collection_name']: C::MONGODB_COLLECTION_ARTICLES;
+        parent::__construct($data);
+        $this->id = isset($data['id'])? $data['id']:null;
+        $this->title = isset($data['title'])? $data['title']:null;
+        $this->author = isset($data['author'])? $data['author']:null;
+        $this->permalink = isset($data['permalink'])? $data['permalink']:null;
+        $this->content = isset($data['content'])? $data['content']:null;
+        $this->introttext = isset($data['introttext'])? $data['introttext']:null;
+        $this->categories = isset($data['categories'])? $data['categories']:null;
+        $this->tags = isset($data['tags'])? $data['tags']:null;
+    }
+
+    //getters
+    public function getId() {return $this->id;}
+    public function getTitle() {return $this->title;}
+    public function getAuthor() {return $this->author;}
+    public function getPermalink() {return $this->permalink;}
+    public function getContent() {return $this->content;}
+    public function getIntrotext() {return $this->introttext;}
+    public function getCategories():array {return $this->categories;}
+    public function getTags():array {return $this->tags;}
+    public function getCrTime() {return $this->creation_time;}
+    public function getLastMod() {return $this->last_modified;}
+    public function getErrno():int {return $this->errno;}
+    public function getError(){
+        switch($this->errno){
+            default:
+                $this->error = null;
+        }
+        return $this->error;
+    }
+
+    //Insert a new article in the database
+    public function article_create(): bool{
+        $insert = false;
+        $this->errno = 0;
+        return $insert;
+
+    }
+
+    //Remove an article from the database
+    public function article_delete(array $filter): bool{
+        $deleted = false;
+        $this->errno = 0;
+        return $deleted;
+    }
+
+    //Get the first article that match with the filter
+    public function article_get(array $filter): bool{
+        $got = false;
+        $this->errno = 0;
+        return $got;
+    }
+
+    //Update the article 
+    public function article_update(array $filter,array $data){
+        $updated = false;
+        $this->errno = 0;
+        return $updated;
+    }
+
+    //check if properties are all valid before insert
+    private function validate(): bool{
+        $valid = true;
+        return $valid;
+    }
+
 }
 ?>

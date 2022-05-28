@@ -25,7 +25,7 @@ abstract class Model implements C,Me{
     protected ?string $error = null;
     private static string $logFile = C::FILE_LOG;
 
-    public function __constructor(array $data){
+    public function __construct(array $data){
         if(!isset($data['connection_url']))throw new \Exception(Me::CONNECTION_URL_EXC);
         if(!isset($data['database_name']))throw new \Exception(Me::DATABASE_NAME_EXC);
         if(!isset($data['collection_name']))throw new \Exception(Me::COLLECTION_NAME_EXC);
