@@ -1,6 +1,6 @@
 <?php
 
-namespace AngularBlog\Classes;
+namespace AngularBlog\Classes\Article;
 
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\ArticleErrors as Ae;
