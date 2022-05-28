@@ -3,7 +3,18 @@ session_start();
 
 require_once("../cors.php");
 require_once("../config.php");
-require_once("../class/bloguser.php");
+require_once("../interfaces/constants.php");
+require_once("../interfaces/model_errors.php");
+require_once("../interfaces/user_errors.php");
+require_once("../class/model.php");
+require_once("../class/user.php");
+require_once("../class/login/logincontroller.php");
+require_once("../class/login/loginview.php");
+
+use AngularBlog\Interfaces\Constants as C;
+use AngularBlog\Classes\User;
+use AngularBlog\Classes\Login\LoginController;
+use AngularBlog\Classes\Login\LoginView;
 
 $response = array();
 $response['done'] = false;
@@ -11,43 +22,32 @@ $response['post'] = $_POST;
 
 if(isset($_POST['username'],$_POST['password']) && $_POST['username'] != '' && $_POST['password'] != ''){
     try{
-        $dati = array(
+        $data = [
             'username' => $_POST['username'],
             'password' => $_POST['password']
-        );
-        $blogUser = new BlogUser($dati);
-        //try to login with data passed
-        $blogUser->login();
-        if($blogUser->isLogged()){
-            //login success
-            //$response['msg'] = 'Login effettuato con successo';
+        ];
+        $user = new User($data);
+        $loginController = new LoginController($user);
+        $loginView = new LoginView($loginController);
+        $logged = $loginView->isLogged();
+        if($logged){
+            //Correct credentials and account activated
             $response['done'] = true;
-            $_SESSION[COOKIE_NAME] = $blogUser->getUsername();
-            $response['username'] = $blogUser->getUsername();
-        }//if($blogUser->isLogged()){
-        else{
-            //login failure
-            $errno = $blogUser->getErrno();
-            switch($errno){
-                case BLOGUSER_NORESULT:
-                    $response['msg'] = 'I dati inseriti non sono validi. Riprova';
-                    break;
-                case BLOGUSER_ACCOUNTNOTACTIVATED:
-                    $response['msg'] = "Devi attivare l'account prima di accedere";
-                    break;
-                default:
-                    $response['msg'] = UNKNOWN_ERROR;
-                    break;
-            }
-        }        
+            $response['username'] = $user->getUsername();
+            $_SESSION[C::COOKIE_NAME] = $response['username']; 
+        }//if($logged){
+        else
+            $response['msg'] = $loginView->getMessage();
     }
     catch(Exception $e){
-        $response['msg'] = UNKNOWN_ERROR;
+        file_put_contents(C::FILE_LOG,$e->getMessage()."\r\n",FILE_APPEND);
+        $response['msg'] = C::LOGIN_ERROR;
     }
-}//if(isset($_POST['username'],$_POST['password'])){
-else{
-    $response['msg'] = 'Inserisci i dati richiesti per continuare';
-}
+    
+}//if(isset($_POST['username'],$_POST['password']) && $_POST['username'] != '' && $_POST['password'] != ''){
+else
+    $response['msg'] = C::FILL_ALL_FIELDS;
+
 
 echo json_encode($response);
 ?>

@@ -10,6 +10,9 @@ interface Constants{
     const ACTIVATION_OK = "L' account è stato attivato con successo";
     const ACTIVATION_ERROR = "Errore durante l'ativazione dell'account. Se il problema persiste contattare l' amministratore del sito";
 
+    //Cookie
+    const COOKIE_NAME = 'username';
+
     //Email
     const EMAIL_ACCOUNT_CREATED = 'Account creato con successo. Per completare la registrazione accedi alla tua casella di posta';
     const EMAIL_ACTIVATION_SUBJECT = 'Attivazione account';
@@ -22,6 +25,9 @@ interface Constants{
 
     //File
     const FILE_LOG = "./log.txt";
+
+    //Login
+    const LOGIN_ERROR = "Errore durante il login. Se il problema persiste contattare l' amministratore del sito";
 
     //MongoDB
     const MONGODB_CONNECTION_STRING = "mongodb://localhost:27017";

@@ -50,7 +50,7 @@ class User extends Model implements Ue{
         $this->email = isset($data['email'])? $data['email']:null;
         $this->username = isset($data['username'])? $data['username']:null;
         $this->password = isset($data['password'])? $data['password']:null;
-        $this->passwordHash = password_hash($this->password,PASSWORD_DEFAULT);
+        $this->passwordHash = isset($this->password) ? password_hash($this->password,PASSWORD_DEFAULT): null;
         $this->emailVerif=isset($data['emailVerif'])? $data['emailVerif']:null;
         $this->changeVerif=isset($data['changeVerif'])? $data['changeVerif']:null;
         $this->subscribed=isset($data['subscribed'])? $data['subscribed']: false;
@@ -66,6 +66,7 @@ class User extends Model implements Ue{
     public function getSurname(){return $this->surname;}
     public function getEmail(){return $this->email;}
     public function getUsername(){return $this->username;}
+    public function getPassword(){return $this->password;}
     public function getPasswordHash(){return $this->passwordHash;}
     public function getEmailVerif(){return $this->emailVerif;}
     public function getChangeVerif(){return $this->changeVerif;}
