@@ -92,6 +92,8 @@ class Article extends Model implements Ae,C{
     public function article_delete(array $filter): bool{
         $deleted = false;
         $this->errno = 0;
+        parent::delete($filter);
+        if($this->errno == 0)$deleted = true;
         return $deleted;
     }
 
@@ -99,6 +101,21 @@ class Article extends Model implements Ae,C{
     public function article_get(array $filter): bool{
         $got = false;
         $this->errno = 0;
+        $article = parent::get($filter);
+        if($this->errno == 0){
+            //Found an article with given filter
+            $this->id = $article["_id"];
+            $this->title = $article["title"];
+            $this->author = $article["author"];
+            $this->permalink = $article["permalink"];
+            $this->content = $article["content"];
+            $this->introtext = $article["introtext"];
+            $this->categories = $article["categories"];
+            $this->tags = $article["tags"];
+            $this->creation_time = $article["creation_time"];
+            $this->last_modified = $article["last_modified"];
+            $got = true;
+        }//if($this->errno == 0){
         return $got;
     }
 
@@ -106,6 +123,9 @@ class Article extends Model implements Ae,C{
     public function article_update(array $filter,array $data){
         $updated = false;
         $this->errno = 0;
+        $data['last_modified'] = date('Y-m-d H:i:s');
+        parent::update($filter,$data);
+        if($this->errno == 0)$updated = true;
         return $updated;
     }
 
