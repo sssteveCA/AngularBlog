@@ -12,7 +12,7 @@ class Article extends Model implements Ae,C{
     private ?string $author; //author id that created this article
     private ?string $permalink;
     private ?string $content;
-    private string $introttext; //Text for quick article description
+    private string $introtext; //Text for quick article description
     private array $categories = array();
     private array $tags = array();
     private ?string $creation_time; //Date of creation
@@ -42,7 +42,7 @@ class Article extends Model implements Ae,C{
     public function getAuthor() {return $this->author;}
     public function getPermalink() {return $this->permalink;}
     public function getContent() {return $this->content;}
-    public function getIntrotext() {return $this->introttext;}
+    public function getIntrotext() {return $this->introtext;}
     public function getCategories():array {return $this->categories;}
     public function getTags():array {return $this->tags;}
     public function getCrTime() {return $this->creation_time;}
@@ -50,17 +50,41 @@ class Article extends Model implements Ae,C{
     public function getErrno():int {return $this->errno;}
     public function getError(){
         switch($this->errno){
+            case Ae::INVALIDDATAFORMAT:
+                $this->error = Ae::INVALIDDATAFORMAT_MSG;
+                break;
             default:
                 $this->error = null;
+                break;
         }
         return $this->error;
     }
 
     //Insert a new article in the database
     public function article_create(): bool{
-        $insert = false;
+        $inserted = false;
         $this->errno = 0;
-        return $insert;
+        $this->creation_time = date('Y-m-d H:i:s');
+        $this->last_modified = date('Y-m-d H:i:s');
+        if($this->validate()){
+            //All data are valid and can be inserted
+            $values = [
+                'title' => $this->title,
+                'author' => $this->author,
+                'permalink' => $this->permalink,
+                'content' => $this->content,
+                'introtext' => $this->introtext,
+                'categories' => $this->categories,
+                'tags' => $this->tags,
+                'creation_time' => $this->creation_time,
+                'last_modified' => $this->last_modified
+            ];
+            parent::create($values);
+            if($this->errno == 0)$inserted = true;
+        }//if($this->validate()){
+        else
+            $this->errno = Ae::INVALIDDATAFORMAT;
+        return $inserted;
 
     }
 
