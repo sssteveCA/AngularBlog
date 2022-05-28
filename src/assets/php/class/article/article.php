@@ -3,7 +3,7 @@
 namespace AngularBlog\Classes\Article;
 
 use AngularBlog\Interfaces\Constants as C;
-use AngularBlog\Interfaces\ArticleErrors as Ae;
+use AngularBlog\Interfaces\Article\ArticleErrors as Ae;
 use AngularBlog\Classes\Model;
 
 class Article extends Model implements Ae,C{

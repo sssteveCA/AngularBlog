@@ -1,6 +1,6 @@
 <?php
 
-namespace AngularBlog\Interfaces;
+namespace AngularBlog\Interfaces\Article;
 
 //This interface contains constant errors of Article class
 interface ArticleErrors{
