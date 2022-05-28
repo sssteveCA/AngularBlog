@@ -123,6 +123,7 @@ class User extends Model implements Ue{
                 'username' => $this->username,
                 'email' => $this->email,
                 'password' => $this->passwordHash,
+                'changeVerif' => $this->changeVerif,
                 'emailVerif' => $this->emailVerif,
                 'creation_time' => $this->creation_time,
                 'last_modified' => $this->last_modified,

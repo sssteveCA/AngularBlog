@@ -29,3 +29,34 @@ VerifyView response => 'L\' account è stato attivato con successo'
 Message => L' account è stato attivato con successo
 Msg => 
 L' account è stato attivato con successo
+array (
+  '$and' => 
+  array (
+    0 => 
+    array (
+      'emailVerif' => '0a87270600b1653761245cYVQ54OT21emCM5XVgdATzxdiWqT1zXKfkzX20YmDed',
+    ),
+    1 => 
+    array (
+      'subscribed' => false,
+    ),
+  ),
+)
+array (
+  '$set' => 
+  array (
+    'emailVerif' => NULL,
+    'last_modified' => '2022-05-28 20:07:39',
+    'subscribed' => true,
+  ),
+)
+Matched => 1
+Updated => 1
+Update true
+Vc errno 0
+Response L' account è stato attivato con successo
+Response in constructor => 'L\' account è stato attivato con successo'
+VerifyView response => 'L\' account è stato attivato con successo'
+Message => L' account è stato attivato con successo
+Msg => 
+L' account è stato attivato con successo
