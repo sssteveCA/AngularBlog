@@ -9,6 +9,9 @@ use MongoDB\Collection;
 use MongoDB\Database;
 use MongoDB\Model\BSONDocument;
 use MongoDB\Driver\Cursor;
+use MongoDB\InsertManyResult;
+use MongoDB\UpdateResult;
+use MongoDB\DeleteResult;
 
 //This class execute operation on multiple document in the collection
 abstract class Models implements C,Me{
@@ -43,6 +46,18 @@ abstract class Models implements C,Me{
     public function getErrno(){return $this->errno;}
     public function getError(){
         switch($this->errno){
+            case Me::NORESULT:
+                $this->error = Me::NORESULT_MSG;
+                break;
+            case Me::NOTCREATED:
+                $this->error = Me::NOTCREATED_MSG;
+                break;
+            case Me::NOTUPDATED:
+                $this->error = Me::NOTUPDATED_MSG;
+                break;
+            case Me::NOTDELETED:
+                $this->error = Me::NOTDELETED_MSG;
+                break;
             default:
                 $this->error = null;
                 break;
@@ -50,6 +65,7 @@ abstract class Models implements C,Me{
         return $this->error;
     }
 
+    //Get one or more documents
     public function get(array $filter):Cursor{
         $this->errno = 0;
         $find = $this->collection->find($filter);
@@ -58,6 +74,35 @@ abstract class Models implements C,Me{
         if($l <= 0)$this->errno = Me::NORESULT;
         return $find;
     }
+
+    //Create one or more documents
+    public function create(array $filter): InsertManyResult{
+        $this->errno = 0;
+        $insertMany = $this->collection->insertMany($filter);
+        $count = $insertMany->getInsertedCount();
+        if($count <= 0)$this->errno = Me::NOTCREATED;
+        return $insertMany;
+    }
+
+    //Update one or more documents
+    public function update(array $filter,array $data): UpdateResult{
+        $this->errno = 0;
+        $updateMany = $this->collection->updateMany($filter,$data);
+        $matched = $updateMany->getMatchedCount();
+        $updated = $updateMany->getModifiedCount();
+        if(!($matched > 0 && $updated > 0))$this->errno = Me::NOTUPDATED;
+        return $updateMany;
+    }
+
+    //Delete one or more documents
+    public function delete(array $filter): DeleteResult{
+        $this->errno = 0;
+        $deleteMany = $this->collection->deleteMany($filter);
+        $count = $deleteMany->getDeletedCount();
+        if($count <= 0)$this->errno = Me::NOTDELETED;
+        return $deleteMany;
+    }
+    
 
 }
 ?>
