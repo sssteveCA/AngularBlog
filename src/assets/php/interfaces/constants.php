@@ -8,7 +8,7 @@ interface Constants{
     //Activation
     const ACTIVATION_INVALID_CODE = "Codice non valido";
     const ACTIVATION_OK = "L' account è stato attivato con successo";
-    const ACTIVATION_ERROR = "Errore durante l'ativazione dell'account. Se il problema persiste contattare l' amministratore del sito";
+    const ACTIVATION_ERROR = "Errore durante l'ativazione dell'account. ".Constants::ADMIN_CONTACT;
 
     //Cookie
     const COOKIE_NAME = 'username';
@@ -16,7 +16,7 @@ interface Constants{
     //Email
     const EMAIL_ACCOUNT_CREATED = 'Account creato con successo. Per completare la registrazione accedi alla tua casella di posta';
     const EMAIL_ACTIVATION_SUBJECT = 'Attivazione account';
-    const EMAIL_ERROR = "Errore durante l'invio della mail. Se il problema persiste contattare l' amministratore del sito";
+    const EMAIL_ERROR = "Errore durante l'invio della mail. ".Constants::ADMIN_CONTACT;
 
     //Generic errors
     const ERROR_UNKNOWN = 'Errore sconosciuto';
@@ -27,7 +27,7 @@ interface Constants{
     const FILE_LOG = "./log.txt";
 
     //Login
-    const LOGIN_ERROR = "Errore durante il login. Se il problema persiste contattare l' amministratore del sito";
+    const LOGIN_ERROR = "Errore durante il login. ".Constants::ADMIN_CONTACT;
 
     //MongoDB
     const MONGODB_CONNECTION_STRING = "mongodb://localhost:27017";
@@ -36,7 +36,13 @@ interface Constants{
     const MONGODB_COLLECTION_USERS = 'users';
 
     //Registration
-    const REG_ERROR = "Errore durante la registrazione dell' account. Se il problema persiste contattare l' amministratore del sito";
+    const REG_ERROR = "Errore durante la registrazione dell' account. ".Constants::ADMIN_CONTACT;
     const REG_SUBSCRIBE_LINK = 'http://localhost:4200/attiva';
+
+    //Search
+    const SEARCH_ERROR = "Errore durante la ricerca degli articoli. ".Constants::ADMIN_CONTACT;
+
+    //Other
+    const ADMIN_CONTACT = "Se il problema persiste contattare l' amministratore del sito";
 }
 ?>

@@ -1,11 +1,16 @@
 <?php
 
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST');
-header('Access-Control-Allow-Headers: *');
-
+require_once("../cors.php");
 require_once("../config.php");
-require_once("../class/article.php");
+require_once("../interfaces/constants.php");
+require_once("../interfaces/models_errors.php");
+require_once("../interfaces/article/articlelist_errors.php");
+require_once("../vendor/autoload.php");
+require_once("../class/models.php");
+require_once("../class/article/articlelist.php");
+
+use AngularBlog\Interfaces\Constants as C;
+use AngularBlog\Classes\Article\ArticleList;
 
 $response = array();
 $response['msg'] = 'Ciao';
@@ -14,31 +19,26 @@ $field = 'title';
 
 if(isset($_POST['query']) && $_POST['query'] != ''){
     $query = $_POST['query'];
-    $results = Article::getMultiData($field,$query);
-    if(isset($results['articles']) && count($results['articles']) > 0){
-        //if articles were found 
-        $i = 0;
-        foreach($results['articles'] as $index => $article){
-            $response['articles'][$i]['id'] = $article->getId();
-            $response['articles'][$i]['title'] = $article->getTitle();
-            $response['articles'][$i]['author'] = $article->getAuthor();
-            $response['articles'][$i]['permalink'] = $article->getPermalink();
-            $response['articles'][$i]['content'] = $article->getContent();
-            $response['articles'][$i]['introtext'] = $article->getIntrotext();
-            $response['articles'][$i]['categories'] = $article->getCategories();
-            $response['articles'][$i]['tags'] = $article->getTags();
-            $response['articles'][$i]['creation_time'] = $article->getCrTime();
-            $response['articles'][$i]['last_modified'] = $article->getLastMod();
-            $i++;
-        }//foreach($results['articles'] as $index => $article){
-        $response['done'] = true;
-    }//if(isset($results['articles']) && count($results['articles']) > 0){
-    else if(isset($results['msg']))
-        $response['msg'] = $results['msg'];
-}//if(isset($_POST['query']) && $_POST['query'] != ''){
-else{
-    $response['msg'] = 'Inserire i dati richiesti per continuare';
-}
+    try{
+        $al = new ArticleList();
+        $filter = array(
+            'title' => [
+                '$regex' => '/'.$query.'/i'
+            ]
+        );
+        $found = $al->articlelist_get($filter);
+        if($found){
+            //At least one article found
+            $response['articles'] = $al->getResults();
+        }//if($found){
+        else
+            $response['msg'] = 'La ricerca di '.$query.' non ha fornito alcun risultato';
+    }catch(Exception $e){
 
-echo json_encode($response,JSON_UNESCAPED_UNICODE);
+    }
+}//if(isset($_POST['query']) && $_POST['query'] != ''){
+else 
+    $response['msg'] = C::FILL_ALL_FIELDS;
+
+echo json_encode($response);
 ?>
