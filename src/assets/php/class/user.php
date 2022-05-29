@@ -83,6 +83,9 @@ class User extends Model implements Ue{
                 case Ue::INVALIDDATAFORMAT:
                     $this->error = Ue::INVALIDDATAFORMAT_MSG;
                     break;
+				default:
+                    $this->error = null;
+                    break;
             }
         }
         return $this->error;

@@ -34,6 +34,7 @@ abstract class Models implements C,Me{
         $this->connection_url = $data['connection_url'];
         $this->database_name = $data['database_name'];
         $this->collection_name =  $data['collection_name'];
+        $this->h = new Client($this->connection_url);
         $this->database = $this->h->{$this->database_name}; //Access to the database
         $this->collection = $this->database->{$this->collection_name};
     }
@@ -67,8 +68,10 @@ abstract class Models implements C,Me{
 
     //Get one or more documents
     public function get(array $filter):Cursor{
+        file_put_contents(Models::$logFile,"Models get => \r\n");
         $this->errno = 0;
         $find = $this->collection->find($filter);
+        file_put_contents(Models::$logFile,"Find => ".var_export($find,true)."\r\n");
         //Check if there are results
         $l = sizeof($find->toArray());
         if($l <= 0)$this->errno = Me::NORESULT;

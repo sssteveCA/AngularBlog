@@ -3,12 +3,13 @@
 namespace AngularBlog\Classes\Article;
 
 use AngularBlog\Interfaces\Constants as C;
+use AngularBlog\Interfaces\ModelsErrors as Me;
 use AngularBLog\Interfaces\Article\ArticleListErrors as Ale;
 use AngularBlog\Classes\Models;
 use AngularBlog\Classes\Article\Article;
 
 //This class is used to executed actions on multiple artciles at time
-class ArticleList extends Models implements Ale,C{
+class ArticleList extends Models implements Ale,C,Me{
 
     private array $results = array(); //Array of Article objects result
     private static string $logFile = C::FILE_LOG;
@@ -22,10 +23,25 @@ class ArticleList extends Models implements Ale,C{
     }
 
     public function getResults():array {return $this->results;}
+    public function getError(){
+        if($this->errno <= Me::MODELS_RANGE_MAX){
+            return parent::getError();
+        }
+        else{
+            switch($this->errno){
+                default:
+                    $this->error = null;
+                    break;
+            }
+        }
+        return $this->error;
+    }
 
     public function articlelist_get(array $filter): bool{
         $got = false;
+        $this->errno = 0;
         $cursor = parent::get($filter);
+        file_put_contents(ArticleList::$logFile,"ArticleList get => ".var_export($cursor,true)."\r\n");
         if($this->errno == 0){
             $results = $cursor->toArray();
             foreach($results as $article){

@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {Article} from '../../models/article.model';
+import * as constants from '../../../constants/constants';
 
 @Component({
   selector: 'app-blog',
@@ -9,7 +10,7 @@ import {Article} from '../../models/article.model';
 })
 export class BlogComponent implements OnInit {
 
-  url: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/article/search_articles.php";
+  url: string = constants.searchArticles;
   articles: Article[] = new Array();
 
   constructor(public http: HttpClient) { }
@@ -23,7 +24,7 @@ export class BlogComponent implements OnInit {
     console.log(val);
     let params = new HttpParams().append('query',val);
     this.http.post(this.url,params,{responseType: 'text'}).subscribe(res => {
-      //console.log(res);
+      console.log(res);
       let rJson = JSON.parse(res);
       console.log(rJson);
       if(rJson['done'] == true){
