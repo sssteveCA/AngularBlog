@@ -4,13 +4,18 @@ require_once("../cors.php");
 require_once("../config.php");
 require_once("../interfaces/constants.php");
 require_once("../interfaces/models_errors.php");
+require_once("../interfaces/model_errors.php");
+require_once("../interfaces/article/article_errors.php");
 require_once("../interfaces/article/articlelist_errors.php");
 require_once("../vendor/autoload.php");
+require_once("../class/model.php");
 require_once("../class/models.php");
+require_once("../class/article/article.php");
 require_once("../class/article/articlelist.php");
 
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Article\ArticleList;
+use MongoDB\BSON\Regex;
 
 $response = array();
 $response['msg'] = 'Ciao';
@@ -21,20 +26,36 @@ if(isset($_POST['query']) && $_POST['query'] != ''){
     $query = $_POST['query'];
     try{
         $al = new ArticleList();
+        $regex = new Regex($query,'i');
         $filter = array(
-            'title' => [
-                '$regex' => '/'.$query.'/i'
-            ]
+            'title' =>  $regex
         );
+        file_put_contents(C::FILE_LOG,"Search articles filter => ".var_export($filter,true)."\r\n",FILE_APPEND);
         $found = $al->articlelist_get($filter);
         if($found){
             //At least one article found
-            $response['articles'] = $al->getResults();
+            $articles = $al->getResults();
+            foreach($articles as $article){
+                $response['articles'][] = array(
+                    'id' => $article->getId(),
+                    'title' => $article->getTitle(),
+                    'author' => $article->getAuthor(),
+                    'permalink' => $article->getPermalink(),
+                    'content' => $article->getContent(),
+                    'introtext' => $article->getIntrotext(),
+                    'categories' => implode(",",$article->getCategories()),
+                    'tags' => implode(",",$article->getTags()),
+                    'creation_time' => $article->getCrTime(),
+                    'last_modified' => $article->getLastMod()
+                );
+            }//foreach($articles as $article){
+            $response['done'] = true;
         }//if($found){
         else
             $response['msg'] = 'La ricerca di '.$query.' non ha fornito alcun risultato';
     }catch(Exception $e){
-
+        file_put_contents(C::FILE_LOG,"Search articles Exception => ".var_export($e,true)."\r\n",FILE_APPEND);
+        $response['msg'] = C::SEARCH_ERROR;
     }
 }//if(isset($_POST['query']) && $_POST['query'] != ''){
 else 

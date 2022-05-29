@@ -68,13 +68,15 @@ abstract class Models implements C,Me{
 
     //Get one or more documents
     public function get(array $filter):Cursor{
-        file_put_contents(Models::$logFile,"Models get => \r\n");
+        file_put_contents(Models::$logFile,"Models get => \r\n",FILE_APPEND);
         $this->errno = 0;
         $find = $this->collection->find($filter);
-        file_put_contents(Models::$logFile,"Find => ".var_export($find,true)."\r\n");
+        file_put_contents(Models::$logFile,"Find => ".var_export($find,true)."\r\n",FILE_APPEND);
         //Check if there are results
-        $l = sizeof($find->toArray());
-        if($l <= 0)$this->errno = Me::NORESULT;
+        //file_put_contents(Models::$logFile,"Find to array => ".var_export($find->toArray(),true)."\r\n",FILE_APPEND);
+        $empty = $find->isDead();
+        file_put_contents(Models::$logFile,"Models get dead => ".var_export($empty,true)."\r\n",FILE_APPEND);
+        if($empty)$this->errno = Me::NORESULT;
         return $find;
     }
 

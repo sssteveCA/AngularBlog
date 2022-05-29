@@ -4,9 +4,10 @@ namespace AngularBlog\Classes\Article;
 
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\Article\ArticleErrors as Ae;
+use AngularBlog\Interfaces\ModelErrors as Me;
 use AngularBlog\Classes\Model;
 
-class Article extends Model implements Ae,C{
+class Article extends Model implements Ae,C,Me{
     private ?string $id; //Unique id of the article
     private ?string $title;
     private ?string $author; //author id that created this article
@@ -17,8 +18,6 @@ class Article extends Model implements Ae,C{
     private array $tags = array();
     private ?string $creation_time; //Date of creation
     private ?string $last_modified; //Date of last update
-    private int $errno = 0; //Last error code
-    private ?string $error = null; //Error message
 
     public function __construct(array $data)
     {
@@ -31,9 +30,11 @@ class Article extends Model implements Ae,C{
         $this->author = isset($data['author'])? $data['author']:null;
         $this->permalink = isset($data['permalink'])? $data['permalink']:null;
         $this->content = isset($data['content'])? $data['content']:null;
-        $this->introttext = isset($data['introttext'])? $data['introttext']:null;
+        $this->introtext = isset($data['introtext'])? $data['introtext']:null;
         $this->categories = isset($data['categories'])? $data['categories']:null;
         $this->tags = isset($data['tags'])? $data['tags']:null;
+        $this->creation_time = isset($data['creation_time'])? $data['creation_time']:null;
+        $this->last_modified = isset($data['last_modified'])? $data['last_modified']:null;
     }
 
     //getters
@@ -47,15 +48,21 @@ class Article extends Model implements Ae,C{
     public function getTags():array {return $this->tags;}
     public function getCrTime() {return $this->creation_time;}
     public function getLastMod() {return $this->last_modified;}
-    public function getErrno():int {return $this->errno;}
+    //public function getErrno():int {return $this->errno;}
     public function getError(){
-        switch($this->errno){
-            case Ae::INVALIDDATAFORMAT:
-                $this->error = Ae::INVALIDDATAFORMAT_MSG;
-                break;
-            default:
-                $this->error = null;
-                break;
+        if($this->errno <= Me::MODEL_RANGE_MAX){
+            //An error of superclass
+            return parent::getError();
+        }
+        else{
+            switch($this->errno){
+                case Ae::INVALIDDATAFORMAT:
+                    $this->error = Ae::INVALIDDATAFORMAT_MSG;
+                    break;
+                default:
+                    $this->error = null;
+                    break;
+            }
         }
         return $this->error;
     }
