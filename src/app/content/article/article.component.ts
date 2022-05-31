@@ -47,7 +47,31 @@ export class ArticleComponent implements OnInit {
   //create HTML content from articles data
   showArticle(data: any){
     let divCont,divR,divC;
-    let title,content,categ,tags;
+    let title,content,categ,tags,autInfo;
+    let html = `
+<div class="container">
+    <div class="row">
+      <div class="col col-md-8 offset-md-2">
+        <h1 class="title text-center">${data['title']}</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-md-8 offset-md-2 my-5">
+        <div>${data['content']}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-md-5 my-3">
+        <p class="fw-bold">Categorie: ${data['categories']}</p>
+        <p class="fw-bold">Tag: ${data['tags']}</p>
+      </div>
+      <div class="col-12 col-md-5 offset-md-2 my-3">
+        <p class="fw-bold">Autore: </p>
+      </div>
+    </div>
+</div>   
+`;
+    $('#article').append(html);
     divCont = $('<div>');
       divCont.addClass('container');
         divR = $('<div>');
@@ -64,9 +88,9 @@ export class ArticleComponent implements OnInit {
         divR = $('<div>');
         divR.addClass('row');
           divC = $('<div>');
-          divC.addClass('col col-md-8 offset-md-2 mt-3');
+          divC.addClass('col col-md-8 offset-md-2 my-5');
             content = $('<div>');
-            content.text(data['content']);
+            content.html(data['content']);
           divC.append(content);
         divR.append(divC);
       divCont.append(divR);
@@ -78,13 +102,17 @@ export class ArticleComponent implements OnInit {
           categ.text("Categorie: "+data['categories']);
           categ.css('font-weight','bold');
         divC.append(categ);
+          tags = $('<p>');
+          tags.text("Tag: "+data['tags']);
+          tags.css('font-weight','bold');
+        divC.append(tags);
       divR.append(divC);
        divC = $('<div>');
        divC.addClass('col-12 col-md-5 offset-md-2 mt-3');
-        tags = $('<p>');
-        tags.text("Tag: "+data['tags']);
-        tags.css('font-weight','bold');
-       divC.append(tags);
+          autInfo = $('<p>');
+          autInfo.text("Autore: ");
+          autInfo.css('font-weight','bold');
+        divC.append(autInfo);
       divR.append(divC);
     divCont.append(divR);
     $('#article').append(divCont);

@@ -133,3 +133,257 @@ Articles => array (
      'error' => NULL,
   )),
 )
+Search articles filter => array (
+  'title' => 
+  MongoDB\BSON\Regex::__set_state(array(
+     'pattern' => 'mio',
+     'flags' => 'i',
+  )),
+)
+ArticleList get 
+Models get => 
+Find => MongoDB\Driver\Cursor::__set_state(array(
+))
+Models get dead => false
+ArticleList results array => array (
+  0 => 
+  MongoDB\Model\BSONDocument::__set_state(array(
+     '_id' => 
+    MongoDB\BSON\ObjectId::__set_state(array(
+       'oid' => '62932d26b2a2d5a73d5fdc0a',
+    )),
+     'title' => 'Il mio primo articolo',
+     'author' => 
+    MongoDB\BSON\ObjectId::__set_state(array(
+       'oid' => '629264de3c46bf8071060dc4',
+    )),
+     'permalink' => 'il-mio-primo-articolo',
+     'content' => '<div>Questo è il mio primo articolo inserito vnel database MongoDB. Spero che vi piaccia</div>',
+     'introtext' => 'Breve descrizione del primo articolo',
+     'categories' => 
+    MongoDB\Model\BSONArray::__set_state(array(
+       0 => 'Nessuna categoria',
+    )),
+     'tags' => 
+    MongoDB\Model\BSONArray::__set_state(array(
+       0 => 'Primo',
+       1 => 'Articolo',
+    )),
+     'creation_time' => '2022-05-28 20:07:25',
+     'last_modified' => '2022-05-28 20:07:25',
+  )),
+  1 => 
+  MongoDB\Model\BSONDocument::__set_state(array(
+     '_id' => 
+    MongoDB\BSON\ObjectId::__set_state(array(
+       'oid' => '6296508f1d06ae1f1c1ed916',
+    )),
+     'title' => 'Il mio secondo articolo',
+     'author' => 
+    MongoDB\BSON\ObjectId::__set_state(array(
+       'oid' => '629264de3c46bf8071060dc4',
+    )),
+     'permalink' => 'il-mio-secondo-articolo',
+     'content' => '<div>Questo è il mio secondo articolo che viene inserito nel database MongoDB</div>',
+     'introtext' => 'Breve descrizione del secondo articolo',
+     'categories' => 
+    MongoDB\Model\BSONArray::__set_state(array(
+       0 => 'Nessuna categoria',
+    )),
+     'tags' => 
+    MongoDB\Model\BSONArray::__set_state(array(
+       0 => 'Secondo',
+       1 => 'Articolo',
+    )),
+     'creation_time' => '2022-05-28 20:07:25',
+     'last_modified' => '2022-05-28 20:07:25',
+  )),
+)
+ArticleList results categories => array (
+  0 => 'Nessuna categoria',
+)
+ArticleList results tags => array (
+  0 => 'Primo',
+  1 => 'Articolo',
+)
+ArticleList results categories => array (
+  0 => 'Nessuna categoria',
+)
+ArticleList results tags => array (
+  0 => 'Secondo',
+  1 => 'Articolo',
+)
+Articles => array (
+  0 => 
+  AngularBlog\Classes\Article\Article::__set_state(array(
+     'id' => '62932d26b2a2d5a73d5fdc0a',
+     'title' => 'Il mio primo articolo',
+     'author' => '629264de3c46bf8071060dc4',
+     'permalink' => 'il-mio-primo-articolo',
+     'content' => '<div>Questo è il mio primo articolo inserito vnel database MongoDB. Spero che vi piaccia</div>',
+     'introtext' => 'Breve descrizione del primo articolo',
+     'categories' => 
+    array (
+      0 => 'Nessuna categoria',
+    ),
+     'tags' => 
+    array (
+      0 => 'Primo',
+      1 => 'Articolo',
+    ),
+     'creation_time' => '2022-05-28 20:07:25',
+     'last_modified' => '2022-05-28 20:07:25',
+     'connection_url' => 'mongodb://localhost:27017',
+     'database_name' => 'AngularBlog',
+     'collection_name' => 'articles',
+     'h' => 
+    MongoDB\Client::__set_state(array(
+       'manager' => 
+      MongoDB\Driver\Manager::__set_state(array(
+      )),
+       'uri' => 'mongodb://localhost:27017',
+       'typeMap' => 
+      array (
+        'array' => 'MongoDB\\Model\\BSONArray',
+        'document' => 'MongoDB\\Model\\BSONDocument',
+        'root' => 'MongoDB\\Model\\BSONDocument',
+      ),
+    )),
+     'connect' => false,
+     'database' => 
+    MongoDB\Database::__set_state(array(
+       'databaseName' => 'AngularBlog',
+       'manager' => 
+      MongoDB\Driver\Manager::__set_state(array(
+      )),
+       'readConcern' => 
+      MongoDB\Driver\ReadConcern::__set_state(array(
+      )),
+       'readPreference' => 
+      MongoDB\Driver\ReadPreference::__set_state(array(
+         'mode' => 'primary',
+      )),
+       'typeMap' => 
+      array (
+        'array' => 'MongoDB\\Model\\BSONArray',
+        'document' => 'MongoDB\\Model\\BSONDocument',
+        'root' => 'MongoDB\\Model\\BSONDocument',
+      ),
+       'writeConcern' => 
+      MongoDB\Driver\WriteConcern::__set_state(array(
+      )),
+    )),
+     'collection' => 
+    MongoDB\Collection::__set_state(array(
+       'collectionName' => 'articles',
+       'databaseName' => 'AngularBlog',
+       'manager' => 
+      MongoDB\Driver\Manager::__set_state(array(
+      )),
+       'readConcern' => 
+      MongoDB\Driver\ReadConcern::__set_state(array(
+      )),
+       'readPreference' => 
+      MongoDB\Driver\ReadPreference::__set_state(array(
+         'mode' => 'primary',
+      )),
+       'typeMap' => 
+      array (
+        'array' => 'MongoDB\\Model\\BSONArray',
+        'document' => 'MongoDB\\Model\\BSONDocument',
+        'root' => 'MongoDB\\Model\\BSONDocument',
+      ),
+       'writeConcern' => 
+      MongoDB\Driver\WriteConcern::__set_state(array(
+      )),
+    )),
+     'errno' => 0,
+     'error' => NULL,
+  )),
+  1 => 
+  AngularBlog\Classes\Article\Article::__set_state(array(
+     'id' => '6296508f1d06ae1f1c1ed916',
+     'title' => 'Il mio secondo articolo',
+     'author' => '629264de3c46bf8071060dc4',
+     'permalink' => 'il-mio-secondo-articolo',
+     'content' => '<div>Questo è il mio secondo articolo che viene inserito nel database MongoDB</div>',
+     'introtext' => 'Breve descrizione del secondo articolo',
+     'categories' => 
+    array (
+      0 => 'Nessuna categoria',
+    ),
+     'tags' => 
+    array (
+      0 => 'Secondo',
+      1 => 'Articolo',
+    ),
+     'creation_time' => '2022-05-28 20:07:25',
+     'last_modified' => '2022-05-28 20:07:25',
+     'connection_url' => 'mongodb://localhost:27017',
+     'database_name' => 'AngularBlog',
+     'collection_name' => 'articles',
+     'h' => 
+    MongoDB\Client::__set_state(array(
+       'manager' => 
+      MongoDB\Driver\Manager::__set_state(array(
+      )),
+       'uri' => 'mongodb://localhost:27017',
+       'typeMap' => 
+      array (
+        'array' => 'MongoDB\\Model\\BSONArray',
+        'document' => 'MongoDB\\Model\\BSONDocument',
+        'root' => 'MongoDB\\Model\\BSONDocument',
+      ),
+    )),
+     'connect' => false,
+     'database' => 
+    MongoDB\Database::__set_state(array(
+       'databaseName' => 'AngularBlog',
+       'manager' => 
+      MongoDB\Driver\Manager::__set_state(array(
+      )),
+       'readConcern' => 
+      MongoDB\Driver\ReadConcern::__set_state(array(
+      )),
+       'readPreference' => 
+      MongoDB\Driver\ReadPreference::__set_state(array(
+         'mode' => 'primary',
+      )),
+       'typeMap' => 
+      array (
+        'array' => 'MongoDB\\Model\\BSONArray',
+        'document' => 'MongoDB\\Model\\BSONDocument',
+        'root' => 'MongoDB\\Model\\BSONDocument',
+      ),
+       'writeConcern' => 
+      MongoDB\Driver\WriteConcern::__set_state(array(
+      )),
+    )),
+     'collection' => 
+    MongoDB\Collection::__set_state(array(
+       'collectionName' => 'articles',
+       'databaseName' => 'AngularBlog',
+       'manager' => 
+      MongoDB\Driver\Manager::__set_state(array(
+      )),
+       'readConcern' => 
+      MongoDB\Driver\ReadConcern::__set_state(array(
+      )),
+       'readPreference' => 
+      MongoDB\Driver\ReadPreference::__set_state(array(
+         'mode' => 'primary',
+      )),
+       'typeMap' => 
+      array (
+        'array' => 'MongoDB\\Model\\BSONArray',
+        'document' => 'MongoDB\\Model\\BSONDocument',
+        'root' => 'MongoDB\\Model\\BSONDocument',
+      ),
+       'writeConcern' => 
+      MongoDB\Driver\WriteConcern::__set_state(array(
+      )),
+    )),
+     'errno' => 0,
+     'error' => NULL,
+  )),
+)
