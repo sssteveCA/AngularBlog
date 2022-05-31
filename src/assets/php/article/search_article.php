@@ -32,8 +32,8 @@ if(isset($_GET['permalink']) && $_GET['permalink'] != ''){
                 'permalink' => $article->getPermalink(),
                 'content' => $article->getContent(),
                 'introtext' => $article->getIntrotext(),
-                'categories' => $article->getCategories(),
-                'tags' => $articles->getTags(),
+                'categories' => implode(",",$article->getCategories()),
+                'tags' => implode(",",$article->getTags()),
                 'creation_time' => $article->getCrTime(),
                 'last_modified' => $article->getLastMod()
             ];

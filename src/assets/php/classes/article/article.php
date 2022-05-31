@@ -13,7 +13,7 @@ class Article extends Model implements Ae,C,Me{
     private ?string $author; //author id that created this article
     private ?string $permalink;
     private ?string $content;
-    private string $introtext; //Text for quick article description
+    private ?string $introtext; //Text for quick article description
     private array $categories = array();
     private array $tags = array();
     private ?string $creation_time; //Date of creation
@@ -31,8 +31,8 @@ class Article extends Model implements Ae,C,Me{
         $this->permalink = isset($data['permalink'])? $data['permalink']:null;
         $this->content = isset($data['content'])? $data['content']:null;
         $this->introtext = isset($data['introtext'])? $data['introtext']:null;
-        $this->categories = isset($data['categories'])? $data['categories']:null;
-        $this->tags = isset($data['tags'])? $data['tags']:null;
+        $this->categories = isset($data['categories'])? $data['categories']:array();
+        $this->tags = isset($data['tags'])? $data['tags']:array();
         $this->creation_time = isset($data['creation_time'])? $data['creation_time']:null;
         $this->last_modified = isset($data['last_modified'])? $data['last_modified']:null;
     }
@@ -111,14 +111,16 @@ class Article extends Model implements Ae,C,Me{
         $article = parent::get($filter);
         if($this->errno == 0){
             //Found an article with given filter
+            $categories = $article['categories']->bsonSerialize();
+            $tags = $article['tags']->bsonSerialize();
             $this->id = $article["_id"];
             $this->title = $article["title"];
             $this->author = $article["author"];
             $this->permalink = $article["permalink"];
             $this->content = $article["content"];
             $this->introtext = $article["introtext"];
-            $this->categories = $article["categories"];
-            $this->tags = $article["tags"];
+            $this->categories = $categories;
+            $this->tags = $tags;
             $this->creation_time = $article["creation_time"];
             $this->last_modified = $article["last_modified"];
             $got = true;
