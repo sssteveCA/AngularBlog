@@ -66,7 +66,7 @@ abstract class Model implements C,Me{
 
 
     //Get one document with given array filter
-    public function get(array $filter): BSONDocument{
+    public function get(array $filter): ?BSONDocument{
         $this->errno = 0;
         $findOne = $this->collection->findOne($filter);
         if(!$findOne)$this->errno = Me::NORESULT;

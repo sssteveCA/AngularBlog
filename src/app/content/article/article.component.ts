@@ -28,15 +28,13 @@ export class ArticleComponent implements OnInit {
    getArticle(permalink: string){
      const options = {responseType: 'string'};
      this.http.get(this.url+'?permalink='+permalink,{responseType: 'text'}).subscribe(res =>{
-       //console.log(res);
+       console.log(res);
        let rJson = JSON.parse(res);
        console.log(rJson);
        if(rJson['done'] == true)
         this.showArticle(rJson['article']);
       else{
-        if(rJson['notfound'] == true){
-          this.router.navigate(['/404']);
-        }
+          this.router.navigate(['/404']); 
       }//else{
      });
    }

@@ -78,7 +78,8 @@ export class BlogComponent implements OnInit {
         divR.append(divC);
         divR.on('click',function(){
           //go to article link if user clicks on the div
-          let link = 'http://localhost:4200/blog/'+elem.permalink;
+          //let link = 'http://localhost:4200/blog/'+elem.permalink;
+          let link = '/blog/'+elem.permalink;
           window.open(link, '_blank');
         });
         divR.on('mouseenter',function(){
