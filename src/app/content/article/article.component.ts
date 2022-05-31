@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Article } from 'src/app/models/article.model';
+import * as constants from 'src/constants/constants';
 
 @Component({
   selector: 'app-article',
@@ -12,7 +13,7 @@ export class ArticleComponent implements OnInit {
 
   article: string | null;
   //articles: Article = new Array();
-  url: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/article/search_article.php";
+  url: string = constants.articleView;
 
   constructor(public route: ActivatedRoute, public http: HttpClient, private router: Router) {
     this.route.paramMap.subscribe((params: ParamMap) => {

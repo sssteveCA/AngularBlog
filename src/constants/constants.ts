@@ -25,5 +25,8 @@ export const profileUrl: string = "http://localhost/angular/ex6/AngularBlog/src/
 //php script for user registration
 export const registerUrl: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/account/register.php";
 
+//php script for article view
+export const articleView: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/article/search_article.php";
+
 //php script for articles search
 export const searchArticles: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/article/search_articles.php";
