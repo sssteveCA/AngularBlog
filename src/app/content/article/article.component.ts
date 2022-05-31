@@ -19,16 +19,15 @@ export class ArticleComponent implements OnInit {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.article = params.get('article');
       console.log("Articolo: "+this.article);
-      let query = (typeof this.article === "string")? this.article : "";
-      this.getArticle(query);
+      let permalink = (typeof this.article === "string")? this.article : "";
+      this.getArticle(permalink);
     });
    }
 
    //get articles list from input query
-   getArticle(query: string){
-     let params = new HttpParams().append('query',query);
+   getArticle(permalink: string){
      const options = {responseType: 'string'};
-     this.http.post(this.url,params,{responseType: 'text'}).subscribe(res =>{
+     this.http.get(this.url+'?permalink='+permalink,{responseType: 'text'}).subscribe(res =>{
        //console.log(res);
        let rJson = JSON.parse(res);
        console.log(rJson);
