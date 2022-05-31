@@ -28,7 +28,7 @@ export class ArticleComponent implements OnInit {
    getArticle(permalink: string){
      const options = {responseType: 'string'};
      this.http.get(this.url+'?permalink='+permalink,{responseType: 'text'}).subscribe(res =>{
-       console.log(res);
+       //console.log(res);
        let rJson = JSON.parse(res);
        console.log(rJson);
        if(rJson['done'] == true)
@@ -60,18 +60,17 @@ export class ArticleComponent implements OnInit {
     </div>
     <div class="row">
       <div class="col-12 col-md-5 my-3">
-        <p class="fw-bold">Categorie: ${data['categories']}</p>
-        <p class="fw-bold">Tag: ${data['tags']}</p>
+        <p>Categorie: <span class="fw-bold">${data['categories']}</span></p>
+        <p>Tag: <span class="fw-bold">${data['tags']}</span></p>
       </div>
       <div class="col-12 col-md-5 offset-md-2 my-3">
-        <p class="fw-bold">Autore: </p>
+        <p>Autore: <span class="fw-bold">${data['author']['username']}</span></p>
+        <p>Creato il: <span class="fw-bold">${data['creation_time']}</span></p>
+        <p>Ultima modifica: <span class="fw-bold">${data['last_modified']}</span></p>
       </div>
     </div>
 </div> 
 `;
     $('#article').html(html);
   }
-
-
-
 }

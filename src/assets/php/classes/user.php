@@ -9,19 +9,19 @@ use AngularBlog\Classes\Model;
 
 //This class interacts with MongoDB database for the User collection
 class User extends Model implements Ue{
-    private $id;
-    private $name;
-    private $surname;
-    private $username; 
-    private $email;
-    private $password; 
-    private $passwordHash; //password created with hash algorithm
-    private $emailVerif; //verification code to complete the registration
-    private $changeVerif; //code for request new password
-    private $pwdChangeDate;
-    private $creation_time; //account creation time
-    private $last_modified; //last account modified time
-    private $subscribed; //true if user is alterady susbscribed to blog
+    private ?string $id;
+    private ?string $name;
+    private ?string $surname;
+    private ?string $username; 
+    private ?string $email;
+    private ?string $password; 
+    private ?string $passwordHash; //password created with hash algorithm
+    private ?string $emailVerif; //verification code to complete the registration
+    private ?string $changeVerif; //code for request new password
+    private ?string $pwdChangeDate;
+    private ?string $creation_time; //account creation time
+    private ?string $last_modified; //last account modified time
+    private bool $subscribed; //true if user is alterady susbscribed to blog
 
     private static string $logFile = C::FILE_LOG;
 

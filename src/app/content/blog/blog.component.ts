@@ -24,7 +24,7 @@ export class BlogComponent implements OnInit {
     console.log(val);
     let params = new HttpParams().append('query',val);
     this.http.post(this.url,params,{responseType: 'text'}).subscribe(res => {
-      console.log(res);
+      //console.log(res);
       let rJson = JSON.parse(res);
       console.log(rJson);
       if(rJson['done'] == true){
