@@ -9,10 +9,10 @@ require_once("../interfaces/user_errors.php");
 require_once("../interfaces/login/logincontroller_errors.php");
 require_once("../interfaces/login/loginview_errors.php");
 require_once("../vendor/autoload.php");
-require_once("../class/model.php");
-require_once("../class/user.php");
-require_once("../class/login/logincontroller.php");
-require_once("../class/login/loginview.php");
+require_once("../classes/model.php");
+require_once("../classes/user.php");
+require_once("../classes/login/logincontroller.php");
+require_once("../classes/login/loginview.php");
 
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\User;

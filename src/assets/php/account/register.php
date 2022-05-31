@@ -6,10 +6,10 @@ require_once('../interfaces/user_errors.php');
 require_once('../interfaces/subscribe/registrationcontroller_errors.php');
 require_once('../interfaces/subscribe/registrationview_errors.php');
 require_once('../vendor/autoload.php');
-require_once('../class/model.php');
-require_once('../class/user.php');
-require_once('../class/subscribe/registrationcontroller.php');
-require_once('../class/subscribe/registrationview.php');
+require_once('../classes/model.php');
+require_once('../classes/user.php');
+require_once('../classes/subscribe/registrationcontroller.php');
+require_once('../classes/subscribe/registrationview.php');
 
 use AngularBlog\Classes\Subscribe\RegistrationController;
 use AngularBlog\Classes\Subscribe\RegistrationView;

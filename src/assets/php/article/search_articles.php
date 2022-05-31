@@ -8,10 +8,10 @@ require_once("../interfaces/model_errors.php");
 require_once("../interfaces/article/article_errors.php");
 require_once("../interfaces/article/articlelist_errors.php");
 require_once("../vendor/autoload.php");
-require_once("../class/model.php");
-require_once("../class/models.php");
-require_once("../class/article/article.php");
-require_once("../class/article/articlelist.php");
+require_once("../classes/model.php");
+require_once("../classes/models.php");
+require_once("../classes/article/article.php");
+require_once("../classes/article/articlelist.php");
 
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Article\ArticleList;
