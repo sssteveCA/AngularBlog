@@ -69,53 +69,9 @@ export class ArticleComponent implements OnInit {
         <p class="fw-bold">Autore: </p>
       </div>
     </div>
-</div>   
+</div> 
 `;
-    $('#article').append(html);
-    divCont = $('<div>');
-      divCont.addClass('container');
-        divR = $('<div>');
-        divR.addClass('row');
-          divC = $('<div>');
-          divC.addClass('col col-md-8 offset-md-2');
-            title = $('<h1>');
-            title.addClass('title');
-            title.text(data['title']);
-            title.css('text-align','center');
-          divC.append(title);
-        divR.append(divC);
-      divCont.append(divR);
-        divR = $('<div>');
-        divR.addClass('row');
-          divC = $('<div>');
-          divC.addClass('col col-md-8 offset-md-2 my-5');
-            content = $('<div>');
-            content.html(data['content']);
-          divC.append(content);
-        divR.append(divC);
-      divCont.append(divR);
-       divR = $('<div>');
-       divR.addClass('row');
-        divC = $('<div>');
-        divC.addClass('col-12 col-md-5 mt-3');
-          categ = $('<p>');
-          categ.text("Categorie: "+data['categories']);
-          categ.css('font-weight','bold');
-        divC.append(categ);
-          tags = $('<p>');
-          tags.text("Tag: "+data['tags']);
-          tags.css('font-weight','bold');
-        divC.append(tags);
-      divR.append(divC);
-       divC = $('<div>');
-       divC.addClass('col-12 col-md-5 offset-md-2 mt-3');
-          autInfo = $('<p>');
-          autInfo.text("Autore: ");
-          autInfo.css('font-weight','bold');
-        divC.append(autInfo);
-      divR.append(divC);
-    divCont.append(divR);
-    $('#article').append(divCont);
+    $('#article').html(html);
   }
 
 
