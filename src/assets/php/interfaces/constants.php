@@ -11,6 +11,7 @@ interface Constants{
     const ACTIVATION_ERROR = "Errore durante l'ativazione dell'account. ".Constants::ADMIN_CONTACT;
 
     //Cookie
+    const COOKIE_ID = 'id';
     const COOKIE_NAME = 'username';
 
     //Email

@@ -37,6 +37,8 @@ if(isset($_POST['username'],$_POST['password']) && $_POST['username'] != '' && $
             //Correct credentials and account activated
             $response['done'] = true;
             $response['username'] = $user->getUsername();
+            $response['id'] = $user->getId();
+            $_SESSION[C::COOKIE_ID] = $response['id'];
             $_SESSION[C::COOKIE_NAME] = $response['username']; 
         }//if($logged){
         else

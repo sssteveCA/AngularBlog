@@ -1,0 +1,27 @@
+//Variables
+
+//Mixins
+@mixin single-selectors-loop($map){
+    @each $types,$list-type in $map{
+        @each $selector,$properties-list in $list-type{
+            #{$selector}{
+                @each $prop,$val in $properties-list{
+                    #{$prop}: #{$val};
+                }
+            }
+        }
+    }
+}
+
+@mixin compound-selectors-loop($map){
+    @each $selector,$properties-list in $map{
+        #{$selector}{
+            @each $prop,$val in $properties-list{
+                #{$prop}: #{$val};
+            }
+        }
+    }
+}
+
+
+//Execution

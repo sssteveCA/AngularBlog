@@ -1,6 +1,9 @@
 //php script fro account activation
 export const activationUrl: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/account/attiva.php";
 
+//php script for article view
+export const articleView: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/article/search_article.php";
+
 //php script for send assistance email
 export const contactUrl: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/contact.php";
 
@@ -16,6 +19,9 @@ export const logoutRedirect: string = "/";
 //php script for user logout
 export const logoutUrl: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/account/logout.php";
 
+//php script for get articles created by specific user
+export const myArticlesUrl: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/account/profile/myArticles/get.php";
+
 //url redirect if user not logged try access to poute that need to be authenticated
 export const notLoggedRedirect: string = "login";
 
@@ -24,9 +30,6 @@ export const profileUrl: string = "http://localhost/angular/ex6/AngularBlog/src/
 
 //php script for user registration
 export const registerUrl: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/account/register.php";
-
-//php script for article view
-export const articleView: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/article/search_article.php";
 
 //php script for articles search
 export const searchArticles: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/article/search_articles.php";
