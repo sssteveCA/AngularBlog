@@ -15,7 +15,7 @@ class Token extends Model implements C{
     {
         $data['connection_url'] = isset($data['connection_url']) ? $data['connection_url']: C::MONGODB_CONNECTION_STRING;
         $data['database_name'] = isset($data['database_name']) ? $data['database_name']: C::MONGODB_DATABASE;
-        $data['collection_name'] = isset($data['collection_name']) ? $data['collection_name']: C::MONGODB_COLLECTION_ARTICLES;
+        $data['collection_name'] = isset($data['collection_name']) ? $data['collection_name']: C::MONGODB_COLLECTION_TOKENS;
         parent::__construct($data);
     }
 
@@ -41,6 +41,19 @@ class Token extends Model implements C{
         parent::delete($filter);
         if($this->errno == 0)$deleted = true;
         return $deleted;
+    }
+
+    //Get a token(to check if user is olgged or not)
+    public function token_get(array $filter): bool{
+        $got = false;
+        $this->errno = 0;
+        $token = parent::get($filter);
+        if($this->errno == 0){
+            //Token with given filter found
+            $this->id = $token["_id"];
+            $this->user_id = $token["user_id"];
+        }//if($this->errno == 0){
+        return $got;
     }
 }
 ?>
