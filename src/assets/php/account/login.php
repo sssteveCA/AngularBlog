@@ -11,6 +11,7 @@ require_once("../interfaces/login/loginview_errors.php");
 require_once("../vendor/autoload.php");
 require_once("../classes/model.php");
 require_once("../classes/user.php");
+require_once("../classes/token.php");
 require_once("../classes/login/logincontroller.php");
 require_once("../classes/login/loginview.php");
 
@@ -18,6 +19,7 @@ use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\User;
 use AngularBlog\Classes\Login\LoginController;
 use AngularBlog\Classes\Login\LoginView;
+use AngularBlog\Classes\Token;
 
 $response = array();
 $response['done'] = false;

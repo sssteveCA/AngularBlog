@@ -10,6 +10,8 @@ use AngularBlog\Classes\Model;
 class Token extends Model implements C{
     private ?string $id;
     private ?string $user_id; //Id of logged user
+    private ?string $username; //Username of logged user
+    private ?string $logged_time; //Date when specific user has logged
 
     public function __construct(array $data = array())
     {
@@ -17,17 +19,23 @@ class Token extends Model implements C{
         $data['database_name'] = isset($data['database_name']) ? $data['database_name']: C::MONGODB_DATABASE;
         $data['collection_name'] = isset($data['collection_name']) ? $data['collection_name']: C::MONGODB_COLLECTION_TOKENS;
         parent::__construct($data);
+        $this->user_id = isset($data['user_id'])? $data['user_id']: null;
+        $this->username = isset($data['username'])? $data['username']: null;
     }
 
     public function getId(){return $this->id;}
     public function getUserId(){return $this->user_id;}
+    public function getUsername(){return $this->username;}
+    public function getLoggedTime(){return $this->logged_time;}
 
     //Insert a new Token(when an used sign in)
     public function token_create(): bool{
         $inserted = false;
         $this->errno = 0;
         $values = [
-            'user_id' => $this->user_id
+            'user_id' => $this->user_id,
+            'username' => $this->username,
+            'logged_time' => date('d-m-Y H:i:s')
         ];
         parent::create($values);
         if($this->errno == 0)$inserted = true;
@@ -52,6 +60,8 @@ class Token extends Model implements C{
             //Token with given filter found
             $this->id = $token["_id"];
             $this->user_id = $token["user_id"];
+            $this->username = $token["username"];
+            $this->logged_time = $token["logged_time"];
         }//if($this->errno == 0){
         return $got;
     }
