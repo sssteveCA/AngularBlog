@@ -33,5 +33,14 @@ class Token extends Model implements C{
         if($this->errno == 0)$inserted = true;
         return $inserted;
     }
+
+    //Delete a token(when an user logout)
+    public function token_delete(array $filter): bool{
+        $deleted = false;
+        $this->errno = 0;
+        parent::delete($filter);
+        if($this->errno == 0)$deleted = true;
+        return $deleted;
+    }
 }
 ?>
