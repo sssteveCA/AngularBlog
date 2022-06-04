@@ -11,20 +11,27 @@ import { ApiService } from '../api.service';
 })
 export class MenuComponent implements OnInit {
 
-  usernameCookie : any;
+  userCookie : any = {};
 
   constructor(private http:HttpClient, private router:Router, private api: ApiService) {
-    this.usernameCookie = localStorage.getItem("username");
-    this.api.userChanged.subscribe(username => {
-      this.usernameCookie = username;
+    this.userCookie["id"] = localStorage.getItem("id");
+    this.userCookie["username"] = localStorage.getItem("username");
+    this.api.userChanged.subscribe(userdata => {
+      console.log("userdata");
+      console.log(userdata);
+      this.userCookie['id'] = userdata['id'];
+      this.userCookie['username'] = userdata['username'];
+      /* console.log("userCookie => ");
+      console.log(this.userCookie); */
     });
   }
 
   //user wants  logout from his account
   logout(): void{
     this.http.get(constants.logoutUrl).subscribe(res => {
+      localStorage.removeItem("id");
       localStorage.removeItem("username");
-      this.api.changeUsername(null);
+      this.api.changeUserdata({});
       this.router.navigate([constants.logoutRedirect]);
     },error => {
       console.log(error);

@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   showPassword: boolean = false;
   @ViewChild('password',{static: false}) iPass: ElementRef;
-  public usernameCookie : any;
+  public userCookie : any = {};
 
   constructor(private fb: FormBuilder,private router: Router, private http:HttpClient, private api: ApiService) {
     this.loginForm = fb.group({
@@ -49,10 +49,13 @@ export class LoginComponent implements OnInit {
       console.log(res);
       try{
         let rJson = JSON.parse(res);
+        console.log(rJson);
         if(rJson['done'] && typeof rJson['username'] !== 'undefined'){
+          localStorage.setItem("id",rJson["id"]);
           localStorage.setItem("username",rJson["username"]);
-          this.usernameCookie = localStorage.getItem("username");
-          this.api.changeUsername(this.usernameCookie);
+          this.userCookie["id"] = localStorage.getItem("id");
+          this.userCookie["username"] = localStorage.getItem("username");
+          this.api.changeUserdata(this.userCookie);
           this.router.navigate([constants.loginRedirect]);
         }
         else{

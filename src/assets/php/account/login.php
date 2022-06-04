@@ -37,11 +37,20 @@ if(isset($_POST['username'],$_POST['password']) && $_POST['username'] != '' && $
         $logged = $loginView->isLogged();
         if($logged){
             //Correct credentials and account activated
-            $response['done'] = true;
             $response['username'] = $user->getUsername();
             $response['id'] = $user->getId();
-            $_SESSION[C::COOKIE_ID] = $response['id'];
-            $_SESSION[C::COOKIE_NAME] = $response['username']; 
+            $token_data = [
+                'user_id' => $response['id'],
+                'username' => $response['username']
+            ];
+            $token = new Token($token_data);
+            $created = $token->token_create();
+            if($created){
+                //Token added to the document
+                $response['done'] = true;
+            }
+            else
+                $response['msg'] = C::LOGIN_ERROR;
         }//if($logged){
         else
             $response['msg'] = $loginView->getMessage();

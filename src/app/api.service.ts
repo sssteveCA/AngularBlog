@@ -15,7 +15,7 @@ export class ApiService {
   }
 
   //when the value assigned to localStorage item "username" change
-  changeUsername(u: any){
+  changeUserdata(u: any){
     this.userCookie.next(u);
   }
 }

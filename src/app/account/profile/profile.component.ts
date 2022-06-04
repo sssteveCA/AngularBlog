@@ -11,12 +11,14 @@ import * as constants from '../../../constants/constants';
 })
 export class ProfileComponent implements OnInit {
 
-  usernameCookie: any;
+  userCookie: any = {};
 
   constructor(public http:HttpClient, public api: ApiService, public router: Router) {
-    this.usernameCookie = localStorage.getItem("username");
-    this.api.userChanged.subscribe(username => {
-      this.usernameCookie = username;
+    this.userCookie['id'] = localStorage.getItem("id");
+    this.userCookie['username'] = localStorage.getItem("username");
+    this.api.userChanged.subscribe(userdata => {
+      this.userCookie['id'] = userdata['id'];
+      this.userCookie['username'] = userdata['username'];
     });
     this.http.get(constants.profileUrl,{responseType: 'text'}).subscribe(res => {
       console.log(res);
