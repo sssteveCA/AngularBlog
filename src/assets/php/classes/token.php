@@ -19,6 +19,11 @@ class Token extends Model implements C{
         $data['database_name'] = isset($data['database_name']) ? $data['database_name']: C::MONGODB_DATABASE;
         $data['collection_name'] = isset($data['collection_name']) ? $data['collection_name']: C::MONGODB_COLLECTION_TOKENS;
         parent::__construct($data);
+        $indexArr = [
+            ['key' => ['user_id' => 1 ], 'unique' => true],
+            ['key' => ['username' => 1], 'unique' => true]
+        ];
+        $this->collection->createIndexes($indexArr);
         $this->user_id = isset($data['user_id'])? $data['user_id']: null;
         $this->username = isset($data['username'])? $data['username']: null;
     }
@@ -64,6 +69,16 @@ class Token extends Model implements C{
             $this->logged_time = $token["logged_time"];
         }//if($this->errno == 0){
         return $got;
+    }
+
+    //Update the token
+    public function token_update(array $filter, array $data): bool{
+        $updated = false;
+        $this->errno = 0;
+        $data['logged_time'] = date('Y-m-d H:i:s');
+        parent::update($filter,$data);
+        if($this->errno == 0)$updated = true;
+        return $updated;
     }
 }
 ?>

@@ -28,7 +28,11 @@ export class MenuComponent implements OnInit {
 
   //user wants  logout from his account
   logout(): void{
-    this.http.get(constants.logoutUrl).subscribe(res => {
+    let data = {
+      'id' : localStorage.getItem("id"),
+      'username' : localStorage.getItem("username")
+    }
+    this.http.post(constants.logoutUrl,data).subscribe(res => {
       localStorage.removeItem("id");
       localStorage.removeItem("username");
       this.api.changeUserdata({});

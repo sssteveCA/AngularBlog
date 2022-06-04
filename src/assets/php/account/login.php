@@ -43,7 +43,9 @@ if(isset($_POST['username'],$_POST['password']) && $_POST['username'] != '' && $
                 'user_id' => $response['id'],
                 'username' => $response['username']
             ];
+            $token_data_get = [];
             $token = new Token($token_data);
+            $got = $token->token_get([]);
             $created = $token->token_create();
             if($created){
                 //Token added to the document
