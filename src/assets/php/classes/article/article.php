@@ -19,7 +19,7 @@ class Article extends Model implements Ae,C,Me{
     private ?string $creation_time; //Date of creation
     private ?string $last_modified; //Date of last update
 
-    public function __construct(array $data)
+    public function __construct(array $data = array())
     {
         $data['connection_url'] = isset($data['connection_url']) ? $data['connection_url']: C::MONGODB_CONNECTION_STRING;
         $data['database_name'] = isset($data['database_name']) ? $data['database_name']: C::MONGODB_DATABASE;

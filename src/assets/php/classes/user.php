@@ -38,7 +38,7 @@ class User extends Model implements Ue{
         'time' => '/^[0-9]{4}-(0[1-9]|1[0-2])-([012][0-9]|3[01])\s+([0-1][0-9]|2[0-3])(:[0-5][0-9]){2}$/i'
     );
 
-    public function __construct(array $data)
+    public function __construct(array $data = array())
     {
         $data['connection_url'] = isset($data['connection_url']) ? $data['connection_url']: C::MONGODB_CONNECTION_STRING;
         $data['database_name'] = isset($data['database_name']) ? $data['database_name']: C::MONGODB_DATABASE;
