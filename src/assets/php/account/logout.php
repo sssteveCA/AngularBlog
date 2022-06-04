@@ -10,6 +10,11 @@ use AngularBlog\Classes\Token;
 $post = file_get_contents('php://input');
 $postDecode = json_decode($post,true);
 
+$response = array(
+    'msg' => '',
+    'done' => false
+);
+
 if(isset($post['id'],$post['username'])){
     $filter = [
         '$and' => [
@@ -19,6 +24,13 @@ if(isset($post['id'],$post['username'])){
     ];
     try{
         $token = new Token();
+        $got = $token->token_get($filter);
+        if($got){
+            $del = $token->token_delete($filter);
+            if($del){
+                $response['done'] = true;
+            }
+        }//if($got){
     }catch(Exception $e){
         
     }

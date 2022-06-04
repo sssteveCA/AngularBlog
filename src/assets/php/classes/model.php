@@ -83,16 +83,17 @@ abstract class Model implements C,Me{
     }
 
     //Update one document that match a filter with data
-    public function update(array $filter, array $data): UpdateResult{
+    public function update(array $filter, array $data,array $options = []): UpdateResult{
         $this->errno = 0;
-        $updateOne = $this->collection->updateOne($filter,$data);
+        $updateOne = $this->collection->updateOne($filter,$data,$options);
         $matched = $updateOne->getMatchedCount();
         $updated = $updateOne->getModifiedCount();
         file_put_contents(Model::$logFile,var_export($filter,true)."\r\n",FILE_APPEND);
         file_put_contents(Model::$logFile,var_export($data,true)."\r\n",FILE_APPEND);
         file_put_contents(Model::$logFile,"Matched => {$matched}\r\n",FILE_APPEND);
         file_put_contents(Model::$logFile,"Updated => {$updated}\r\n",FILE_APPEND);
-        if(!($matched > 0 && $updated > 0))$this->errno = Me::NOTUPDATED;
+        $upserted = $updateOne->getUpsertedCount();
+        if(!($matched > 0 && $updated > 0) || $upserted <= 0)$this->errno = Me::NOTUPDATED;
         return $updateOne;
     }
 

@@ -2,6 +2,7 @@
 
 namespace AngularBlog\Classes\Login;
 
+use AngularBlog\Classes\Token;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\Login\LoginControllerErrors as Lce;
 use AngularBlog\Classes\User;
@@ -18,6 +19,7 @@ class LoginController implements Lce,C{
         $this->user = $user;
         $this->login();
         $this->setResponse();
+        $this->setToken();
     }
 
     public function getUser(){return $this->user;}
@@ -33,6 +35,9 @@ class LoginController implements Lce,C{
                 break;
             case Lce::ACCOUNTNOTACTIVATED:
                 $this->error = Lce::ACCOUNTNOTACTIVATED_MSG;
+                break;
+            case Lce::TOKENNOTSETTED:
+                $this->error = Lce::TOKENNOTSETTED_MSG;
                 break;
             default:
                 $this->error = null;
@@ -67,6 +72,28 @@ class LoginController implements Lce,C{
         return $logged;
     }
 
+    private function setToken(): bool{
+        $set = false;
+        $this->errno = 0;
+        $logged_time = date('d-m-Y H:i:s');
+        $data = [
+            'user_id' => $this->user->getId(),
+            'username' => $this->user->getUsername(),
+            'logged_time' => $logged_time
+        ];
+        $data_get = ['user_id' => $this->user->getId()];
+        $token = new Token($data);
+        $get = $token->token_get($data_get);
+        if($get)$set = true;
+        if(!$get){
+            $insert = $token->token_create();
+            if($insert)$set = true;
+            else
+                $this->errno = Lce::TOKENNOTSETTED;   
+        }
+        return $set;
+    }
+
     //Set the response to send to the view
     private function setResponse(){
         switch($this->errno){
@@ -77,6 +104,10 @@ class LoginController implements Lce,C{
             case Lce::WRONGPASSWORD:
             case Lce::ACCOUNTNOTACTIVATED:
                 $this->response = $this->error;
+                break;
+            case Lce::TOKENNOTSETTED:
+                $this->response = C::LOGIN_ERROR;
+                break;
             default:
                 $this->response = C::ERROR_UNKNOWN;
                 break;

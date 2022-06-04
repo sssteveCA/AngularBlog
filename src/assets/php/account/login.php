@@ -39,23 +39,11 @@ if(isset($_POST['username'],$_POST['password']) && $_POST['username'] != '' && $
             //Correct credentials and account activated
             $response['username'] = $user->getUsername();
             $response['id'] = $user->getId();
-            $token_data = [
-                'user_id' => $response['id'],
-                'username' => $response['username']
-            ];
-            $token_data_get = [];
-            $token = new Token($token_data);
-            $got = $token->token_get([]);
-            $created = $token->token_create();
-            if($created){
-                //Token added to the document
-                $response['done'] = true;
-            }
-            else
-                $response['msg'] = C::LOGIN_ERROR;
+            $response['done'] = true;
         }//if($logged){
         else
             $response['msg'] = $loginView->getMessage();
+        $response['error'] = $loginController->getError();
     }
     catch(Exception $e){
         file_put_contents(C::FILE_LOG,$e->getMessage()."\r\n",FILE_APPEND);

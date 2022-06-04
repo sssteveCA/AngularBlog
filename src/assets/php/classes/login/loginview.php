@@ -13,7 +13,7 @@ class LoginView implements Lve{
 
     public function __construct(?LoginController $lc)
     {
-        if(!$lc)throw new \Exception(Lve::NOREGISTRATIONCONTROLLERINSTANCE_EXC);
+        if(!$lc)throw new \Exception(Lve::NOLOGINCONTROLLERINSTANCE_EXC);
         $this->lc = $lc;
         $errnoLc = $this->lc->getErrno();
         if($errnoLc == 0)

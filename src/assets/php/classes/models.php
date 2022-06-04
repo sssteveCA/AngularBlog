@@ -90,9 +90,9 @@ abstract class Models implements C,Me{
     }
 
     //Update one or more documents
-    public function update(array $filter,array $data): UpdateResult{
+    public function update(array $filter,array $data,array $options = []): UpdateResult{
         $this->errno = 0;
-        $updateMany = $this->collection->updateMany($filter,$data);
+        $updateMany = $this->collection->updateMany($filter,$data,$options);
         $matched = $updateMany->getMatchedCount();
         $updated = $updateMany->getModifiedCount();
         if(!($matched > 0 && $updated > 0))$this->errno = Me::NOTUPDATED;
