@@ -25,10 +25,7 @@ class Article extends Model implements Ae,C,Me{
         $data['database_name'] = isset($data['database_name']) ? $data['database_name']: C::MONGODB_DATABASE;
         $data['collection_name'] = isset($data['collection_name']) ? $data['collection_name']: C::MONGODB_COLLECTION_ARTICLES;
         parent::__construct($data);
-        $indexArr = [
-            ['key' => ['permalink',1], 'unique' => true]
-        ];
-        $this->collection->createIndex($indexArr);
+        $this->collection->createIndex(['permalink' => 1],['unique' => true]);
         $this->id = isset($data['id'])? $data['id']:null;
         $this->title = isset($data['title'])? $data['title']:null;
         $this->author = isset($data['author'])? $data['author']:null;

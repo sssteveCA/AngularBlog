@@ -16,6 +16,7 @@ class GetController implements Gce,C{
     private string $response = "";
     private int $errno = 0;
     private ?string $error = null;
+    private static string $logFile = C::FILE_LOG;
 
     public function __construct(array $data)
     {
@@ -57,6 +58,7 @@ class GetController implements Gce,C{
             $set = true;
         else
             $this->errno = Gce::NOUSERIDFOUND;
+        //file_put_contents(GetController::$logFile,"setToken() result => ".var_export($set,true)."\r\n",FILE_APPEND);
         return $set;
     }
 
@@ -66,7 +68,7 @@ class GetController implements Gce,C{
         $this->errno = 0;
         $user_id = $this->token->getUserId();
         //user_id property is not null
-        $filter = array('user_id', new ObjectId($user_id));
+        $filter = array('author' => new ObjectId($user_id));
         $articlesGet = $this->articleList->articlelist_get($filter);
         if($articlesGet){
             //Found at least one article created by logged user
@@ -74,6 +76,7 @@ class GetController implements Gce,C{
         }
         else 
             $this->errno = Gce::NOARTICLESFOUND;
+        //file_put_contents(GetController::$logFile,"setUSerArticles() result => ".var_export($set,true)."\r\n",FILE_APPEND);
         return $set;
     }
 

@@ -34,14 +34,28 @@ if(isset($_GET['token_key']) && $_GET['token_key'] != ''){
         $getView = new GetView($getController);
         if($getView->articlesFound()){
             //At least one article found
-            $response['articles'] = $getController->getArticleList()->getResults();
+            $articles = $getController->getArticleList()->getResults();
+            foreach($articles as $article){
+                $response['articles'][] = array(
+                    'id' => $article->getId(),
+                    'title' => $article->getTitle(),
+                    'author' => $article->getAuthor(),
+                    'permalink' => $article->getPermalink(),
+                    'content' => $article->getContent(),
+                    'introtext' => $article->getIntrotext(),
+                    'categories' => implode(",",$article->getCategories()),
+                    'tags' => implode(",",$article->getTags()),
+                    'creation_time' => $article->getCrTime(),
+                    'last_modified' => $article->getLastMod()
+                );
+            }//foreach($articles as $article){
             $response['done'] = true;
         }
         else
             $response['msg'] = $getView->getMessage();
     }catch(Exception $e){
         $response['msg'] = C::SEARCH_ERROR;
-        file_put_contents(C::FILE_LOG,$e->getMessage()."\r\n",FILE_APPEND);
+        file_put_contents(C::FILE_LOG,var_export($e,true)."\r\n",FILE_APPEND);
     }
     
 }//if(isset($_GET['token_key']) && $_GET['token_key'] != ''){
