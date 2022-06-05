@@ -6,6 +6,7 @@ use AngularBlog\Classes\Token;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\Login\LoginControllerErrors as Lce;
 use AngularBlog\Classes\User;
+use MongoDB\Driver\Exception\BulkWriteException;
 
 class LoginController implements Lce,C{
     private ?User $user; //User object with data to store in DB
@@ -88,10 +89,18 @@ class LoginController implements Lce,C{
         $get = $this->token->token_get($data_get);
         if($get)$set = true;
         if(!$get){
-            $insert = $this->token->token_create();
-            if($insert)$set = true;
-            else
-                $this->errno = Lce::TOKENNOTSETTED;   
+            try{
+                $insert = $this->token->token_create();
+                if($insert)$set = true;
+                else
+                    $this->errno = Lce::TOKENNOTSETTED;  
+            }catch(\Exception $e){
+                if($e instanceof BulkWriteException){
+                    //Token alterady exists
+                    $set = true;
+                }
+                else $set = false;
+             }  
         }
         return $set;
     }

@@ -14,10 +14,13 @@ export class ProfileComponent implements OnInit {
   userCookie: any = {};
 
   constructor(public http:HttpClient, public api: ApiService, public router: Router) {
-    this.userCookie['token_key'] = localStorage.getItem("token_key");
-    this.userCookie['username'] = localStorage.getItem("username");
     this.observeFromService();
-    if(!this.api.getLoginStatus()){
+    if(this.api.getLoginStatus()){
+      this.userCookie['token_key'] = localStorage.getItem("token_key");
+      this.userCookie['username'] = localStorage.getItem("username");
+      this.api.changeUserdata(this.userCookie);
+    }
+    else{
       this.api.removeItems();
       this.api.changeUserdata({});
     }

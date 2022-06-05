@@ -20,6 +20,7 @@ use AngularBlog\Classes\User;
 use AngularBlog\Classes\Login\LoginController;
 use AngularBlog\Classes\Login\LoginView;
 use AngularBlog\Classes\Token;
+use MongoDB\Driver\Exception\BulkWriteException;
 
 $response = array();
 $response['done'] = false;
