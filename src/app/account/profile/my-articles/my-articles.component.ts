@@ -81,6 +81,7 @@ export class MyArticlesComponent implements OnInit {
         let divArticle = $('<div>');
         divArticle.addClass('article');
           let divTitle = $('<div>');  
+            divTitle.addClass('article-title');
             let articleLink = $('<a>');
             articleLink.addClass('article-link');
             articleLink.attr({

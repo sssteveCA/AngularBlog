@@ -1,8 +1,24 @@
 //Variables
+$container-id: '#articles-list';
+$container-min-width: 300px;
 $mobile-width: 576px;
 $single-article-div: '.article';
 $single-article-title-div: '.article-title';
-$single-article-buttons-div: '.article-button';
+$single-article-buttons-div: '.article-buttons';
+
+$single-selectors: (
+    'classes': (
+        '.article': (
+            margin: 30px auto
+        )
+    ),
+    'ids': (
+        #{$container-id}: (
+            min-width: #{$container-min-width}
+        )
+    ),
+    'tags': ()
+);
 
 //Mixins
 @mixin single-selectors-loop($map){
@@ -33,9 +49,7 @@ $single-article-buttons-div: '.article-button';
             display: flex;
             flex-direction: column;
             div#{$single-article-title-div}{
-                a h1{
-                    text-align: center;
-                }
+                text-align: center;
             }
             div#{$single-article-buttons-div}{
                 display: flex;
@@ -52,11 +66,14 @@ $single-article-buttons-div: '.article-button';
             }
             div#{$single-article-buttons-div}{
                 width: 35%;
+                display: flex;
+                justify-content: space-between;
             }
         }
     }
 }
 
+@include single-selectors-loop($single-selectors);
 @include articles-list-responsive();
 
 //Execution
