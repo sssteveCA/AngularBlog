@@ -10,6 +10,9 @@ export const contactUrl: string = "http://localhost/angular/ex6/AngularBlog/src/
 //url redirect after login success
 export const loginRedirect: string = "/";
 
+//url for check the login status of the user
+export const loginStatusUrl: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/account/loginstatus.php";
+
 //php script for user login
 export const loginUrl: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/account/login.php";
 
