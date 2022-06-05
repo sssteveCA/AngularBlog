@@ -1,0 +1,37 @@
+@media only screen and (max-width: 576px) {
+  .article {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .article div.article-title a h1 {
+    text-align: center;
+  }
+  .article div.article-button {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: space-evenly;
+        -ms-flex-pack: space-evenly;
+            justify-content: space-evenly;
+  }
+}
+
+@media only screen and (min-width: 577px) {
+  .article {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .article div.article-title {
+    width: 65%;
+    text-overflow: ellipsis;
+  }
+  .article div.article-button {
+    width: 35%;
+  }
+}

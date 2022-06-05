@@ -1,4 +1,8 @@
 //Variables
+$mobile-width: 576px;
+$single-article-div: '.article';
+$single-article-title-div: '.article-title';
+$single-article-buttons-div: '.article-button';
 
 //Mixins
 @mixin single-selectors-loop($map){
@@ -23,5 +27,36 @@
     }
 }
 
+@mixin articles-list-responsive(){
+    @media only screen and (max-width: #{$mobile-width}){
+        #{$single-article-div}{
+            display: flex;
+            flex-direction: column;
+            div#{$single-article-title-div}{
+                a h1{
+                    text-align: center;
+                }
+            }
+            div#{$single-article-buttons-div}{
+                display: flex;
+                justify-content: space-evenly;
+            }
+        }
+    }
+    @media only screen and (min-width: #{$mobile-width+1}){
+        #{$single-article-div}{
+            display: flex;
+            div#{$single-article-title-div}{
+                width: 65%;
+                text-overflow: ellipsis;
+            }
+            div#{$single-article-buttons-div}{
+                width: 35%;
+            }
+        }
+    }
+}
+
+@include articles-list-responsive();
 
 //Execution
