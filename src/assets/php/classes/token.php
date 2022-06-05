@@ -27,9 +27,11 @@ class Token extends Model implements C{
             ['key' => ['token_key' => 1], 'unique' => true]
         ];
         $this->collection->createIndexes($indexArr);
+        $this->id = isset($data['id'])? $data['id']: null;
         $this->user_id = isset($data['user_id'])? $data['user_id']: null;
         $this->username = isset($data['username'])? $data['username']: null;
-        if(isset($this->user_id,$this->username))$this->keyGen();
+        $this->token_key = isset($data['token_key'])? $data['token_key']: null;
+        $this->logged_time = isset($data['logged_time'])? $data['logged_time']: null;
     }
 
     public function getId(){return $this->id;}
@@ -58,6 +60,7 @@ class Token extends Model implements C{
     public function token_create(): bool{
         $inserted = false;
         $this->errno = 0;
+        $this->keyGen();
         $values = [
             'user_id' => $this->user_id,
             'username' => $this->username,

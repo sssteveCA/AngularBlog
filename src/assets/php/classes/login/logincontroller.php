@@ -114,7 +114,7 @@ class LoginController implements Lce,C{
             case Lce::USERNAMENOTFOUND:
             case Lce::WRONGPASSWORD:
             case Lce::ACCOUNTNOTACTIVATED:
-                $this->response = $this->error;
+                $this->response = $this->getError();
                 break;
             case Lce::TOKENNOTSETTED:
                 $this->response = C::LOGIN_ERROR;
