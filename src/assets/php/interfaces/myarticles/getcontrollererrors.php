@@ -4,14 +4,14 @@ namespace AngularBlog\Interfaces\MyArticles;
 
 interface GetControllerErrors{
     //Exception
-    const NOTOKENINSTANCE_EXC = "L'oggetto token è uguale a null";
+    const NOTOKENKEY_EXC = "Non è stata fornita la chiave di login";
 
     //Numbers
-    const USERIDISNULL = 1;
+    const NOUSERIDFOUND = 1;
     const NOARTICLESFOUND = 2;
 
     //Messages
-    const USERIDISNULL_MSG = "La proprietà user_id è uguale a null";
+    const NOUSERIDFOUND_MSG = "Nessun id utente con la chiave di login fornita";
     const NOARTICLESFOUND_MSG = "Non hai ancora creato nessun articolo";
 }
 ?>

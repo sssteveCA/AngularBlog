@@ -17,23 +17,24 @@ class GetController implements Gce,C{
     private int $errno = 0;
     private ?string $error = null;
 
-    public function __construct(?Token $token)
+    public function __construct(array $data)
     {
-        if(!$token)throw new \Exception(Gce::NOTOKENINSTANCE_EXC);
-        $this->token = $token;
+        if(!isset($data['token_key']))throw new \Exception(Gce::NOTOKENKEY_EXC);
+        $this->token_key = $data['token_key'];
         $this->articleList = new ArticleList();
-        $this->setUserArticles();
+        if($this->setToken())
+            $this->setUserArticles();
         $this->setResponse();
     }
 
     public function getTokenKey(){return $this->token_key;}
-    public function getArticleList(){return $this->articleList;}
+    public function getArticleList():?ArticleList{return $this->articleList;}
     public function getResponse(){return $this->response;}
     public function getErrno(){return $this->errno;}
     public function getError(){
         switch($this->errno){
-            case Gce::USERIDISNULL:
-                $this->error = Gce::USERIDISNULL_MSG;
+            case Gce::NOUSERIDFOUND:
+                $this->error = Gce::NOUSERIDFOUND_MSG;
                 break;
             case Gce::NOARTICLESFOUND:
                 $this->error = Gce::NOARTICLESFOUND_MSG;
@@ -45,22 +46,34 @@ class GetController implements Gce,C{
         return $this->error;
     }
 
+    //Set the Token object
+    private function setToken(): bool{
+        $set = false;
+        $this->errno = 0;
+        $this->token = new Token();
+        $filter = ['token_key' => $this->token_key];
+        $get = $this->token->token_get($filter);
+        if($get)
+            $set = true;
+        else
+            $this->errno = Gce::NOUSERIDFOUND;
+        return $set;
+    }
+
     //Get articles created by specific user
     private function setUserArticles():bool{
         $set = false;
         $this->errno = 0;
         $user_id = $this->token->getUserId();
-        if(isset($user_id)){
-            //user_id property is not null
-            $filter = array('user_id', new ObjectId($user_id));
-            $articlesGet = $this->articleList->articlelist_get($filter);
-            if($articlesGet){
-                //Found at least one article created by logged user
-                $set = true;
-            }
-        }//if(isset($user_id)){
+        //user_id property is not null
+        $filter = array('user_id', new ObjectId($user_id));
+        $articlesGet = $this->articleList->articlelist_get($filter);
+        if($articlesGet){
+            //Found at least one article created by logged user
+            $set = true;
+        }
         else 
-            $this->errno = Gce::USERIDISNULL;
+            $this->errno = Gce::NOARTICLESFOUND;
         return $set;
     }
 
@@ -71,7 +84,7 @@ class GetController implements Gce,C{
                 break;
             case Gce::NOARTICLESFOUND:
                 $this->response = $this->getError();
-            case Gce::USERIDISNULL:
+            case Gce::NOUSERIDFOUND:
                 $this->response = C::SEARCH_ERROR;
                 break;
                 break;
