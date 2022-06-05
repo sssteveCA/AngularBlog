@@ -17,12 +17,12 @@ export class MenuComponent implements OnInit {
   constructor(private http:HttpClient, private router:Router, private api: ApiService) {
     this.userCookie["token_key"] = localStorage.getItem("token_key");
     this.userCookie["username"] = localStorage.getItem("username");
-    this.api.userChanged.subscribe(userdata => {
-      console.log("userdata");
-      console.log(userdata);
-      this.userCookie['token_key'] = userdata['token_key'];
-      this.userCookie['username'] = userdata['username'];
-    });
+    this.observeFromService();
+    let logged = this.api.getLoginStatus();
+    if(!logged){
+      localStorage.removeItem("token_key");
+      localStorage.removeItem("username");
+    }
   }
 
   //user wants  logout from his account
@@ -49,6 +49,19 @@ export class MenuComponent implements OnInit {
   ngOnInit(): void {
     console.log("userCookie => ");
     console.log(this.userCookie); 
+  }
+
+  observeFromService(): void{
+    this.api.loginChanged.subscribe(logged => {
+      console.log("logged");
+      console.log(logged);
+    });
+    this.api.userChanged.subscribe(userdata => {
+      console.log("userdata");
+      console.log(userdata);
+      this.userCookie['token_key'] = userdata['token_key'];
+      this.userCookie['username'] = userdata['username'];
+    });
   }
 
 }

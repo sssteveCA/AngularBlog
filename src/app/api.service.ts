@@ -31,7 +31,7 @@ export class ApiService {
   }
 
   //change login status
-  async changeLoginStatus(){
+  getLoginStatus(): boolean{
     let logged = false;
     const token_key = localStorage.getItem('token_key');
     const username = localStorage.getItem('username');
@@ -49,6 +49,10 @@ export class ApiService {
         console.warn(err);
       });
     }//if(token_key && username){
+    return logged;
+  }
+
+  changeLoginStatus(logged: boolean){
     this.loginStatus.next(logged);
   }
 

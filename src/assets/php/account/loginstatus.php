@@ -16,5 +16,7 @@ $response = array(
 $post = file_get_contents('php://input');
 $postDecode = json_decode($post,true);
 
+$response['post'] = $postDecode;
+
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
 ?>
