@@ -2,9 +2,11 @@
 
 require_once("../cors.php");
 require_once("../config.php");
-require_once("../interfaces/models_errors.php");
+require_once("../interfaces/constants.php");
+require_once("../interfaces/model_errors.php");
 require_once("../interfaces/logout/logoutcontrollererrors.php");
 require_once("../interfaces/logout/logoutviewerrors.php");
+require_once("../vendor/autoload.php");
 require_once("../classes/model.php");
 require_once("../classes/token.php");
 require_once("../classes/logout/logoutcontroller.php");
@@ -50,6 +52,6 @@ if(isset($_GET['token_key']) && $_GET['token_key'] != ''){
 else
     $response['msg'] = C::FILL_ALL_FIELDS;
 
-echo json_encode($response);
+echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
 
 ?>

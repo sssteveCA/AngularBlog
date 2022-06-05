@@ -2,7 +2,7 @@
 
 namespace AngularBlog\Classes\Logout;
 
-use AngularBlog\Interfaces\Login\LoginViewErrors as Love;
+use AngularBlog\Interfaces\Logout\LogoutViewErrors as Love;
 use AngularBlog\Classes\Logout\LogoutController;
 
 class LogoutView implements Love{
@@ -12,7 +12,7 @@ class LogoutView implements Love{
 
     public function __construct(?LogoutController $loc)
     {
-        if(!$loc)throw new \Exception(Love::NOLOGINCONTROLLERINSTANCE_EXC);
+        if(!$loc)throw new \Exception(Love::NOLOGOUTCONTROLLERINSTANCE_EXC);
         $this->loc = $loc;
         $errnoLoc = $this->loc->getErrno();
         if($errnoLoc == 0)
