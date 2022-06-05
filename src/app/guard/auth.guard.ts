@@ -9,11 +9,15 @@ import * as constants from '../../constants/constants';
 })
 export class AuthGuard implements CanActivate{
 
-  userCookie: any;
+  userCookie: any = {};
 
   constructor(public api: ApiService, public router: Router){
-    this.userCookie["token_key"] = localStorage.getItem("token_key");
-    this.userCookie["username"] = localStorage.getItem("username");
+    let token_key = localStorage.getItem("token_key");
+    let username = localStorage.getItem("username");
+    if(token_key && username){
+      this.userCookie["token_key"] = token_key;
+      this.userCookie["username"] = username;
+    }
     this.api.userChanged.subscribe(user => {
       //detect changes from cookie value
       this.userCookie = user;
