@@ -6,6 +6,10 @@
   min-width: 300px;
 }
 
+#link-back {
+  padding: 20px 20px;
+}
+
 @media only screen and (max-width: 576px) {
   .article {
     display: -webkit-box;

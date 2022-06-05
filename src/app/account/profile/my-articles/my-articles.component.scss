@@ -15,6 +15,9 @@ $single-selectors: (
     'ids': (
         #{$container-id}: (
             min-width: #{$container-min-width}
+        ),
+        '#link-back': (
+            padding: 20px 20px
         )
     ),
     'tags': ()
