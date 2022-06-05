@@ -29,6 +29,7 @@ interface Constants{
 
     //Login
     const LOGIN_ERROR = "Errore durante il login. ".Constants::ADMIN_CONTACT;
+    const LOGOUT_ERROR = "Errore durante il logout. ".Constants::ADMIN_CONTACT;
 
     //MongoDB
     const MONGODB_CONNECTION_STRING = "mongodb://localhost:27017";

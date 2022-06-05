@@ -9,7 +9,7 @@ class LoginView implements Lve{
 
     private ?LoginController $lc;
     private bool $loginOk = false; //If it's true don't show a message and redirect to personal account area
-    private string $message;
+    private string $message = "";
 
     public function __construct(?LoginController $lc)
     {
@@ -18,7 +18,8 @@ class LoginView implements Lve{
         $errnoLc = $this->lc->getErrno();
         if($errnoLc == 0)
             $this->loginOk = true;
-        $this->message = $this->lc->getResponse();
+		else
+			$this->message = $this->lc->getResponse();
         
     }
 

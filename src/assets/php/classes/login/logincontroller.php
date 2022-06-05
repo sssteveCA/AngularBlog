@@ -19,8 +19,8 @@ class LoginController implements Lce,C{
         if(!$user)throw new \Exception(Lce::NOUSERINSTANCE_EXC);
         $this->user = $user;
         $this->login();
-        $this->setResponse();
         $this->setToken();
+		$this->setResponse();
     }
 
     public function getUser(){return $this->user;}
