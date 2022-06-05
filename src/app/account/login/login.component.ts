@@ -51,9 +51,9 @@ export class LoginComponent implements OnInit {
         let rJson = JSON.parse(res);
         console.log(rJson);
         if(rJson['done'] && typeof rJson['username'] !== 'undefined'){
-          localStorage.setItem("id",rJson["id"]);
+          localStorage.setItem("token_key",rJson["token_key"]);
           localStorage.setItem("username",rJson["username"]);
-          this.userCookie["id"] = localStorage.getItem("id");
+          this.userCookie["token_key"] = localStorage.getItem("token_key");
           this.userCookie["username"] = localStorage.getItem("username");
           this.api.changeUserdata(this.userCookie);
           this.router.navigate([constants.loginRedirect]);

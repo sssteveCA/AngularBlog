@@ -29,11 +29,11 @@ export class MenuComponent implements OnInit {
   //user wants  logout from his account
   logout(): void{
     let data = {
-      'id' : localStorage.getItem("id"),
+      'token_key' : localStorage.getItem("token_key"),
       'username' : localStorage.getItem("username")
     }
     this.http.post(constants.logoutUrl,data).subscribe(res => {
-      localStorage.removeItem("id");
+      localStorage.removeItem("token_key");
       localStorage.removeItem("username");
       this.api.changeUserdata({});
       this.router.navigate([constants.logoutRedirect]);

@@ -14,10 +14,10 @@ export class ProfileComponent implements OnInit {
   userCookie: any = {};
 
   constructor(public http:HttpClient, public api: ApiService, public router: Router) {
-    this.userCookie['id'] = localStorage.getItem("id");
+    this.userCookie['token_key'] = localStorage.getItem("token_key");
     this.userCookie['username'] = localStorage.getItem("username");
     this.api.userChanged.subscribe(userdata => {
-      this.userCookie['id'] = userdata['id'];
+      this.userCookie['token_key'] = userdata['token_key'];
       this.userCookie['username'] = userdata['username'];
     });
     this.http.get(constants.profileUrl,{responseType: 'text'}).subscribe(res => {

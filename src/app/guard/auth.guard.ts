@@ -9,13 +9,14 @@ import * as constants from '../../constants/constants';
 })
 export class AuthGuard implements CanActivate{
 
-  usernameCookie: any;
+  userCookie: any;
 
   constructor(public api: ApiService, public router: Router){
-    this.usernameCookie = localStorage.getItem("username");
-    this.api.userChanged.subscribe(username => {
+    this.userCookie["token_key"] = localStorage.getItem("token_key");
+    this.userCookie["username"] = localStorage.getItem("username");
+    this.api.userChanged.subscribe(user => {
       //detect changes from cookie value
-      this.usernameCookie = username;
+      this.userCookie = user;
     });
   }
 
@@ -23,7 +24,7 @@ export class AuthGuard implements CanActivate{
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if(this.usernameCookie == null){
+    if(this.userCookie == null || Object.keys(this.userCookie).length === 0){
       this.router.navigate([constants.notLoggedRedirect]);
       return false;
     }

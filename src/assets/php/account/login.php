@@ -37,8 +37,10 @@ if(isset($_POST['username'],$_POST['password']) && $_POST['username'] != '' && $
         $logged = $loginView->isLogged();
         if($logged){
             //Correct credentials and account activated
-            $response['username'] = $user->getUsername();
-            $response['id'] = $user->getId();
+            $token = $loginController->getToken();
+            $response['username'] = $token->getUsername();
+            $response['id'] = $token->getId();
+            $response['tokn_key'] = $token->getTokenKey();
             $response['done'] = true;
         }//if($logged){
         else

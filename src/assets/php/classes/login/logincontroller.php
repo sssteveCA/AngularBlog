@@ -9,6 +9,7 @@ use AngularBlog\Classes\User;
 
 class LoginController implements Lce,C{
     private ?User $user; //User object with data to store in DB
+    private ?Token $token; //Returned token when login has success
     private string $response = ""; //Response message
     private int $errno = 0;
     private ?string $error = null;
@@ -23,6 +24,7 @@ class LoginController implements Lce,C{
     }
 
     public function getUser(){return $this->user;}
+    public function getToken(){return $this->token;}
     public function getResponse(){return $this->response;}
     public function getErrno(): int{return $this->errno;}
     public function getError(){
@@ -82,11 +84,11 @@ class LoginController implements Lce,C{
             'logged_time' => $logged_time
         ];
         $data_get = ['user_id' => $this->user->getId()];
-        $token = new Token($data);
-        $get = $token->token_get($data_get);
+        $this->token = new Token($data);
+        $get = $this->token->token_get($data_get);
         if($get)$set = true;
         if(!$get){
-            $insert = $token->token_create();
+            $insert = $this->token->token_create();
             if($insert)$set = true;
             else
                 $this->errno = Lce::TOKENNOTSETTED;   
