@@ -40,7 +40,7 @@ if(isset($_POST['username'],$_POST['password']) && $_POST['username'] != '' && $
             $token = $loginController->getToken();
             $response['username'] = $token->getUsername();
             $response['id'] = $token->getId();
-            $response['tokn_key'] = $token->getTokenKey();
+            $response['token_key'] = $token->getTokenKey();
             $response['done'] = true;
         }//if($logged){
         else

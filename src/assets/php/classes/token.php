@@ -29,7 +29,7 @@ class Token extends Model implements C{
         $this->collection->createIndexes($indexArr);
         $this->user_id = isset($data['user_id'])? $data['user_id']: null;
         $this->username = isset($data['username'])? $data['username']: null;
-        $this->keyGen();
+        if(isset($this->user_id,$this->username))$this->keyGen();
     }
 
     public function getId(){return $this->id;}

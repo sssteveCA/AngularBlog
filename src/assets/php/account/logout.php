@@ -2,38 +2,54 @@
 
 require_once("../cors.php");
 require_once("../config.php");
+require_once("../interfaces/models_errors.php");
+require_once("../interfaces/logout/logoutcontrollererrors.php");
+require_once("../interfaces/logout/logoutviewerrors.php");
 require_once("../classes/model.php");
 require_once("../classes/token.php");
+require_once("../classes/logout/logoutcontroller.php");
+require_once("../classes/logout/logoutview.php");
 
+use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Token;
-
-$post = file_get_contents('php://input');
-$postDecode = json_decode($post,true);
+use AngularBlog\Classes\Logout\LogoutView;
+use AngularBlog\Classes\Logout\LogoutController;
 
 $response = array(
     'msg' => '',
     'done' => false
 );
 
-if(isset($post['id'],$post['username'])){
-    $filter = [
-        '$and' => [
-            ['user_id' => $post['id']].
-            ['username' => $post['username']]
-        ]
-    ];
+if(isset($_GET['token_key']) && $_GET['token_key'] != ''){
+    $token_key = $_GET['token_key'];
+    $filter = ['token_key' => $token_key];
     try{
         $token = new Token();
-        $got = $token->token_get($filter);
-        if($got){
-            $del = $token->token_delete($filter);
-            if($del){
-                $response['done'] = true;
+        $get = $token->token_get($filter);
+        if($get){
+            //Found in DB a collection with token key passed from client
+            $logoutController = new LogoutController($token);
+            $logoutView = new LogoutView($logoutController);
+            $logout = $logoutView->isLogout();
+            if($logout){
+                //Server side logout done
+                $response['done'];
             }
-        }//if($got){
+            else
+                $response['msg'] = $logoutView->getMessage();
+        }//if($get){
+        else
+            $response['msg'] = C::LOGOUT_ERROR_USERNOTFOUND;
     }catch(Exception $e){
-        
+        file_put_contents(C::FILE_LOG,$e->getMessage()."\r\n",FILE_APPEND);
+        $response['msg'] = C::LOGOUT_ERROR;
     }
-}//if(isset($post['id'],$post['username'])){
+    
+
+}//if(isset($_GET['token_key']) && $_GET['token_key'] != ''){
+else
+    $response['msg'] = C::FILL_ALL_FIELDS;
+
+echo json_encode($response);
 
 ?>

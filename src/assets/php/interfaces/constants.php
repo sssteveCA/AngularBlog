@@ -30,6 +30,7 @@ interface Constants{
     //Login
     const LOGIN_ERROR = "Errore durante il login. ".Constants::ADMIN_CONTACT;
     const LOGOUT_ERROR = "Errore durante il logout. ".Constants::ADMIN_CONTACT;
+    const LOGOUT_ERROR_USERNOTFOUND = "Impossibile completare il logout perché la chiave passata non è valida";
 
     //MongoDB
     const MONGODB_CONNECTION_STRING = "mongodb://localhost:27017";
