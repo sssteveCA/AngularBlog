@@ -11,7 +11,9 @@ class Token extends Model implements C{
     private ?string $id;
     private ?string $user_id; //Id of logged user
     private ?string $username; //Username of logged user
+    private ?string $key; //generated unique key when user log in
     private ?string $logged_time; //Date when specific user has logged
+    private static int $key_length = 80; //Token key string length
 
     public function __construct(array $data = array())
     {
@@ -31,7 +33,24 @@ class Token extends Model implements C{
     public function getId(){return $this->id;}
     public function getUserId(){return $this->user_id;}
     public function getUsername(){return $this->username;}
+    public function getKey(){return $this->key;}
     public function getLoggedTime(){return $this->logged_time;}
+
+    //Generate the unique key
+    private function keyGen(){
+        $time = str_replace('.','a',microtime());
+        $time = str_replace(' ','b',$time);
+        $lTime = strlen($time);
+        $lGen = Token::$key_length - $lTime;
+        $c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        $lc = strlen($c) - 1;
+        $s = "";
+        for($i = 0; $i < $lGen; $i++){
+            $j = mt_rand(0,$lc);
+            $s .= $c[$j];
+        }//for($i = 0; $i < $lGen; $i++){
+        $this->key = $time.$s;
+    }
 
     //Insert a new Token(when an used sign in)
     public function token_create(): bool{
