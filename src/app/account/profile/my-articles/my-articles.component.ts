@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
 import * as constants from 'src/constants/constants';
 
@@ -12,23 +13,26 @@ export class MyArticlesComponent implements OnInit {
 
   userCookie: any = {};
 
-  constructor(public http: HttpClient, public api: ApiService) {
+  constructor(public http: HttpClient, public api: ApiService,private router: Router) {
     this.observeFromService();
     this.api.getLoginStatus().then(res => {
       if(res == true){
         this.userCookie['token_key'] = localStorage.getItem("token_key");
         this.userCookie['username'] = localStorage.getItem("username");
+        this.api.changeUserdata(this.userCookie);
       }
       else{
         this.api.removeItems();
         this.userCookie = {};
+        this.api.changeUserdata(this.userCookie);
+        this.router.navigate([constants.notLoggedRedirect]);
       }
-      this.api.changeUserdata(this.userCookie);
       
   }).catch(err => {
     this.api.removeItems();
     this.userCookie = {};
     this.api.changeUserdata(this.userCookie);
+    this.router.navigate([constants.notLoggedRedirect]);
   });
    }
 

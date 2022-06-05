@@ -19,7 +19,9 @@ export class ProfileComponent implements OnInit {
         if(res == true){
           this.userCookie['token_key'] = localStorage.getItem("token_key");
           this.userCookie['username'] = localStorage.getItem("username");
+          this.api.changeUserdata(this.userCookie);
           this.http.get(constants.profileUrl,{responseType: 'text'}).subscribe(res => {
+            console.log("Profile component profileUrl request");
             console.log(res);
             let rJson = JSON.parse(res);
           });
@@ -27,13 +29,16 @@ export class ProfileComponent implements OnInit {
         else{
           this.api.removeItems();
           this.userCookie = {};
+          this.api.changeUserdata(this.userCookie);
+          this.router.navigate([constants.notLoggedRedirect]);
         }
-        this.api.changeUserdata(this.userCookie);
+        
         
     }).catch(err => {
       this.api.removeItems();
       this.userCookie = {};
       this.api.changeUserdata(this.userCookie);
+      this.router.navigate([constants.notLoggedRedirect]);
     });
     
    }

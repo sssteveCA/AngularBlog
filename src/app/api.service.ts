@@ -38,6 +38,7 @@ export class ApiService {
 
   //change login status
   async getLoginStatus(): Promise<boolean>{
+    console.log("api service getLoginStatus()");
     let logged = false;
     const token_key = localStorage.getItem('token_key');
     const username = localStorage.getItem('username');
@@ -45,20 +46,15 @@ export class ApiService {
       //Token_key exists
       const headers = new HttpHeaders({'Accept': 'application/json','Content-Type': 'application/json'});
       const body = {'token_key': token_key, 'username': username};
-      console.log("get login status before request");
       await this.loginStatusRequest(constants.loginStatusUrl,body,headers).then(res => {
-        console.log("loginStatusRequest res => ");
-        console.log(res);
         let rJson = JSON.parse(res as string);
         if(rJson['logged'] == true){
           logged = true;
         }
       }).catch(err => {
-        console.warn("loginStatusRequest err => ");
-        console.warn(err);
       });
-      console.log("get login status after request");
     }//if(token_key && username){
+      console.log("api service getLoginStatus() finish");
     return logged;
   }
 
