@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import * as constants from '../constants/constants';
 
@@ -13,7 +14,7 @@ export class ApiService {
   userChanged = this.userCookie.asObservable();
   loginChanged = this.loginStatus.asObservable();
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient,private router: Router) { 
 
   }
 
@@ -59,5 +60,15 @@ export class ApiService {
   //when the value assigned to localStorage item "username" change
   changeUserdata(u: any){
     this.userCookie.next(u);
+  }
+
+  //Remove localStorage items and redirect to non private area
+  removeItems(){
+    const token_key = localStorage.getItem('token_key');
+    const username = localStorage.getItem('username');
+    if(token_key)
+      localStorage.removeItem("token_key");
+    if(username)
+      localStorage.removeItem("username");
   }
 }

@@ -38,8 +38,8 @@ if(isset($_POST['username'],$_POST['password']) && $_POST['username'] != '' && $
         if($logged){
             //Correct credentials and account activated
             $token = $loginController->getToken();
+            //file_put_contents(C::FILE_LOG,"Login token => ".var_export($token,true)."\r\n",FILE_APPEND);
             $response['username'] = $token->getUsername();
-            $response['id'] = $token->getId();
             $response['token_key'] = $token->getTokenKey();
             $response['done'] = true;
         }//if($logged){

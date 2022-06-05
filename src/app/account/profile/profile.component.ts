@@ -16,23 +16,31 @@ export class ProfileComponent implements OnInit {
   constructor(public http:HttpClient, public api: ApiService, public router: Router) {
     this.userCookie['token_key'] = localStorage.getItem("token_key");
     this.userCookie['username'] = localStorage.getItem("username");
-    this.api.userChanged.subscribe(userdata => {
-      this.userCookie['token_key'] = userdata['token_key'];
-      this.userCookie['username'] = userdata['username'];
-    });
+    this.observeFromService();
+    if(!this.api.getLoginStatus()){
+      this.api.removeItems();
+      this.api.changeUserdata({});
+    }
     this.http.get(constants.profileUrl,{responseType: 'text'}).subscribe(res => {
       console.log(res);
       let rJson = JSON.parse(res);
-      /*if(rJson['session'] == false){
-        //if user is not authenticated
-        localStorage.removeItem("username");
-        this.api.changeUsername(null);
-        this.router.navigate([constants.notLoggedRedirect]);
-      }*/
     });
    }
 
   ngOnInit(): void {
+  }
+
+  observeFromService(): void{
+    this.api.loginChanged.subscribe(logged => {
+      console.log("logged");
+      console.log(logged);
+    });
+    this.api.userChanged.subscribe(userdata => {
+      console.log("userdata");
+      console.log(userdata);
+      this.userCookie['token_key'] = userdata['token_key'];
+      this.userCookie['username'] = userdata['username'];
+    });
   }
 
 }
