@@ -44,6 +44,11 @@ class User extends Model implements Ue{
         $data['database_name'] = isset($data['database_name']) ? $data['database_name']: C::MONGODB_DATABASE;
         $data['collection_name'] = isset($data['collection_name']) ? $data['collection_name']: C::MONGODB_COLLECTION_USERS;
         parent::__construct($data);
+        $indexArr = [
+            ['key' => ['username' => 1], 'unique' => true],
+            ['key' => ['email' => 1], 'unique' => true]
+        ];
+        $this->collection->createIndexes($indexArr);
         $this->id = isset($data['id'])? $data['id']:null;
         $this->name = isset($data['name'])? $data['name']:null;
         $this->surname = isset($data['surname'])? $data['surname']:null;

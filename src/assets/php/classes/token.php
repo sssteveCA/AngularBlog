@@ -11,7 +11,7 @@ class Token extends Model implements C{
     private ?string $id;
     private ?string $user_id; //Id of logged user
     private ?string $username; //Username of logged user
-    private ?string $key; //generated unique key when user log in
+    private ?string $token_key; //generated unique key when user log in
     private ?string $logged_time; //Date when specific user has logged
     private static int $key_length = 80; //Token key string length
 
@@ -23,17 +23,19 @@ class Token extends Model implements C{
         parent::__construct($data);
         $indexArr = [
             ['key' => ['user_id' => 1 ], 'unique' => true],
-            ['key' => ['username' => 1], 'unique' => true]
+            ['key' => ['username' => 1], 'unique' => true],
+            ['key' => ['token_key' => 1], 'unique' => true]
         ];
         $this->collection->createIndexes($indexArr);
         $this->user_id = isset($data['user_id'])? $data['user_id']: null;
         $this->username = isset($data['username'])? $data['username']: null;
+        $this->keyGen();
     }
 
     public function getId(){return $this->id;}
     public function getUserId(){return $this->user_id;}
     public function getUsername(){return $this->username;}
-    public function getKey(){return $this->key;}
+    public function getTokenKey(){return $this->token_key;}
     public function getLoggedTime(){return $this->logged_time;}
 
     //Generate the unique key
@@ -49,7 +51,7 @@ class Token extends Model implements C{
             $j = mt_rand(0,$lc);
             $s .= $c[$j];
         }//for($i = 0; $i < $lGen; $i++){
-        $this->key = $time.$s;
+        $this->token_key = $time.$s;
     }
 
     //Insert a new Token(when an used sign in)
@@ -59,6 +61,7 @@ class Token extends Model implements C{
         $values = [
             'user_id' => $this->user_id,
             'username' => $this->username,
+            'token_key' => $this->token_key,
             'logged_time' => date('d-m-Y H:i:s')
         ];
         parent::create($values);
@@ -85,6 +88,7 @@ class Token extends Model implements C{
             $this->id = $token["_id"];
             $this->user_id = $token["user_id"];
             $this->username = $token["username"];
+            $this->token_key = $token["token_key"];
             $this->logged_time = $token["logged_time"];
         }//if($this->errno == 0){
         return $got;
