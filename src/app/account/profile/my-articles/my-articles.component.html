@@ -1,6 +1,10 @@
 <div class="my-4">
     <h1 class="text-center">I miei articoli</h1>
 </div>
-<div class="articles-list">
-    
+<!-- Articles getted from backend -->
+<div id="articles-list">
+</div>
+<!-- Error while getting articles -->
+<div *ngIf="done == false && message != null" class="alert alert-danger my-5">
+    {{message}}
 </div>

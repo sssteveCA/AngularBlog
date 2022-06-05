@@ -1,8 +1,8 @@
 
 export class Article{
-    id: number;
+    id: string;
     title: string;
-    author: number;
+    author: string;
     permalink: string;
     content: string;
     introtext: string;
