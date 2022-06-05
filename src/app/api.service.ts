@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import * as constants from '../constants/constants';
 
 @Injectable({
@@ -19,12 +19,17 @@ export class ApiService {
   }
 
   //wait for HTTP post request response
-  async loginStatusRequest(url: string, body: any, options: any){
+  async loginStatusRequest(url: string, body: any, headers: any){
     let promise = await new Promise((resolve,reject) => {
-      this.http.post(url,body,options).subscribe(res => {
+      this.http.post(url,body,{headers: headers, responseType: 'text'}).subscribe(res => {
+        console.log("Login status request resolve => ");
+        console.log(res);
         resolve(res);
+        
       },
       error =>{
+        console.warn("Login status request error => ");
+        console.warn(error);
         reject(error);
       });
     });
@@ -32,23 +37,27 @@ export class ApiService {
   }
 
   //change login status
-  getLoginStatus(): boolean{
+  async getLoginStatus(): Promise<boolean>{
     let logged = false;
     const token_key = localStorage.getItem('token_key');
     const username = localStorage.getItem('username');
     if(token_key && username){
       //Token_key exists
-      const options = {
-        headers: new HttpHeaders({'Accept': 'application/json','Content-Type': 'application/json'})
-      };
+      const headers = new HttpHeaders({'Accept': 'application/json','Content-Type': 'application/json'});
       const body = {'token_key': token_key, 'username': username};
-      this.loginStatusRequest(constants.loginStatusUrl,body,options).then(res => {
+      console.log("get login status before request");
+      await this.loginStatusRequest(constants.loginStatusUrl,body,headers).then(res => {
         console.log("loginStatusRequest res => ");
         console.log(res);
+        let rJson = JSON.parse(res as string);
+        if(rJson['logged'] == true){
+          logged = true;
+        }
       }).catch(err => {
         console.warn("loginStatusRequest err => ");
         console.warn(err);
       });
+      console.log("get login status after request");
     }//if(token_key && username){
     return logged;
   }

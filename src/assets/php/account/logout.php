@@ -35,7 +35,7 @@ if(isset($_GET['token_key']) && $_GET['token_key'] != ''){
             $logout = $logoutView->isLogout();
             if($logout){
                 //Server side logout done
-                $response['done'];
+                $response['done'] = true;
             }
             else
                 $response['msg'] = $logoutView->getMessage();

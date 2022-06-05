@@ -90,6 +90,7 @@ class Token extends Model implements C{
             $this->username = $token["username"];
             $this->token_key = $token["token_key"];
             $this->logged_time = $token["logged_time"];
+            $got = true;
         }//if($this->errno == 0){
         return $got;
     }
