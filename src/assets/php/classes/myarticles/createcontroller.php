@@ -29,6 +29,7 @@ class CreateController implements C,Cce{
                 $this->insertArticle();
             }
         }
+        $this->setResponse();
     }
 
     public function getTokenKey(){return $this->token_key;}

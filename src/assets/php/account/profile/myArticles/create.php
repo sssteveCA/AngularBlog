@@ -14,6 +14,8 @@ require_once("../../../classes/myarticles/createcontroller.php");
 require_once("../../../classes/myarticles/createview.php");
 
 use AngularBlog\Interfaces\Constants as C;
+use AngularBlog\Interfaces\MyArticles\CreateControllerErrors as Cce;
+use AngularBlog\Interfaces\MyArticles\CreateViewErrors as Cve;
 use AngularBlog\Classes\Myarticles\CreateController;
 use AngularBlog\Classes\Myarticles\CreateView;
 
@@ -31,6 +33,27 @@ if(isset($post['token_key'],$post['article']) && $post['token_key'] != ''){
         'token_key' => $post['token_key'],
         'article' => $post['article']
     ];
+    try{
+        $createController = new CreateController($data);
+        $createView = new CreateView($createController);
+        $response['msg'] = $createView->getMessage();
+        if($createView->isDone())
+            $response['done'] = true;
+    }catch(Exception $e){
+        $msg = $e->getMessage();
+        switch($msg){
+            case Cce::NOARTICLEDATA_EXC:
+                $response['msg'] = $msg;
+                break;
+            case Cce::NOTOKENKEY_EXC:
+            case Cve::NOCREATECONTROLLERINSTANCE_EXC:
+                $response['msg'] = C::ARTICLECREATION_ERROR;
+                break;
+            default:
+                $response['msg'] = C::ERROR_UNKNOWN;
+                break;
+        }
+    }
 }//if(isset($post['token_key']) && $post['token_key'] != ''){
 else
     $response['msg'] = C::FILL_ALL_FIELDS;
