@@ -1,0 +1,34 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="my-4">
+                <input type="text" id="title" class="form-control form-control-lg" name="title" placeholder="Titolo">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-9 col-lg-8">
+            <textarea id="content" class="form-control" name="content" rows="15" placeholder="Inserisci qui il contenuto del tuo articolo"></textarea>
+        </div>
+        <div class="col-12 col-md-3 col-lg-4">
+            <div class="d-flex flex-column px-1 py-3">
+                <label for="permalink" class="form-label">Permalink</label>
+                <input type="text" id="permalink" class="form-control" name="permalink">
+            </div>
+            <div class="d-flex flex-column px-1 py-3">
+                <label for="categories" class="form-label">Categorie (separate da virgola)</label>
+                <textarea id="categories" class="form-control" name="categories" rows="3"></textarea>
+            </div>
+            <div class="d-flex flex-column px-1 py-3">
+                <label for="tags" class="form-label">Tag (separati da virgola)</label>
+                <textarea id="tags" class="form-control" name="tags" rows="3"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 d-flex justify-content-around">
+            <button type="button" class="btn btn-primary">CREA</button>
+            <button type="button" class="btn btn-danger">ANNULLA</button>
+        </div>
+    </div>
+</div>

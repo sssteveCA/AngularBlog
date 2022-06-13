@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AttivaComponent } from './account/attiva/attiva.component';
 import { LoginComponent } from './account/login/login.component';
-import { NewArticleComponent } from './account/new-article/new-article.component';
+import { NewArticleComponent } from './account/profile/new-article/new-article.component';
 import { MyArticlesComponent } from './account/profile/my-articles/my-articles.component';
 import { ProfileComponent } from './account/profile/profile.component';
 import { RegisterComponent } from './account/register/register.component';
