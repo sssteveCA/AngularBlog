@@ -59,10 +59,14 @@ export class NewArticleComponent implements OnInit {
     this.article.permalink = this.form.controls['permalink'].value;
     this.article.categories = this.form.controls['categories'].value;
     this.article.tags = this.form.controls['tags'].value;
+    const data = {
+      token_key: this.userCookie['token_key'],
+      article: this.article
+    }
     if(this.form.valid){
       //All form input fields validated
       const headers = new HttpHeaders().set('Content-Type','application/json').set('Accept','application/json');
-      this.http.post(constants.articleCreateUrl,this.article,{headers: headers,responseType: 'text'}).subscribe(res => {
+      this.http.post(constants.articleCreateUrl,data,{headers: headers,responseType: 'text'}).subscribe(res => {
         //Send data in JSON format
         console.log("Create.php response => ");
         console.log(res);
