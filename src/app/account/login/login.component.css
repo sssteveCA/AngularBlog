@@ -1,5 +1,4 @@
 .formContainer {
-  height: 100%;
   width: 100%;
   min-width: 300px;
 }
@@ -14,4 +13,8 @@
   width: -moz-fit-content;
   width: fit-content;
   margin: 20px auto auto;
+}
+
+.registerMsg {
+  text-align: center;
 }

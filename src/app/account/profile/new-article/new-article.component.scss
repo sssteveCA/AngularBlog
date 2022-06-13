@@ -1,0 +1,57 @@
+$border-width: 1px;
+$border-color: black;
+$boxes-divs: 3;
+$row-margin-y: 10px;
+$md-breakpoint: 768px; //Bootstrap md breakpoint
+$md-breakpoint-1: $md-breakpoint - 1;
+
+
+@mixin boxes-responsive(){
+    @media only screen and (min-width: #{$md-breakpoint}){
+        #boxes{
+            margin: auto;
+        }
+    }
+    @media only screen and (max-width: #{$md-breakpoint-1}){
+        #boxes{
+            margin: 10px auto; 
+        }
+    }
+}
+
+@mixin row-divs(){
+    .row{
+        margin: $row-margin-y auto;
+    }
+}
+
+@mixin set-borders(){
+    #boxes{
+        @for $n from 1 through $boxes-divs{
+            div:nth-child(#{$n}){
+                border-color: $border-color;
+                border-style: solid;
+                @if $n == 1{
+                    border-width: $border-width $border-width 0px $border-width;
+                }
+                @else if $n == $boxes-divs{
+                    border-width: 0px $border-width $border-width $border-width;
+                }
+                @else{
+                    border-width: $border-width;
+                }
+            }
+        }
+    }
+}
+
+@mixin textarea(){
+    textarea{
+        resize: none;
+    }
+}
+
+@include boxes-responsive();
+@include row-divs();
+@include set-borders();
+@include textarea();
