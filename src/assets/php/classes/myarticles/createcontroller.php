@@ -26,7 +26,8 @@ class CreateController implements C,Cce{
         //Check if user is logged
         if($this->setToken()){
             if($this->createArticle()){
-                $this->insertArticle();
+                if($this->uniquePermalinkVal())
+                    $this->insertArticle();
             }
         }
         $this->setResponse();
@@ -47,6 +48,9 @@ class CreateController implements C,Cce{
             case Cce::FROMARTICLE:
                 $this->error = Cce::FROMARTICLE_MSG;
                 break;
+            case Cce::DUPLICATEDPERMALINK:
+                $this->error = Cce::DUPLICATEDPERMALINK_MSG;
+                break;
             default:
                 $this->error = null;
                 break;
@@ -64,7 +68,7 @@ class CreateController implements C,Cce{
             $this->article_data['tags'] = explode(",",$this->article_data['tags']);
             $this->article = new Article($this->article_data);
             $created = true;
-        }
+        }//if($isset && $not_blank){
         else
             $this->errno = Cce::INVALIDARTICLEDATA;
         return $created;
@@ -109,7 +113,8 @@ class CreateController implements C,Cce{
                 $this->response = "Errore durante la creazione dell'articolo. Prova a rieseguire il login e ritenta";
                 break;
             case Cce::INVALIDARTICLEDATA:
-                $this->response = Cce::INVALIDARTICLEDATA_MSG;
+            case Cce::DUPLICATEDPERMALINK:
+                $this->response = $this->getError();
                 break;
             case Cce::FROMARTICLE:
                 $this->response = C::ARTICLECREATION_ERROR;
@@ -117,6 +122,22 @@ class CreateController implements C,Cce{
             default:
                 $this->response = C::ERROR_UNKNOWN;
         }
+    }
+
+
+    //Check if given permalink already exists
+    private function uniquePermalinkVal(): bool{
+        $unique = false;
+        $this->errno = 0;
+        $filter = ['permalink' => $this->article->getPermalink()];
+        $got = $this->article->article_get($filter);
+        if(!$got){
+            //Permalink with given value found, can use this
+            $unique = true;
+        }
+        else
+            $this->errno = Cce::DUPLICATEDPERMALINK;
+        return $unique;
     }
 
 }
