@@ -3,11 +3,19 @@
 require_once("../../../cors.php");
 require_once("../../../interfaces/constants.php");
 require_once("../../../interfaces/model_errors.php");
+require_once("../../../interfaces/article/article_errors.php");
+require_once("../../../interfaces/myarticles/createcontroller_errors.php");
+require_once("../../../interfaces/myarticles/createview_errors.php");
 require_once("../../../vendor/autoload.php");
 require_once("../../../classes/model.php");
 require_once("../../../classes/token.php");
+require_once("../../../classes/article/article.php");
+require_once("../../../classes/myarticles/createcontroller.php");
+require_once("../../../classes/myarticles/createview.php");
 
 use AngularBlog\Interfaces\Constants as C;
+use AngularBlog\Classes\Myarticles\CreateController;
+use AngularBlog\Classes\Myarticles\CreateView;
 
 $response = array(
     'done' => false,
