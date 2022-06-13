@@ -5,7 +5,7 @@ import { ApiService } from 'src/app/api.service';
 import * as functions from 'src/functions/functions';
 import * as constants from 'src/constants/constants';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-new-article',
@@ -19,6 +19,7 @@ export class NewArticleComponent implements OnInit {
   userCookie: any = {};
 
   constructor(public http: HttpClient, public fb: FormBuilder, public api: ApiService, private router: Router) {
+    this.observeFromService();
     this.api.getLoginStatus().then(res => {
       //Check if user is logged
       if(res == true){
@@ -43,8 +44,8 @@ export class NewArticleComponent implements OnInit {
       'introtext': ['',Validators.required],
       'content': ['',Validators.required],
       'permalink': ['',Validators.required],
-      'categories': ['',Validators.required],
-      'tags': ['',Validators.required]
+      'categories': ['',Validators.pattern('^[a-zA-Z0-9,]*$')],
+      'tags': ['',Validators.pattern('^[a-zA-Z0-9,]*$')]
     });
    }
 
@@ -60,10 +61,31 @@ export class NewArticleComponent implements OnInit {
     this.article.tags = this.form.controls['tags'].value;
     if(this.form.valid){
       //All form input fields validated
+      const headers = new HttpHeaders().set('Content-Type','application/json').set('Accept','application/json');
+      this.http.post(constants.articleCreateUrl,this.article,{headers: headers,responseType: 'text'}).subscribe(res => {
+        //Send data in JSON format
+        console.log("Create.php response => ");
+        console.log(res);
+      },error => {
+        console.warn(error);
+      });
     }
     else{
       functions.dialogMessage($,'Creazione articolo','Uno o più valori del form non sono validi');
     }
+  }
+
+  observeFromService(): void{
+    this.api.loginChanged.subscribe(logged => {
+      console.log("logged");
+      console.log(logged);
+    });
+    this.api.userChanged.subscribe(userdata => {
+      console.log("userdata");
+      console.log(userdata);
+      this.userCookie['token_key'] = userdata['token_key'];
+      this.userCookie['username'] = userdata['username'];
+    });
   }
 
 }

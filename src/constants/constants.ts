@@ -7,6 +7,9 @@ export const blogUrl = '/blog';
 //php script for article view
 export const articleView: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/article/search_article.php";
 
+//php script for create an article
+export const articleCreateUrl: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/account/profile/myArticles/create.php";
+
 //php script for send assistance email
 export const contactUrl: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/contact.php";
 
