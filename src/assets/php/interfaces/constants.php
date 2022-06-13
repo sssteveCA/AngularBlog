@@ -10,6 +10,9 @@ interface Constants{
     const ACTIVATION_OK = "L' account è stato attivato con successo";
     const ACTIVATION_ERROR = "Errore durante l'ativazione dell'account. ".Constants::ADMIN_CONTACT;
 
+    //Article
+    const ARTICLECREATION_ERROR = "Errore durante la creazione dell'articolo. ".Constants::ADMIN_CONTACT;
+
     //Cookie
     const COOKIE_ID = 'id';
     const COOKIE_NAME = 'username';

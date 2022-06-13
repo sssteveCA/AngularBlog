@@ -26,9 +26,10 @@ $input = file_get_contents('php://input');
 $post = json_decode($input,true);
 //$response['post'] = $post;
 
-if(isset($post['token_key']) && $post['token_key'] != ''){
+if(isset($post['token_key'],$post['article']) && $post['token_key'] != ''){
     $data = [
-        'token_key' => $post['token_key']
+        'token_key' => $post['token_key'],
+        'article' => $post['article']
     ];
 }//if(isset($post['token_key']) && $post['token_key'] != ''){
 else

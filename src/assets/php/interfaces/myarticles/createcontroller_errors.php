@@ -10,9 +10,11 @@ interface CreateControllerErrors{
     //Numbers
     const NOUSERIDFOUND = 1;
     const INVALIDARTICLEDATA = 2;
+    const FROMARTICLE = 3; //Error from Article class
 
      //Messages
      const NOUSERIDFOUND_MSG = "Nessun id utente con la chiave di login fornita";
      const INVALIDARTICLEDATA_MSG = "I dati dell'articolo non sono formattati in modo corretto";
+     const FROMARTICLE_MSG = "Errore dalla classe Article";
 }
 ?>

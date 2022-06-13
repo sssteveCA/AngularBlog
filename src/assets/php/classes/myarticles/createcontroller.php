@@ -26,7 +26,7 @@ class CreateController implements C,Cce{
         //Check if user is logged
         if($this->setToken()){
             if($this->createArticle()){
-                
+                $this->insertArticle();
             }
         }
     }
@@ -39,6 +39,12 @@ class CreateController implements C,Cce{
         switch($this->errno){
             case Cce::NOUSERIDFOUND:
                 $this->error = Cce::NOUSERIDFOUND_MSG;
+                break;
+            case Cce::INVALIDARTICLEDATA:
+                $this->error = Cce::INVALIDARTICLEDATA_MSG;
+                break;
+            case Cce::FROMARTICLE:
+                $this->error = Cce::FROMARTICLE_MSG;
                 break;
             default:
                 $this->error = null;
@@ -53,6 +59,8 @@ class CreateController implements C,Cce{
         $isset = isset($this->article_data['title'],$this->article_data['introtext'],$this->article_data['content'],$this->article_data['permalink'],$this->article_data['categories'],$this->article_data['tags']);
         $not_blank = ($this->article_data['title'] != '' && $this->article_data['introtext'] != '' && $this->article_data['content'] != '' && $this->article_data['permalink'] != '');
         if($isset && $not_blank){
+            $this->article_data['categories'] = explode(",",$this->article_data['categories']);
+            $this->article_data['tags'] = explode(",",$this->article_data['tags']);
             $this->article = new Article($this->article_data);
             $created = true;
         }
@@ -65,6 +73,13 @@ class CreateController implements C,Cce{
     private function insertArticle(): bool{
         $inserted = false;
         $this->errno = 0;
+        $inserted_db = $this->article->article_create();
+        if($inserted_db){
+            //Article inserted successfully
+            $inserted = true;
+        }
+        else
+            $this->errno = Cce::FROMARTICLE;
         return $inserted;
     }
 
@@ -81,6 +96,26 @@ class CreateController implements C,Cce{
             $this->errno = Cce::NOUSERIDFOUND;
         //file_put_contents(CreateController::$logFile,"setToken() result => ".var_export($set,true)."\r\n",FILE_APPEND);
         return $set;
+    }
+
+    //Set the response to send to the view
+    private function setResponse(){
+        switch($this->errno){
+            case 0:
+                $this->response = "L'articolo è stato inserito con successo";
+                break;
+            case Cce::NOUSERIDFOUND:
+                $this->response = "Errore durante la creazione dell'articolo. Prova a rieseguire il login e ritenta";
+                break;
+            case Cce::INVALIDARTICLEDATA:
+                $this->response = Cce::INVALIDARTICLEDATA_MSG;
+                break;
+            case Cce::FROMARTICLE:
+                $this->response = C::ARTICLECREATION_ERROR;
+                break;
+            default:
+                $this->response = C::ERROR_UNKNOWN;
+        }
     }
 
 }
