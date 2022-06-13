@@ -6,6 +6,7 @@ use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\Article\ArticleErrors as Ae;
 use AngularBlog\Interfaces\ModelErrors as Me;
 use AngularBlog\Classes\Model;
+use MongoDB\BSON\ObjectId;
 
 class Article extends Model implements Ae,C,Me{
     private ?string $id; //Unique id of the article
@@ -78,7 +79,7 @@ class Article extends Model implements Ae,C,Me{
             //All data are valid and can be inserted
             $values = [
                 'title' => $this->title,
-                'author' => $this->author,
+                'author' => new ObjectId($this->author),
                 'permalink' => $this->permalink,
                 'content' => $this->content,
                 'introtext' => $this->introtext,

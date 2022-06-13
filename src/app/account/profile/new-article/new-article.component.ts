@@ -70,6 +70,8 @@ export class NewArticleComponent implements OnInit {
         //Send data in JSON format
         console.log("Create.php response => ");
         console.log(res);
+        let rJson = JSON.parse(res);
+        functions.dialogMessage($,'Creazione articolo',rJson['msg']);
       },error => {
         console.warn(error);
       });

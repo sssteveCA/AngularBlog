@@ -64,6 +64,7 @@ class CreateController implements C,Cce{
         $isset = isset($this->article_data['title'],$this->article_data['introtext'],$this->article_data['content'],$this->article_data['permalink'],$this->article_data['categories'],$this->article_data['tags']);
         $not_blank = ($this->article_data['title'] != '' && $this->article_data['introtext'] != '' && $this->article_data['content'] != '' && $this->article_data['permalink'] != '');
         if($isset && $not_blank){
+            $this->article_data['author'] = $this->token->getUserId();
             $this->article_data['categories'] = explode(",",$this->article_data['categories']);
             $this->article_data['tags'] = explode(",",$this->article_data['tags']);
             $this->article = new Article($this->article_data);
