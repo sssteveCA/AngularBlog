@@ -1,39 +1,42 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div>
-                <input type="text" id="title" class="form-control form-control-lg" name="title" placeholder="Titolo">
+<form id="fCreate" method="post" action="#" (ngSubmit)="create(); $event.preventDefault()" [formGroup]="form">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div>
+                    <input type="text" id="title" class="form-control form-control-lg" name="title" placeholder="Titolo" formControlName="title">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <textarea id="introtext" class="form-control" name="introtext" rows="3" placeholder="Inserisci qui una breve descrizione" formControlName="introtext"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-9 col-lg-8">
+                <textarea id="content" class="form-control" name="content" rows="15" placeholder="Inserisci qui il contenuto del tuo articolo" formControlName="content"></textarea>
+            </div>
+            <div id="boxes" class="col-12 col-md-3 col-lg-4" #boxes>
+                <div class="d-flex flex-column px-1 pb-3">
+                    <label for="permalink" class="form-label">Permalink</label>
+                    <input type="text" id="permalink" class="form-control" name="permalink" formControlName="permalink">
+                </div>
+                <div class="d-flex flex-column px-1 py-3">
+                    <label for="categories" class="form-label">Categorie (separate da virgola)</label>
+                    <textarea id="categories" class="form-control" name="categories" rows="3" formControlName="categories"></textarea>
+                </div>
+                <div class="d-flex flex-column px-1 py-3">
+                    <label for="tags" class="form-label">Tag (separati da virgola)</label>
+                    <textarea id="tags" class="form-control" name="tags" rows="3" formControlName="tags"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row my-3">
+            <div class="col-12 d-flex justify-content-around">
+                <button type="submit" class="btn btn-primary" >CREA</button>
+                <button type="reset" class="btn btn-danger">ANNULLA</button>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-12">
-            <textarea id="introtext" class="form-control" name="introtext" rows="3" placeholder="Inserisci qui una breve descrizione"></textarea>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12 col-md-9 col-lg-8">
-            <textarea id="content" class="form-control" name="content" rows="15" placeholder="Inserisci qui il contenuto del tuo articolo"></textarea>
-        </div>
-        <div id="boxes" class="col-12 col-md-3 col-lg-4" #boxes>
-            <div class="d-flex flex-column px-1 pb-3">
-                <label for="permalink" class="form-label">Permalink</label>
-                <input type="text" id="permalink" class="form-control" name="permalink">
-            </div>
-            <div class="d-flex flex-column px-1 py-3">
-                <label for="categories" class="form-label">Categorie (separate da virgola)</label>
-                <textarea id="categories" class="form-control" name="categories" rows="3"></textarea>
-            </div>
-            <div class="d-flex flex-column px-1 py-3">
-                <label for="tags" class="form-label">Tag (separati da virgola)</label>
-                <textarea id="tags" class="form-control" name="tags" rows="3"></textarea>
-            </div>
-        </div>
-    </div>
-    <div class="row my-3">
-        <div class="col-12 d-flex justify-content-around">
-            <button type="button" class="btn btn-primary">CREA</button>
-            <button type="button" class="btn btn-danger">ANNULLA</button>
-        </div>
-    </div>
-</div>
+</form>
+
