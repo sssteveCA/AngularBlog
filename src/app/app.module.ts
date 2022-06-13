@@ -21,6 +21,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AttivaComponent } from './account/attiva/attiva.component';
 import { ProfileComponent } from './account/profile/profile.component';
 import { MyArticlesComponent } from './account/profile/my-articles/my-articles.component';
+import { NewArticleComponent } from './account/new-article/new-article.component';
 
 
 
@@ -42,6 +43,7 @@ import { MyArticlesComponent } from './account/profile/my-articles/my-articles.c
     AttivaComponent,
     ProfileComponent,
     MyArticlesComponent,
+    NewArticleComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { ApiService } from './api.service';
+import * as constants from '../constants/constants';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,6 @@ import { ApiService } from './api.service';
 export class AppComponent {
   title = 'AngularBlog';
   path : string;
-  imgUrl : string = "http://localhost:4200/assets/img/background.jfif"; //background image url
 
   constructor(private router: Router, private api: ApiService){
     //console.log(this.router);
@@ -25,7 +25,7 @@ export class AppComponent {
   //show the background-image
   backgroundStyle() : Object{
     return {
-      'background-image' : "url('"+this.imgUrl+"')",
+      'background-image' : "url('"+constants.imgUrl+"')",
       'background-repeat' : 'repeat',
       'z-index': '-1',
       height: '-webkit-fill-available'

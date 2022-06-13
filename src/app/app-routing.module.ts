@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AttivaComponent } from './account/attiva/attiva.component';
 import { LoginComponent } from './account/login/login.component';
+import { NewArticleComponent } from './account/new-article/new-article.component';
 import { MyArticlesComponent } from './account/profile/my-articles/my-articles.component';
 import { ProfileComponent } from './account/profile/profile.component';
 import { RegisterComponent } from './account/register/register.component';
@@ -27,6 +28,7 @@ const routes: Routes = [
   {path: "attiva", component: AttivaComponent,canActivate:[NotAuthGuard]},
   {path: "profile", component:ProfileComponent, canActivate:[AuthGuard]},
   {path: "profile/myArticles", component:MyArticlesComponent, canActivate:[AuthGuard]},
+  {path: "profile/myArticles/create", component:NewArticleComponent, canActivate:[AuthGuard]},
   {path: "404", component: NotFound404Component},
   {path: "**", redirectTo: '/404'}
 ];

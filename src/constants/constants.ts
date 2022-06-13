@@ -13,6 +13,9 @@ export const contactUrl: string = "http://localhost/angular/ex6/AngularBlog/src/
 //home url of site
 export const homeUrl: string = "http://localhost:4200";
 
+//background image url
+export const imgUrl : string = "http://localhost:4200/assets/img/background.jfif"; 
+
 //url redirect after login success
 export const loginRedirect: string = "/";
 
