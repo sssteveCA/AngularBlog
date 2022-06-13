@@ -18,11 +18,16 @@ export class MenuComponent implements OnInit {
     this.userCookie["token_key"] = localStorage.getItem("token_key");
     this.userCookie["username"] = localStorage.getItem("username");
     this.observeFromService();
-    let logged = this.api.getLoginStatus();
-    if(!logged){
-      localStorage.removeItem("token_key");
-      localStorage.removeItem("username");
-    }
+    this.api.getLoginStatus().then(logged => {
+      console.log("getLoginStatus logged => "+logged);
+      if(!logged){
+        localStorage.removeItem("token_key");
+        localStorage.removeItem("username");
+      }
+    }).catch(err => {
+      console.warn("GetLoginStatus err");
+      console.warn(err);
+    });
   }
 
   //user wants  logout from his account
