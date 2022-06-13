@@ -20,6 +20,7 @@ export class MyArticlesComponent implements OnInit {
   constructor(public http: HttpClient, public api: ApiService,private router: Router) {
     this.observeFromService();
     this.api.getLoginStatus().then(res => {
+      //Check if user is logged
       if(res == true){
         this.userCookie['token_key'] = localStorage.getItem("token_key");
         this.userCookie['username'] = localStorage.getItem("username");
@@ -39,7 +40,7 @@ export class MyArticlesComponent implements OnInit {
           }        
           //console.log(rJson);
         });
-      }
+      }//if(res == true){
       else{
         this.api.removeItems();
         this.userCookie = {};
