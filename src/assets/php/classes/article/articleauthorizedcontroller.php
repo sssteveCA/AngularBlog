@@ -2,20 +2,21 @@
 
 namespace AngularBlog\Classes\Article;
 
+use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Article\Article;
 use AngularBlog\Interfaces\Article\ArticleAuthorizedControllerErrors as Aace;
-use AngularBlog\Classes\User;
 use AngularBlog\Classes\Token;
 use MongoDB\BSON\ObjectId;
 
 //Check if user is authorized to do write operation with a certain article
-class ArticleAuthorizedController implements Aace{
+class ArticleAuthorizedController implements Aace,C{
     private ?Article $article;
-    private ?User $user;
     private ?Token $token;
     private bool $authorized = false;
+    private string $response = "";
     private int $errno = 0;
     private ?string $error = null;
+    private static string $logFile = C::FILE_LOG;
 
     public function __construct(array $data){
         $this->checkVariables($data);
@@ -25,19 +26,18 @@ class ArticleAuthorizedController implements Aace{
             $articleOk = $this->getArticle();
             if($articleOk){
                 //Article exists
+                $authOk = $this->isUserAuthorizedCheck();
             }
         }
+        $this->setResponse();
     }
 
-    public function isAuthorized(){return $this->authorized;}
+    public function getResponse(){return $this->response;}
     public function getErrno(){return $this->errno;}
     public function getError(){
         switch($this->errno){
             case Aace::ARTICLE_NOTFOUND:
                 $this->error = Aace::ARTICLE_NOTFOUND_MSG;
-                break;
-            case Aace::USER_NOTFOUND:
-                $this->error = Aace::USER_NOTFOUND_MSG;
                 break;
             case Aace::TOKEN_NOTFOUND:
                 $this->error = Aace::TOKEN_NOTFOUND_MSG;
@@ -51,6 +51,8 @@ class ArticleAuthorizedController implements Aace{
         }
         return $this->error;
     }
+
+    public function isAuthorized(){return $this->authorized;}
 
     //Cntrol if values inside array are Article,User,Token types
     private function checkVariables(array $data){
@@ -105,6 +107,25 @@ class ArticleAuthorizedController implements Aace{
             $this->errno = Aace::FORBIDDEN;
         return $this->authorized;
     }
+
+    //Set the response to send to the view
+    private function setResponse(){
+        switch($this->errno){
+            case 0:
+                $this->response = "OK";
+                break;
+            case Aace::FORBIDDEN:
+                $this->response = Aace::FORBIDDEN_MSG;
+                break;
+            case Aace::ARTICLE_NOTFOUND:
+            case Aace::TOKEN_NOTFOUND:
+            default:
+                $this->response = C::ARTICLEEDITING_ERROR;
+                break;
+        }
+    }
+
+
 
 
 }
