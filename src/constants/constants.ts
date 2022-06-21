@@ -10,6 +10,9 @@ export const articleView: string = "http://localhost/angular/ex6/AngularBlog/src
 //php script for create an article
 export const articleCreateUrl: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/account/profile/myArticles/create.php";
 
+//article edit url (without param)
+export const articleEditUrl:string = '/profile/myArticles/edit';
+
 //php script for send assistance email
 export const contactUrl: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/contact.php";
 

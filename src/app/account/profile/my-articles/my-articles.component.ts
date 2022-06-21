@@ -32,7 +32,7 @@ export class MyArticlesComponent implements OnInit {
             this.done = true;
             this.message = null;
             this.articles = rJson['articles'] as Array<Article>;
-            this.insertArticles();
+            this.insertArticles(this.router);
           }//if(rJson['done'] == true){
           else{
             this.done = false;
@@ -73,7 +73,7 @@ export class MyArticlesComponent implements OnInit {
   }
 
   //Insert articles list in DOM
-  private insertArticles(): void{
+  private insertArticles(router: Router): void{
     let container = $('#articles-list');
     console.log("Container before foreach => ");
     console.log($(container));
@@ -104,6 +104,9 @@ export class MyArticlesComponent implements OnInit {
               'role': 'button'
             });
             btnEdit.html('MODIFICA');
+            btnEdit.on('click',function(e){
+              router.navigate([constants.articleEditUrl,article.id]);
+            });
           divButtons.append(btnEdit);
             let btnDel = $('<button>');
             btnDel.addClass('btn btn-danger');
