@@ -105,6 +105,7 @@ export class MyArticlesComponent implements OnInit {
             });
             btnEdit.html('MODIFICA');
             btnEdit.on('click',function(e){
+              e.preventDefault();
               router.navigate([constants.articleEditUrl,article.id]);
             });
           divButtons.append(btnEdit);

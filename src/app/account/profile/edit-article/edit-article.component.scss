@@ -1,6 +1,7 @@
 $border-width: 1px;
 $border-color: black;
 $boxes-divs: 3;
+$boxes-margin-top-lg: 33px;
 $row-margin-y: 10px;
 $md-breakpoint: 768px; //Bootstrap md breakpoint
 $md-breakpoint-1: $md-breakpoint - 1;
@@ -8,7 +9,7 @@ $md-breakpoint-1: $md-breakpoint - 1;
 @mixin boxes-responsive(){
     @media only screen and (min-width: #{$md-breakpoint}){
         #boxes{
-            margin: auto;
+            margin: $boxes-margin-top-lg auto auto auto;
         }
     }
     @media only screen and (max-width: #{$md-breakpoint-1}){
