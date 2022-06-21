@@ -1,55 +1,82 @@
-<form id="fEdit" method="post" action="#" (ngSubmit)="edit();" [formGroup]="form">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div>
-                    <h5>Titolo</h5>
+<ng-container *ngIf="found == true && authorized == true; else notshowed">
+    <!-- Article found -->
+    <form id="fEdit" method="post" action="#" (ngSubmit)="edit();" [formGroup]="form">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div>
+                        <h5>Titolo</h5>
+                    </div>
+                    <div>
+                        <input type="text" id="title" class="form-control form-control-lg" name="title" formControlName="title">
+                    </div>
                 </div>
-                <div>
-                    <input type="text" id="title" class="form-control form-control-lg" name="title" formControlName="title">
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div>
+                        <h5>Testo introduttivo</h5>
+                    </div>
+                    <div>
+                        <textarea id="introtext" class="form-control" name="introtext" rows="3" formControlName="introtext"></textarea>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-9 col-lg-8">
+                    <div>
+                        <h5>Contenuto</h5>
+                    </div>
+                    <div>
+                        <textarea id="content" class="form-control" name="content" rows="15" formControlName="content"></textarea>
+                    </div>  
+                </div>
+                <div id="boxes" class="col-12 col-md-3 col-lg-4">
+                    <div class="d-flex flex-column px-1 pb-3">
+                        <label for="permalink" class="form-label">Permalink</label>
+                        <input type="text" id="permalink" class="form-control" name="permalink" formControlName="permalink">
+                    </div>
+                    <div class="d-flex flex-column px-1 py-3">
+                        <label for="categories">Categorie (separate da virgola)</label>
+                        <textarea id="categories" class="form-control" name="categories" rows="3" formControlName="categories"></textarea>
+                    </div>
+                    <div class="d-flex flex-column px-1 py-3">
+                        <label for="tags" class="form-label">Tag (separati da virgola)</label>
+                        <textarea id="tags" class="form-control" name="tags" rows="3" formControlName="tags"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row my-3">
+                <div class="col-12 d-flex justify-content-around">
+                    <button type="submit" class="btn btn-primary">CREA</button>
+                    <button type="reset" class="btn btn-danger">ANNULLA</button>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12">
-                <div>
-                    <h5>Testo introduttivo</h5>
-                </div>
-                <div>
-                    <textarea id="introtext" class="form-control" name="introtext" rows="3" formControlName="introtext"></textarea>
-                </div>
-                
+    </form>
+</ng-container>
+<ng-template #notshowed>
+    <!-- Article not already showed-->
+    <ng-container *ngIf="found != true && authorized != true; else error">
+        <!-- Waiting for article data -->
+    </ng-container>
+    <ng-template #error>
+        <ng-container *ngIf="found == true && authorized == false; else notfound"></ng-container>
+        <ng-template #unauthorized>
+            <!-- Unauthorized to edit this article -->
+            <div id="divUnauthorized" class="p-5 rounded mt-3">
+                <h1>Non autorizzato</h1>
+                <p class="lead">Non sei autorizzato a modificare questo articolo</p>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-12 col-md-9 col-lg-8">
-                <div>
-                    <h5>Contenuto</h5>
-                </div>
-                <div>
-                    <textarea id="content" class="form-control" name="content" rows="15" formControlName="content"></textarea>
-                </div>  
+        </ng-template>
+        <ng-template #notfound>
+            <!-- Article with id passed not found -->
+            <div id="notFound" class="p-5 rounded mt-3">
+                <h1>Non trovato</h1>
+                <p class="lead">L'articolo che hai richiesto non è stato trovato</p>
             </div>
-            <div id="boxes" class="col-12 col-md-3 col-lg-4">
-                <div class="d-flex flex-column px-1 pb-3">
-                    <label for="permalink" class="form-label">Permalink</label>
-                    <input type="text" id="permalink" class="form-control" name="permalink" formControlName="permalink">
-                </div>
-                <div class="d-flex flex-column px-1 py-3">
-                    <label for="categories">Categorie (separate da virgola)</label>
-                    <textarea id="categories" class="form-control" name="categories" rows="3" formControlName="categories"></textarea>
-                </div>
-                <div class="d-flex flex-column px-1 py-3">
-                    <label for="tags" class="form-label">Tag (separati da virgola)</label>
-                    <textarea id="tags" class="form-control" name="tags" rows="3" formControlName="tags"></textarea>
-                </div>
-            </div>
-        </div>
-        <div class="row my-3">
-            <div class="col-12 d-flex justify-content-around">
-                <button type="submit" class="btn btn-primary">CREA</button>
-                <button type="reset" class="btn btn-danger">ANNULLA</button>
-            </div>
-        </div>
-    </div>
-</form>
+        </ng-template>
+</ng-template> 
+
+

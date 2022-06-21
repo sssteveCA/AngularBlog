@@ -100,7 +100,6 @@ export class MyArticlesComponent implements OnInit {
             let btnEdit = $('<a>');
             btnEdit.addClass('btn btn-primary');
             btnEdit.attr({
-              'href': '#',
               'role': 'button'
             });
             btnEdit.html('MODIFICA');
