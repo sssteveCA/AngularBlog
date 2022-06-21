@@ -4,6 +4,7 @@ namespace AngularBlog\Classes;
 
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Model;
+use MongoDB\BSON\ObjectId;
 
 //This class is used to store info about logged users
 
@@ -62,7 +63,7 @@ class Token extends Model implements C{
         $this->errno = 0;
         $this->keyGen();
         $values = [
-            'user_id' => $this->user_id,
+            'user_id' => new ObjectId($this->user_id),
             'username' => $this->username,
             'token_key' => $this->token_key,
             'logged_time' => date('d-m-Y H:i:s')
