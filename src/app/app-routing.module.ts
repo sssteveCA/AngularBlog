@@ -15,6 +15,7 @@ import { NotFound404Component } from './content/not-found404/not-found404.compon
 import { WhoWeAreComponent } from './content/who-we-are/who-we-are.component';
 import { AuthGuard } from './guard/auth.guard';
 import { NotAuthGuard } from './guard/not-auth.guard';
+import { EditArticleComponent } from './account/profile/edit-article/edit-article.component';
 
 const routes: Routes = [
   {path : "", component : IndexComponent},
@@ -29,6 +30,7 @@ const routes: Routes = [
   {path: "profile", component:ProfileComponent, canActivate:[AuthGuard]},
   {path: "profile/myArticles", component:MyArticlesComponent, canActivate:[AuthGuard]},
   {path: "profile/myArticles/create", component:NewArticleComponent, canActivate:[AuthGuard]},
+  {path: "profile/myArticles/edit/:articleId",component: EditArticleComponent, canActivate:[AuthGuard]},
   {path: "404", component: NotFound404Component},
   {path: "**", redirectTo: '/404'}
 ];
