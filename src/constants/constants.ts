@@ -4,6 +4,9 @@ export const activationUrl: string = "http://localhost/angular/ex6/AngularBlog/s
 //blog url
 export const blogUrl = '/blog';
 
+//php script for check if user is authorized to manage a certain article
+export const articleAuthorizedUrl: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/article/article_authorized.php";
+
 //php script for article view
 export const articleView: string = "http://localhost/angular/ex6/AngularBlog/src/assets/php/article/search_article.php";
 
