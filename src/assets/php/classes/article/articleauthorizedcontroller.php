@@ -19,7 +19,10 @@ class ArticleAuthorizedController implements Aace,C{
     private static string $logFile = C::FILE_LOG;
 
     public function __construct(array $data){
+        file_put_contents(ArticleAuthorizedController::$logFile,"ArticleAuthorizedController construct\r\n",FILE_APPEND);
         $this->checkVariables($data);
+        $this->article = $data['article'];
+        $this->token = $data['token'];
         $tokenOk = $this->getTokenByKey();
         if($tokenOk){
             //Token exists
@@ -29,6 +32,7 @@ class ArticleAuthorizedController implements Aace,C{
                 $authOk = $this->isUserAuthorizedCheck();
             }
         }
+        file_put_contents(ArticleAuthorizedController::$logFile,var_export($this->errno,true)."\r\n",FILE_APPEND);
         $this->setResponse();
     }
 
@@ -67,7 +71,7 @@ class ArticleAuthorizedController implements Aace,C{
         $got = false;
         $this->errno = 0;
         $key = $this->token->getTokenKey();
-        $data = ['token_key' => new ObjectId($key)];
+        $data = ['token_key' => $key];
         $token_got = $this->token->token_get($data);
         if($token_got){
             $got = true;
@@ -81,8 +85,8 @@ class ArticleAuthorizedController implements Aace,C{
     private function getArticle(): bool{
         $got = false;
         $this->errno = 0;
-        $user_id = $this->token->getUserId();
         $article_id = $this->article->getId();
+        file_put_contents(ArticleAuthorizedController::$logFile,"getArticle article id => ".var_export($article_id,true)."\r\n",FILE_APPEND);
         $data = ['_id' => new ObjectId($article_id)];
         $article_got = $this->article->article_get($data);
         if($article_got){

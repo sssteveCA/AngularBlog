@@ -18,7 +18,7 @@ export class EditArticleComponent implements OnInit {
   article: Article = new Article();
   form: FormGroup;
   authorized: boolean = false; //true if user can edit the founded article
-  error: string|null = null;
+  message: string = "";
   userCookie: any = {};
 
   constructor(
@@ -57,7 +57,8 @@ export class EditArticleComponent implements OnInit {
           console.log(res);
           //Check if user is authorized to edit this article
           this.authorized = res['authorized'];
-          this.error = res['msg'];
+          this.message = res['msg'];
+          console.log(this.message);
         }).catch(err => {
 
         });

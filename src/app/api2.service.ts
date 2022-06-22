@@ -9,7 +9,7 @@ import * as messages from '../messages/messages';
 })
 export class Api2Service {
 
-  private userCookie = new Subject<any>;
+  private userCookie = new Subject<any>();
 
   constructor(public http: HttpClient) { }
 

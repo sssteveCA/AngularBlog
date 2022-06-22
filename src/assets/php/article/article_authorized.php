@@ -32,8 +32,9 @@ $post = json_decode($input,true);
 if(isset($post['token_key'],$post['username'],$post['article_id']) && $post['token_key'] != '' && $post['username'] != '' && $post['article_id'] != ''){
     $token_key = $post['token_key'];
     $article_id = $post['article_id'];
+    file_put_contents(C::FILE_LOG,"article_authorized article id => ".var_export($article_id,true)."\r\n",FILE_APPEND);
     try{
-        $article = new Article(['_id' => $article_id]);
+        $article = new Article(['id' => $article_id]);
         $token = new Token(['token_key' => $token_key]);
         $data = [
             'article' => $article,
@@ -47,6 +48,7 @@ if(isset($post['token_key'],$post['username'],$post['article_id']) && $post['tok
         if($aav->isDone())
             $response['authorized'] = true;
     }catch(Exception $e){
+        file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
         $response['msg'] = C::ARTICLEEDITING_ERROR;
     }
 }//if(isset($post['token_key'],$post['username'],$post['article_id']) && $post['token_key'] != '' && $post['username'] != '' && $post['article_id'] != ''){

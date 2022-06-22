@@ -58,14 +58,14 @@
 </ng-container>
 <ng-template #notshowed>
     <!-- Article not already showed-->
-    <ng-container *ngIf="error != null && authorized != true; else error">
+    <ng-container *ngIf="message == ''; else error">
         <!-- Waiting for article data -->
     </ng-container>
     <ng-template #error>
         <!-- error during edit article authorization verification -->
         <div id="divError" class="p-5 rounded mt-3">
             <h1>Modifica articolo</h1>
-            <p class="lead">{{error}}</p>
+            <p class="lead">{{message}}</p>
         </div>
     </ng-template>
 </ng-template> 

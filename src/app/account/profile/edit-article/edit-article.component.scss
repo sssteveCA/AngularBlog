@@ -5,6 +5,9 @@ $boxes-margin-top-lg: 33px;
 $row-margin-y: 10px;
 $md-breakpoint: 768px; //Bootstrap md breakpoint
 $md-breakpoint-1: $md-breakpoint - 1;
+$notFound-id: "divError";
+$notFound-background-color: rgba(255,0,0,0.3);
+$notFound-border: 3px solid red;
 
 @mixin boxes-responsive(){
     @media only screen and (min-width: #{$md-breakpoint}){
@@ -51,7 +54,15 @@ $md-breakpoint-1: $md-breakpoint - 1;
     }
 }
 
+@mixin divError(){
+    ##{$notFound-id}{
+        background-color: #{$notFound-background-color};
+        border: #{$notFound-border};
+    }
+}
+
 @include boxes-responsive();
 @include row-divs();
 @include set-borders();
 @include textarea();
+@include divError();
