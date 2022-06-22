@@ -1,7 +1,7 @@
 <ng-container *ngIf="authorized == true; else notshowed">
     <!-- Article found -->
     <h1 class="text-center">Modifica articolo</h1>
-    <form id="fEdit" method="post" action="#" (ngSubmit)="edit();" [formGroup]="form">
+    <form id="fEdit" method="post" action="#" (ngSubmit)="edit(); $event.preventDefault();" [formGroup]="form">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">

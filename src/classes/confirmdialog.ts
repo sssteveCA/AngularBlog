@@ -3,7 +3,7 @@
 import * as bootstrap from "bootstrap";
 import ConfirmDialogInterface from "./confirmdialog.interface";
 
-export default class ConfirmDIalog{
+export default class ConfirmDialog{
 
     private _bt_yes: Element; //'Yes' button
     private _bt_no: Element; //'No' button
@@ -13,9 +13,9 @@ export default class ConfirmDIalog{
     private _title: string; //Dialog title
     private _html: string; //HTML of bootstrap dialog
 
-    construct(dci: ConfirmDialogInterface){
-        this._title = dci.title;
-        this._message = dci.message;
+    constructor(cdi: ConfirmDialogInterface){
+        this._title = cdi.title;
+        this._message = cdi.message;
         this.htmlDialog();
         this.showDialog();
     }

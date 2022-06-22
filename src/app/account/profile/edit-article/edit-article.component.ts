@@ -7,6 +7,8 @@ import * as messages from 'src/messages/messages';
 import { ApiService } from 'src/app/api.service';
 import { Api2Service } from 'src/app/api2.service';
 import { Article } from 'src/app/models/article.model';
+import ConfirmDialog from 'src/classes/confirmdialog';
+import ConfirmDialogInterface from 'src/classes/confirmdialog.interface';
 
 @Component({
   selector: 'app-edit-article',
@@ -97,7 +99,19 @@ export class EditArticleComponent implements OnInit {
   }
 
   edit(): void{
-
+    let data: ConfirmDialogInterface = {
+      title: 'Modifica articolo',
+      message: messages.editArticleConfirm
+    };
+    let cd = new ConfirmDialog(data);
+    cd.bt_yes.addEventListener('click',()=>{
+      cd.instance.dispose();
+      document.body.removeChild(cd.div_dialog);
+    });
+    cd.bt_no.addEventListener('click',()=>{
+      cd.instance.dispose();
+      document.body.removeChild(cd.div_dialog);
+    });
   }
 
   //insert article data to proper input fields
