@@ -10,3 +10,51 @@ article_authorized article id => '62a7ae495fb6427bd209e968'
 ArticleAuthorizedController construct
 getArticle article id => '62a7ae495fb6427bd209e968'
 0
+article_authorized article id => '62a7ae495fb6427bd209e968'
+ArticleAuthorizedController construct
+getArticle article id => '62a7ae495fb6427bd209e968'
+0
+article_authorized article id => '62a7ae495fb6427bd209e968'
+ArticleAuthorizedController construct
+getArticle article id => '62a7ae495fb6427bd209e968'
+0
+article_authorized article id => '62a7ae495fb6427bd209e968'
+ArticleAuthorizedController construct
+getArticle article id => '62a7ae495fb6427bd209e968'
+0
+article_authorized article id => '62a7ae495fb6427bd209e968'
+ArticleAuthorizedController construct
+getArticle article id => '62a7ae495fb6427bd209e968'
+0
+article_authorized article id => '62a7ae495fb6427bd209e968'
+ArticleAuthorizedController construct
+getArticle article id => '62a7ae495fb6427bd209e968'
+0
+article_authorized article id => '62a7ae495fb6427bd209e968'
+ArticleAuthorizedController construct
+getArticle article id => '62a7ae495fb6427bd209e968'
+0
+article_authorized article id => '62a7ae495fb6427bd209e968'
+ArticleAuthorizedController construct
+getArticle article id => '62a7ae495fb6427bd209e968'
+0
+article_authorized article id => '62a7ae495fb6427bd209e968'
+ArticleAuthorizedController construct
+getArticle article id => '62a7ae495fb6427bd209e968'
+0
+article_authorized article id => '62a7ae495fb6427bd209e968'
+ArticleAuthorizedController construct
+getArticle article id => '62a7ae495fb6427bd209e968'
+0
+article_authorized article id => '62a7ae495fb6427bd209e968'
+ArticleAuthorizedController construct
+getArticle article id => '62a7ae495fb6427bd209e968'
+0
+article_authorized article id => '62a7ae495fb6427bd209e968'
+ArticleAuthorizedController construct
+getArticle article id => '62a7ae495fb6427bd209e968'
+0
+article_authorized article id => '62a7ae495fb6427bd209e968'
+ArticleAuthorizedController construct
+getArticle article id => '62a7ae495fb6427bd209e968'
+0

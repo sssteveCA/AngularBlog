@@ -55,8 +55,8 @@ if(isset($post['token_key'],$post['username'],$post['article_id']) && $post['tok
                 'introtext' => $article->getIntrotext(),
                 'content' => $article->getContent(),
                 'permalink' => $article->getPermalink(),
-                'categories' => $article->getCategories(),
-                'tags' => $article->getTags()
+                'categories' => implode(",",$article->getCategories()),
+                'tags' => implode(",",$article->getTags())
             ];
         }
             

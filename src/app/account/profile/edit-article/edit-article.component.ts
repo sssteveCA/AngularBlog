@@ -52,16 +52,7 @@ export class EditArticleComponent implements OnInit {
       console.log(id);
       if(typeof id !== 'undefined' && id != null){
         this.article.id = id;
-        api2.isAuthorizedArticle(this.article.id).then(res => {
-          console.log("EditArticleComponent isAuthorized article =>");
-          console.log(res);
-          //Check if user is authorized to edit this article
-          this.authorized = res['authorized'];
-          this.message = res['msg'];
-          console.log(this.message);
-        }).catch(err => {
-
-        });
+        this.getArticleInfo(this.article.id,api2);
       }
     });
    }
@@ -83,12 +74,40 @@ export class EditArticleComponent implements OnInit {
   }
 
   //Get article info and put in inputs
-  getArticleInfo(id: string): void{
+  getArticleInfo(id: string,api2: Api2Service): void{
+    api2.isAuthorizedArticle(this.article.id).then(res => {
+      console.log("EditArticleComponent isAuthorized article =>");
+      console.log(res);
+      //Check if user is authorized to edit this article
+      this.authorized = res['authorized'];
+      this.message = res['msg'];
+      if(this.authorized == true){
+        this.article.title = res['article']['title'];
+        this.article.introtext = res['article']['introtext'];
+        this.article.content = res['article']['content'];
+        this.article.permalink = res['article']['permalink'];
+        this.article.categories = res['article']['categories'];
+        this.article.tags = res['article']['tags'];
+        this.setFields();
+      }
+      console.log(this.message);
+    }).catch(err => {
 
+    });
   }
 
   edit(): void{
 
+  }
+
+  //insert article data to proper input fields
+  setFields(): void{
+    this.form.controls['title'].setValue(this.article.title);
+    this.form.controls['introtext'].setValue(this.article.introtext);
+    this.form.controls['content'].setValue(this.article.content);
+    this.form.controls['permalink'].setValue(this.article.permalink);
+    this.form.controls['categories'].setValue(this.article.categories);
+    this.form.controls['tags'].setValue(this.article.tags);
   }
 
 }

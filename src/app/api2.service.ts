@@ -17,7 +17,8 @@ export class Api2Service {
   async isAuthorizedArticle(id: string): Promise<any>{
     let authStatus = {
       'authorized': false,
-      'msg': ''
+      'msg': '',
+      'article': {}
     };
     const url = constants.articleAuthorizedUrl;
     const data = {
@@ -35,6 +36,7 @@ export class Api2Service {
       let rJson = JSON.parse(res as string);
       if(rJson['authorized'] == true){
         authStatus['authorized'] = true;
+        authStatus['article'] = rJson['article']
       }
       else{
         authStatus['msg'] = rJson['msg'];
