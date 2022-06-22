@@ -1,4 +1,4 @@
-<ng-container *ngIf="found == true && authorized == true; else notshowed">
+<ng-container *ngIf="authorized == true; else notshowed">
     <!-- Article found -->
     <form id="fEdit" method="post" action="#" (ngSubmit)="edit();" [formGroup]="form">
         <div class="container-fluid">
@@ -58,25 +58,16 @@
 </ng-container>
 <ng-template #notshowed>
     <!-- Article not already showed-->
-    <ng-container *ngIf="found != true && authorized != true; else error">
+    <ng-container *ngIf="error != null && authorized != true; else error">
         <!-- Waiting for article data -->
     </ng-container>
     <ng-template #error>
-        <ng-container *ngIf="found == true && authorized == false; else notfound"></ng-container>
-        <ng-template #unauthorized>
-            <!-- Unauthorized to edit this article -->
-            <div id="divUnauthorized" class="p-5 rounded mt-3">
-                <h1>Non autorizzato</h1>
-                <p class="lead">Non sei autorizzato a modificare questo articolo</p>
-            </div>
-        </ng-template>
-        <ng-template #notfound>
-            <!-- Article with id passed not found -->
-            <div id="notFound" class="p-5 rounded mt-3">
-                <h1>Non trovato</h1>
-                <p class="lead">L'articolo che hai richiesto non è stato trovato</p>
-            </div>
-        </ng-template>
+        <!-- error during edit article authorization verification -->
+        <div id="divError" class="p-5 rounded mt-3">
+            <h1>Modifica articolo</h1>
+            <p class="lead">{{error}}</p>
+        </div>
+    </ng-template>
 </ng-template> 
 
 

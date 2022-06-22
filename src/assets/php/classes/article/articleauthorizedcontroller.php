@@ -118,6 +118,8 @@ class ArticleAuthorizedController implements Aace,C{
                 $this->response = Aace::FORBIDDEN_MSG;
                 break;
             case Aace::ARTICLE_NOTFOUND:
+                $this->response = Aace::ARTICLE_NOTFOUND_MSG;
+                break;
             case Aace::TOKEN_NOTFOUND:
             default:
                 $this->response = C::ARTICLEEDITING_ERROR;

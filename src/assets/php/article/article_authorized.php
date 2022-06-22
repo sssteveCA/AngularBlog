@@ -15,13 +15,14 @@ require_once("../classes/article/articleauthorizedview.php");
 
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Article\ArticleAuthorizedController;
-use AngularBlog\Interfaces\Article\ArticleAuthorizedViewErrors;
+use AngularBlog\Interfaces\Article\ArticleAuthorizedControllerErrors as Aace;
+use AngularBlog\Interfaces\Article\ArticleAuthorizedViewErrors as Aave;
 use AngularBlog\Classes\Article\Article;
 use AngularBlog\Classes\Article\ArticleAuthorizedView;
 use AngularBlog\Classes\Token;
 
 $response = array(
-    'done' => false,
+    'authorized' => false,
     'msg' => ''
 );
 
@@ -41,8 +42,10 @@ if(isset($post['token_key'],$post['username'],$post['article_id']) && $post['tok
         $aac = new ArticleAuthorizedController($data);
         $aav = new ArticleAuthorizedView($aac);
         $response['msg'] = $aav->getMessage();
+        if($response['msg'] != Aace::ARTICLE_NOTFOUND_MSG)
+            //Article found with passed id
         if($aav->isDone())
-            $response['done'] = true;
+            $response['authorized'] = true;
     }catch(Exception $e){
         $response['msg'] = C::ARTICLEEDITING_ERROR;
     }

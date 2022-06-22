@@ -8,8 +8,8 @@ use AngularBlog\Classes\Article\ArticleAuthorizedController;
 class ArticleAuthorizedView implements Aave{
     private ?ArticleAuthorizedController $aac;
     private string $message = "";
-    private bool $done = false; //true if article editing is done successfully
-
+    private bool $done = false; //true if article editing authorization is ok
+    
     public function __construct(?ArticleAuthorizedController $aac)
     {
         if(!$aac)throw new \Exception(Aave::NOARTICLEAUTHORIZEDCONTROLLERINSTANCE_EXC);

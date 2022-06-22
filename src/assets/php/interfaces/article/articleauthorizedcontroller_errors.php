@@ -17,7 +17,7 @@ interface ArticleAuthorizedControllerErrors{
     const FORBIDDEN = 4; //Article editing is not allowed for current user
 
     //Messages
-    const ARTICLE_NOTFOUND_MSG = "Non è stato trovato nessun articolo con l'id fornito";
+    const ARTICLE_NOTFOUND_MSG = "L'articolo che stai cercando non esiste o è stato rimosso";
     const TOKEN_NOTFOUND_MSG = "Non è stato trovato nessun token con la chiave passata";
     const FORBIDDEN_MSG = "Non sei autorizzato a modificare questo articolo";
 }

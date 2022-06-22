@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import * as constants from '../constants/constants';
+import * as messages from '../messages/messages';
 
 @Injectable({
   providedIn: 'root'
@@ -13,23 +14,35 @@ export class Api2Service {
   constructor(public http: HttpClient) { }
 
   //Check if user is authorized to do a certain action to an article
-  async isAuthorizedArticle(id: string): Promise<boolean>{
-    let authorized = false;
+  async isAuthorizedArticle(id: string): Promise<any>{
+    let authStatus = {
+      'authorized': false,
+      'msg': ''
+    };
     const url = constants.articleAuthorizedUrl;
     const data = {
       'token_key': localStorage.getItem('token_key'),
-      'username': localStorage.getItem('username')
+      'username': localStorage.getItem('username'),
+      'article_id': id
     };
     const headers = new HttpHeaders({
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     });
     await this.isAuthorizedArticlePromise(url,data,headers).then(res => {
+      console.log("Api2Service isAuthorizedArticlePromise => ");
       console.log(res);
+      let rJson = JSON.parse(res as string);
+      if(rJson['authorized'] == true){
+        authStatus['authorized'] = true;
+      }
+      else{
+        authStatus['msg'] = rJson['msg'];
+      }
     }).catch(err => {
-
+      authStatus['msg'] = messages.articleAuthorizedError;
     });
-    return authorized;
+    return authStatus;
   }
 
   async isAuthorizedArticlePromise(url: string, body: any, headers: any){

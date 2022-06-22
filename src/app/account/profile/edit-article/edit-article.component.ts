@@ -3,7 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import * as constants from 'src/constants/constants';
+import * as messages from 'src/messages/messages';
 import { ApiService } from 'src/app/api.service';
+import { Api2Service } from 'src/app/api2.service';
 import { Article } from 'src/app/models/article.model';
 
 @Component({
@@ -15,11 +17,12 @@ export class EditArticleComponent implements OnInit {
 
   article: Article = new Article();
   form: FormGroup;
-  found: boolean; //true if an article with id param was found
-  authorized: boolean; //true if user can edit the founded article
+  authorized: boolean = false; //true if user can edit the founded article
+  error: string|null = null;
   userCookie: any = {};
 
-  constructor(public http: HttpClient, public fb: FormBuilder, public api: ApiService, private router: Router, public route: ActivatedRoute) {
+  constructor(
+    public http: HttpClient, public fb: FormBuilder, public api: ApiService, private router: Router, public route: ActivatedRoute, api2: Api2Service) {
     this.observeFromService();
     this.api.getLoginStatus().then(res => {
       //Check if user is logged
@@ -49,6 +52,15 @@ export class EditArticleComponent implements OnInit {
       console.log(id);
       if(typeof id !== 'undefined' && id != null){
         this.article.id = id;
+        api2.isAuthorizedArticle(this.article.id).then(res => {
+          console.log("EditArticleComponent isAuthorized article =>");
+          console.log(res);
+          //Check if user is authorized to edit this article
+          this.authorized = res['authorized'];
+          this.error = res['msg'];
+        }).catch(err => {
+
+        });
       }
     });
    }
