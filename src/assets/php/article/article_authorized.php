@@ -23,6 +23,7 @@ use AngularBlog\Classes\Token;
 
 $response = array(
     'authorized' => false,
+    'article' => [],
     'msg' => ''
 );
 
@@ -45,8 +46,20 @@ if(isset($post['token_key'],$post['username'],$post['article_id']) && $post['tok
         $response['msg'] = $aav->getMessage();
         if($response['msg'] != Aace::ARTICLE_NOTFOUND_MSG)
             //Article found with passed id
-        if($aav->isDone())
+        if($aav->isDone()){
             $response['authorized'] = true;
+            $article = $aav->getController()->getArticle();
+            $response['article'] = [
+                'id' => $article->getId(),
+                'title' => $article->getTitle(),
+                'introtext' => $article->getIntrotext(),
+                'content' => $article->getContent(),
+                'permalink' => $article->getPermalink(),
+                'categories' => $article->getCategories(),
+                'tags' => $article->getTags()
+            ];
+        }
+            
     }catch(Exception $e){
         file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
         $response['msg'] = C::ARTICLEEDITING_ERROR;

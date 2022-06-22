@@ -9,7 +9,7 @@ class ArticleAuthorizedView implements Aave{
     private ?ArticleAuthorizedController $aac;
     private string $message = "";
     private bool $done = false; //true if article editing authorization is ok
-    
+
     public function __construct(?ArticleAuthorizedController $aac)
     {
         if(!$aac)throw new \Exception(Aave::NOARTICLEAUTHORIZEDCONTROLLERINSTANCE_EXC);
@@ -20,6 +20,7 @@ class ArticleAuthorizedView implements Aave{
         $this->message = $this->aac->getResponse();
     }
 
+    public function getController(){return $this->aac;}
     public function getMessage(){return $this->message;}
     public function isDone(){return $this->done;}
 }

@@ -26,7 +26,7 @@ class ArticleAuthorizedController implements Aace,C{
         $tokenOk = $this->getTokenByKey();
         if($tokenOk){
             //Token exists
-            $articleOk = $this->getArticle();
+            $articleOk = $this->getArticleById();
             if($articleOk){
                 //Article exists
                 $authOk = $this->isUserAuthorizedCheck();
@@ -36,6 +36,7 @@ class ArticleAuthorizedController implements Aace,C{
         $this->setResponse();
     }
 
+    public function getArticle(){return $this->article;}
     public function getResponse(){return $this->response;}
     public function getErrno(){return $this->errno;}
     public function getError(){
@@ -82,7 +83,7 @@ class ArticleAuthorizedController implements Aace,C{
     }
 
     //Get article info by id
-    private function getArticle(): bool{
+    private function getArticleById(): bool{
         $got = false;
         $this->errno = 0;
         $article_id = $this->article->getId();
