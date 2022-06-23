@@ -119,13 +119,13 @@ class ArticleAuthorizedController implements Aace,C{
             case 0:
                 $this->response = "OK";
                 break;
+            case Aace::TOKEN_NOTFOUND:
             case Aace::FORBIDDEN:
                 $this->response = Aace::FORBIDDEN_MSG;
                 break;
             case Aace::ARTICLE_NOTFOUND:
                 $this->response = Aace::ARTICLE_NOTFOUND_MSG;
                 break;
-            case Aace::TOKEN_NOTFOUND:
             default:
                 $this->response = C::ARTICLEEDITING_ERROR;
                 break;
