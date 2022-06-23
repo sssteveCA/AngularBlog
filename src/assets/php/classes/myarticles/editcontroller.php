@@ -10,7 +10,7 @@ use AngularBlog\Classes\Article\ArticleAuthorizedController;
 use AngularBlog\Interfaces\Article\ArticleAuthorizedControllerErrors as Aace;
 use MongoDB\BSON\ObjectId;
 
-class EditContoller implements Ece,C,Aace{
+class EditContoller implements Ece,C{
     private ?Article $article;
     private ?ArticleAuthorizedController $aac;
     private ?Token $token;
@@ -85,6 +85,7 @@ class EditContoller implements Ece,C,Aace{
         $this->errno = 0;
         $article_temp = new Article();
         $filter = ['permalink' => $this->article->getPermalink()];
+        file_put_contents(EditContoller::$logFile,"checkDuplicate => ".var_export($filter,true)."\r\n",FILE_APPEND);
         $get = $article_temp->article_get($filter);
         if($get){
             $duplicated = true;
@@ -101,6 +102,7 @@ class EditContoller implements Ece,C,Aace{
         $filter = ['_id' => new ObjectId($article_id)];
         $values = ['set' => [
             'title' => $this->article->getTitle(),
+            'author' => $this->token->getUserId(),
             'introtext' => $this->article->getTitle(),
             'content' => $this->article->getContent(),
             'permalink' => $this->article->getPermalink(),

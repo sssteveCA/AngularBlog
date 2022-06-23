@@ -6,22 +6,22 @@ require_once("../../../interfaces/model_errors.php");
 require_once("../../../interfaces/article/article_errors.php");
 require_once("../../../interfaces/article/articleauthorizedcontroller_errors.php");
 require_once("../../../interfaces/article/articleauthorizedview_errors.php");
+require_once("../../../interfaces/myarticles/editcontroller_errors.php");
+require_once("../../../interfaces/myarticles/editview_errors.php");
 require_once("../../../vendor/autoload.php");
 require_once("../../../classes/model.php");
 require_once("../../../classes/token.php");
 require_once("../../../classes/article/article.php");
 require_once("../../../classes/article/articleauthorizedcontroller.php");
 require_once("../../../classes/article/articleauthorizedview.php");
+require_once("../../../classes/myarticles/editcontroller.php");
+require_once("../../../classes/myarticles/editview.php");
 
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\Article\Article;
-use AngularBlog\Interfaces\Article\ArticleAuthorizedControllerErrors as Aace;
-use AngularBlog\Classes\Article\ArticleAuthorizedController;
-use AngularBlog\Classes\Article\ArticleAuthorizedView;
 use AngularBlog\Classes\Myarticles\EditContoller;
 use AngularBlog\Classes\Myarticles\EditView;
-use MongoDB\BSON\ObjectId;
 
 $input = file_get_contents('php://input');
 $post = json_decode($input,true);

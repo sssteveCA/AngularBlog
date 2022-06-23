@@ -37,6 +37,7 @@ class ArticleAuthorizedController implements Aace,C{
     }
 
     public function getArticle(){return $this->article;}
+    public function getToken(){return $this->token;}
     public function getResponse(){return $this->response;}
     public function getErrno(){return $this->errno;}
     public function getError(){
