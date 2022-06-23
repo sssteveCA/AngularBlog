@@ -8,6 +8,7 @@ use AngularBlog\Classes\Article\Article;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\Article\ArticleAuthorizedController;
 use AngularBlog\Interfaces\Article\ArticleAuthorizedControllerErrors as Aace;
+use MongoDB\BSON\ObjectId;
 
 class EditContoller implements Ece,C,Aace{
     private ?Article $article;
@@ -25,8 +26,9 @@ class EditContoller implements Ece,C,Aace{
         $this->token = $data['token'];
         $auth = $this->checkAuthorization();
         if($auth){
-            
+            $edit = $this->edit_article();
         }
+        $this->setResponse();
     }
 
     public function getResponse(){return $this->response;}
@@ -35,6 +37,9 @@ class EditContoller implements Ece,C,Aace{
         switch($this->errno){
             case Ece::FROM_ARTICLEAUTHORIZEDCONTROLLER:
                 $this->error = Ece::FROM_ARTICLEAUTHORIZEDCONTROLLER_MSG;
+                break;
+            case Ece::ARTICLENOTUPDATED:
+                $this->error = Ece::ARTICLENOTUPDATED_MSG;
                 break;
             default:
                 $this->error = null;
@@ -67,6 +72,53 @@ class EditContoller implements Ece,C,Aace{
         else
             $this->errno = Ece::FROM_ARTICLEAUTHORIZEDCONTROLLER;
         return $authorized;
+    }
+
+    //Update article information
+    private function edit_article(): bool{
+        $edited = false;
+        $this->errno = 0;
+        $article_id = $this->article->getId();
+        $filter = ['_id' => new ObjectId($article_id)];
+        $values = ['set' => [
+            'title' => $this->article->getTitle(),
+            'introtext' => $this->article->getTitle(),
+            'content' => $this->article->getContent(),
+            'permalink' => $this->article->getPermalink(),
+            'categories' => $this->article->getCategories(),
+            'tags' => $this->article->getTags()
+        ]];
+        $article_edit = $this->article->article_update($filter,$values);
+        if($article_edit)
+            $edited = true;
+        else
+            $this->errno = Ece::ARTICLENOTUPDATED;
+        return $edited;
+    }
+
+    //Set the response to send to the view
+    private function setResponse(){
+        switch($this->errno){
+            case 0:
+                $this->response = C::ARTICLEEDITING_OK;
+                break;
+            case Ece::FROM_ARTICLEAUTHORIZEDCONTROLLER:
+                $aacErrno = $this->aac->getErrno();
+                switch($aacErrno){
+                    case Aace::TOKEN_NOTFOUND:
+                    case Aace::FORBIDDEN:
+                        $this->response = Aace::FORBIDDEN_MSG;
+                        break;
+                    default:
+                        $this->response = C::ARTICLEEDITING_ERROR;
+                        break;
+                }//switch($aacErrno){
+                break;
+            case Ece::ARTICLENOTUPDATED:
+            default:
+                $this->response = C::ARTICLEEDITING_ERROR;
+                break;
+        }
     }
 }
 ?>

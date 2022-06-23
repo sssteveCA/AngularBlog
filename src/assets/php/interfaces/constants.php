@@ -13,7 +13,7 @@ interface Constants{
     //Article
     const ARTICLECREATION_ERROR = "Errore durante la creazione dell'articolo. ".Constants::ADMIN_CONTACT;
     const ARTICLEEDITING_ERROR = "Errore durante la modifica dell'articolo. ".Constants::ADMIN_CONTACT;
-    const ARTICLEEDITING_OK = "";
+    const ARTICLEEDITING_OK = "L'articolo è stato modificato con successo";
 
     //Cookie
     const COOKIE_ID = 'id';

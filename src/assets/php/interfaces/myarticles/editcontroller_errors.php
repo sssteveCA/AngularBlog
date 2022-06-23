@@ -11,8 +11,10 @@ interface EditControllerErrors{
 
     //Numbers
     const FROM_ARTICLEAUTHORIZEDCONTROLLER = 1; //Error from ArticleAuthorizedController
+    const ARTICLENOTUPDATED = 2; //Article information was not updated
 
     //Messages
     const FROM_ARTICLEAUTHORIZEDCONTROLLER_MSG = "Errore dalla classe ArticleAuthorizedController";
+    const ARTICLENOTUPDATED_MSG = "Le informazioni dell'articolo non sono state aggiornate";
 }
 ?>
