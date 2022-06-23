@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import MessageDialog from 'src/classes/messagedialog';
+import MessageDialogInterface from 'src/classes/messagedialog.interface';
 import * as constants from '../../../constants/constants';
-import * as functions from '../../../functions/functions';
-declare var $:any;
 
 @Component({
   selector: 'app-contacts',
@@ -29,9 +29,7 @@ export class ContactsComponent implements OnInit {
 
   //when user submit the contact form
   onSubmit():void{
-    console.log("onSubmit");
     if(this.contactForm.valid){
-      console.log("valid");
       let dati = {
         email : this.contactForm.controls['email'].value,
         subject : this.contactForm.controls['subject'].value,
@@ -51,7 +49,15 @@ export class ContactsComponent implements OnInit {
       try{
         let rJson = JSON.parse(res);
         //console.log(rJson);
-        functions.dialogMessage($,'Contatti',rJson['msg']);
+        const data: MessageDialogInterface = {
+          title: 'Contatti',
+          message: rJson['msg']
+        };
+        let md = new MessageDialog(data);
+        md.bt_ok.addEventListener('click',()=>{
+          md.instance.dispose();
+          md.div_dialog.remove();
+        });
       }catch(e){
         console.warn(e);
       }

@@ -4,8 +4,11 @@ import { Article } from 'src/app/models/article.model';
 import { ApiService } from 'src/app/api.service';
 import * as functions from 'src/functions/functions';
 import * as constants from 'src/constants/constants';
+import * as messages from 'src/messages/messages';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import MessageDialogInterface from 'src/classes/messagedialog.interface';
+import MessageDialog from 'src/classes/messagedialog';
 
 @Component({
   selector: 'app-new-article',
@@ -71,13 +74,29 @@ export class NewArticleComponent implements OnInit {
         console.log("Create.php response => ");
         console.log(res);
         let rJson = JSON.parse(res);
-        functions.dialogMessage($,'Creazione articolo',rJson['msg']);
+        const data: MessageDialogInterface = {
+          title: 'Creazione articolo',
+          message: rJson['msg']
+        };
+        let md = new MessageDialog(data);
+        md.bt_ok.addEventListener('click',()=>{
+          md.instance.dispose();
+          md.div_dialog.remove();
+        });
       },error => {
         console.warn(error);
       });
     }
     else{
-      functions.dialogMessage($,'Creazione articolo','Uno o più valori del form non sono validi');
+      const data: MessageDialogInterface = {
+        title: 'Creazione articolo',
+        message: messages.invalidData
+      };
+      let md = new MessageDialog(data);
+      md.bt_ok.addEventListener('click',()=>{
+        md.instance.dispose();
+        md.div_dialog.remove();
+      });
     }
   }
 

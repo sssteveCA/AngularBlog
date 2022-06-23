@@ -12,6 +12,8 @@ export default class MessageDialog{
     constructor(mdi: MessageDialogInterface){
         this._title = mdi.title;
         this._message = mdi.message;
+        this.htmlDialog();
+        this.showDialog();
     }
 
     get bt_ok(){return this._bt_ok;}
@@ -54,6 +56,6 @@ export default class MessageDialog{
             focus: true
         });
         this._instance.show();
-        this._bt_ok = document.querySelector('.md_yesbutton') as Element;
+        this._bt_ok = document.querySelector('.md_okbutton') as Element;
     }
 }

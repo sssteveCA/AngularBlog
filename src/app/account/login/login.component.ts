@@ -3,9 +3,9 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
+import MessageDialog from 'src/classes/messagedialog';
+import MessageDialogInterface from 'src/classes/messagedialog.interface';
 import * as constants from '../../../constants/constants';
-import * as functions from '../../../functions/functions';
-declare var $:any;
 
 @Component({
   selector: 'app-login',
@@ -60,7 +60,15 @@ export class LoginComponent implements OnInit {
         }
         else{
           //console.log(rJson);
-          functions.dialogMessage($,'Login',rJson['msg']);
+          const data: MessageDialogInterface = {
+            title: 'Login',
+            message: rJson['msg']
+          };
+          let md = new MessageDialog(data);
+          md.bt_ok.addEventListener('click',()=>{
+            md.instance.dispose();
+            md.div_dialog.remove();
+          });
         }
       }catch(e){
         console.warn(e);

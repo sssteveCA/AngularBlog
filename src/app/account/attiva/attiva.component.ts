@@ -2,9 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import MessageDialog from 'src/classes/messagedialog';
+import MessageDialogInterface from 'src/classes/messagedialog.interface';
 import * as constants from '../../../constants/constants';
-import * as functions from '../../../functions/functions';
-declare var $:any;
+import * as messages from '../../../messages/messages';
 
 @Component({
   selector: 'app-attiva',
@@ -46,7 +47,15 @@ export class AttivaComponent implements OnInit {
       if(this.fromSubmit){
         //display dialog message if get request was performed from form 
         if(this.status == 0){
-          functions.dialogMessage($,"Attivazione account","Inserisci un codice di attivazione");
+          const data: MessageDialogInterface = {
+            title: 'Attivazione account',
+            message: messages.activationCodeMissing
+          };
+          let md = new MessageDialog(data);
+          md.bt_ok.addEventListener('click',()=>{
+            md.instance.dispose();
+            md.div_dialog.remove();
+          });
         }
         this.fromSubmit = false;
       }
@@ -59,17 +68,18 @@ export class AttivaComponent implements OnInit {
       this.urlParams = constants.activationUrl+'?emailVerif='+this.emailCode.value;
       this.fromSubmit = true;
       this.active(this.urlParams);
-      /*if(this.rJson.status == 1){
-        functions.dialogMessage($,"Attivazione account","Account attivato con successo");
-      }*/
-      
-      /*else if(this.rJson.status == -1){
-        functions.dialogMessage($,"Attivazione account","Codice non valido");
-      }*/
     }
     else{
       //if emailCode input is void
-      functions.dialogMessage($,"Attivazione account","Inserisci un codice di attivazione");
+      const data: MessageDialogInterface = {
+        title: 'Attivazione account',
+        message: messages.activationCodeMissing
+      };
+      let md = new MessageDialog(data);
+      md.bt_ok.addEventListener('click',()=>{
+        md.instance.dispose();
+        md.div_dialog.remove();
+      });
     }
   }
 

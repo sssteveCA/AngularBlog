@@ -2,8 +2,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import * as constants from '../../../constants/constants';
-import * as functions from '../../../functions/functions';
-declare var $:any;
+import * as messages from '../../../messages/messages';
+import MessageDialog from '../../../classes/messagedialog';
+import MessageDialogInterface from 'src/classes/messagedialog.interface';
 
 @Component({
   selector: 'app-register',
@@ -51,12 +52,28 @@ export class RegisterComponent implements OnInit {
         this.subscribe(dati);
       }
       else{
-        functions.dialogMessage($,"Registrazione","Le due password non coincidono");
+        const data: MessageDialogInterface = {
+          title: 'Registrazione',
+          message: messages.passwordMismatch
+        };
+        let md = new MessageDialog(data);
+        md.bt_ok.addEventListener('click',()=>{
+          md.instance.dispose();
+          md.div_dialog.remove();
+        });
       }
     }//if(this.formGroup.valid){
     else{
       //invalid form data
-      functions.dialogMessage($,"Registrazione","I dati inseriti non sono validi, riprova");
+      const data: MessageDialogInterface = {
+        title: 'Registrazione',
+        message: messages.invalidData
+      };
+      let md = new MessageDialog(data);
+      md.bt_ok.addEventListener('click',()=>{
+        md.instance.dispose();
+        md.div_dialog.remove();
+      });
     }
   }
 
@@ -86,7 +103,15 @@ export class RegisterComponent implements OnInit {
     this.http.post(constants.registerUrl, params,{responseType: 'text'}).subscribe(res => {
       console.log(res);
       let rJson = JSON.parse(res);
-      functions.dialogMessage($,"Registrazione",rJson["msg"]);
+      const data: MessageDialogInterface = {
+        title: 'Registrazione',
+        message: rJson['msg']
+      };
+      let md = new MessageDialog(data);
+      md.bt_ok.addEventListener('click',()=>{
+        md.instance.dispose();
+        md.div_dialog.remove();
+      });
     });
   }
 
