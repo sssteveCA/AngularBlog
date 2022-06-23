@@ -1,0 +1,4 @@
+article_authorized article id => '62932d26b2a2d5a73d5fdc0a'
+getArticle article id => '62932d26b2a2d5a73d5fdc0a'
+article_authorized article id => '62b4c2b33de1c2a2580e6b97'
+getArticle article id => '62b4c2b33de1c2a2580e6b97'

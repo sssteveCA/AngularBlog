@@ -119,16 +119,16 @@ export class EditArticleComponent implements OnInit {
       this.article.tags = this.form.controls['tags'].value;
       this.editPromise(this.article).then(res => {
         console.log(res);
-       /*  let rJson = JSON.parse(res);
-        const data: MessageDialogInterface = {
-          title: 'Modifica articolo',
-          message: rJson['msg']
-        };
-        let cd = new MessageDialog(data);
-        cd.bt_ok.addEventListener('click', ()=>{
-          cd.instance.dispose();
-          cd.div_dialog.remove();
-        }); */
+        let rJson = JSON.parse(res);
+          const data: MessageDialogInterface = {
+            title: 'Modifica articolo',
+            message: rJson['msg']
+          };
+          let cd = new MessageDialog(data);
+          cd.bt_ok.addEventListener('click', ()=>{
+            cd.instance.dispose();
+            cd.div_dialog.remove();
+          }); 
       }).catch(err => {
         console.warn(err);
       });

@@ -27,9 +27,7 @@ class EditContoller implements Ece,C{
         $this->token = $data['token'];
         $auth = $this->checkAuthorization();
         if($auth){
-            $duplicate = $this->checkDuplicate();
-            if(!$duplicate)
-                $edit = $this->edit_article();
+            $edit = $this->edit_article();
         }
         file_put_contents(EditContoller::$logFile,"Edit Controller => ".var_export($this->getError(),true)."\r\n",FILE_APPEND);
         $this->setResponse();
@@ -80,21 +78,6 @@ class EditContoller implements Ece,C{
         else
             $this->errno = Ece::FROM_ARTICLEAUTHORIZEDCONTROLLER;
         return $authorized;
-    }
-
-    //Check if value passed from user have same values for unique fields
-    private function checkDuplicate(): bool{
-        $duplicated = false;
-        $this->errno = 0;
-        $article_temp = new Article();
-        $filter = ['permalink' => $this->article->getPermalink()];
-        file_put_contents(EditContoller::$logFile,"checkDuplicate => ".var_export($filter,true)."\r\n",FILE_APPEND);
-        $get = $article_temp->article_get($filter);
-        if($get){
-            $duplicated = true;
-            $this->errno = Ece::PERMALINKDUPLICATE;
-        }
-        return $duplicated;
     }
 
     //Update article information
