@@ -9,6 +9,8 @@ import { Api2Service } from 'src/app/api2.service';
 import { Article } from 'src/app/models/article.model';
 import ConfirmDialog from 'src/classes/confirmdialog';
 import ConfirmDialogInterface from 'src/classes/confirmdialog.interface';
+import MessageDialogInterface from 'src/classes/messagedialog.interface';
+import MessageDialog from 'src/classes/messagedialog';
 
 @Component({
   selector: 'app-edit-article',
@@ -107,10 +109,48 @@ export class EditArticleComponent implements OnInit {
     cd.bt_yes.addEventListener('click',()=>{
       cd.instance.dispose();
       document.body.removeChild(cd.div_dialog);
+      console.log(this.article);
+      this.article.title = this.form.controls['title'].value;
+      this.article.introtext = this.form.controls['introtext'].value;
+      this.article.introtext = this.form.controls['introtext'].value;
+      this.article.content = this.form.controls['content'].value;
+      this.article.permalink = this.form.controls['permalink'].value;
+      this.article.categories = this.form.controls['categories'].value;
+      this.article.tags = this.form.controls['tags'].value;
+      this.editPromise(this.article).then(res => {
+        console.log(res);
+        let rJson = JSON.parse(res);
+        const data: MessageDialogInterface = {
+          title: 'Modifica articolo',
+          message: rJson['msg']
+        };
+        let cd = new MessageDialog(data);
+        cd.bt_ok.addEventListener('click', ()=>{
+          cd.instance.dispose();
+          cd.div_dialog.remove();
+        });
+      }).catch(err => {
+        console.warn(err);
+      });
     });
     cd.bt_no.addEventListener('click',()=>{
       cd.instance.dispose();
       document.body.removeChild(cd.div_dialog);
+    });
+  }
+
+  //Edit article HTTP request
+  async editPromise(article: Article): Promise<any>{
+    return new Promise((resolve,reject)=>{
+      const headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      };
+      this.http.post(constants.articleEditScriptUrl,article,{headers: headers,responseType: 'text'}).subscribe(res =>{
+        resolve(res);
+      },error => {
+        reject(error);
+      })
     });
   }
 
@@ -123,5 +163,4 @@ export class EditArticleComponent implements OnInit {
     this.form.controls['categories'].setValue(this.article.categories);
     this.form.controls['tags'].setValue(this.article.tags);
   }
-
 }
