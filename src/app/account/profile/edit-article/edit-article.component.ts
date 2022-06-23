@@ -128,6 +128,7 @@ export class EditArticleComponent implements OnInit {
           cd.bt_ok.addEventListener('click', ()=>{
             cd.instance.dispose();
             cd.div_dialog.remove();
+            document.body.style.overflow = 'auto';
           }); 
       }).catch(err => {
         console.warn(err);

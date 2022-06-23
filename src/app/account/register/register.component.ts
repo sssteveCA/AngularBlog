@@ -60,6 +60,7 @@ export class RegisterComponent implements OnInit {
         md.bt_ok.addEventListener('click',()=>{
           md.instance.dispose();
           md.div_dialog.remove();
+          document.body.style.overflow = 'auto';
         });
       }
     }//if(this.formGroup.valid){

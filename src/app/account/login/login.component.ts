@@ -68,6 +68,7 @@ export class LoginComponent implements OnInit {
           md.bt_ok.addEventListener('click',()=>{
             md.instance.dispose();
             md.div_dialog.remove();
+            document.body.style.overflow = 'auto';
           });
         }
       }catch(e){

@@ -82,6 +82,7 @@ export class NewArticleComponent implements OnInit {
         md.bt_ok.addEventListener('click',()=>{
           md.instance.dispose();
           md.div_dialog.remove();
+          document.body.style.overflow = 'auto';
         });
       },error => {
         console.warn(error);
@@ -96,6 +97,7 @@ export class NewArticleComponent implements OnInit {
       md.bt_ok.addEventListener('click',()=>{
         md.instance.dispose();
         md.div_dialog.remove();
+        document.body.style.overflow = 'auto';
       });
     }
   }
