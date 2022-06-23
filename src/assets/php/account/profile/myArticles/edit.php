@@ -19,6 +19,7 @@ use AngularBlog\Classes\Article\Article;
 use AngularBlog\Interfaces\Article\ArticleAuthorizedControllerErrors as Aace;
 use AngularBlog\Classes\Article\ArticleAuthorizedController;
 use AngularBlog\Classes\Article\ArticleAuthorizedView;
+use MongoDB\BSON\ObjectId;
 
 $input = file_get_contents('php://input');
 $post = json_decode($input,true);
@@ -39,6 +40,13 @@ if(isset($post['article'],$post['token_key']) && $post['token_key'] != ''){
         if($status['authorized'] === true){
             //User can edit this article
             $response['msg'] = 'Authorized';
+            $update = edit_article($article,$post);
+            if($update){
+                //Article successfully updated
+            }
+            else{
+                
+            }
         }//if($status['authorized'] === true){
         else{
             $response['msg'] = auth_error_message($status['msg']);
@@ -52,6 +60,22 @@ else
     $response['msg'] = C::FILL_ALL_FIELDS;
 
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
+
+//Display an authorization error message that show the status of operation
+function auth_error_message(string $controller_msg): string{
+    $message = '';
+    //file_put_contents(C::FILE_LOG,var_export($controller_msg,true)."\r\n",FILE_APPEND);
+    switch($controller_msg){
+        case Aace::TOKEN_NOTFOUND_MSG:
+        case Aace::FORBIDDEN_MSG:
+            $message = Aace::FORBIDDEN_MSG;
+            break;
+        default:
+            $message = C::ARTICLEEDITING_ERROR;
+            break;
+    }
+    return $message;
+}
 
 //Check if user is authorized to edit the data
 function control(array $data): array{
@@ -79,19 +103,20 @@ function control(array $data): array{
     return $status;
 }
 
-//Display an authorization error message that show the status of operation
-function auth_error_message(string $controller_msg): string{
-    $message = '';
-    file_put_contents(C::FILE_LOG,var_export($controller_msg,true)."\r\n",FILE_APPEND);
-    switch($controller_msg){
-        case Aace::TOKEN_NOTFOUND_MSG:
-        case Aace::FORBIDDEN_MSG:
-            $message = Aace::FORBIDDEN_MSG;
-            break;
-        default:
-            $message = C::ARTICLEEDITING_ERROR;
-            break;
-    }
-    return $message;
+function edit_article(Article $article,array $post): bool{
+    $edited = false;
+    $filter = ['_id' => new ObjectId($post['article']['id'])];
+    $values = ['set' => [
+        'title' => $post['article']['title'],
+        'introtext' => $post['article']['introtext'],
+        'content' => $post['article']['content'],
+        'permalink' => $post['article']['permalink'],
+        'categories' => explode(",",$post['article']['categories']),
+        'tags' => explode(",",$post['article']['tags'])
+    ]];
+    $edited = $article->article_update($filter,$values);
+    return $edited;
 }
+
+
 ?>
