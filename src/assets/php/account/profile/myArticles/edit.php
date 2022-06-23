@@ -19,13 +19,15 @@ use AngularBlog\Classes\Article\Article;
 use AngularBlog\Interfaces\Article\ArticleAuthorizedControllerErrors as Aace;
 use AngularBlog\Classes\Article\ArticleAuthorizedController;
 use AngularBlog\Classes\Article\ArticleAuthorizedView;
+use AngularBlog\Classes\Myarticles\EditContoller;
+use AngularBlog\Classes\Myarticles\EditView;
 use MongoDB\BSON\ObjectId;
 
 $input = file_get_contents('php://input');
 $post = json_decode($input,true);
 
 $response = array(
-    'edited' => false,
+    'done' => false,
     'msg' => '',
     'post' => $post
 );
@@ -36,20 +38,30 @@ if(isset($post['article'],$post['token_key']) && $post['token_key'] != ''){
             'token_key' => $post['token_key'],
             'article_id' => $post['article']['id']
         ];
-        $status = control($data); 
-        if($status['authorized'] === true){
-            //User can edit this article
-            $response['msg'] = 'Authorized';
-            $update = edit_article($article,$post);
-            if($update){
-                //Article successfully updated
-            }
-            else{
-                
-            }
-        }//if($status['authorized'] === true){
-        else{
-            $response['msg'] = auth_error_message($status['msg']);
+        $token_data = ['token_key' => $post['token_key']];
+        $article_data = [
+            'id' => $post['article']['id'],
+            'title' => $post['article']['title'],
+            'introtext' => $post['article']['introtext'],
+            'content' => $post['article']['content'],
+            'permalink' => $post['article']['permalink'],
+            'categories' => explode(",",$post['article']['categories']),
+            'tags' => explode(",",$post['article']['tags'])
+        ];
+        try{
+            $token = new Token($token_data);
+            $article = new Article($article_data);
+            $ec_data = [
+                'article' => $article,
+                'token' => $token
+            ];
+            $editController = new EditContoller($ec_data);
+            $editView = new EditView($editController);
+            $response['msg'] = $editView->getMessage();
+            if($editView->isDone())
+                $response['done'] = true;
+        }catch(Exception $e){
+            $response['msg'] = C::ARTICLEEDITING_ERROR;
         }
     }//if(isset($post['article']['id'],$post['article']['title'],$post['article']['introtext'],$post['article']['content'],$post['article']['permalink'],$post['article']['categories'],$post['article']['tags']) && $post['article']['id'] != '' && $post['article']['title'] != '' && $post['article']['introtext'] != '' && $post['article']['content'] != '' && $post['article']['permalink'] != ''){
     else{
@@ -61,62 +73,6 @@ else
 
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
 
-//Display an authorization error message that show the status of operation
-function auth_error_message(string $controller_msg): string{
-    $message = '';
-    //file_put_contents(C::FILE_LOG,var_export($controller_msg,true)."\r\n",FILE_APPEND);
-    switch($controller_msg){
-        case Aace::TOKEN_NOTFOUND_MSG:
-        case Aace::FORBIDDEN_MSG:
-            $message = Aace::FORBIDDEN_MSG;
-            break;
-        default:
-            $message = C::ARTICLEEDITING_ERROR;
-            break;
-    }
-    return $message;
-}
-
-//Check if user is authorized to edit the data
-function control(array $data): array{
-    $status = [
-        'authorized' => false,
-        'msg' => ''
-    ];
-    try{
-        $article = new Article(['id' => $data['article_id']]);
-        $token = new Token(['token_key' => $data['token_key']]);
-        $data = [
-            'article' => $article,
-            'token' => $token
-        ];
-        $aac = new ArticleAuthorizedController($data);
-        $aav = new ArticleAuthorizedView($aac);
-        $status['msg'] = $aav->getMessage();
-        if($aav->isDone()){
-            $status['authorized'] = true;
-        }
-    }catch(Exception $e){
-        file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
-        $status['msg'] = C::ARTICLEEDITING_ERROR;
-    }
-    return $status;
-}
-
-function edit_article(Article $article,array $post): bool{
-    $edited = false;
-    $filter = ['_id' => new ObjectId($post['article']['id'])];
-    $values = ['set' => [
-        'title' => $post['article']['title'],
-        'introtext' => $post['article']['introtext'],
-        'content' => $post['article']['content'],
-        'permalink' => $post['article']['permalink'],
-        'categories' => explode(",",$post['article']['categories']),
-        'tags' => explode(",",$post['article']['tags'])
-    ]];
-    $edited = $article->article_update($filter,$values);
-    return $edited;
-}
 
 
 ?>
