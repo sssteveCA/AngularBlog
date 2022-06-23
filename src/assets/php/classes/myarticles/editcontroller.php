@@ -26,7 +26,9 @@ class EditContoller implements Ece,C,Aace{
         $this->token = $data['token'];
         $auth = $this->checkAuthorization();
         if($auth){
-            $edit = $this->edit_article();
+            $duplicate = $this->checkDuplicate();
+            if(!$duplicate)
+                $edit = $this->edit_article();
         }
         $this->setResponse();
     }
@@ -40,6 +42,9 @@ class EditContoller implements Ece,C,Aace{
                 break;
             case Ece::ARTICLENOTUPDATED:
                 $this->error = Ece::ARTICLENOTUPDATED_MSG;
+                break;
+            case Ece::PERMALINKDUPLICATE:
+                $this->error = Ece::PERMALINKDUPLICATE_MSG;
                 break;
             default:
                 $this->error = null;
@@ -72,6 +77,20 @@ class EditContoller implements Ece,C,Aace{
         else
             $this->errno = Ece::FROM_ARTICLEAUTHORIZEDCONTROLLER;
         return $authorized;
+    }
+
+    //Check if value passed from user have same values for unique fields
+    private function checkDuplicate(): bool{
+        $duplicated = false;
+        $this->errno = 0;
+        $article_temp = new Article();
+        $filter = ['permalink' => $this->article->getPermalink()];
+        $get = $article_temp->article_get($filter);
+        if($get){
+            $duplicated = true;
+            $this->errno = Ece::PERMALINKDUPLICATE;
+        }
+        return $duplicated;
     }
 
     //Update article information
@@ -113,6 +132,9 @@ class EditContoller implements Ece,C,Aace{
                         $this->response = C::ARTICLEEDITING_ERROR;
                         break;
                 }//switch($aacErrno){
+                break;
+            case Ece::PERMALINKDUPLICATE:
+                $this->response = $this->getError();
                 break;
             case Ece::ARTICLENOTUPDATED:
             default:
