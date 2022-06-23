@@ -134,7 +134,7 @@ class Article extends Model implements Ae,C,Me{
     public function article_update(array $filter,array $data){
         $updated = false;
         $this->errno = 0;
-        $data['last_modified'] = date('Y-m-d H:i:s');
+        $data['$set']['last_modified'] = date('Y-m-d H:i:s');
         parent::update($filter,$data);
         if($this->errno == 0)$updated = true;
         return $updated;

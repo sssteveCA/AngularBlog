@@ -61,6 +61,7 @@ if(isset($post['article'],$post['token_key']) && $post['token_key'] != ''){
             if($editView->isDone())
                 $response['done'] = true;
         }catch(Exception $e){
+            file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
             $response['msg'] = C::ARTICLEEDITING_ERROR;
         }
     }//if(isset($post['article']['id'],$post['article']['title'],$post['article']['introtext'],$post['article']['content'],$post['article']['permalink'],$post['article']['categories'],$post['article']['tags']) && $post['article']['id'] != '' && $post['article']['title'] != '' && $post['article']['introtext'] != '' && $post['article']['content'] != '' && $post['article']['permalink'] != ''){

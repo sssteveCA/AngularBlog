@@ -15,10 +15,10 @@ class EditContoller implements Ece,C{
     private ?Article $aac_article; //Article used by ArticleAuthorizationController class
     private ?ArticleAuthorizedController $aac;
     private ?Token $token;
-    private static string $logFile = C::FILE_LOG;
     private string $response = "";
     private int $errno = 0;
     private ?string $error = null;
+    private static string $logFile = C::FILE_LOG;
 
     public function __construct(array $data)
     {
@@ -31,6 +31,7 @@ class EditContoller implements Ece,C{
             if(!$duplicate)
                 $edit = $this->edit_article();
         }
+        file_put_contents(EditContoller::$logFile,"Edit Controller => ".var_export($this->getError(),true)."\r\n",FILE_APPEND);
         $this->setResponse();
     }
 
@@ -98,13 +99,14 @@ class EditContoller implements Ece,C{
 
     //Update article information
     private function edit_article(): bool{
+        file_put_contents(EditContoller::$logFile,"Edit Controller edit Article\r\n",FILE_APPEND);
         $edited = false;
         $this->errno = 0;
         $article_id = $this->article->getId();
         $filter = ['_id' => new ObjectId($article_id)];
-        $values = ['set' => [
+        $values = ['$set' => [
             'title' => $this->article->getTitle(),
-            'author' => $this->token->getUserId(),
+            'author' => new ObjectId($this->token->getUserId()),
             'introtext' => $this->article->getTitle(),
             'content' => $this->article->getContent(),
             'permalink' => $this->article->getPermalink(),
