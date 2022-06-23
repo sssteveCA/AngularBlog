@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
@@ -119,7 +119,7 @@ export class EditArticleComponent implements OnInit {
       this.article.tags = this.form.controls['tags'].value;
       this.editPromise(this.article).then(res => {
         console.log(res);
-        let rJson = JSON.parse(res);
+       /*  let rJson = JSON.parse(res);
         const data: MessageDialogInterface = {
           title: 'Modifica articolo',
           message: rJson['msg']
@@ -128,7 +128,7 @@ export class EditArticleComponent implements OnInit {
         cd.bt_ok.addEventListener('click', ()=>{
           cd.instance.dispose();
           cd.div_dialog.remove();
-        });
+        }); */
       }).catch(err => {
         console.warn(err);
       });
@@ -142,11 +142,15 @@ export class EditArticleComponent implements OnInit {
   //Edit article HTTP request
   async editPromise(article: Article): Promise<any>{
     return new Promise((resolve,reject)=>{
-      const headers = {
+      const data = {
+        token_key: this.userCookie['token_key'],
+        article: article
+      };
+      const headers = new HttpHeaders({
         'Content-Type': 'application/json',
         'Accept': 'application/json'
-      };
-      this.http.post(constants.articleEditScriptUrl,article,{headers: headers,responseType: 'text'}).subscribe(res =>{
+      });
+      this.http.put(constants.articleEditScriptUrl,data,{headers: headers,responseType: 'text'}).subscribe(res =>{
         resolve(res);
       },error => {
         reject(error);

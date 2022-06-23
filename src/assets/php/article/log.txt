@@ -126,3 +126,7 @@ article_authorized article id => '62932d26b2a2d5a73d5fdc0a'
 ArticleAuthorizedController construct
 getArticle article id => '62932d26b2a2d5a73d5fdc0a'
 0
+article_authorized article id => '62932d26b2a2d5a73d5fdc0a'
+ArticleAuthorizedController construct
+getArticle article id => '62932d26b2a2d5a73d5fdc0a'
+0

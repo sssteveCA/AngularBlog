@@ -62,7 +62,7 @@ if(isset($post['token_key'],$post['username'],$post['article_id']) && $post['tok
             
     }catch(Exception $e){
         file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
-        $response['msg'] = C::ARTICLEEDITING_ERROR;
+        $response['msg'] = C::ERROR_UNKNOWN;
     }
 }//if(isset($post['token_key'],$post['username'],$post['article_id']) && $post['token_key'] != '' && $post['username'] != '' && $post['article_id'] != ''){
 else
