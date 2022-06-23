@@ -8,5 +8,11 @@ interface EditControllerErrors{
     const NOTOKENINSTANCE_EXC = "L'oggetto Token è uguale a null";
     const INVALIDARTICLETYPE_EXC = "L'articolo fornito non è in un formato valido";
     const INVALIDTOKENTYPE_EXC = "Il token fornito non è in un formato valido";
+
+    //Numbers
+    const FROM_ARTICLEAUTHORIZEDCONTROLLER = 1; //Error from ArticleAuthorizedController
+
+    //Messages
+    const FROM_ARTICLEAUTHORIZEDCONTROLLER_MSG = "Errore dalla classe ArticleAuthorizedController";
 }
 ?>
