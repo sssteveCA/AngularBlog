@@ -12,6 +12,7 @@ use MongoDB\BSON\ObjectId;
 
 class EditContoller implements Ece,C{
     private ?Article $article;
+    private ?Article $aac_article; //Article used by ArticleAuthorizationController class
     private ?ArticleAuthorizedController $aac;
     private ?Token $token;
     private static string $logFile = C::FILE_LOG;
@@ -66,8 +67,9 @@ class EditContoller implements Ece,C{
     private function checkAuthorization(): bool{
         $authorized = false;
         $this->errno = 0;
+        $this->aac_article = clone $this->article;
         $this->aac = new ArticleAuthorizedController([
-            'article' => $this->article,
+            'article' => $this->aac_article,
             'token' => $this->token
         ]);
         $aacErrno = $this->aac->getErrno();
