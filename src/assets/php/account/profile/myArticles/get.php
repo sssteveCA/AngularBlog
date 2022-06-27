@@ -4,6 +4,7 @@ require_once("../../../cors.php");
 require_once("../../../interfaces/constants.php");
 require_once("../../../interfaces/model_errors.php");
 require_once("../../../interfaces/models_errors.php");
+require_once("../../../interfaces/token_errors.php");
 require_once("../../../interfaces/article/article_errors.php");
 require_once("../../../interfaces/article/articlelist_errors.php");
 require_once("../../../interfaces/myarticles/getcontrollererrors.php");

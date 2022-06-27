@@ -4,6 +4,7 @@ require_once("../cors.php");
 require_once("../config.php");
 require_once("../interfaces/constants.php");
 require_once("../interfaces/model_errors.php");
+require_once("../interfaces/token_errors.php");
 require_once("../interfaces/logout/logoutcontrollererrors.php");
 require_once("../interfaces/logout/logoutviewerrors.php");
 require_once("../vendor/autoload.php");

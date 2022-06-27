@@ -5,16 +5,19 @@ namespace AngularBlog\Classes;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Model;
 use MongoDB\BSON\ObjectId;
+use AngularBlog\Interfaces\TokenErrors as Te;
 
 //This class is used to store info about logged users
 
-class Token extends Model implements C{
+class Token extends Model implements Te{
     private ?string $id;
     private ?string $user_id; //Id of logged user
     private ?string $username; //Username of logged user
     private ?string $token_key; //generated unique key when user log in
     private ?string $logged_time; //Date when specific user has logged
+    private bool $expired = false; //True if the token is expired and the user must login again
     private static int $key_length = 80; //Token key string length
+    private static int $token_duration = 10; //Token duration in seconds
 
     public function __construct(array $data = array())
     {
@@ -40,6 +43,7 @@ class Token extends Model implements C{
     public function getUsername(){return $this->username;}
     public function getTokenKey(){return $this->token_key;}
     public function getLoggedTime(){return $this->logged_time;}
+    public function isExpired(){return $this->expired;}
 
     //Generate the unique key
     private function keyGen(){
@@ -55,6 +59,13 @@ class Token extends Model implements C{
             $s .= $c[$j];
         }//for($i = 0; $i < $lGen; $i++){
         $this->token_key = $time.$s;
+    }
+
+    //Controls if the token is expired
+    public function expireControl(){
+        if(isset($this->logged_time)){
+            //if user logged date exists
+        }
     }
 
     //Insert a new Token(when an used sign in)

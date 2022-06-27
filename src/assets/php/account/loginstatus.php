@@ -3,6 +3,7 @@
 require_once("../cors.php");
 require_once("../interfaces/constants.php");
 require_once("../interfaces/model_errors.php");
+require_once("../interfaces/token_errors.php");
 require_once("../vendor/autoload.php");
 require_once("../classes/model.php");
 require_once("../classes/token.php");
