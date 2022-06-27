@@ -4,6 +4,8 @@ export const articleAuthorizedError: string = "C'è stato un errore durante la v
 
 export const activationCodeMissing: string = "Inserisci un codice di attivazione";
 
+export const deleteArticleConfirm: string = "Sei sicuro di voler rimuovere definitivamente questo articolo?";
+
 export const editArticleConfirm: string = "Vuoi modificare l'articolo con le informazioni inserite?";
 
 export const invalidData: string = "I dati inseriti non sono validi, riprova";

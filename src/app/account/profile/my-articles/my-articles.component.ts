@@ -3,7 +3,11 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
 import * as constants from 'src/constants/constants';
+import * as messages from 'src/messages/messages';
+import ConfirmDialog from 'src/classes/confirmdialog';
+import MessageDialog from 'src/classes/messagedialog';
 import { Article } from 'src/app/models/article.model';
+import ConfirmDialogInterface from 'src/classes/confirmdialog.interface';
 
 @Component({
   selector: 'app-my-articles',
@@ -72,6 +76,12 @@ export class MyArticlesComponent implements OnInit {
     });
   }
 
+  //Delete an article
+  private deleteArticle(id: string): void{
+
+  }
+
+
   //Insert articles list in DOM
   private insertArticles(router: Router): void{
     let container = $('#articles-list');
@@ -112,6 +122,26 @@ export class MyArticlesComponent implements OnInit {
             btnDel.addClass('btn btn-danger');
             btnDel.attr('type','button');
             btnDel.html('ELIMINA');
+            btnDel.on('click', function(e){
+              let data: ConfirmDialogInterface = {
+                title: 'Rimuovi articolo',
+                message: messages.deleteArticleConfirm
+              };
+              let cd: ConfirmDialog = new ConfirmDialog(data);
+              cd.bt_yes.addEventListener('click',()=>{
+                cd.instance.dispose();
+                document.body.removeChild(cd.div_dialog);
+                let deleteData = {
+                  'id': article.id,
+                  'token': localStorage.getItem('token_key')
+                };
+                console.log(deleteData);
+              });
+              cd.bt_no.addEventListener('click',()=>{
+                cd.instance.dispose();
+                document.body.removeChild(cd.div_dialog);
+              });
+            });//btnDel.on('click', function(e){
           divButtons.append(btnDel);
         divArticle.append(divButtons);
       container.append(divArticle);
