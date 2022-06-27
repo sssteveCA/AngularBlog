@@ -19,6 +19,7 @@ class Token extends Model implements Te{
     private bool $expired = false; //True if the token is expired and the user must login again
     private static int $key_length = 80; //Token key string length
     private static int $token_duration = 10; //Token duration in seconds
+    private static string $logFile = C::FILE_LOG;
 
     public function __construct(array $data = array())
     {
@@ -80,8 +81,27 @@ class Token extends Model implements Te{
 
     //Controls if the token is expired
     public function expireControl(){
+        $this->expired = false;
+        $this->errno = 0;
         if(isset($this->logged_time)){
             //if user logged date exists
+            $now = time();
+            file_put_contents(Token::$logFile,"Token now => ".var_export($now,true)."\r\n",FILE_APPEND);
+            $logged_timestamp = strtotime($this->logged_time);
+            file_put_contents(Token::$logFile,"Token logged timestamp => ".var_export($logged_timestamp,true)."\r\n",FILE_APPEND);
+            $time_elasped = $now - $logged_timestamp;
+            file_put_contents(Token::$logFile,"Token time elasped ts => ".var_export($time_elasped,true)."\r\n",FILE_APPEND);
+            file_put_contents(Token::$logFile,"Token token duration => ".var_export(Token::$token_duration,true)."\r\n",FILE_APPEND);
+            if($time_elasped > ($logged_timestamp + Token::$token_duration)){
+                //Token is expired
+                $this->errno = Te::TOKENEXPIRED;
+                $this->expired = true;
+            }
+        }//if(isset($this->logged_time)){
+        else{
+            file_put_contents(Token::$logFile,"Token logged time not set => \r\n",FILE_APPEND);
+            $this->errno = Te::TOKENEXPIRED;
+            $this->expired = true;
         }
     }
 
