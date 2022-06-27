@@ -34,8 +34,11 @@ if(isset($postDecode['token_key'],$postDecode['username'])){
             $token->expireControl();
             if(!$token->isExpired())
                 $response['logged'] = true;
-            else
+            else{
                 $response['msg'] = $token->getError();
+                $token->token_delete(['token_key' => $token->getTokenKey(), 'username' => $token->getUsername()]);
+            }
+                
         }//if($get){
     }catch(Exception $e){
         file_put_contents(C::FILE_LOG,$e->getMessage()."\r\n",FILE_APPEND);
