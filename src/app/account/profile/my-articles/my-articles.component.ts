@@ -86,6 +86,17 @@ export class MyArticlesComponent implements OnInit {
       //Required properties exist
       this.deletePromise(deleteData).then(res =>{
         console.log(res);
+        let rJson = JSON.parse(res);
+        let data: MessageDialogInterface = {
+          title: 'Rimuovi articolo',
+          message: rJson['msg']
+        };
+        let md: MessageDialog = new MessageDialog(data);
+        md.bt_ok.addEventListener('click',()=>{
+          md.instance.dispose();
+          md.div_dialog.remove();
+        });
+
       }).catch(err =>{
         console.warn(err);
       });
