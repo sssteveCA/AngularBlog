@@ -32,6 +32,12 @@ if(isset($post['article_id'],$post['token_key']) && $post['article_id'] != '' &&
     $token_data = ['token_key' => $post['token_key']];
     $article_data = ['article_data' => $post['article_id']];
     try{
+        $token = new Token($token_data);
+        $article = new Article($article_data);
+        $dc_data = [
+            'article' => $article,
+            'token' => $token
+        ];
     }catch(Exception $e){
         $response['msg'] = C::ARTICLEDELETE_ERROR;
     }
