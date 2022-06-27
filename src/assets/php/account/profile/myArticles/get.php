@@ -55,7 +55,7 @@ if(isset($_GET['token_key']) && $_GET['token_key'] != ''){
             $response['msg'] = $getView->getMessage();
     }catch(Exception $e){
         $response['msg'] = C::SEARCH_ERROR;
-        file_put_contents(C::FILE_LOG,var_export($e,true)."\r\n",FILE_APPEND);
+        file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
     }
     
 }//if(isset($_GET['token_key']) && $_GET['token_key'] != ''){

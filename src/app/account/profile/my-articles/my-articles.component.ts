@@ -122,7 +122,7 @@ export class MyArticlesComponent implements OnInit {
   //Get all user articles
   private getArticles(): void{
     this.http.get(constants.myArticlesUrl+'?token_key='+this.userCookie['token_key'],{responseType: 'text'}).subscribe(res => {
-      //console.log(res);
+      console.log(res);
       let rJson = JSON.parse(res);
       if(rJson['done'] == true){
         this.done = true;

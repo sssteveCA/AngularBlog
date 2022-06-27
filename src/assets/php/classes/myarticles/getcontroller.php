@@ -81,12 +81,14 @@ class GetController implements Gce{
     }
 
     private function setResponse(){
+        file_put_contents(GetController::$logFile,var_export($this->errno,true)."\r\n",FILE_APPEND);
         switch($this->errno){
             case 0:
                 $this->response = "";
                 break;
             case Gce::NOARTICLESFOUND:
-                $this->response = $this->getError();
+                $this->response = Gce::NOARTICLESFOUND_MSG;
+                break;
             case Gce::NOUSERIDFOUND:
                 $this->response = C::SEARCH_ERROR;
                 break;

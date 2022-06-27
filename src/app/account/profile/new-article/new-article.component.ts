@@ -62,6 +62,7 @@ export class NewArticleComponent implements OnInit {
     this.article.permalink = this.form.controls['permalink'].value;
     this.article.categories = this.form.controls['categories'].value;
     this.article.tags = this.form.controls['tags'].value;
+    console.log(this.article);
     const data = {
       token_key: this.userCookie['token_key'],
       article: this.article
@@ -89,6 +90,14 @@ export class NewArticleComponent implements OnInit {
       });
     }
     else{
+      /* let invalid = [];
+      const controls = this.form.controls;
+      for(const name in controls){
+        if(controls[name].invalid){
+          invalid.push(name);
+        }
+      } 
+      console.log(invalid);*/
       const data: MessageDialogInterface = {
         title: 'Creazione articolo',
         message: messages.invalidData
