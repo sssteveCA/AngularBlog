@@ -31,21 +31,7 @@ export class MyArticlesComponent implements OnInit {
         this.userCookie['token_key'] = localStorage.getItem("token_key");
         this.userCookie['username'] = localStorage.getItem("username");
         this.api.changeUserdata(this.userCookie);
-        this.http.get(constants.myArticlesUrl+'?token_key='+this.userCookie['token_key'],{responseType: 'text'}).subscribe(res => {
-          //console.log(res);
-          let rJson = JSON.parse(res);
-          if(rJson['done'] == true){
-            this.done = true;
-            this.message = null;
-            this.articles = rJson['articles'] as Array<Article>;
-            this.insertArticles(this.router);
-          }//if(rJson['done'] == true){
-          else{
-            this.done = false;
-            this.message = rJson['msg'];
-          }        
-          //console.log(rJson);
-        });
+        this.getArticles();
       }//if(res == true){
       else{
         this.api.removeItems();
@@ -80,6 +66,7 @@ export class MyArticlesComponent implements OnInit {
 
   //Delete an article
   private delete(deleteData: any): void{
+    const router = this.router;
     console.log("delete => ");
     if(deleteData.hasOwnProperty('article_id') && deleteData.hasOwnProperty('token_key')){
       console.log(deleteData);
@@ -95,6 +82,8 @@ export class MyArticlesComponent implements OnInit {
         md.bt_ok.addEventListener('click',()=>{
           md.instance.dispose();
           md.div_dialog.remove();
+          if(rJson['done'] == true)
+            this.getArticles();
         });
 
       }).catch(err =>{
@@ -130,11 +119,31 @@ export class MyArticlesComponent implements OnInit {
     });
   }
 
+  //Get all user articles
+  private getArticles(): void{
+    this.http.get(constants.myArticlesUrl+'?token_key='+this.userCookie['token_key'],{responseType: 'text'}).subscribe(res => {
+      //console.log(res);
+      let rJson = JSON.parse(res);
+      if(rJson['done'] == true){
+        this.done = true;
+        this.message = null;
+        this.articles = rJson['articles'] as Array<Article>;
+        this.insertArticles(this.router);
+      }//if(rJson['done'] == true){
+      else{
+        this.done = false;
+        this.message = rJson['msg'];
+      }        
+      //console.log(rJson);
+    });
+  }
+
 
   //Insert articles list in DOM
   private insertArticles(router: Router): void{
     const component = this;
     let container = $('#articles-list');
+    container.html('');
     console.log("Container before foreach => ");
     console.log($(container));
     this.articles.forEach((article) => {
