@@ -48,3 +48,4 @@ Thumbs.db
 #my .gitignore rulas
 **/vendor/**
 *.txt
+

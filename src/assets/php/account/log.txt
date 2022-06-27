@@ -1,2 +1,0 @@
-E11000 duplicate key error collection: AngularBlog.tokens index: user_id_1 dup key: { user_id: "629264de3c46bf8071060dc4" }
-Exception token => NULL
