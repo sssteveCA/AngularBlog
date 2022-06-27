@@ -5,6 +5,7 @@ namespace AngularBlog\Classes;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Model;
 use MongoDB\BSON\ObjectId;
+use AngularBlog\Interfaces\ModelErrors as Me;
 use AngularBlog\Interfaces\TokenErrors as Te;
 
 //This class is used to store info about logged users
@@ -44,6 +45,22 @@ class Token extends Model implements Te{
     public function getTokenKey(){return $this->token_key;}
     public function getLoggedTime(){return $this->logged_time;}
     public function isExpired(){return $this->expired;}
+    public function getError(){
+        if($this->errno <= Me::MODEL_RANGE_MAX){
+            return parent::getError();
+        }
+        else{
+            switch($this->errno){
+                case Te::TOKENEXPIRED:
+                    $this->error = Te::TOKENEXPIRED_MSG;
+                    break;
+                default:
+                    $this->error = null;
+                    break;
+            }
+        }
+        return $this->error;
+    }
 
     //Generate the unique key
     private function keyGen(){
