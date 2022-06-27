@@ -81,7 +81,7 @@ export class MyArticlesComponent implements OnInit {
   //Delete an article
   private delete(deleteData: any): void{
     console.log("delete => ");
-    if(deleteData.hasOwnProperty('id') && deleteData.hasOwnProperty('token_key')){
+    if(deleteData.hasOwnProperty('article_id') && deleteData.hasOwnProperty('token_key')){
       console.log(deleteData);
       //Required properties exist
       this.deletePromise(deleteData).then(res =>{
@@ -105,7 +105,6 @@ export class MyArticlesComponent implements OnInit {
 
   //Function that does the HTTP request to delete the article
   private async deletePromise(deleteData: any): Promise<any>{
-    console.log(deleteData);
     return await new Promise((resolve, reject) => {
       const headers = new HttpHeaders({
         'Content-Type': 'application/json',
@@ -172,7 +171,7 @@ export class MyArticlesComponent implements OnInit {
                 cd.instance.dispose();
                 document.body.removeChild(cd.div_dialog);
                 let deleteData = {
-                  'id': article.id,
+                  'article_id': article.id,
                   'token_key': localStorage.getItem('token_key')
                 };
                 console.log(deleteData); 
