@@ -7,7 +7,7 @@ use AngularBlog\Interfaces\MyArticles\CreateControllerErrors as Cce;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\Article\Article;
 
-class CreateController implements C,Cce{
+class CreateController implements Cce{
     private ?string $token_key;
     private array $article_data = array();
     private ?Token $token;

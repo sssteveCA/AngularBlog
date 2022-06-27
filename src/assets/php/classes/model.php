@@ -13,7 +13,7 @@ use MongoDB\Model\BSONDocument;
 use MongoDB\UpdateResult;
 
 //Base class that interfaces with MongoDB database
-abstract class Model implements C,Me{
+abstract class Model implements Me{
     private ?string $connection_url = null;
     private ?string $database_name = null;
     private ?string $collection_name = null;

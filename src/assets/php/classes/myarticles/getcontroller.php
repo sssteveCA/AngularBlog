@@ -9,7 +9,7 @@ use AngularBlog\Classes\Token;
 use MongoDB\BSON\ObjectId;
 
 //Get the user created article list
-class GetController implements Gce,C{
+class GetController implements Gce{
     private ?string $token_key;
     private ?ArticleList $articleList;
     private ?Token $token;

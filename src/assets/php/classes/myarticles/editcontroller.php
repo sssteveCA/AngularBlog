@@ -10,7 +10,7 @@ use AngularBlog\Classes\Article\ArticleAuthorizedController;
 use AngularBlog\Interfaces\Article\ArticleAuthorizedControllerErrors as Aace;
 use MongoDB\BSON\ObjectId;
 
-class EditContoller implements Ece,C{
+class EditContoller implements Ece{
     private ?Article $article;
     private ?Article $aac_article; //Article used by ArticleAuthorizationController class
     private ?ArticleAuthorizedController $aac;

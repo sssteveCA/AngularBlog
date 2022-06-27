@@ -14,7 +14,7 @@ use MongoDB\UpdateResult;
 use MongoDB\DeleteResult;
 
 //This class execute operation on multiple document in the collection
-abstract class Models implements C,Me{
+abstract class Models implements Me{
     private ?string $connection_url = null;
     private ?string $database_name = null;
     private ?string $collection_name = null;
