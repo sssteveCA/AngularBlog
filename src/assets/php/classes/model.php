@@ -102,6 +102,7 @@ abstract class Model implements Me{
         $this->errno = 0;
         $deleteOne = $this->collection->deleteOne($filter);
         $deleted = $deleteOne->getDeletedCount();
+        file_put_contents(Model::$logFile,"Deleted => {$deleted}\r\n",FILE_APPEND);
         if($deleted <= 0)$this->errno = Me::NOTDELETED;
         return $deleteOne;
     }

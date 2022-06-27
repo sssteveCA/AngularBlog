@@ -4,12 +4,16 @@ require_once("../../../cors.php");
 require_once("../../../interfaces/constants.php");
 require_once("../../../interfaces/model_errors.php");
 require_once("../../../interfaces/article/article_errors.php");
+require_once("../../../interfaces/article/articleauthorizedcontroller_errors.php");
+require_once("../../../interfaces/article/articleauthorizedview_errors.php");
 require_once("../../../interfaces/myarticles/deletecontroller_errors.php");
 require_once("../../../interfaces/myarticles/deleteview_errors.php");
 require_once("../../../vendor/autoload.php");
 require_once("../../../classes/model.php");
 require_once("../../../classes/token.php");
 require_once("../../../classes/article/article.php");
+require_once("../../../classes/article/articleauthorizedcontroller.php");
+require_once("../../../classes/article/articleauthorizedview.php");
 require_once("../../../classes/myarticles/deletecontroller.php");
 require_once("../../../classes/myarticles/deleteview.php");
 
@@ -30,7 +34,7 @@ $response = [
 
 if(isset($post['article_id'],$post['token_key']) && $post['article_id'] != '' && $post['token_key'] != '' ){
     $token_data = ['token_key' => $post['token_key']];
-    $article_data = ['article_data' => $post['article_id']];
+    $article_data = ['id' => $post['article_id']];
     try{
         $token = new Token($token_data);
         $article = new Article($article_data);

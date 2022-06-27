@@ -81,7 +81,8 @@ class DeleteController implements Dce{
         $del = false;
         $this->errno = 0;
         $article_id = $this->article->getId();
-        $filter = ['_id', new ObjectId($article_id)];
+        file_put_contents(DeleteController::$logFile,"DeleteController delete_article article id => {$article_id}\r\n",FILE_APPEND);
+        $filter = ['_id' => new ObjectId($article_id)];
         $article_delete = $this->article->article_delete($filter);
         if($article_delete)
             $del = true;
@@ -93,6 +94,7 @@ class DeleteController implements Dce{
 
     //Set the response to send to the view
     private function setResponse(){
+        file_put_contents(DeleteController::$logFile,"DeleteController setResponse errno => {$this->errno}\r\n",FILE_APPEND);
         switch($this->errno){
             case 0:
                 $this->response = C::ARTICLEDELETE_OK;

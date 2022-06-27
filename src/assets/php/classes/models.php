@@ -71,7 +71,7 @@ abstract class Models implements Me{
         file_put_contents(Models::$logFile,"Models get => \r\n",FILE_APPEND);
         $this->errno = 0;
         $find = $this->collection->find($filter);
-        file_put_contents(Models::$logFile,"Find => ".var_export($find,true)."\r\n",FILE_APPEND);
+        //file_put_contents(Models::$logFile,"Find => ".var_export($find,true)."\r\n",FILE_APPEND);
         //Check if there are results
         //file_put_contents(Models::$logFile,"Find to array => ".var_export($find->toArray(),true)."\r\n",FILE_APPEND);
         $empty = $find->isDead();
