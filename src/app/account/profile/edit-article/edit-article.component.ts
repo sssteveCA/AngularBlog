@@ -142,7 +142,7 @@ export class EditArticleComponent implements OnInit {
 
   //Edit article HTTP request
   async editPromise(article: Article): Promise<any>{
-    return new Promise((resolve,reject)=>{
+    return await new Promise((resolve,reject)=>{
       const data = {
         token_key: this.userCookie['token_key'],
         article: article

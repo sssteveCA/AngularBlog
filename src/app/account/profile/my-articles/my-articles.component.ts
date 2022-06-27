@@ -9,6 +9,7 @@ import MessageDialog from 'src/classes/messagedialog';
 import { Article } from 'src/app/models/article.model';
 import ConfirmDialogInterface from 'src/classes/confirmdialog.interface';
 import MessageDialogInterface from 'src/classes/messagedialog.interface';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-my-articles',
@@ -110,11 +111,12 @@ export class MyArticlesComponent implements OnInit {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
-      this.http.delete(constants.articleDeleteUrl,{headers: headers,responseType: 'text',body: deleteData}).subscribe(res => {
-        resolve(res);
-      },error => {
-        reject(error);
-      })
+      this.http.post(constants.articleDeleteUrl,deleteData,{headers: headers,responseType: 'text'}).subscribe(res => {
+          resolve(res);
+        },err => {
+          reject(err);
+        }
+      );
     });
   }
 
