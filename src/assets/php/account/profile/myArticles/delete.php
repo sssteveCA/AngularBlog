@@ -38,7 +38,13 @@ if(isset($post['article_id'],$post['token_key']) && $post['article_id'] != '' &&
             'article' => $article,
             'token' => $token
         ];
+        $deleteController = new DeleteController($dc_data);
+        $deleteView = new DeleteView($deleteController);
+        $response['msg'] = $deleteView->getMessage();
+        if($deleteView->isDone())
+            $response['done'] = true;
     }catch(Exception $e){
+        file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
         $response['msg'] = C::ARTICLEDELETE_ERROR;
     }
 }//if(isset($post['article_id'],$post['token_key']) && $post['article_id'] != '' && $post['token_key'] != '' ){
