@@ -4,12 +4,13 @@ namespace AngularBlog\Classes\Article;
 
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Article\Article;
+use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Interfaces\Article\ArticleAuthorizedControllerErrors as Aace;
 use AngularBlog\Classes\Token;
 use MongoDB\BSON\ObjectId;
 
 //Check if user is authorized to do write operation with a certain article
-class ArticleAuthorizedController implements Aace,C{
+class ArticleAuthorizedController implements Aace{
     private ?Article $article;
     private ?Token $token;
     private bool $authorized = false;
@@ -51,6 +52,9 @@ class ArticleAuthorizedController implements Aace,C{
             case Aace::FORBIDDEN:
                 $this->error = Aace::FORBIDDEN_MSG;
                 break;
+            case Aace::FROM_TOKEN:
+                $this->error = Aace::FROM_TOKEN_MSG;
+                break;
             default:
                 $this->error = null;
                 break;
@@ -76,7 +80,13 @@ class ArticleAuthorizedController implements Aace,C{
         $data = ['token_key' => $key];
         $token_got = $this->token->token_get($data);
         if($token_got){
-            $got = true;
+            //Check if token is expired
+            $this->token->expireControl();
+            if($this->token->isExpired()){
+                $this->errno = Aace::FROM_TOKEN;
+            }
+            else
+                $got = true;
         }
         else
             $this->errno = Aace::TOKEN_NOTFOUND;
@@ -120,6 +130,17 @@ class ArticleAuthorizedController implements Aace,C{
             case 0:
                 $this->response = "OK";
                 break;
+            case Aace::FROM_TOKEN:
+                $errnoT = $this->token->getErrno();
+                switch($errnoT){
+                    case Te::TOKENEXPIRED:
+                        $this->response = Te::TOKENEXPIRED_MSG;
+                        break;
+                    default:
+                        $this->response = C::ERROR_UNKNOWN;
+                        break;
+                }//switch($errnoT){
+                break;
             case Aace::TOKEN_NOTFOUND:
             case Aace::FORBIDDEN:
                 $this->response = Aace::FORBIDDEN_MSG;
@@ -128,7 +149,7 @@ class ArticleAuthorizedController implements Aace,C{
                 $this->response = Aace::ARTICLE_NOTFOUND_MSG;
                 break;
             default:
-                $this->response = C::ARTICLEEDITING_ERROR;
+                $this->response = C::ERROR_UNKNOWN;
                 break;
         }
     }

@@ -5,6 +5,7 @@ namespace AngularBlog\Classes\Myarticles;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\Article\ArticleAuthorizedControllerErrors as Aace;
 use AngularBlog\Interfaces\MyArticles\DeleteControllerErrors as Dce;
+use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Classes\Article\Article;
 use AngularBlog\Classes\Article\ArticleAuthorizedController;
 use AngularBlog\Classes\Token;
@@ -102,6 +103,17 @@ class DeleteController implements Dce{
             case Dce::FROM_ARTICLEAUTHORIZEDCONTROLLER:
                 $aacErrno = $this->aac->getErrno();
                 switch($aacErrno){
+                    case Aace::FROM_TOKEN:
+                        $errnoT = $this->token->getErrno();
+                        switch($errnoT){
+                            case Te::TOKENEXPIRED:
+                                $this->response = Te::TOKENEXPIRED_MSG;
+                                break;
+                            default:
+                                $this->response = C::ARTICLEDELETE_ERROR;
+                                break;
+                        }
+                        break;
                     case Aace::TOKEN_NOTFOUND:
                     case Aace::FORBIDDEN:
                         $this->response = Aace::FORBIDDEN_MSG;

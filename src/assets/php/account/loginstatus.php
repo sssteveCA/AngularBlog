@@ -36,7 +36,7 @@ if(isset($postDecode['token_key'],$postDecode['username'])){
                 $response['logged'] = true;
             else{
                 $response['msg'] = $token->getError();
-                $token->token_delete(['token_key' => $token->getTokenKey(), 'username' => $token->getUsername()]);
+                //$token->token_delete(['token_key' => $token->getTokenKey(), 'username' => $token->getUsername()]);
             }
                 
         }//if($get){
