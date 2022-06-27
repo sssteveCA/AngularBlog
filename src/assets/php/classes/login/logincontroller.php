@@ -6,6 +6,7 @@ use AngularBlog\Classes\Token;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\Login\LoginControllerErrors as Lce;
 use AngularBlog\Classes\User;
+use MongoDB\BSON\ObjectId;
 use MongoDB\Driver\Exception\BulkWriteException;
 
 class LoginController implements Lce,C{
@@ -81,29 +82,37 @@ class LoginController implements Lce,C{
         $set = false;
         $this->errno = 0;
         $logged_time = date('d-m-Y H:i:s');
-        $data = [
-            'user_id' => $this->user->getId(),
-            'username' => $this->user->getUsername(),
-            'logged_time' => $logged_time
-        ];
-        $data_get = ['user_id' => $this->user->getId()];
-        $this->token = new Token($data);
-        $get = $this->token->token_get($data_get);
-        if($get)$set = true;
-        if(!$get){
-            try{
-                $insert = $this->token->token_create();
-                if($insert)$set = true;
-                else
-                    $this->errno = Lce::TOKENNOTSETTED;  
-            }catch(\Exception $e){
-                if($e instanceof BulkWriteException){
-                    //Token alterady exists
-                    $set = true;
-                }
-                else $set = false;
-             }  
-        }
+        $token_old = new Token();
+        $user_id = $this->user->getId();
+        $data_old = ['user_id' => new ObjectId($user_id)];
+        //Check if a token with this user_id exists
+        $get_old = $token_old->token_get($data_old);
+        if($get_old){
+            //Found an old user session rewrite
+            $this->token = new Token();
+            $filter = $data_old;
+            $values = [
+                '$set' => ['username' => $this->user->getUsername()] 
+            ];
+            $token_update = $this->token->token_update($filter,$values);
+            if($token_update){
+                $set = true;
+            }
+            else Lce::TOKENNOTSETTED;
+        }//if($get_old){
+        else{
+            //No previous user session found
+            $data = [
+                'user_id' => $this->user->getId(),
+                'username' => $this->user->getUsername(),
+                'logged_time' => $logged_time
+            ];
+            $this->token = new Token($data);
+            $insert = $this->token->token_create();
+            if($insert)$set = true;
+            else
+                $this->errno = Lce::TOKENNOTSETTED; 
+        }//else if($get_old){
         return $set;
     }
 
