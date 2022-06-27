@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
@@ -8,6 +8,7 @@ import ConfirmDialog from 'src/classes/confirmdialog';
 import MessageDialog from 'src/classes/messagedialog';
 import { Article } from 'src/app/models/article.model';
 import ConfirmDialogInterface from 'src/classes/confirmdialog.interface';
+import MessageDialogInterface from 'src/classes/messagedialog.interface';
 
 @Component({
   selector: 'app-my-articles',
@@ -77,13 +78,50 @@ export class MyArticlesComponent implements OnInit {
   }
 
   //Delete an article
-  private deleteArticle(id: string): void{
+  private delete(deleteData: any): void{
+    console.log("delete => ");
+    if(deleteData.hasOwnProperty('id') && deleteData.hasOwnProperty('token_key')){
+      console.log(deleteData);
+      //Required properties exist
+      this.deletePromise(deleteData).then(res =>{
+        console.log(res);
+      }).catch(err =>{
+        console.warn(err);
+      });
+    }//if(deleteData.hasOwnProperty('id') && deleteData.hasOwnProperty('token_key')){
+    else{
+      let data: MessageDialogInterface = {
+        title: 'Rimuovi articolo',
+        message: messages.deleteArticleError
+      };
+      let md: MessageDialog = new MessageDialog(data);
+      md.bt_ok.addEventListener('click',()=>{
+        md.instance.dispose();
+        md.div_dialog.remove();
+      });
+    }
+  }
 
+  //Function that does the HTTP request to delete the article
+  private async deletePromise(deleteData: any): Promise<any>{
+    console.log(deleteData);
+    return await new Promise((resolve, reject) => {
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      });
+      this.http.delete(constants.articleDeleteUrl,{headers: headers,responseType: 'text',body: deleteData}).subscribe(res => {
+        resolve(res);
+      },error => {
+        reject(error);
+      })
+    });
   }
 
 
   //Insert articles list in DOM
   private insertArticles(router: Router): void{
+    const component = this;
     let container = $('#articles-list');
     console.log("Container before foreach => ");
     console.log($(container));
@@ -133,9 +171,10 @@ export class MyArticlesComponent implements OnInit {
                 document.body.removeChild(cd.div_dialog);
                 let deleteData = {
                   'id': article.id,
-                  'token': localStorage.getItem('token_key')
+                  'token_key': localStorage.getItem('token_key')
                 };
-                console.log(deleteData);
+                console.log(deleteData); 
+                component.delete(deleteData);
               });
               cd.bt_no.addEventListener('click',()=>{
                 cd.instance.dispose();
