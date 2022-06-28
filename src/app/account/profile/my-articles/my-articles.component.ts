@@ -74,6 +74,12 @@ export class MyArticlesComponent implements OnInit {
       this.deletePromise(deleteData).then(res =>{
         console.log(res);
         let rJson = JSON.parse(res);
+        if(rJson['expired'] == true){
+          //Session expired
+          this.api.removeItems();
+          this.userCookie = {};
+          this.api.changeUserdata(this.userCookie);
+        }
         let data: MessageDialogInterface = {
           title: 'Rimuovi articolo',
           message: rJson['msg']

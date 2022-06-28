@@ -34,6 +34,7 @@ class DeleteController implements Dce{
         $this->setResponse();
     }
 
+    public function getToken(){return $this->token;}
     public function getResponse(){return $this->response;}
     public function getErrno(){return $this->errno;}
     public function getError(){

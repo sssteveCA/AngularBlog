@@ -19,6 +19,7 @@ require_once("../../../classes/myarticles/deletecontroller.php");
 require_once("../../../classes/myarticles/deleteview.php");
 
 use AngularBlog\Interfaces\Constants as C;
+use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\Article\Article;
 use AngularBlog\Classes\Myarticles\DeleteController;
@@ -29,8 +30,9 @@ $post = json_decode($input,true);
 
 $response = [
     'done' => false,
-    'msg' => '',
-    'post' => $post
+    'expired' => false,
+    'msg' => ''
+    //'post' => $post
 ];
 
 if(isset($post['article_id'],$post['token_key']) && $post['article_id'] != '' && $post['token_key'] != '' ){
@@ -48,6 +50,12 @@ if(isset($post['article_id'],$post['token_key']) && $post['article_id'] != '' &&
         $response['msg'] = $deleteView->getMessage();
         if($deleteView->isDone())
             $response['done'] = true;
+        else{
+            $errnoT = $deleteController->getToken()->getErrno();
+            if($errnoT == Te::TOKENEXPIRED){
+                $response['expired'] = true;
+            }
+        }
     }catch(Exception $e){
         file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
         $response['msg'] = C::ARTICLEDELETE_ERROR;
