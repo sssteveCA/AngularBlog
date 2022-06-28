@@ -18,7 +18,7 @@ class Token extends Model implements Te{
     private ?string $logged_time; //Date when specific user has logged
     private bool $expired = false; //True if the token is expired and the user must login again
     private static int $key_length = 80; //Token key string length
-    private static int $token_duration = 40; //Token duration in seconds
+    private static int $token_duration = 5; //Token duration in seconds
     private static string $logFile = C::FILE_LOG;
 
     public function __construct(array $data = array())

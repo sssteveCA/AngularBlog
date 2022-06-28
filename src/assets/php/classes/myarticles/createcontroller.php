@@ -3,6 +3,7 @@
 namespace AngularBlog\Classes\Myarticles;
 
 use AngularBlog\Interfaces\Constants as C;
+use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Interfaces\MyArticles\CreateControllerErrors as Cce;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\Article\Article;
@@ -33,6 +34,7 @@ class CreateController implements Cce{
         $this->setResponse();
     }
 
+    public function getToken(){return $this->token;}
     public function getTokenKey(){return $this->token_key;}
     public function getArticle(){return $this->article;}
     public function getResponse(){return $this->response;}
@@ -50,6 +52,9 @@ class CreateController implements Cce{
                 break;
             case Cce::DUPLICATEDPERMALINK:
                 $this->error = Cce::DUPLICATEDPERMALINK_MSG;
+                break;
+            case Cce::FROM_TOKEN:
+                $this->error = Cce::FROM_TOKEN_MSG;
                 break;
             default:
                 $this->error = null;
@@ -89,6 +94,8 @@ class CreateController implements Cce{
         return $inserted;
     }
 
+
+
     //Set the Token object
     private function setToken(): bool{
         $set = false;
@@ -96,8 +103,15 @@ class CreateController implements Cce{
         $this->token = new Token();
         $filter = ['token_key' => $this->token_key];
         $get = $this->token->token_get($filter);
-        if($get)
-            $set = true;
+        if($get){
+            //Check if token is expired
+            $this->token->expireControl();
+            if($this->token->isExpired()){
+                $this->errno = Cce::FROM_TOKEN;
+            }
+            else
+                $set = true;
+        }
         else
             $this->errno = Cce::NOUSERIDFOUND;
         //file_put_contents(CreateController::$logFile,"setToken() result => ".var_export($set,true)."\r\n",FILE_APPEND);
@@ -120,8 +134,20 @@ class CreateController implements Cce{
             case Cce::FROMARTICLE:
                 $this->response = C::ARTICLECREATION_ERROR;
                 break;
+            case Cce::FROM_TOKEN:
+                $errnoT = $this->token->getErrno();
+                switch($errnoT){
+                    case Te::TOKENEXPIRED:
+                        $this->response = Te::TOKENEXPIRED_MSG;
+                        break;
+                    default:
+                        $this->response = C::ARTICLECREATION_ERROR;
+                        break;
+                }
+                break;
             default:
-                $this->response = C::ERROR_UNKNOWN;
+                $this->response = C::ARTICLECREATION_ERROR;
+                break;
         }
     }
 

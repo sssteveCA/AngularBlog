@@ -21,6 +21,6 @@ interface ArticleAuthorizedControllerErrors{
     const ARTICLE_NOTFOUND_MSG = "L'articolo che stai cercando non esiste o è stato rimosso";
     const TOKEN_NOTFOUND_MSG = "Non è stato trovato nessun token con la chiave passata";
     const FORBIDDEN_MSG = "Non sei autorizzato a modificare questo articolo";
-    const FROM_TOKEN_MSG = "Errore dalla classe Token";
+    const FROM_TOKEN_MSG = "Errore nella classe Token";
 }
 ?>

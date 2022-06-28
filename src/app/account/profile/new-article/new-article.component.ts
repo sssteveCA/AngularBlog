@@ -75,6 +75,13 @@ export class NewArticleComponent implements OnInit {
         console.log("Create.php response => ");
         console.log(res);
         let rJson = JSON.parse(res);
+        if(rJson['expired'] == true){
+          //session expired
+          this.api.removeItems();
+          this.userCookie = {};
+          this.api.changeUserdata(this.userCookie);
+          //this.router.navigateByUrl(constants.notLoggedRedirect);
+        }
         const data: MessageDialogInterface = {
           title: 'Creazione articolo',
           message: rJson['msg']
@@ -85,6 +92,7 @@ export class NewArticleComponent implements OnInit {
           md.div_dialog.remove();
           document.body.style.overflow = 'auto';
         });
+        
       },error => {
         console.warn(error);
       });

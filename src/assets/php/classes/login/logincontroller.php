@@ -89,7 +89,7 @@ class LoginController implements Lce,C{
         $get_old = $token_old->token_get($data_old);
         if($get_old){
             //Found an old user session rewrite
-            $this->token = new Token();
+            $this->token = new Token(['username' => $token_old->getUsername()]);
             $filter = $data_old;
             $values = [
                 '$set' => ['username' => $this->user->getUsername()] 

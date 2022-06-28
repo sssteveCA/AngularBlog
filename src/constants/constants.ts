@@ -57,7 +57,7 @@ export const logoutUrl: string = host+angularPath+"/src/assets/php/account/logou
 export const myArticlesUrl: string = host+angularPath+"/src/assets/php/account/profile/myArticles/get.php";
 
 //url redirect if user not logged try access to poute that need to be authenticated
-export const notLoggedRedirect: string = "login";
+export const notLoggedRedirect: string = "/login";
 
 //url for get information of the logged account
 export const profileUrl: string = host+angularPath+"/src/assets/php/account/profile.php";

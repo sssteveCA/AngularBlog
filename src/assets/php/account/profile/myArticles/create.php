@@ -15,6 +15,7 @@ require_once("../../../classes/myarticles/createcontroller.php");
 require_once("../../../classes/myarticles/createview.php");
 
 use AngularBlog\Interfaces\Constants as C;
+use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Interfaces\MyArticles\CreateControllerErrors as Cce;
 use AngularBlog\Interfaces\MyArticles\CreateViewErrors as Cve;
 use AngularBlog\Classes\Myarticles\CreateController;
@@ -22,6 +23,7 @@ use AngularBlog\Classes\Myarticles\CreateView;
 
 $response = array(
     'done' => false,
+    'expired' => false,
     'msg' => ''
 );
 
@@ -40,6 +42,12 @@ if(isset($post['token_key'],$post['article']) && $post['token_key'] != ''){
         $response['msg'] = $createView->getMessage();
         if($createView->isDone())
             $response['done'] = true;
+        else{
+            $errnoT = $createController->getToken()->getErrno();
+            if($errnoT == Te::TOKENEXPIRED){
+                $response['expired'] = true;
+            }
+        }
     }catch(Exception $e){
         $msg = $e->getMessage();
         switch($msg){
