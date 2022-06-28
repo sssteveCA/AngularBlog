@@ -120,16 +120,22 @@ export class EditArticleComponent implements OnInit {
       this.editPromise(this.article).then(res => {
         console.log(res);
         let rJson = JSON.parse(res);
-          const data: MessageDialogInterface = {
-            title: 'Modifica articolo',
-            message: rJson['msg']
-          };
-          let cd = new MessageDialog(data);
-          cd.bt_ok.addEventListener('click', ()=>{
-            cd.instance.dispose();
-            cd.div_dialog.remove();
-            document.body.style.overflow = 'auto';
-          }); 
+        if(rJson['expired'] == true){
+          //Session expired
+          this.api.removeItems();
+          this.userCookie = {};
+          this.api.changeUserdata(this.userCookie);
+        }
+        const data: MessageDialogInterface = {
+          title: 'Modifica articolo',
+          message: rJson['msg']
+        };
+        let cd = new MessageDialog(data);
+        cd.bt_ok.addEventListener('click', ()=>{
+          cd.instance.dispose();
+          cd.div_dialog.remove();
+          document.body.style.overflow = 'auto';
+        }); 
       }).catch(err => {
         console.warn(err);
       });

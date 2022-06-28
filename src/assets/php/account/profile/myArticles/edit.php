@@ -19,6 +19,7 @@ require_once("../../../classes/myarticles/editcontroller.php");
 require_once("../../../classes/myarticles/editview.php");
 
 use AngularBlog\Interfaces\Constants as C;
+use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\Article\Article;
 use AngularBlog\Classes\Myarticles\EditContoller;
@@ -29,8 +30,8 @@ $post = json_decode($input,true);
 
 $response = array(
     'done' => false,
-    'msg' => '',
-    'post' => $post
+    'expired' => false,
+    'msg' => ''
 );
 
 if(isset($post['article'],$post['token_key']) && $post['token_key'] != ''){
@@ -61,6 +62,12 @@ if(isset($post['article'],$post['token_key']) && $post['token_key'] != ''){
             $response['msg'] = $editView->getMessage();
             if($editView->isDone())
                 $response['done'] = true;
+            else{
+                $errnoT = $editController->getToken()->getErrno();
+                if($errnoT == Te::TOKENEXPIRED){
+                    $response['expired'] = true;
+                }
+            }
         }catch(Exception $e){
             file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
             $response['msg'] = C::ARTICLEEDITING_ERROR;

@@ -4,6 +4,7 @@ namespace AngularBlog\Classes\Myarticles;
 
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\MyArticles\EditControllerErrors as Ece;
+use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Classes\Article\Article;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\Article\ArticleAuthorizedController;
@@ -33,6 +34,7 @@ class EditContoller implements Ece{
         $this->setResponse();
     }
 
+    public function getToken(){return $this->token;}
     public function getResponse(){return $this->response;}
     public function getErrno(){return $this->errno;}
     public function getError(){
@@ -113,6 +115,17 @@ class EditContoller implements Ece{
             case Ece::FROM_ARTICLEAUTHORIZEDCONTROLLER:
                 $aacErrno = $this->aac->getErrno();
                 switch($aacErrno){
+                    case Aace::FROM_TOKEN:
+                        $errnoT = $this->token->getErrno();
+                        switch($errnoT){
+                            case Te::TOKENEXPIRED:
+                                $this->response = Te::TOKENEXPIRED_MSG;
+                                break;
+                            default:
+                                $this->response = C::ARTICLEEDITING_ERROR;
+                                break;
+                        }
+                        break;
                     case Aace::TOKEN_NOTFOUND:
                     case Aace::FORBIDDEN:
                         $this->response = Aace::FORBIDDEN_MSG;
