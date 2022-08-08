@@ -42,13 +42,7 @@ This blog has/will have the following features:
     <li><a href="https://github.com/mongodb/mongo-php-library">MongoDB PHP library</a></li>
   </ul>
 </div>
-<div>
-  Install These software with npm command:
-  <ul>
-    <li><a href="https://getbootstrap.com/">Bootstrap</a></li>
-    <li><a href="https://jquery.com/">jQuery</li>
-  </ul>
-</div>
+
 
 
 
