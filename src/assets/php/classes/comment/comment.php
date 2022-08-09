@@ -110,6 +110,16 @@ class Comment extends Model implements Ce{
         return $got;
     }
 
+    //Update the comment
+    public function comment_update(array $filter,array $data): bool{
+        $updated = false;
+        $this->errno = 0;
+        //Set last modified date before update
+        $data['$set']['last_modified'] = date('Y-m-d H:i:s');
+        parent::update($filter,$data);
+        return $updated;
+    }
+
     private function validate($operation): bool{
         $valid = true;
         if($operation == Comment::OPERATION_CREATE){
