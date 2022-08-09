@@ -84,6 +84,32 @@ class Comment extends Model implements Ce{
         return $inserted;
     }
 
+    //Remove a comment from the database
+    public function comment_delete(array $filter): bool{
+        $deleted = false;
+        $this->errno = 0;
+        parent::delete($filter);
+        if($this->errno == 0)$deleted = true;
+        return $deleted;
+    }
+
+    //Get the first comment that match with the filter
+    public function comment_get(array $filter): bool{
+        $got = false;
+        $this->errno = 0;
+        $comment = parent::get($filter);
+        if($this->errno == 0){
+            $this->id = $comment["_id"];
+            $this->article = $comment["article"];
+            $this->author = $comment["author"];
+            $this->comment = $comment["comment"];
+            $this->creation_time = $comment["creation_time"];
+            $this->last_modified = $comment["last_modified"];
+            $got = true;
+        }//if($this->errno == 0){
+        return $got;
+    }
+
     private function validate($operation): bool{
         $valid = true;
         if($operation == Comment::OPERATION_CREATE){
