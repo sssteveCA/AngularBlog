@@ -10,6 +10,7 @@ require_once("../../../interfaces/article/articleauthorizedview_errors.php");
 require_once("../../../interfaces/myarticles/editcontroller_errors.php");
 require_once("../../../interfaces/myarticles/editview_errors.php");
 require_once("../../../vendor/autoload.php");
+require_once("../../../traits/error.trait.php");
 require_once("../../../classes/model.php");
 require_once("../../../classes/token.php");
 require_once("../../../classes/article/article.php");

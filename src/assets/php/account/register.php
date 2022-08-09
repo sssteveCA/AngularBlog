@@ -6,6 +6,7 @@ require_once('../interfaces/user_errors.php');
 require_once('../interfaces/subscribe/registrationcontroller_errors.php');
 require_once('../interfaces/subscribe/registrationview_errors.php');
 require_once('../vendor/autoload.php');
+require_once("../traits/error.trait.php");
 require_once('../classes/model.php');
 require_once('../classes/user.php');
 require_once('../classes/subscribe/registrationcontroller.php');
