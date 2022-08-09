@@ -5,8 +5,9 @@ namespace AngularBlog\Classes\Comment;
 use AngularBlog\Classes\Models;
 use AngularBlog\Interfaces\Constants as C;
 USE AngularBlog\Interfaces\ModelsErrors AS Me;
+use AngularBlog\Interfaces\Comment\CommentListErrors as Cle;
 
-class CommentList extends Models{
+class CommentList extends Models implements Cle{
     
     private array $results = array(); //Array of Comment objects result
     private static string $logFile = C::FILE_LOG;

@@ -36,6 +36,11 @@ class Comment extends Model implements Ce{
         $this->date = isset($data['date']) ? $this->date = $data['date'] : null;
     }
 
+    public function getId(){return $this->id;}
+    public function getArticle(){return $this->article;}
+    public function getAuthor(){return $this->author;}
+    public function getComment(){return $this->comment;}
+    public function getCrTime(){return $this->creation_time;}
     public function getError(){
         if($this->errno <= Me::MODEL_RANGE_MAX){
             //An error of superclass
