@@ -18,9 +18,10 @@ use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Article\ArticleList;
 use MongoDB\BSON\Regex;
 
-$response = array();
-$response['msg'] = 'Ciao';
-$response['done'] = false;
+$response = [
+    'msg' => '',
+    'done' => false
+];
 $field = 'title';
 
 if(isset($_POST['query']) && $_POST['query'] != ''){
