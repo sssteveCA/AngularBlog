@@ -33,7 +33,7 @@ class Comment extends Model implements Ce{
         $this->article = isset($data['article']) ? $this->article = $data['article'] : null;
         $this->author = isset($data['author']) ? $this->author = $data['author'] : null;
         $this->text = isset($data['text']) ? $this->text = $data['text'] : null;
-        $this->date = isset($data['date']) ? $this->date = $data['date'] : null;
+        $this->creation_time = isset($data['creation_time']) ? $this->creation_time = $data['creation_time'] : null;
     }
 
     public function getId(){return $this->id;}

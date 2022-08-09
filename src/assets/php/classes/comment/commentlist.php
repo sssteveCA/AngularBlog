@@ -33,6 +33,28 @@ class CommentList extends Models implements Cle{
         }
         return $this->error;
     }
+
+    public function commentlist_get(array $filter): bool{
+        $got = false;
+        $this->errno = 0;
+        $cursor = parent::get($filter);
+        if($this->errno == 0){
+            //Superclass get does not return any error
+            $results = $cursor->toArray();
+            foreach($results as $comment){
+                $data = [
+                    "id" => $comment["_id"],
+                    "article" => $comment["article"],
+                    "author" => $comment["author"],
+                    "comment" => $comment["comment"],
+                    "creation_time" => $comment["creation_time"]
+                ];
+                $this->results[] = new Comment($data);
+            }//foreach($results as $comment){
+            $got = true;
+        }//if($this->errno == 0){
+        return $got;
+    }
 }
 
 ?>
