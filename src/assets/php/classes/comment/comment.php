@@ -34,8 +34,9 @@ class Comment extends Model implements Ce{
         $this->id = isset($data['id']) ? $this->id = $data['id'] : null;
         $this->article = isset($data['article']) ? $this->article = $data['article'] : null;
         $this->author = isset($data['author']) ? $this->author = $data['author'] : null;
-        $this->text = isset($data['text']) ? $this->text = $data['text'] : null;
+        $this->comment = isset($data['comment']) ? $this->text = $data['comment'] : null;
         $this->creation_time = isset($data['creation_time']) ? $this->creation_time = $data['creation_time'] : null;
+        $this->last_modified = isset($data['last_modified']) ? $this->last_modified = $data['last_modified'] : null;
     }
 
     public function getId(){return $this->id;}
