@@ -6,6 +6,7 @@ use AngularBlog\Classes\Model;
 use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Interfaces\Comment\CommentErrors as Ce;
 use AngularBlog\Interfaces\Constants as C;
+USE AngularBlog\Interfaces\ModelErrors AS mE;
 
 class Comment extends Model implements Ce{
 
@@ -33,6 +34,21 @@ class Comment extends Model implements Ce{
         $this->author = isset($data['author']) ? $this->author = $data['author'] : null;
         $this->text = isset($data['text']) ? $this->text = $data['text'] : null;
         $this->date = isset($data['date']) ? $this->date = $data['date'] : null;
+    }
+
+    public function getError(){
+        if($this->errno <= Me::MODEL_RANGE_MAX){
+            //An error of superclass
+            return parent::getError();
+        }
+        else{
+            switch($this->errno){
+                default:
+                    $this->error = null;
+                    break;
+            }
+        }
+        return $this->error;
     }
 
     private function validate($operation): bool{
