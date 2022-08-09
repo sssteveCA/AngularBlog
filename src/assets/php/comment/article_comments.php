@@ -7,6 +7,7 @@ require_once("../config.php");
 require_once("../interfaces/constants.php");
 require_once("../interfaces/models_errors.php");
 require_once("../interfaces/model_errors.php");
+require_once("../interfaces/user_errors.php");
 require_once("../interfaces/article/article_errors.php");
 require_once("../interfaces/comment/comment_errors.php");
 require_once("../interfaces/comment/commentlist_errors.php");
@@ -14,12 +15,14 @@ require_once("../vendor/autoload.php");
 require_once("../traits/error.trait.php");
 require_once("../classes/model.php");
 require_once("../classes/models.php");
+require_once("../classes/user.php");
 require_once("../classes/article/article.php");
 require_once("../classes/comment/comment.php");
 require_once("../classes/comment/commentlist.php");
 
 use AngularBlog\Classes\Article\Article;
 use AngularBlog\Classes\Comment\CommentList;
+use AngularBlog\Classes\User;
 use AngularBlog\Interfaces\Constants as C;
 use MongoDB\BSON\ObjectId;
 
@@ -53,10 +56,16 @@ if(isset($_GET['permalink']) && $_GET['permalink'] != ''){
                 //At least one comment found
                 $comments = $cl->getResults();
                 foreach($comments as $comment){
+                    $user = new User();
+                    $filter = [
+                        "_id" => new ObjectId($comment->getAuthor())
+                    ];
+                    $user_found = $user->user_get($filter);
                     $response['comments'][] = [
                         'id' => $comment->getId(),
                         'article' => $comment->getArticle(),
                         'author' => $comment->getAuthor(),
+                        'author_name' => $user->getUsername(),
                         'comment' => $comment->getComment(),
                         'creation_time' => $comment->getCrTime(),
                         'last_modified' => $comment->getLastMod()
