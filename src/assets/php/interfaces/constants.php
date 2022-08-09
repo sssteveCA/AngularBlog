@@ -17,6 +17,10 @@ interface Constants{
     const ARTICLEEDITING_ERROR = "Errore durante la modifica dell'articolo. ".Constants::ADMIN_CONTACT;
     const ARTICLEEDITING_OK = "L'articolo è stato modificato con successo";
 
+    //Comment
+    const COMMENTLIST_ERROR = "Impossibile mostrare i commenti. ".Constants::ADMIN_CONTACT;
+    const COMMENTLIST_EMPTY = "Questo articolo non contiene alcun commento";
+
     //Cookie
     const COOKIE_ID = 'id';
     const COOKIE_NAME = 'username';
