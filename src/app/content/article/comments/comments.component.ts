@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
@@ -9,7 +10,7 @@ export class CommentsComponent implements OnInit {
 
   @Input() permalink: string;
 
-  constructor() { }
+  constructor(public http: HttpClient) { }
 
   ngOnInit(): void {
 
