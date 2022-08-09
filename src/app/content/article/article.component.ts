@@ -44,8 +44,6 @@ export class ArticleComponent implements OnInit {
 
   //create HTML content from articles data
   showArticle(data: any){
-    let divCont,divR,divC;
-    let title,content,categ,tags,autInfo;
     let html = `
 <div class="container">
     <div class="row">

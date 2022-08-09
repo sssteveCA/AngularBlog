@@ -23,6 +23,7 @@ import { ProfileComponent } from './account/profile/profile.component';
 import { MyArticlesComponent } from './account/profile/my-articles/my-articles.component';
 import { NewArticleComponent } from './account/profile/new-article/new-article.component';
 import { EditArticleComponent } from './account/profile/edit-article/edit-article.component';
+import { CommentsComponent } from './content/article/comments/comments.component';
 
 
 
@@ -45,7 +46,8 @@ import { EditArticleComponent } from './account/profile/edit-article/edit-articl
     ProfileComponent,
     MyArticlesComponent,
     NewArticleComponent,
-    EditArticleComponent
+    EditArticleComponent,
+    CommentsComponent
   ],
   imports: [
     BrowserModule,
