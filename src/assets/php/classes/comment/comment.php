@@ -6,7 +6,8 @@ use AngularBlog\Classes\Model;
 use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Interfaces\Comment\CommentErrors as Ce;
 use AngularBlog\Interfaces\Constants as C;
-USE AngularBlog\Interfaces\ModelErrors AS mE;
+use AngularBlog\Interfaces\ModelErrors AS mE;
+use MongoDB\BSON\ObjectId;
 
 class Comment extends Model implements Ce{
 
@@ -17,6 +18,7 @@ class Comment extends Model implements Ce{
     private ?string $author; //Author id that posts the comment
     private ?string $comment; //Comment text
     private ?string $creation_time; //The date where the comment wwas posted
+    private ?string $last_modified; //The date where the comment was updated last time
 
     const OPERATION_GET = 1; 
     const OPERATION_CREATE = 2;
@@ -41,6 +43,7 @@ class Comment extends Model implements Ce{
     public function getAuthor(){return $this->author;}
     public function getComment(){return $this->comment;}
     public function getCrTime(){return $this->creation_time;}
+    public function getLastMod() {return $this->last_modified;}
     public function getError(){
         if($this->errno <= Me::MODEL_RANGE_MAX){
             //An error of superclass
@@ -48,12 +51,37 @@ class Comment extends Model implements Ce{
         }
         else{
             switch($this->errno){
+                case Ce::INVALIDDATAFORMAT:
+                    $this->error = Ce::INVALIDDATAFORMAT_MSG;
+                    break;
                 default:
                     $this->error = null;
                     break;
             }
         }
         return $this->error;
+    }
+
+    //Insert new comment in the database
+    public function comment_create(): bool{
+        $inserted = false;
+        $this->errno = 0;
+        $this->creation_time = date('Y-m-d H:i:s');
+        $this->last_modified = date('Y-m-d H:i:s');
+        $validate = $this->validate(Comment::OPERATION_CREATE);
+        if($validate){
+            //All data are valid and can be inserted
+            $values = [
+                'article' => new ObjectId($this->article),
+                'author' => new ObjectId($this->author),
+                'comment' => $this->comment,
+                'creation_time' => $this->creation_time,
+                'last_modified' => $this->last_modified
+            ];
+            parent::create($values);
+            if($this->errno == 0)$inserted = true;
+        }//if($validate){
+        return $inserted;
     }
 
     private function validate($operation): bool{
