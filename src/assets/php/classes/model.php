@@ -11,9 +11,13 @@ use MongoDB\DeleteResult;
 use MongoDB\InsertOneResult;
 use MongoDB\Model\BSONDocument;
 use MongoDB\UpdateResult;
+use AngularBlog\Traits\ErrorTrait;
 
 //Base class that interfaces with MongoDB database
 abstract class Model implements Me{
+
+    use ErrorTrait;
+
     private ?string $connection_url = null;
     private ?string $database_name = null;
     private ?string $collection_name = null;
@@ -21,8 +25,6 @@ abstract class Model implements Me{
     protected bool $connect = false; //true if there is a MongoDB connection
     protected ?Database $database ; //MongoDB database used by this class
     protected ?Collection $collection; //MongoDB collection of registered users
-    protected int $errno = 0; //error code
-    protected ?string $error = null;
     private static string $logFile = C::FILE_LOG;
 
     public function __construct(array $data){
@@ -42,7 +44,6 @@ abstract class Model implements Me{
         
     }
 
-    public function getErrno(){return $this->errno;}
     public function getError(){
         switch($this->errno){
             case Me::NORESULT:

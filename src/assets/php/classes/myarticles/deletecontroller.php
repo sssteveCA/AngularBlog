@@ -10,16 +10,17 @@ use AngularBlog\Classes\Article\Article;
 use AngularBlog\Classes\Article\ArticleAuthorizedController;
 use AngularBlog\Classes\Token;
 use MongoDB\BSON\ObjectId;
-
+use AngularBlog\Traits\ErrorTrait;
 
 class DeleteController implements Dce{
+
+    use ErrorTrait;
+
     private ?Article $article;
     private ?Article $aac_article; //Article used by ArticleAuthorizationController class
     private ?ArticleAuthorizedController $aac;
     private ?Token $token;
     private string $response = "";
-    private int $errno = 0;
-    private ?string $error = null;
     private static string $logFile = C::FILE_LOG;
 
     public function __construct(array $data)
@@ -36,7 +37,6 @@ class DeleteController implements Dce{
 
     public function getToken(){return $this->token;}
     public function getResponse(){return $this->response;}
-    public function getErrno(){return $this->errno;}
     public function getError(){
         switch($this->errno){
             case Dce::FROM_ARTICLEAUTHORIZEDCONTROLLER:

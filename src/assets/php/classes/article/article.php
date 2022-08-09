@@ -9,6 +9,7 @@ use AngularBlog\Classes\Model;
 use MongoDB\BSON\ObjectId;
 
 class Article extends Model implements Ae,C,Me{
+
     private ?string $id; //Unique id of the article
     private ?string $title;
     private ?string $author; //author id that created this article

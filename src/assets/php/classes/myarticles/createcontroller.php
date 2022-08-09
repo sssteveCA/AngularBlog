@@ -7,15 +7,17 @@ use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Interfaces\MyArticles\CreateControllerErrors as Cce;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\Article\Article;
+use AngularBlog\Traits\ErrorTrait;
 
 class CreateController implements Cce{
+
+    use ErrorTrait;
+
     private ?string $token_key;
     private array $article_data = array();
     private ?Token $token;
     private ?Article $article;
     private string $response = "";
-    private int $errno = 0;
-    private ?string $error = null;
     private static string $logFile = C::FILE_LOG;
 
     public function __construct(array $data)
@@ -38,7 +40,6 @@ class CreateController implements Cce{
     public function getTokenKey(){return $this->token_key;}
     public function getArticle(){return $this->article;}
     public function getResponse(){return $this->response;}
-    public function getErrno(){return $this->errno;}
     public function getError(){
         switch($this->errno){
             case Cce::NOUSERIDFOUND:

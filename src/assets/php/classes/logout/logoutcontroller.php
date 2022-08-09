@@ -5,12 +5,14 @@ namespace AngularBlog\Classes\Logout;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\Logout\LogoutControllerErrors as Loce;
 use AngularBlog\Classes\Token;
+use AngularBlog\Traits\ErrorTrait;
 
 class LogoutController implements C,Loce{
+
+    use ErrorTrait;
+
     private ?Token $token;
     private ?string $response = "";
-    private int $errno = 0;
-    private ?string $error = null;
 
     public function __construct(?Token $token)
     {
@@ -22,7 +24,6 @@ class LogoutController implements C,Loce{
 
     public function getToken(){return $this->token;}
     public function getResponse(){return $this->response;}
-    public function getErrno(){return $this->errno;}
     public function getError(){
         switch($this->errno){
             case Loce::TOKENNOTDELETED:

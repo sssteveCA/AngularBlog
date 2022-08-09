@@ -7,15 +7,17 @@ use AngularBlog\Interfaces\MyArticles\GetControllerErrors as Gce;
 use AngularBlog\Classes\Article\ArticleList;
 use AngularBlog\Classes\Token;
 use MongoDB\BSON\ObjectId;
+use AngularBlog\Traits\ErrorTrait;
 
 //Get the user created article list
 class GetController implements Gce{
+
+    use ErrorTrait;
+
     private ?string $token_key;
     private ?ArticleList $articleList;
     private ?Token $token;
     private string $response = "";
-    private int $errno = 0;
-    private ?string $error = null;
     private static string $logFile = C::FILE_LOG;
 
     public function __construct(array $data)
@@ -31,7 +33,6 @@ class GetController implements Gce{
     public function getTokenKey(){return $this->token_key;}
     public function getArticleList():?ArticleList{return $this->articleList;}
     public function getResponse(){return $this->response;}
-    public function getErrno(){return $this->errno;}
     public function getError(){
         switch($this->errno){
             case Gce::NOUSERIDFOUND:

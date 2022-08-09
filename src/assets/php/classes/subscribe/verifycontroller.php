@@ -6,12 +6,14 @@ use AngularBlog\Classes\User;
 use AngularBlog\Interfaces\ModelErrors as Me;
 use AngularBlog\Interfaces\Subscribe\VerifyControllerErrors as Vce;
 use AngularBlog\Interfaces\Constants as C;
+use AngularBlog\Traits\ErrorTrait;
 
 class VerifyController implements Vce,Me,C{
+
+    use ErrorTrait;
+
     private ?User $user;
     private string $response = "";
-    private int $errno = 0;
-    private ?string $error = null;
     private static string $logFile = C::FILE_LOG;
 
     public function __construct(?User $user)
@@ -24,7 +26,6 @@ class VerifyController implements Vce,Me,C{
     }
 
     public function getResponse(){return $this->response;}
-    public function getErrno(){return $this->errno;}
     public function getError(){
         switch($this->error){
             default:

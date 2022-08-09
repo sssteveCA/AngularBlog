@@ -6,16 +6,17 @@ use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\Subscribe\RegistrationControllerErrors as Rce;
 use AngularBlog\Interfaces\UserErrors as Ue;
 use AngularBlog\Classes\User;
+use AngularBlog\Traits\ErrorTrait;
 
 //This class add subscriber data to DB and send activation email to user
 class RegistrationController implements Rce,Ue,C{
+
+    use ErrorTrait;
 
     private ?User $user; //User object with data to store in DB
     private ?string $headers = null; //Email activation headers
     private ?string $message = null; //Email activation body message
     private string $response = ""; //Response message
-    private int $errno = 0;
-    private ?string $error = null;
 
     public function __construct(?User $user)
     {
@@ -31,7 +32,6 @@ class RegistrationController implements Rce,Ue,C{
 
     public function getUser(){return $this->user;}
     public function getResponse(){return $this->response;}
-    public function getErrno(): int{return $this->errno;}
     public function getError(){
         switch($this->errno){
             case Rce::MAILNOTSENT:

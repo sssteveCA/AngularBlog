@@ -8,13 +8,15 @@ use AngularBlog\Interfaces\Login\LoginControllerErrors as Lce;
 use AngularBlog\Classes\User;
 use MongoDB\BSON\ObjectId;
 use MongoDB\Driver\Exception\BulkWriteException;
+use AngularBlog\Traits\ErrorTrait;
 
 class LoginController implements Lce,C{
+
+    use ErrorTrait;
+
     private ?User $user; //User object with data to store in DB
     private ?Token $token; //Returned token when login has success
     private string $response = ""; //Response message
-    private int $errno = 0;
-    private ?string $error = null;
 
     public function __construct(?User $user)
     {
@@ -30,7 +32,6 @@ class LoginController implements Lce,C{
     public function getUser(){return $this->user;}
     public function getToken(){return $this->token;}
     public function getResponse(){return $this->response;}
-    public function getErrno(): int{return $this->errno;}
     public function getError(){
         switch($this->errno){
             case Lce::USERNAMENOTFOUND:

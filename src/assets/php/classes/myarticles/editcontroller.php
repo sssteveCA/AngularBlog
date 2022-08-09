@@ -10,15 +10,17 @@ use AngularBlog\Classes\Token;
 use AngularBlog\Classes\Article\ArticleAuthorizedController;
 use AngularBlog\Interfaces\Article\ArticleAuthorizedControllerErrors as Aace;
 use MongoDB\BSON\ObjectId;
+use AngularBlog\Traits\ErrorTrait;
 
 class EditContoller implements Ece{
+
+    use ErrorTrait;
+
     private ?Article $article;
     private ?Article $aac_article; //Article used by ArticleAuthorizationController class
     private ?ArticleAuthorizedController $aac;
     private ?Token $token;
     private string $response = "";
-    private int $errno = 0;
-    private ?string $error = null;
     private static string $logFile = C::FILE_LOG;
 
     public function __construct(array $data)
@@ -36,7 +38,6 @@ class EditContoller implements Ece{
 
     public function getToken(){return $this->token;}
     public function getResponse(){return $this->response;}
-    public function getErrno(){return $this->errno;}
     public function getError(){
         switch($this->errno){
             case Ece::FROM_ARTICLEAUTHORIZEDCONTROLLER:
