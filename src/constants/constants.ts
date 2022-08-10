@@ -13,6 +13,9 @@ export const blogUrl = '/blog';
 //php script for check if user is authorized to manage a certain article
 export const articleAuthorizedUrl: string = host+angularPath+"/src/assets/php/article/article_authorized.php";
 
+//php script for get the article comments
+export const articleComments: string = host+angularPath+"/src/assets/php/comment/article_comments.php";
+
 //php script for article view
 export const articleView: string = host+angularPath+"/src/assets/php/article/search_article.php";
 
