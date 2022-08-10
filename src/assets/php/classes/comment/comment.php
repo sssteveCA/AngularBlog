@@ -4,7 +4,7 @@ namespace AngularBlog\Classes\Comment;
 
 use AngularBlog\Classes\Model;
 use AngularBlog\Traits\ErrorTrait;
-use AngularBlog\Interfaces\Comment\CommentErrors as Ce;
+use AngularBlog\Interfaces\Article\Comment\CommentErrors as Ce;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\ModelErrors AS mE;
 use MongoDB\BSON\ObjectId;

@@ -1,6 +1,6 @@
 <?php
 
-namespace AngularBlog\Interfaces\Comment;
+namespace AngularBlog\Interfaces\Article\Comment;
 
 interface CommentErrors{
 

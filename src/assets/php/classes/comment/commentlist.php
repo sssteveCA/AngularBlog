@@ -5,7 +5,7 @@ namespace AngularBlog\Classes\Comment;
 use AngularBlog\Classes\Models;
 use AngularBlog\Interfaces\Constants as C;
 USE AngularBlog\Interfaces\ModelsErrors AS Me;
-use AngularBlog\Interfaces\Comment\CommentListErrors as Cle;
+use AngularBlog\Interfaces\Article\Comment\CommentListErrors as Cle;
 
 class CommentList extends Models implements Cle{
     
