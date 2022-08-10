@@ -71,12 +71,12 @@ if(isset($_GET['permalink']) && $_GET['permalink'] != ''){
                         'last_modified' => $comment->getLastMod()
                     ];
                 }//foreach($comments as $comment){
-                $response['done'] = true;
             }//if($comments_found){
             else{
                 $response['empty'] = true;
                 $response['msg'] = C::COMMENTLIST_EMPTY;
             }
+            $response['done'] = true;
         }//if($article_found){
         else{
             $response['error'] = true;
