@@ -3,6 +3,9 @@ import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { Comment } from 'src/app/models/comment.model';
 import * as constants from "../../../../constants/constants";
 import { Messages } from 'src/constants/messages';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import MessageDialogInterface from 'src/classes/messagedialog.interface';
+import MessageDialog from 'src/classes/messagedialog';
 
 @Component({
   selector: 'app-comments',
@@ -19,11 +22,13 @@ export class CommentsComponent implements OnInit,AfterViewInit {
    empty: boolean;
    comments: Comment[];
    message: string;
+   newComment: FormControl = new FormControl('',Validators.required);
+
 
   constructor(public http: HttpClient) { }
 
   ngAfterViewInit(): void {
-    console.log(this.permalink);
+    //console.log(this.permalink);
     this.getCommnents();
   }
 
@@ -31,6 +36,26 @@ export class CommentsComponent implements OnInit,AfterViewInit {
 
   }
 
+  //Set the reactive form for add new comment element
+  addComment(){
+    if(this.newComment.valid){
+
+    }//if(this.newComment.valid){
+    else{
+      let md_data: MessageDialogInterface = {
+        title: 'Nuovo commento',
+        message: Messages.INSERTCOMMENT_ERROR
+      };
+      let md: MessageDialog = new MessageDialog(md_data);
+      md.bt_ok.addEventListener('click',()=>{
+        md.instance.dispose();
+        md.div_dialog.remove();
+        document.body.style.overflow = 'auto';
+      });
+    }
+  }
+
+  //Get comments of this article
   getCommnents(): void{
     this.http.get(this.url+'?permalink='+this.permalink,{responseType: 'text'}).subscribe(res => {
       console.log(res);
