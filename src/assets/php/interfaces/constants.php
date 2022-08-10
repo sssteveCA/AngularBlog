@@ -19,6 +19,7 @@ interface Constants{
 
     //Comment
     const COMMENTLIST_ERROR = "Impossibile mostrare i commenti. ".Constants::ADMIN_CONTACT;
+    const INSERTCOMMENT_ERROR = "Inserisci un commento per continuare";
     const COMMENTLIST_EMPTY = "Questo articolo non contiene alcun commento";
 
     //Cookie
