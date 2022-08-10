@@ -13,15 +13,24 @@
                     </div>
                 </div>
             </ng-template>
-            <!-- Add comment template-->
-            <div class="add_comment">
-                <div class="textarea">
-                    <textarea name="new_comment" placeholder="Aggiungi un commento..." [formControl]="newComment"></textarea>
+            <ng-template [ngIf]="logged !== null">
+                <ng-template [ngIf]="logged" [ngIfElse]="notLogged">
+                <!-- Add comment template-->
+                <div class="add_comment">
+                    <div class="textarea">
+                        <textarea name="new_comment" placeholder="Aggiungi un commento..." [formControl]="newComment"></textarea>
+                    </div>
+                    <div class="buttons">
+                        <button type="button" class="btn btn-primary" (click)="addComment()" >AGGIUNGI</button>
+                    </div>
                 </div>
-                <div class="buttons">
-                    <button type="button" class="btn btn-primary" (click)="addComment()" >AGGIUNGI</button>
-                </div>
-            </div>
+                </ng-template>
+                <ng-template #notLogged>
+                    <div class="not-logged">
+                        <h2>Devi essere loggato per commentare</h2>
+                    </div>
+                </ng-template>
+            </ng-template>
         </ng-template>
         <ng-template #error_template [ngIf]="error">
             <!--Error message template-->

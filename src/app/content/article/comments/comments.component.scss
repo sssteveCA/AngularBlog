@@ -49,6 +49,14 @@ $border-comment: 1px solid black;
     }
 }
 
+@mixin not-logged-style(){
+    .not-logged{
+        h2{
+            text-align: center;
+        }
+    }
+}
+
 @mixin content(){
     .content{
         display: flex;
@@ -60,6 +68,7 @@ $border-comment: 1px solid black;
         }
         @include comment-style();
         @include add-comment-style();
+        @include not-logged-style();
     }
 }
 
