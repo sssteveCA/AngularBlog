@@ -3,11 +3,25 @@
         <ng-template [ngIf]="done" [ngIfElse]="error_template">
             <ng-template [ngIf]="!empty">
                 <!-- Comments list template -->
-
+                <div class="comment" *ngFor="let comment of comments; index as i">
+                    <div class="comment-container-1">
+                        <div class="username">{{comment.author_name}}</div>
+                        <div class="date">{{comment.last_modified}}</div>
+                    </div>
+                    <div class="comment-container-2">
+                        <div class="text">{{comment.comment}}</div>
+                    </div>
+                </div>
             </ng-template>
-            <ng-template>
-                <!-- Add comment template-->
-            </ng-template>
+            <!-- Add comment template-->
+            <div class="add_comment">
+                <div class="textarea">
+                    <textarea name="new_comment" placeholder="Aggiungi un commento..."></textarea>
+                </div>
+                <div class="buttons">
+                    <button type="submit" class="btn btn-primary">AGGIUNGI</button>
+                </div>
+            </div>
         </ng-template>
         <ng-template #error_template [ngIf]="error">
             <!--Error message template-->
