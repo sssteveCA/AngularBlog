@@ -14,11 +14,11 @@ export class CommentsComponent implements OnInit,AfterViewInit {
   @Input() permalink: string|null;
   url: string = constants.articleComments;
 
-  private done: boolean;
-  private error: boolean;
-  private empty: boolean;
-  private comments: Comment[];
-  private message: string;
+   done: boolean;
+   error: boolean;
+   empty: boolean;
+   comments: Comment[];
+   message: string;
 
   constructor(public http: HttpClient) { }
 
@@ -35,7 +35,7 @@ export class CommentsComponent implements OnInit,AfterViewInit {
     this.http.get(this.url+'?permalink='+this.permalink,{responseType: 'text'}).subscribe(res => {
       console.log(res);
       let json: object = JSON.parse(res);
-      this.done = json["done"] as boolean;
+      this.done = json['done'] as boolean;
       this.empty = json['empty'] as boolean;
       if(!this.empty)
         this.comments = json['comments'] as Comment[];

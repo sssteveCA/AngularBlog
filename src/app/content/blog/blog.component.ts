@@ -82,15 +82,15 @@ export class BlogComponent implements OnInit {
           let link = '/blog/'+elem.permalink;
           window.open(link, '_blank');
         });
-        divR.on('mouseenter',function(){
-          $(this).css({
+        divR.on('mouseenter',(e)=>{
+          $(e.target).css({
             cursor : 'pointer',
             'background-color': 'rgba(255,215,0,0.3)', //gold
             opacity : '0.9'
           });
         });
-        divR.on('mouseleave',function(){
-          $(this).css({
+        divR.on('mouseleave',(e)=>{
+          $(e.target).css({
             cursor : 'auto',
             'background-color' : 'transparent',
             opacity : '1'

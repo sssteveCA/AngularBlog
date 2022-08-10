@@ -1,6 +1,20 @@
 <div class="content">
-    <ng-template [ngIf]="" [ngIfElse]="">
+    <ng-template [ngIf]="done !== null || error !== null">
+        <ng-template [ngIf]="done" [ngIfElse]="error_template">
+            <ng-template [ngIf]="!empty">
+                <!-- Comments list template -->
 
+            </ng-template>
+            <ng-template>
+                <!-- Add comment template-->
+            </ng-template>
+        </ng-template>
+        <ng-template #error_template [ngIf]="error">
+            <!--Error message template-->
+            <div class="alert alert-danger" role="alert">
+                {{message}}
+            </div>
+        </ng-template>
     </ng-template>
-    <ng-template></ng-template>
+    
 </div>
