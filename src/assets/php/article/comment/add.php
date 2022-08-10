@@ -25,13 +25,13 @@ $response = array(
 );
 
 if(isset($post['permalink'],$post['token_key'],$post['comment']) && $post['permalink'] != '' && $post['token_key'] != '' && $post['comment'] != ''){
-    $token_data = ['token_key' => $post['token_key']];
-    $comment_data = ['comment' => $post['comment']];
-    $article_data = ['permalink' => $post['permalink']];
     try{
-        $token = new Token($token_data);
-        $article = new Article($article_data);
-        $comment = new Comment($comment_data);
+        $data = [
+            'token_key' => $post['token_key'],
+            'comment_text' => $post['comment_text'],
+            'permalink' => $post['permalink']
+        ];
+
     }catch(Exception $e){
 
     }
