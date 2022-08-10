@@ -2,6 +2,8 @@
 
 namespace AngularBlog\Classes\Article\Comment;
 
+use AngularBlog\Interfaces\Constants as C;
+use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Classes\Article\Article;
 use AngularBlog\Classes\Comment\Comment;
 use AngularBlog\Classes\Token;
@@ -29,9 +31,12 @@ class AddCommentController implements Acce{
         $this->token_key = $data['token_key'];   
         if($this->setToken()){
             if($this->getArticleInfo()){
+                if($this->insertComment()){
 
+                }
             }//if($this->getArticleInfo()){
         }//if($this->setToken()){
+        $this->setResponse(); 
     }
 
     public function getArticle(){return $this->article;}
@@ -92,6 +97,36 @@ class AddCommentController implements Acce{
         else
             $this->errno = Acce::FROM_ARTICLE;
         return $got;
+    }
+
+    private function setResponse(){
+        switch($this->errno){
+            case 0:
+                $this->response = "";
+                break;
+            case Acce::FROM_ARTICLE:
+                $this->response = C::COMMENTCREATION_ERROR;
+                break;
+            case Acce::FROM_COMMENT:
+                $this->response = C::COMMENTCREATION_ERROR;
+                break;
+            case Acce::FROM_TOKEN:
+                $errnoT = $this->token->getErrno();
+                switch($errnoT){
+                    case Te::TOKENEXPIRED:
+                        $this->response = Te::TOKENEXPIRED_MSG;
+                        break;
+                    default:
+                        $this->response = C::COMMENTCREATION_ERROR;
+                        break;
+                }
+                break;
+            case Acce::FROM_COMMENT:
+                break;
+            case Acce::NOUSERIDFOUND:
+                $this->response = "Errore durante la creazione del commento. Prova a rieseguire il login e ritenta";
+                break;
+        }
     }
 
     //Set the Token object

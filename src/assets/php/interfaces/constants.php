@@ -18,6 +18,7 @@ interface Constants{
     const ARTICLEEDITING_OK = "L'articolo è stato modificato con successo";
 
     //Comment
+    const COMMENTCREATION_ERROR = "Errore durante l'aggiunta del commento. ".Constants::ADMIN_CONTACT;
     const COMMENTLIST_ERROR = "Impossibile mostrare i commenti. ".Constants::ADMIN_CONTACT;
     const INSERTCOMMENT_ERROR = "Inserisci un commento per continuare";
     const COMMENTLIST_EMPTY = "Questo articolo non contiene alcun commento";

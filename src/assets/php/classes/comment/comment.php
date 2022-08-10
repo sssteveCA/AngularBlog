@@ -82,6 +82,8 @@ class Comment extends Model implements Ce{
             parent::create($values);
             if($this->errno == 0)$inserted = true;
         }//if($validate){
+        else 
+            $this->errno = Ce::INVALIDDATAFORMAT;
         return $inserted;
     }
 
@@ -131,7 +133,7 @@ class Comment extends Model implements Ce{
             if(!isset($this->author) || !is_numeric($this->author)){
                 $valid = false;
             }
-            if(!isset($this->text)){
+            if(!isset($this->comment)){
                 $valid = false;
             }
             if(!isset($this->article) || !is_numeric($this->article)){
