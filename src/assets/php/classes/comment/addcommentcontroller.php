@@ -12,9 +12,13 @@ use AngularBlog\Interfaces\Article\Comment\AddCommentControllerErrors as Acce;
 class AddCommentController implements Acce{
     use ErrorTrait, ResponseTrait;
 
+    private ?string $author_name; //Username of account that posts the comment
+    private ?string $comment_text;
     private ?string $permalink;
     private ?string $token_key;
-    private ?string $comment_text;
+    private ?Article $article;
+    private ?Comment $comment;
+    private ?Token $token;
 
     public function __construct(array $data)
     {
@@ -22,8 +26,20 @@ class AddCommentController implements Acce{
         $this->permalink = $data['permalink'];
         $this->comment_text = $data['comment_text'];
         $this->token_key = $data['token_key'];   
+        if($this->setToken()){
+            if($this->getArticleInfo()){
+
+            }//if($this->getArticleInfo()){
+        }//if($this->setToken()){
     }
 
+    public function getArticle(){return $this->article;}
+    public function getAuthorName(){return $this->author_name;}
+    public function getComment(){return $this->comment;}
+    public function getCommentText(){return $this->comment_text;}
+    public function getPermalink(){return $this->permalink;}
+    public function getToken(){return $this->token;}
+    public function getTokenKey(){return $this->token_key;}
     public function getError(){
         switch($this->errno){
             default:
@@ -40,6 +56,31 @@ class AddCommentController implements Acce{
         if(!isset($data['token_key']))throw new \Exception(Acce::NOTOKENKEY_EXC);
     }
 
+    private function createComment(): bool{
+        $created = false;
+        $this->errno = 0;
+        $data = [
+            
+        ];
+        return $created;
+    }
+
+    //Get article info from permalink
+    private function getArticleInfo(): bool{
+        $got = false;
+        $this->errno = 0;
+        $this->article = new Article();
+        $filter = ['permalink' => $this->permalink];
+        $get_article = $this->article->article_get($filter);
+        if($get_article){
+            //Article found with given permalink
+            $got = true;
+        }//if($get_article){
+        else
+            $this->errno = Acce::FROM_ARTICLE;
+        return $got;
+    }
+
     //Set the Token object
     private function setToken(): bool{
         $set = false;
@@ -54,6 +95,7 @@ class AddCommentController implements Acce{
                 $this->errno = Acce::FROM_TOKEN;
             }
             else
+                $this->author_name = $this->token->getUsername();
                 $set = true;
         }
         else

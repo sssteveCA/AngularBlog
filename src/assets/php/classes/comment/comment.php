@@ -31,12 +31,12 @@ class Comment extends Model implements Ce{
         $data['database_name'] = isset($data['database_name']) ? $data['database_name']: C::MONGODB_DATABASE;
         $data['collection_name'] = isset($data['collection_name']) ? $data['collection_name']: C::MONGODB_COLLECTION_COMMENTS;
         parent::__construct($data);
-        $this->id = isset($data['id']) ? $this->id = $data['id'] : null;
-        $this->article = isset($data['article']) ? $this->article = $data['article'] : null;
-        $this->author = isset($data['author']) ? $this->author = $data['author'] : null;
-        $this->comment = isset($data['comment']) ? $this->text = $data['comment'] : null;
-        $this->creation_time = isset($data['creation_time']) ? $this->creation_time = $data['creation_time'] : null;
-        $this->last_modified = isset($data['last_modified']) ? $this->last_modified = $data['last_modified'] : null;
+        $this->id = isset($data['id']) ? $data['id'] : null;
+        $this->article = isset($data['article']) ? $data['article'] : null;
+        $this->author = isset($data['author']) ? $data['author'] : null;
+        $this->comment = isset($data['comment']) ? $data['comment'] : null;
+        $this->creation_time = isset($data['creation_time']) ? $data['creation_time'] : null;
+        $this->last_modified = isset($data['last_modified']) ?  $data['last_modified'] : null;
     }
 
     public function getId(){return $this->id;}
