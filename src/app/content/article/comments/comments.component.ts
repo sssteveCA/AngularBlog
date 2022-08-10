@@ -6,6 +6,7 @@ import { Messages } from 'src/constants/messages';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import MessageDialogInterface from 'src/classes/messagedialog.interface';
 import MessageDialog from 'src/classes/messagedialog';
+import { ApiService } from 'src/app/api.service';
 
 @Component({
   selector: 'app-comments',
@@ -23,9 +24,13 @@ export class CommentsComponent implements OnInit,AfterViewInit {
    comments: Comment[];
    message: string;
    newComment: FormControl = new FormControl('',Validators.required);
+   logged: boolean;
+   userCookie: any = {};
 
 
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient, public api: ApiService) {
+    this.observeFromService();
+   }
 
   ngAfterViewInit(): void {
     //console.log(this.permalink);
@@ -72,6 +77,41 @@ export class CommentsComponent implements OnInit,AfterViewInit {
       this.error = true;
       this.message = Messages.COMMENTLIST_ERROR;
     });
+  }
+
+  //Check modification from service methods
+  observeFromService():void{
+    this.api.getLoginStatus().then(res => {
+      if(res == true){
+        this.userCookie['token_key'] = localStorage.getItem('token_key');
+        this.userCookie['username'] = localStorage.getItem('username');
+        this.api.changeUserdata(this.userCookie);
+        this.logged = true;
+      }//if(res == true){
+      else{
+        this.removeCookie();
+      }
+    }).catch(err => {
+      this.removeCookie();
+    });//this.api.getLoginStatus().then(res => {
+    console.log("observeFormService logged => "+this.logged);
+    this.api.loginChanged.subscribe(logged => {
+      console.log("logged");
+      console.log(logged);
+    });
+    this.api.userChanged.subscribe(userdata => {
+      console.log("userdata");
+      console.log(userdata);
+      this.userCookie['token_key'] = userdata['token_key'];
+      this.userCookie['username'] = userdata['username'];
+    });
+  }
+
+  removeCookie(): void{
+    this.api.removeItems();
+    this.userCookie = {};
+    this.api.changeUserdata(this.userCookie);
+    this.logged = false;
   }
 
 
