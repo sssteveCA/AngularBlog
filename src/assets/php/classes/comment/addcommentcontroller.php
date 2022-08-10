@@ -8,6 +8,7 @@ use AngularBlog\Classes\Token;
 use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Traits\ResponseTrait;
 use AngularBlog\Interfaces\Article\Comment\AddCommentControllerErrors as Acce;
+use MongoDB\BSON\ObjectId;
 
 class AddCommentController implements Acce{
     use ErrorTrait, ResponseTrait;
@@ -52,16 +53,28 @@ class AddCommentController implements Acce{
     //Check if array provided has valid values
     private function checkValues(array $data){
         if(!isset($data['permalink']))throw new \Exception(Acce::NOARTICLEPERMALINK_EXC);
-        if(!isset($data['comment']))throw new \Exception(Acce::NOCOMMENT_EXC);
+        if(!isset($data['comment_text']))throw new \Exception(Acce::NOCOMMENT_EXC);
         if(!isset($data['token_key']))throw new \Exception(Acce::NOTOKENKEY_EXC);
     }
 
-    private function createComment(): bool{
+    private function insertComment(): bool{
         $created = false;
         $this->errno = 0;
+        $article_id = $this->article->getId();
+        $author_id = $this->article->getId();
         $data = [
-            
+            'article' => new ObjectId($article_id),
+            'author' => new ObjectId($author_id),
+            'comment' => $this->comment->getComment()
         ];
+        $this->comment = new Comment($data);
+        $insert = $this->comment->comment_create();
+        if($insert){
+            //Comment inserted in DB
+            $created = true;
+        }
+        else
+            $this->errno = Acce::FROM_COMMENT;
         return $created;
     }
 
