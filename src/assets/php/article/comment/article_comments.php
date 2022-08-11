@@ -40,7 +40,7 @@ $response = [
 if(isset($_GET['permalink']) && $_GET['permalink'] != ''){
     $permalink = $_GET['permalink'];
     try{
-        
+        $got_token = token_exists($_GET);
         $article = new Article();
         $filter = [
             'permalink' => $permalink
@@ -75,15 +75,17 @@ if(isset($_GET['permalink']) && $_GET['permalink'] != ''){
                         'creation_time' => $comment->getCrTime(),
                         'last_modified' => $comment->getLastMod()
                     ];
-                    if($got_token){
+                    if($got_token !== null){
                         //Add these properties if user is logged and it's his comment
                         $comment_author_id = $comment->getAuthor();
+                        file_put_contents(C::FILE_LOG,"comment author id => ".var_export($comment_author_id,true)."\r\n",FILE_APPEND);
                         $logged_user_id = $token->getUserId();
+                        file_put_contents(C::FILE_LOG,"logged user id => ".var_export($logged_user_id,true)."\r\n",FILE_APPEND);
                         if($comment_author_id == $logged_user_id){
                             //This comment belong to current logged user
                             $response['comments']['id'] = $comment->getId();
                         }//if($comment_author_id == $logged_user_id){
-                    }
+                    }//if($got_token !== null){
                     $i++;
                 }//foreach($comments as $comment){
             }//if($comments_found){
@@ -107,13 +109,13 @@ else
 
 echo json_encode($response);
 
-function token_exists(array $post): ?Token{
+function token_exists(array $get): ?Token{
     $token = null;
-    $token_exists = isset($post['token_key']);
+    $token_exists = isset($get['token_key']);
     if($token_exists){
         //Used to set the editable comments (only logged user comments)
         $token = new Token();
-        $filter = ['token_key' => $post['token_key']];
+        $filter = ['token_key' => $get['token_key']];
         $got_token = $token->token_get($filter);
         if($got_token === false)
             $token = null;
