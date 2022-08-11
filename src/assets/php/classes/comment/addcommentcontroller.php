@@ -130,10 +130,8 @@ class AddCommentController implements Acce{
                         break;
                 }
                 break;
-            case Acce::FROM_COMMENT:
-                break;
             case Acce::NOUSERIDFOUND:
-                $this->response = "Errore durante la creazione del commento. Prova a rieseguire il login e ritenta";
+                $this->response = C::LOGIN_NOTLOGGED;
                 break;
         }
     }

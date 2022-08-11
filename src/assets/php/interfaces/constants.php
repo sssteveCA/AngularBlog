@@ -18,7 +18,7 @@ interface Constants{
     const ARTICLEEDITING_OK = "L'articolo è stato modificato con successo";
 
     //Comment
-    const COMMENTCREATION_ERROR = "Errore durante l'aggiunta del commento. ".Constants::ADMIN_CONTACT;
+    const COMMENTCREATION_ERROR = "Errore durante l'inserimento del commento. ".Constants::ADMIN_CONTACT;
     const COMMENTLIST_ERROR = "Impossibile mostrare i commenti. ".Constants::ADMIN_CONTACT;
     const INSERTCOMMENT_ERROR = "Inserisci un commento per continuare";
     const COMMENTLIST_EMPTY = "Questo articolo non contiene alcun commento";
@@ -42,6 +42,7 @@ interface Constants{
 
     //Login
     const LOGIN_ERROR = "Errore durante il login. ".Constants::ADMIN_CONTACT;
+    const LOGIN_NOTLOGGED = "Devi effettuare l'accesso per eseguire questa operazione";
     const LOGOUT_ERROR = "Errore durante il logout. ".Constants::ADMIN_CONTACT;
     const LOGOUT_ERROR_USERNOTFOUND = "Impossibile completare il logout perché la chiave passata non è valida";
 
