@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
 import MessageDialog from 'src/classes/messagedialog';
 import MessageDialogInterface from 'src/classes/messagedialog.interface';
+import { Messages } from 'src/constants/messages';
 import * as constants from '../../../constants/constants';
 
 @Component({
@@ -60,20 +61,27 @@ export class LoginComponent implements OnInit {
         }
         else{
           //console.log(rJson);
-          const data: MessageDialogInterface = {
+          const md_data: MessageDialogInterface = {
             title: 'Login',
             message: rJson['msg']
           };
-          let md = new MessageDialog(data);
-          md.bt_ok.addEventListener('click',()=>{
-            md.instance.dispose();
-            md.div_dialog.remove();
-            document.body.style.overflow = 'auto';
-          });
+          this.dialogMessage(md_data);
         }
       }catch(e){
         console.warn(e);
+        let md_data: MessageDialogInterface = {
+          title: 'Login',
+          message: Messages.LOGIN_ERROR
+        };
+        this.dialogMessage(md_data);
       }
+    },error => {
+      console.warn(error);
+      let md_data: MessageDialogInterface = {
+        title: 'Login',
+        message: Messages.LOGIN_ERROR
+      };
+      this.dialogMessage(md_data);
     });
   }
 

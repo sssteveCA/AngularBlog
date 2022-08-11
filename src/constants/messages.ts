@@ -8,6 +8,7 @@ export namespace Messages{
     export const DELETEARTICLE_ERROR: string = "Errore durante la rimozione dell'articolo. "+ADMIN_CONTACT;
     export const EDITARTICLE_CONFIRM: string = "Vuoi modificare l'articolo con le informazioni inserite?";
     export const INVALIDDATA_ERROR: string = "I dati inseriti non sono validi, riprova";
+    export const LOGIN_ERROR:string = "Errore durante il login. "+ADMIN_CONTACT;
     export const LOGOUT_CONFIRM: string = "Sei sicuro di voler uscire dalla sessione corrente?";
     export const PASSWORDMISMATCH: string = "Le due password non coincidono";
 
