@@ -26,7 +26,15 @@ This blog has/will have the following features:
     <li>Creation</li>
     <li>Editing</li>
     <li>Deleting</li>
-    <li>*Comments by registered users</li>
+    <li>
+      Comments by registered users
+      <ul>
+        <li>Comments list</li>
+        <li>Add new comment</li>
+        <li>*Edit comment</li>
+        <li>*Delete comment</li>
+      </ul>
+    </li>
   </ul>
 </ul>
 </div>
