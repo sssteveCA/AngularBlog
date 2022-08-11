@@ -77,6 +77,15 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  dialogMessage(md_data: MessageDialogInterface){
+    let md: MessageDialog = new MessageDialog(md_data);
+    md.bt_ok.addEventListener('click',()=>{
+      md.instance.dispose();
+      md.div_dialog.remove();
+      document.body.style.overflow = 'auto';
+    });
+  }
+
   //when login form is submitted
   onSubmit(): void{
     if(this.loginForm.valid){
