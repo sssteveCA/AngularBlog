@@ -7,9 +7,11 @@ require_once("../../interfaces/token_errors.php");
 require_once("../../interfaces/comment/comment_errors.php");
 require_once("../../interfaces/article/article_errors.php");
 require_once("../../interfaces/comment/addcommentcontroller_errors.php");
-require_once("../../interfaces/comment/addcommentcview_errors.php");
+require_once("../../interfaces/comment/addcommentview_errors.php");
 require_once("../../vendor/autoload.php");
 require_once("../../traits/error.trait.php");
+require_once("../../traits/message.trait.php");
+require_once("../../traits/response.trait.php");
 require_once("../../classes/model.php");
 require_once("../../classes/token.php");
 require_once("../../classes/comment/comment.php");
@@ -35,13 +37,14 @@ $response = array(
     'msg' => ''
 );
 
-if(isset($post['permalink'],$post['token_key'],$post['comment']) && $post['permalink'] != '' && $post['token_key'] != '' && $post['comment'] != ''){
+if(isset($post['permalink'],$post['token_key'],$post['comment_text']) && $post['permalink'] != '' && $post['token_key'] != '' && $post['comment_text'] != ''){
     try{
         $data = [
             'token_key' => $post['token_key'],
             'comment_text' => $post['comment_text'],
             'permalink' => $post['permalink']
         ];
+        file_put_contents(C::FILE_LOG,"create data => ".var_export($data,true)."\r\n",FILE_APPEND);
         $addCommentController = new AddCommentController($data);
         $addCommentView = new AddCommentView($addCommentController);
         if($addCommentView->isDone())
@@ -52,6 +55,7 @@ if(isset($post['permalink'],$post['token_key'],$post['comment']) && $post['perma
 
     }catch(Exception $e){
         $msg = $e->getMessage();
+        file_put_contents(C::FILE_LOG,"create exception => ".var_export($msg,true)."\r\n",FILE_APPEND);
         switch($msg){
             case Acce::NOARTICLEPERMALINK_EXC:
             case Acce::NOCOMMENT_EXC:

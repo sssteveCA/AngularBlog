@@ -7,6 +7,7 @@ use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Classes\Article\Article;
 use AngularBlog\Classes\Comment\Comment;
 use AngularBlog\Classes\Token;
+use AngularBlog\Classes\User;
 use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Traits\ResponseTrait;
 use AngularBlog\Interfaces\Article\Comment\AddCommentControllerErrors as Acce;
@@ -22,18 +23,18 @@ class AddCommentController implements Acce{
     private ?Article $article;
     private ?Comment $comment;
     private ?Token $token;
+    private static $logFile = C::FILE_LOG;
 
     public function __construct(array $data)
     {
+        file_put_contents(AddCommentController::$logFile,"AddCommentController constructor => \r\n",FILE_APPEND);
         $this->checkValues($data);
         $this->permalink = $data['permalink'];
         $this->comment_text = $data['comment_text'];
         $this->token_key = $data['token_key'];   
         if($this->setToken()){
             if($this->getArticleInfo()){
-                if($this->insertComment()){
-
-                }
+                $this->insertComment();     
             }//if($this->getArticleInfo()){
         }//if($this->setToken()){
         $this->setResponse(); 
@@ -46,6 +47,7 @@ class AddCommentController implements Acce{
     public function getPermalink(){return $this->permalink;}
     public function getToken(){return $this->token;}
     public function getTokenKey(){return $this->token_key;}
+    public function getUser(){return $this->user;}
     public function getError(){
         switch($this->errno){
             case Acce::FROM_ARTICLE:
@@ -72,15 +74,17 @@ class AddCommentController implements Acce{
     }
 
     private function insertComment(): bool{
+        file_put_contents(AddCommentController::$logFile,"AddCommentController insertComment => \r\n",FILE_APPEND);
         $created = false;
         $this->errno = 0;
         $article_id = $this->article->getId();
-        $author_id = $this->article->getId();
+        $author_id = $this->token->getUserId();
         $data = [
             'article' => new ObjectId($article_id),
             'author' => new ObjectId($author_id),
-            'comment' => $this->comment->getComment()
+            'comment' => $this->getCommentText()
         ];
+        file_put_contents(AddCommentController::$logFile,"insertComment data => ".var_export($data,true)."\r\n",FILE_APPEND);
         $this->comment = new Comment($data);
         $insert = $this->comment->comment_create();
         if($insert){
@@ -94,6 +98,7 @@ class AddCommentController implements Acce{
 
     //Get article info from permalink
     private function getArticleInfo(): bool{
+        file_put_contents(AddCommentController::$logFile,"AddCommentController getArticleInfo => \r\n",FILE_APPEND);
         $got = false;
         $this->errno = 0;
         $this->article = new Article();
@@ -138,20 +143,24 @@ class AddCommentController implements Acce{
 
     //Set the Token object
     private function setToken(): bool{
+        file_put_contents(AddCommentController::$logFile,"AddCommentController setToken => \r\n",FILE_APPEND);
         $set = false;
         $this->errno = 0;
         $this->token = new Token();
         $filter = ['token_key' => $this->token_key];
         $get = $this->token->token_get($filter);
+        file_put_contents(AddCommentController::$logFile,"AddCommentController setToken get => ".var_export($get,true)."\r\n",FILE_APPEND);
         if($get){
             //Check if token is expired
             $this->token->expireControl();
             if($this->token->isExpired()){
                 $this->errno = Acce::FROM_TOKEN;
             }
-            else
+            else{
                 $this->author_name = $this->token->getUsername();
                 $set = true;
+            }
+                
         }
         else
             $this->errno = Acce::NOUSERIDFOUND;

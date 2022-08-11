@@ -20,6 +20,8 @@ class Comment extends Model implements Ce{
     private ?string $creation_time; //The date where the comment wwas posted
     private ?string $last_modified; //The date where the comment was updated last time
 
+    private static $logFile = C::FILE_LOG;
+
     const OPERATION_GET = 1; 
     const OPERATION_CREATE = 2;
     const OPERATION_UPDATE = 3;
@@ -70,6 +72,7 @@ class Comment extends Model implements Ce{
         $this->creation_time = date('Y-m-d H:i:s');
         $this->last_modified = date('Y-m-d H:i:s');
         $validate = $this->validate(Comment::OPERATION_CREATE);
+        file_put_contents(Comment::$logFile,"Validate => ".var_export($validate,true)."\r\n",FILE_APPEND);
         if($validate){
             //All data are valid and can be inserted
             $values = [
@@ -127,16 +130,16 @@ class Comment extends Model implements Ce{
         $valid = true;
         if($operation == Comment::OPERATION_CREATE){
             //Validate data before insert
-            if(!isset($this->article) || !is_numeric($this->article)){
+            if(!isset($this->article)){
                 $valid = false;
             }
-            if(!isset($this->author) || !is_numeric($this->author)){
+            if(!isset($this->author)){
                 $valid = false;
             }
             if(!isset($this->comment)){
                 $valid = false;
             }
-            if(!isset($this->article) || !is_numeric($this->article)){
+            if(!isset($this->article)){
                 $valid = false;
             }
         }//if($operation == Comment::OPERATION_CREATE){

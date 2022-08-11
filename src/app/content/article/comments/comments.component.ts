@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { Comment } from 'src/app/models/comment.model';
 import * as constants from "../../../../constants/constants";
@@ -16,7 +16,8 @@ import { ApiService } from 'src/app/api.service';
 export class CommentsComponent implements OnInit,AfterViewInit {
 
   @Input() permalink: string|null;
-  url: string = constants.articleComments;
+  addComment_url: string = constants.createComment;
+  getComments_url: string = constants.articleComments;
 
    done: boolean;
    error: boolean;
@@ -44,25 +45,46 @@ export class CommentsComponent implements OnInit,AfterViewInit {
   //Set the reactive form for add new comment element
   addComment(){
     if(this.newComment.valid){
-
+      const post_values = {
+        'comment_text': this.newComment.value,
+        'permalink': this.permalink,
+        'token_key': this.userCookie['token_key']
+      };
+      console.log("post values");
+      console.log(post_values);
+      const headers: HttpHeaders = new HttpHeaders().set('Content-Type','application/json').set('Accept','application/json');
+      this.http.post(this.addComment_url,post_values,{headers: headers, responseType: 'text'}).subscribe(res => {
+        console.log(res);
+      },error => {
+        console.warn(error);
+        let md_data: MessageDialogInterface = {
+          title: 'Nuovo commento',
+          message: Messages.COMMENTNEW_ERROR
+        };
+        this.dialogMessage(md_data);
+      });
     }//if(this.newComment.valid){
     else{
       let md_data: MessageDialogInterface = {
         title: 'Nuovo commento',
         message: Messages.INSERTCOMMENT_ERROR
       };
-      let md: MessageDialog = new MessageDialog(md_data);
+      this.dialogMessage(md_data);
+    }
+  }
+
+  dialogMessage(md_data: MessageDialogInterface) {
+    let md: MessageDialog = new MessageDialog(md_data);
       md.bt_ok.addEventListener('click',()=>{
         md.instance.dispose();
         md.div_dialog.remove();
         document.body.style.overflow = 'auto';
       });
-    }
   }
 
   //Get comments of this article
   getCommnents(): void{
-    this.http.get(this.url+'?permalink='+this.permalink,{responseType: 'text'}).subscribe(res => {
+    this.http.get(this.getComments_url+'?permalink='+this.permalink,{responseType: 'text'}).subscribe(res => {
       console.log(res);
       let json: object = JSON.parse(res);
       this.done = json['done'] as boolean;

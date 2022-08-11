@@ -35,6 +35,9 @@ export const articleEditScriptUrl: string = host+angularPath+"/src/assets/php/ac
 //php script for send assistance email
 export const contactUrl: string = host+angularPath+"/src/assets/php/contact.php";
 
+//php script fot create new comment
+export const createComment: string = host+angularPath+"/src/assets/php/article/comment/create.php";
+
 //home url of site
 export const homeUrl: string = "http://localhost:4200";
 
