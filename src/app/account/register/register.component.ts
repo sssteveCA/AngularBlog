@@ -5,6 +5,7 @@ import * as constants from '../../../constants/constants';
 import * as messages from '../../../messages/messages';
 import MessageDialog from '../../../classes/messagedialog';
 import MessageDialogInterface from 'src/classes/messagedialog.interface';
+import { Messages } from 'src/constants/messages';
 
 @Component({
   selector: 'app-register',
@@ -113,7 +114,25 @@ export class RegisterComponent implements OnInit {
         md.instance.dispose();
         md.div_dialog.remove();
       });
+    },error => {
+      console.warn(error);
+      let md_data: MessageDialogInterface = {
+        title: 'Registrazione',
+        message: Messages.SUBSCRIBE_ERROR
+      };
+      this.dialogMessage(md_data);
     });
   }
 
+  dialogMessage(md_data: MessageDialogInterface) {
+    let md: MessageDialog = new MessageDialog(md_data);
+      md.bt_ok.addEventListener('click',()=>{
+        md.instance.dispose();
+        md.div_dialog.remove();
+        document.body.style.overflow = 'auto';
+      });
+  }
+
 }
+
+

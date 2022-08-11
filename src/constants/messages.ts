@@ -11,5 +11,6 @@ export namespace Messages{
     export const LOGIN_ERROR:string = "Errore durante il login. "+ADMIN_CONTACT;
     export const LOGOUT_CONFIRM: string = "Sei sicuro di voler uscire dalla sessione corrente?";
     export const PASSWORDMISMATCH: string = "Le due password non coincidono";
+    export const SUBSCRIBE_ERROR:string = "Errore durante la registrazione. "+ADMIN_CONTACT;
 
 }
