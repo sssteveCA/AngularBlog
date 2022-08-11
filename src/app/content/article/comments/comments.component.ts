@@ -100,8 +100,9 @@ export class CommentsComponent implements OnInit,AfterViewInit {
   getCommnents(): void{
     let get_url: string = this.getComments_url+'?permalink='+this.permalink;
     console.log(this.userCookie);
-    if(this.userCookie.hasOwnProperty('token_key')){
-      get_url += "&token_key="+this.userCookie['token_key'];
+    let token_key = localStorage.getItem('token_key');
+    if(token_key !== null){
+      get_url += "&token_key="+token_key;
     }
     console.log(get_url);
     this.http.get(get_url,{responseType: 'text'}).subscribe(res => {

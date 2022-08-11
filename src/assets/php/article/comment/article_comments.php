@@ -84,7 +84,7 @@ if(isset($_GET['permalink']) && $_GET['permalink'] != '' && $_GET['permalink'] !
                         file_put_contents(C::FILE_LOG,"logged user id => ".var_export($logged_user_id,true)."\r\n",FILE_APPEND);
                         if($comment_author_id == $logged_user_id){
                             //This comment belong to current logged user
-                            $response['comments']['id'] = $comment->getId();
+                            $response['comments'][$i]['id'] = $comment->getId();
                         }//if($comment_author_id == $logged_user_id){
                     }//if($got_token !== null){
                     $i++;
