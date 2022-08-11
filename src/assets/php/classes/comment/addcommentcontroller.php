@@ -48,6 +48,15 @@ class AddCommentController implements Acce{
     public function getTokenKey(){return $this->token_key;}
     public function getError(){
         switch($this->errno){
+            case Acce::FROM_ARTICLE:
+                $this->error = Acce::FROM_ARTICLE_MSG;
+                break;
+            case Acce::FROM_TOKEN:
+                $this->error = Acce::FROM_TOKEN_MSG;
+                break;
+            case Acce::FROM_COMMENT:
+                $this->error = Acce::FROM_COMMENT_MSG;
+                break;
             default:
                 $this->error = null;
                 break;

@@ -2,9 +2,12 @@
 
 namespace AngularBlog\Classes\Article\Comment;
 
-use AngularBlog\Traits\ErrorTrait;
+use AngularBlog\Traits\MessageTrait;
 
 class AddCommentView{
-    use ErrorTrait;
+    use MessageTrait;
+
+    private ?AddCommentController $acc;
+
 }
 ?>
