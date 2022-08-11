@@ -49,14 +49,14 @@ if(isset($_GET['permalink']) && $_GET['permalink'] != '' && $_GET['permalink'] !
         $article_found = $article->article_get($filter);
         if($article_found){
             $article_id = $article->getId();
-            file_put_contents(C::FILE_LOG,"Article id => ".var_export($article_id,true)."\r\n",FILE_APPEND);
+            //file_put_contents(C::FILE_LOG,"Article id => ".var_export($article_id,true)."\r\n",FILE_APPEND);
             //Found the article with the given permalink
             $cl = new CommentList();
             $filter = [
                 "article" => new ObjectId($article_id)
             ];
             $comments_found = $cl->commentlist_get($filter);
-            file_put_contents(C::FILE_LOG,"comments_found => ".var_export($comments_found,true)."\r\n",FILE_APPEND);
+            //file_put_contents(C::FILE_LOG,"comments_found => ".var_export($comments_found,true)."\r\n",FILE_APPEND);
             if($comments_found){
                 //At least one comment found
                 $comments = $cl->getResults();
@@ -84,6 +84,7 @@ else
 
 echo json_encode($response);
 
+//Check if user is logged
 function token_exists(array $get): ?Token{
     $token = null;
     $token_exists = (isset($get['token_key']) && $get['token_key'] != '' && $get['token_key'] != 'undefined');

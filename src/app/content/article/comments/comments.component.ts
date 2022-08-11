@@ -87,6 +87,13 @@ export class CommentsComponent implements OnInit,AfterViewInit {
     }
   }
 
+  //delete comment event
+  deleteComment(event): void{
+    let link: JQuery = $(event.target);
+    let input: JQuery = link.siblings('input');
+    let comment_id: string = input.val() as string;
+  }
+
   dialogMessage(md_data: MessageDialogInterface) {
     let md: MessageDialog = new MessageDialog(md_data);
       md.bt_ok.addEventListener('click',()=>{
@@ -99,14 +106,12 @@ export class CommentsComponent implements OnInit,AfterViewInit {
   //Get comments of this article
   getCommnents(): void{
     let get_url: string = this.getComments_url+'?permalink='+this.permalink;
-    console.log(this.userCookie);
     let token_key = localStorage.getItem('token_key');
     if(token_key !== null){
       get_url += "&token_key="+token_key;
     }
-    console.log(get_url);
     this.http.get(get_url,{responseType: 'text'}).subscribe(res => {
-      console.log(res);
+      //console.log(res);
       let json: object = JSON.parse(res);
       this.done = json['done'] as boolean;
       this.empty = json['empty'] as boolean;
@@ -114,9 +119,10 @@ export class CommentsComponent implements OnInit,AfterViewInit {
       this.message = json['msg'] as string;
       if(!this.empty)
         this.comments = json['comments'] as Comment[];
+      console.log($('.fEdit'));
       /* console.log(this.done);
       console.log(this.empty); */
-      console.log(this.comments);
+      //onsole.log(this.comments);
     }, error => {
       console.warn(error);
       this.error = true;
@@ -157,6 +163,12 @@ export class CommentsComponent implements OnInit,AfterViewInit {
     this.userCookie = {};
     this.api.changeUserdata(this.userCookie);
     this.logged = false;
+  }
+
+  updateComment(event): void{
+    let link: JQuery = $(event.target);
+    let input: JQuery = link.siblings('input');
+    let comment_id: string = input.val() as string;
   }
 
 
