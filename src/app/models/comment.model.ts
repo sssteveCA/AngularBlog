@@ -4,6 +4,7 @@ export class Comment{
     //author: string;
     author_name: string;
     comment: string;
+    cu_comment: boolean; //Current logged user comment
     creation_time: string;
     last_modified: string;
 }

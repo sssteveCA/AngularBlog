@@ -73,6 +73,7 @@ if(isset($_GET['permalink']) && $_GET['permalink'] != '' && $_GET['permalink'] !
                         //'author' => $comment->getAuthor(),
                         'author_name' => $user->getUsername(),
                         'comment' => $comment->getComment(),
+                        'cu_comment' => false,
                         'creation_time' => $comment->getCrTime(),
                         'last_modified' => $comment->getLastMod()
                     ];
@@ -85,6 +86,7 @@ if(isset($_GET['permalink']) && $_GET['permalink'] != '' && $_GET['permalink'] !
                         if($comment_author_id == $logged_user_id){
                             //This comment belong to current logged user
                             $response['comments'][$i]['id'] = $comment->getId();
+                            $response['comments'][$i]['cu_comment'] = true;
                         }//if($comment_author_id == $logged_user_id){
                     }//if($got_token !== null){
                     $i++;

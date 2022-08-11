@@ -12,7 +12,16 @@
                         <div class="text">{{comment.comment}}</div>
                     </div>
                     <div class="comment-container-3">
-
+                        <div *ngIf="comment.cu_comment">
+                            <div class="fEdit">
+                                <input type="hidden" name="comment_id" value="{{comment.id}}">
+                                <a href="#">Modifica</a>
+                            </div>
+                            <div class="fEDelete">
+                                <input type="hidden" name="comment_id" value="{{comment.id}}">
+                                <a href="#">Elimina</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </ng-template>

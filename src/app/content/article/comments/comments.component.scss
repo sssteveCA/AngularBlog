@@ -47,9 +47,14 @@ $border-comment: 1px solid black;
             }//@else if $i == 2{
             @else if $i == 3{
                 .comment-container-#{$i}{
-                    height: 20px;
+                    height: 25px;
                     > *{
-                        height: 100%;
+                        display: flex;
+                        justify-content: flex-end;
+                        > *{
+                            height: 100%;
+                            margin: auto 10px;
+                        }   
                     }
                 }
             }
