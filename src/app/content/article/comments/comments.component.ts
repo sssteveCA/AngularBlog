@@ -98,7 +98,11 @@ export class CommentsComponent implements OnInit,AfterViewInit {
 
   //Get comments of this article
   getCommnents(): void{
-    this.http.get(this.getComments_url+'?permalink='+this.permalink,{responseType: 'text'}).subscribe(res => {
+    let get_url: string = this.getComments_url+'?permalink='+this.permalink
+    if(this.userCookie.hasOwnProperty('token_key')){
+      get_url += "&token_key"+this.userCookie['token_key'];
+    }
+    this.http.get(get_url,{responseType: 'text'}).subscribe(res => {
       //console.log(res);
       let json: object = JSON.parse(res);
       this.done = json['done'] as boolean;
@@ -106,8 +110,8 @@ export class CommentsComponent implements OnInit,AfterViewInit {
       if(!this.empty)
         this.comments = json['comments'] as Comment[];
       /* console.log(this.done);
-      console.log(this.empty);
-      console.log(this.comments); */
+      console.log(this.empty); */
+      console.log(this.comments);
     }, error => {
       console.warn(error);
       this.error = true;

@@ -28,7 +28,7 @@ $border-comment: 1px solid black;
         border: $border-comment;
         padding: $padding-comment;
         $nEl: 2;
-        @for $i from 1 through 2{
+        @for $i from 1 through 3{
             @if $i == 1{
                 .comment-container-#{$i}{
                     display: flex;
@@ -45,6 +45,14 @@ $border-comment: 1px solid black;
                     }
                 }
             }//@else if $i == 2{
+            @else if $i == 3{
+                .comment-container-#{$i}{
+                    height: 20px;
+                    > *{
+                        height: 100%;
+                    }
+                }
+            }
         }//@for $i from 1 through 2{   
     }
 }
