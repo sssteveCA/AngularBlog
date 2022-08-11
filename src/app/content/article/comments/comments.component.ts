@@ -7,6 +7,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import MessageDialogInterface from 'src/classes/messagedialog.interface';
 import MessageDialog from 'src/classes/messagedialog';
 import { ApiService } from 'src/app/api.service';
+import ConfirmDialogInterface from 'src/classes/confirmdialog.interface';
+import ConfirmDialog from 'src/classes/confirmdialog';
 
 @Component({
   selector: 'app-comments',
@@ -92,6 +94,21 @@ export class CommentsComponent implements OnInit,AfterViewInit {
     let link: JQuery = $(event.target);
     let input: JQuery = link.siblings('input');
     let comment_id: string = input.val() as string;
+    let cd_data: ConfirmDialogInterface = {
+      title: 'Elimina commento',
+      message: Messages.DELETECOMMENT_CONFIRM
+    };
+    let cd: ConfirmDialog = new ConfirmDialog(cd_data);
+    cd.bt_yes.addEventListener('click', ()=>{
+      cd.instance.dispose();
+      cd.div_dialog.remove();
+      document.body.style.overflow = 'auto';
+    });
+    cd.bt_no.addEventListener('click',()=>{
+      cd.instance.dispose();
+      cd.div_dialog.remove();
+      document.body.style.overflow = 'auto';
+    });
   }
 
   dialogMessage(md_data: MessageDialogInterface) {
@@ -169,6 +186,9 @@ export class CommentsComponent implements OnInit,AfterViewInit {
     let link: JQuery = $(event.target);
     let input: JQuery = link.siblings('input');
     let comment_id: string = input.val() as string;
+    let comment_div: JQuery = link.parents('.comment');
+    let text_div: JQuery = comment_div.find('.text');
+    console.log(text_div);
   }
 
 
