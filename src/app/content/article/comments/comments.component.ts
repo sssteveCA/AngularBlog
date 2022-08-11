@@ -136,7 +136,6 @@ export class CommentsComponent implements OnInit,AfterViewInit {
       this.message = json['msg'] as string;
       if(!this.empty)
         this.comments = json['comments'] as Comment[];
-      console.log($('.fEdit'));
       /* console.log(this.done);
       console.log(this.empty); */
       //onsole.log(this.comments);
@@ -188,8 +187,17 @@ export class CommentsComponent implements OnInit,AfterViewInit {
     let comment_id: string = input.val() as string;
     let comment_div: JQuery = link.parents('.comment');
     let text_div: JQuery = comment_div.find('.text');
-    console.log(text_div);
-  }
-
-
+    let textarea_inside: boolean = text_div.find('textarea').length > 0 ? true : false;
+    console.log(textarea_inside);
+    if(textarea_inside == false){
+      //If element is a div turn into a textarea
+      let comment_text: string = text_div.children('div').html() as string;
+      text_div.html('<div><textarea style="resize: vertical; width: 100%;">'+comment_text+'</textarea></div>');
+    }
+    else{
+      //If element is not a div turn it into  a div
+      let new_comment_val: string = text_div.find('textarea').val() as string;
+      text_div.html('<div>'+new_comment_val+'</div>');
+    }
+  } 
 }

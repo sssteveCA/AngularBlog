@@ -54,11 +54,11 @@ export class MyArticlesComponent implements OnInit {
   observeFromService(): void{
     this.api.loginChanged.subscribe(logged => {
       console.log("logged");
-      console.log(logged);
+      //console.log(logged);
     });
     this.api.userChanged.subscribe(userdata => {
       console.log("userdata");
-      console.log(userdata);
+      //console.log(userdata);
       this.userCookie['token_key'] = userdata['token_key'];
       this.userCookie['username'] = userdata['username'];
     });
@@ -67,12 +67,12 @@ export class MyArticlesComponent implements OnInit {
   //Delete an article
   private delete(deleteData: any): void{
     const router = this.router;
-    console.log("delete => ");
+    //console.log("delete => ");
     if(deleteData.hasOwnProperty('article_id') && deleteData.hasOwnProperty('token_key')){
-      console.log(deleteData);
+      //console.log(deleteData);
       //Required properties exist
       this.deletePromise(deleteData).then(res =>{
-        console.log(res);
+        //console.log(res);
         let rJson = JSON.parse(res);
         if(rJson['expired'] == true){
           //Session expired
@@ -128,7 +128,7 @@ export class MyArticlesComponent implements OnInit {
   //Get all user articles
   private getArticles(): void{
     this.http.get(constants.myArticlesUrl+'?token_key='+this.userCookie['token_key'],{responseType: 'text'}).subscribe(res => {
-      console.log(res);
+      //console.log(res);
       let rJson = JSON.parse(res);
       if(rJson['done'] == true){
         this.done = true;
@@ -150,10 +150,10 @@ export class MyArticlesComponent implements OnInit {
     const component = this;
     let container = $('#articles-list');
     container.html('');
-    console.log("Container before foreach => ");
-    console.log($(container));
+    /* console.log("Container before foreach => ");
+    console.log($(container)); */
     this.articles.forEach((article) => {
-        console.log(article);
+        //console.log(article);
         let divArticle = $('<div>');
         divArticle.addClass('article');
           let divTitle = $('<div>');  
@@ -200,7 +200,7 @@ export class MyArticlesComponent implements OnInit {
                   'article_id': article.id,
                   'token_key': localStorage.getItem('token_key')
                 };
-                console.log(deleteData); 
+                //console.log(deleteData); 
                 component.delete(deleteData);
               });
               cd.bt_no.addEventListener('click',()=>{

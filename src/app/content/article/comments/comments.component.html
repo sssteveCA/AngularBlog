@@ -9,7 +9,9 @@
                         <div class="date">{{comment.last_modified}}</div>
                     </div>
                     <div class="comment-container-2">
-                        <div class="text">{{comment.comment}}</div>
+                        <div class="text">
+                            <div>{{comment.comment}}</div>
+                        </div>
                     </div>
                     <div class="comment-container-3">
                         <div *ngIf="comment.cu_comment">
