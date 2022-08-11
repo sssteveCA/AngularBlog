@@ -3,11 +3,14 @@
 namespace AngularBlog\Classes\Myarticles;
 
 use AngularBlog\Interfaces\MyArticles\DeleteViewErrors as Dve;
+use AngularBlog\Traits\MessageTrait;
 
 class DeleteView implements Dve{
+
+    use MessageTrait;
+
     private ?DeleteController $dc;
-    private string $message = "";
-    private bool $done = false; //true if article was deleted
+ 
 
     public function __construct(?DeleteController $dc){
         if(!$dc)throw new \Exception(Dve::NODELETECONTROLLERINSTANCE_EXC);
@@ -18,7 +21,6 @@ class DeleteView implements Dve{
         $this->message = $this->dc->getResponse();
     }
 
-    public function getMessage(){return $this->message;}
-    public function isDone(){return $this->done;}
+    public function getController(){return $this->dc;}
 }
 ?>

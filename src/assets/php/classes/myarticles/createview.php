@@ -4,11 +4,13 @@ namespace AngularBlog\Classes\Myarticles;
 
 use AngularBlog\Classes\Myarticles\CreateController;
 use AngularBlog\Interfaces\MyArticles\CreateViewErrors as Cve;
+use AngularBlog\Traits\MessageTrait;
 
 class CreateView implements Cve{
+
+    use MessageTrait;
+
     private ?CreateController $cc;
-    private string $message = "";
-    private bool $done = false; //true if article creation is done successfully
 
     public function __construct(?CreateController $cc)
     {
@@ -20,7 +22,6 @@ class CreateView implements Cve{
         $this->message = $this->cc->getResponse();
     }
 
-    public function getMessage(){return $this->message;}
-    public function isDone(){return $this->done;}
+    public function getController(){return $this->cc;}
 }
 ?>

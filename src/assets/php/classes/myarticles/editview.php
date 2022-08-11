@@ -4,12 +4,14 @@ namespace AngularBlog\Classes\Myarticles;
 
 use AngularBlog\Classes\Myarticles\EditContoller;
 use AngularBlog\Interfaces\MyArticles\EditViewErrors as Eve;
+use AngularBlog\Traits\MessageTrait;
 use Exception;
 
 class EditView implements Eve{
+
+    use MessageTrait;
+
     private ?EditContoller $ec;
-    private string $message = "";
-    private bool $done = false; //true if article was edited
 
     public function __construct(?EditContoller $ec){
         if(!$ec)throw new Exception(Eve::NOEDITCONTROLLERINSTANCE_EXC);
@@ -20,7 +22,6 @@ class EditView implements Eve{
         $this->message = $this->ec->getResponse();
     }
 
-    public function getMessage(){return $this->message;}
-    public function isDone(){return $this->done;}
+    public function getController(){return $this->ec;}
 }
 ?>

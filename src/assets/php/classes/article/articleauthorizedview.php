@@ -4,11 +4,13 @@ namespace AngularBlog\Classes\Article;
 
 use AngularBlog\Interfaces\Article\ArticleAuthorizedViewErrors as Aave;
 use AngularBlog\Classes\Article\ArticleAuthorizedController;
+use AngularBlog\Traits\MessageTrait;
 
 class ArticleAuthorizedView implements Aave{
+
+    use MessageTrait;
+
     private ?ArticleAuthorizedController $aac;
-    private string $message = "";
-    private bool $done = false; //true if article editing authorization is ok
 
     public function __construct(?ArticleAuthorizedController $aac)
     {
@@ -21,7 +23,5 @@ class ArticleAuthorizedView implements Aave{
     }
 
     public function getController(){return $this->aac;}
-    public function getMessage(){return $this->message;}
-    public function isDone(){return $this->done;}
 }
 ?>

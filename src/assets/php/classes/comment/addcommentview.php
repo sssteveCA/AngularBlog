@@ -19,5 +19,7 @@ class AddCommentView implements Acve{
         $this->message = $this->acc->getResponse();
     }
 
+    public function getController(){return $this->acc;}
+
 }
 ?>
