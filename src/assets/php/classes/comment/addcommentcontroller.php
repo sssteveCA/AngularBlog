@@ -27,7 +27,6 @@ class AddCommentController implements Acce{
 
     public function __construct(array $data)
     {
-        file_put_contents(AddCommentController::$logFile,"AddCommentController constructor => \r\n",FILE_APPEND);
         $this->checkValues($data);
         $this->permalink = $data['permalink'];
         $this->comment_text = $data['comment_text'];
@@ -74,7 +73,6 @@ class AddCommentController implements Acce{
     }
 
     private function insertComment(): bool{
-        file_put_contents(AddCommentController::$logFile,"AddCommentController insertComment => \r\n",FILE_APPEND);
         $created = false;
         $this->errno = 0;
         $article_id = $this->article->getId();
@@ -84,7 +82,7 @@ class AddCommentController implements Acce{
             'author' => new ObjectId($author_id),
             'comment' => $this->getCommentText()
         ];
-        file_put_contents(AddCommentController::$logFile,"insertComment data => ".var_export($data,true)."\r\n",FILE_APPEND);
+        //file_put_contents(AddCommentController::$logFile,"insertComment data => ".var_export($data,true)."\r\n",FILE_APPEND);
         $this->comment = new Comment($data);
         $insert = $this->comment->comment_create();
         if($insert){
@@ -98,7 +96,6 @@ class AddCommentController implements Acce{
 
     //Get article info from permalink
     private function getArticleInfo(): bool{
-        file_put_contents(AddCommentController::$logFile,"AddCommentController getArticleInfo => \r\n",FILE_APPEND);
         $got = false;
         $this->errno = 0;
         $this->article = new Article();
@@ -143,13 +140,11 @@ class AddCommentController implements Acce{
 
     //Set the Token object
     private function setToken(): bool{
-        file_put_contents(AddCommentController::$logFile,"AddCommentController setToken => \r\n",FILE_APPEND);
         $set = false;
         $this->errno = 0;
         $this->token = new Token();
         $filter = ['token_key' => $this->token_key];
         $get = $this->token->token_get($filter);
-        file_put_contents(AddCommentController::$logFile,"AddCommentController setToken get => ".var_export($get,true)."\r\n",FILE_APPEND);
         if($get){
             //Check if token is expired
             $this->token->expireControl();

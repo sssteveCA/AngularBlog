@@ -50,11 +50,25 @@ export class CommentsComponent implements OnInit,AfterViewInit {
         'permalink': this.permalink,
         'token_key': this.userCookie['token_key']
       };
-      console.log("post values");
-      console.log(post_values);
+      /* console.log("post values");
+      console.log(post_values); */
       const headers: HttpHeaders = new HttpHeaders().set('Content-Type','application/json').set('Accept','application/json');
       this.http.post(this.addComment_url,post_values,{headers: headers, responseType: 'text'}).subscribe(res => {
-        console.log(res);
+        //console.log(res);
+        let json: object = JSON.parse(res);
+        console.log(json);
+        if(json['done'] === true){
+          setTimeout(()=>{
+            this.getCommnents();
+          },500);
+        }
+        else{
+          let md_data: MessageDialogInterface = {
+            title: 'Nuovo commento',
+            message: json['msg']
+          };
+          this.dialogMessage(md_data);
+        }
       },error => {
         console.warn(error);
         let md_data: MessageDialogInterface = {
@@ -85,14 +99,14 @@ export class CommentsComponent implements OnInit,AfterViewInit {
   //Get comments of this article
   getCommnents(): void{
     this.http.get(this.getComments_url+'?permalink='+this.permalink,{responseType: 'text'}).subscribe(res => {
-      console.log(res);
+      //console.log(res);
       let json: object = JSON.parse(res);
       this.done = json['done'] as boolean;
       this.empty = json['empty'] as boolean;
       if(!this.empty)
         this.comments = json['comments'] as Comment[];
-      console.log(this.done);
-      console.log(this.empty);
+      /* console.log(this.done);
+      console.log(this.empty); */
       console.log(this.comments);
     }, error => {
       console.warn(error);

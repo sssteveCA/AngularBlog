@@ -14,7 +14,7 @@ class AddCommentView implements Acve{
         if(!$acc)throw new \Exception(Acve::NOADDCOMMENTCONTROLLERINSTANCE_EXC);
         $this->acc = $acc;
         $errnoAcc = $this->acc->getErrno();
-        if($errnoAcc)
+        if($errnoAcc == 0)
             $this->done = true;
         $this->message = $this->acc->getResponse();
     }
