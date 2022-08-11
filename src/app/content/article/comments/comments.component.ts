@@ -35,7 +35,7 @@ export class CommentsComponent implements OnInit,AfterViewInit {
 
   ngAfterViewInit(): void {
     //console.log(this.permalink);
-    
+    this.getCommnents();
   }
 
   ngOnInit(): void {
@@ -98,7 +98,8 @@ export class CommentsComponent implements OnInit,AfterViewInit {
 
   //Get comments of this article
   getCommnents(): void{
-    let get_url: string = this.getComments_url+'?permalink='+this.permalink
+    let get_url: string = this.getComments_url+'?permalink='+this.permalink;
+    console.log(this.userCookie);
     if(this.userCookie.hasOwnProperty('token_key')){
       get_url += "&token_key="+this.userCookie['token_key'];
     }
@@ -108,6 +109,8 @@ export class CommentsComponent implements OnInit,AfterViewInit {
       let json: object = JSON.parse(res);
       this.done = json['done'] as boolean;
       this.empty = json['empty'] as boolean;
+      this.error = json['error'] as boolean;
+      this.message = json['msg'] as string;
       if(!this.empty)
         this.comments = json['comments'] as Comment[];
       /* console.log(this.done);
@@ -132,7 +135,6 @@ export class CommentsComponent implements OnInit,AfterViewInit {
       else{
         this.removeCookie();
       }
-      this.getCommnents();
     }).catch(err => {
       this.removeCookie();
     });//this.api.getLoginStatus().then(res => {

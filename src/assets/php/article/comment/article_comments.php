@@ -37,10 +37,11 @@ $response = [
     'error' => false
 ];
 
-if(isset($_GET['permalink']) && $_GET['permalink'] != ''){
+if(isset($_GET['permalink']) && $_GET['permalink'] != '' && $_GET['permalink'] != 'undefined'){
+    file_put_contents(C::FILE_LOG,"article comments GET => ".var_export($_GET,true)."\r\n",FILE_APPEND);
     $permalink = $_GET['permalink'];
     try{
-        $got_token = token_exists($_GET);
+        $token = token_exists($_GET);
         $article = new Article();
         $filter = [
             'permalink' => $permalink
@@ -75,7 +76,7 @@ if(isset($_GET['permalink']) && $_GET['permalink'] != ''){
                         'creation_time' => $comment->getCrTime(),
                         'last_modified' => $comment->getLastMod()
                     ];
-                    if($got_token !== null){
+                    if($token !== null){
                         //Add these properties if user is logged and it's his comment
                         $comment_author_id = $comment->getAuthor();
                         file_put_contents(C::FILE_LOG,"comment author id => ".var_export($comment_author_id,true)."\r\n",FILE_APPEND);
@@ -100,6 +101,8 @@ if(isset($_GET['permalink']) && $_GET['permalink'] != ''){
             $response['msg'] = C::COMMENTLIST_ERROR;
         }  
     }catch(Exception $e){
+        $message = $e->getMessage();
+        file_put_contents(C::FILE_LOG,"Exception message => ".var_export($message,true)."\r\n",FILE_APPEND);
         $response['error'] = true;
         $response['msg'] = C::COMMENTLIST_ERROR;
     }
@@ -111,7 +114,7 @@ echo json_encode($response);
 
 function token_exists(array $get): ?Token{
     $token = null;
-    $token_exists = isset($get['token_key']);
+    $token_exists = (isset($get['token_key']) && $get['token_key'] != '' && $get['token_key'] != 'undefined');
     if($token_exists){
         //Used to set the editable comments (only logged user comments)
         $token = new Token();
@@ -120,6 +123,7 @@ function token_exists(array $get): ?Token{
         if($got_token === false)
             $token = null;
     }
+    file_put_contents(C::FILE_LOG,"token_exists token => ".var_export($token,true)."\r\n",FILE_APPEND);
     return $token;
 }
 ?>
