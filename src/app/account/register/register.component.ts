@@ -103,7 +103,7 @@ export class RegisterComponent implements OnInit {
     });*/
     console.log(params);
     this.http.post(constants.registerUrl, params,{responseType: 'text'}).subscribe(res => {
-      console.log(res);
+      //console.log(res);
       let rJson = JSON.parse(res);
       const data: MessageDialogInterface = {
         title: 'Registrazione',

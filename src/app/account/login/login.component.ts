@@ -47,10 +47,10 @@ export class LoginComponent implements OnInit {
   login(data: any): void{
     let params = new HttpParams({fromObject: data});
     this.http.post(constants.loginUrl, params, {responseType: 'text'}).subscribe(res => {
-      console.log(res);
+      //console.log(res);
       try{
         let rJson = JSON.parse(res);
-        console.log(rJson);
+        //console.log(rJson);
         if(rJson['done'] && typeof rJson['username'] !== 'undefined'){
           localStorage.setItem("token_key",rJson["token_key"]);
           localStorage.setItem("username",rJson["username"]);

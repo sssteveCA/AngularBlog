@@ -23,14 +23,14 @@ export class MenuComponent implements OnInit {
     this.userCookie["username"] = localStorage.getItem("username");
     this.observeFromService();
     this.api.getLoginStatus().then(logged => {
-      console.log("getLoginStatus logged => "+logged);
+      //console.log("getLoginStatus logged => "+logged);
       if(!logged){
         localStorage.removeItem("token_key");
         localStorage.removeItem("username");
       }
     }).catch(err => {
       console.warn("GetLoginStatus err");
-      console.warn(err);
+      //console.warn(err);
     });
   }
 
@@ -45,9 +45,9 @@ export class MenuComponent implements OnInit {
       cd.instance.dispose();
       cd.div_dialog.remove();
       let token_key = localStorage.getItem("token_key");
-      console.log(token_key);
+      //console.log(token_key);
       this.http.get(constants.logoutUrl+'?token_key='+token_key,{responseType: 'text'}).subscribe(res => {
-        console.log(res);
+        //console.log(res);
         let rJson = JSON.parse(res);
         if(rJson['done'] == true){
           localStorage.removeItem("token_key");
@@ -69,7 +69,7 @@ export class MenuComponent implements OnInit {
         }
         
       },error => {
-        console.log(error);
+        console.warn(error);
       });
     });//cd.bt_yes.addEventListener('click', ()=>{
     cd.bt_no.addEventListener('click', ()=>{
@@ -79,18 +79,18 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("userCookie => ");
-    console.log(this.userCookie); 
+    /* console.log("userCookie => ");
+    console.log(this.userCookie);  */
   }
 
   observeFromService(): void{
     this.api.loginChanged.subscribe(logged => {
-      console.log("logged");
+      //console.log("logged");
       console.log(logged);
     });
     this.api.userChanged.subscribe(userdata => {
-      console.log("userdata");
-      console.log(userdata);
+      /* console.log("userdata");
+      console.log(userdata); */
       this.userCookie['token_key'] = userdata['token_key'];
       this.userCookie['username'] = userdata['username'];
     });

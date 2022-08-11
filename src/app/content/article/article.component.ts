@@ -18,7 +18,7 @@ export class ArticleComponent implements OnInit {
   constructor(public route: ActivatedRoute, public http: HttpClient, private router: Router) {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.article = params.get('article');
-      console.log("Articolo: "+this.article);
+      //console.log("Articolo: "+this.article);
       let permalink = (typeof this.article === "string")? this.article : "";
       this.getArticle(permalink);
     });
@@ -30,7 +30,7 @@ export class ArticleComponent implements OnInit {
      this.http.get(this.url+'?permalink='+permalink,{responseType: 'text'}).subscribe(res =>{
        //console.log(res);
        let rJson = JSON.parse(res);
-       console.log(rJson);
+       //console.log(rJson);
        if(rJson['done'] == true)
         this.showArticle(rJson['article']);
       else{

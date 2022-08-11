@@ -56,7 +56,7 @@ export class CommentsComponent implements OnInit,AfterViewInit {
       this.http.post(this.addComment_url,post_values,{headers: headers, responseType: 'text'}).subscribe(res => {
         //console.log(res);
         let json: object = JSON.parse(res);
-        console.log(json);
+        //console.log(json);
         if(json['done'] === true){
           setTimeout(()=>{
             this.getCommnents();
@@ -106,8 +106,8 @@ export class CommentsComponent implements OnInit,AfterViewInit {
       if(!this.empty)
         this.comments = json['comments'] as Comment[];
       /* console.log(this.done);
-      console.log(this.empty); */
-      console.log(this.comments);
+      console.log(this.empty);
+      console.log(this.comments); */
     }, error => {
       console.warn(error);
       this.error = true;
@@ -130,14 +130,14 @@ export class CommentsComponent implements OnInit,AfterViewInit {
     }).catch(err => {
       this.removeCookie();
     });//this.api.getLoginStatus().then(res => {
-    console.log("observeFormService logged => "+this.logged);
+    //console.log("observeFormService logged => "+this.logged);
     this.api.loginChanged.subscribe(logged => {
-      console.log("logged");
+      //console.log("logged");
       console.log(logged);
     });
     this.api.userChanged.subscribe(userdata => {
-      console.log("userdata");
-      console.log(userdata);
+      /* console.log("userdata");
+      console.log(userdata); */
       this.userCookie['token_key'] = userdata['token_key'];
       this.userCookie['username'] = userdata['username'];
     });
