@@ -9,6 +9,8 @@ import MessageDialog from 'src/classes/dialogs/messagedialog';
 import { ApiService } from 'src/app/api.service';
 import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
+import AddCommentInterface from 'src/interfaces/requests/article/comment/addcomment.interface';
+import AddComment from 'src/classes/requests/article/comment/addcomment';
 
 @Component({
   selector: 'app-comments',
@@ -48,23 +50,24 @@ export class CommentsComponent implements OnInit,AfterViewInit {
   //Set the reactive form for add new comment element
   addComment(){
     if(this.newComment.valid){
-      const post_values = {
-        'comment_text': this.newComment.value,
-        'permalink': this.permalink,
-        'token_key': this.userCookie['token_key']
+      const ac_data: AddCommentInterface = {
+        comment_text: this.newComment.value,
+        http: this.http,
+        permalink: this.permalink as string,
+        token_key: this.userCookie['token_key'],
+        url: this.addComment_url
       };
-      this.addCommentPromise(post_values).then(res => {
-        console.log(res);
-        let json: object = JSON.parse(res);
-        if(json['done'] === true){
+      let ac: AddComment = new AddComment(ac_data);
+      ac.addComment().then(obj => {
+        if(obj['done'] === true){
           setTimeout(()=>{
             this.getCommnents();
           },500);
-        }
+        }//if(obj['done'] === true){
         else{
           let md_data: MessageDialogInterface = {
             title: 'Nuovo commento',
-            message: json['msg']
+            message: obj['msg']
           };
           this.dialogMessage(md_data);
         }

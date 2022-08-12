@@ -1,5 +1,4 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Console } from "console";
 import { Messages } from "src/constants/messages";
 import AddCommentInterface from "src/interfaces/requests/article/comment/addcomment.interface";
 
@@ -10,7 +9,7 @@ export default class AddComment{
     private _token_key: string;
     private _url: string;
 
-    constructor(data: AddCommentInterface, http: HttpClient){
+    constructor(data: AddCommentInterface){
         this._comment_text = data.comment_text;
         this._http = data.http;
         this._permalink = data.permalink;
@@ -31,9 +30,10 @@ export default class AddComment{
                 'permalink': this._permalink,
                 'token_key': this._token_key
             };
-            this.addCommentPromise(post_values).then(res => {
-                console.log(res);
+            await this.addCommentPromise(post_values).then(res => {
+                //console.log(res);
                 response = JSON.parse(res);
+                //console.log(response);
             }).catch(err => {
                 throw err;
             });
