@@ -17,6 +17,8 @@ require_once("../../classes/article/comment/comment.php");
 require_once("../../classes/article/comment/commentauthorizedcontroller.php");
 require_once("../../classes/article/comment/commentauthorizedview.php");
 
+use AngularBlog\Classes\Article\Comment\DeleteController;
+use AngularBlog\Classes\Article\Comment\DeleteView;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\Comment\Comment;
@@ -37,6 +39,10 @@ if(isset($delete['token_key'],$delete['comment_id']) && $delete['token_key'] != 
     try{
         $token = new Token($token_data);
         $comment = new Comment($comment_data);
+        $dc_data = [
+            'comment' => $comment,
+            'token' => $token
+        ];
     }catch(Exception $e){
 
     }
