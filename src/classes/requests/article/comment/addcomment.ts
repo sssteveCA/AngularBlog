@@ -47,7 +47,7 @@ export default class AddComment{
     }
 
     private async addCommentPromise(createData: object): Promise<string>{
-        return await new Promise((resolve,reject)=>{
+        return await new Promise<string>((resolve,reject)=>{
             const headers: HttpHeaders = new HttpHeaders({
               'Content-Type': 'application/json',
               'Accept': 'application/json'

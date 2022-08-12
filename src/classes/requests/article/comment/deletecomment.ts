@@ -1,4 +1,6 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Console } from "console";
+import { Messages } from "src/constants/messages";
 import DeleteCommentInterface from "src/interfaces/requests/article/comment/deletecomment.interface";
 
 export default class DeleteComment{
@@ -25,9 +27,33 @@ export default class DeleteComment{
                 'comment_id': this._comment_id,
                 'token_key': this._token_key,
             }
+            await this.deleteCommentPromise(deletecomment_values).then(res => {
+                console.log(res);
+                response = JSON.parse(res);
+                console.log(response);
+            }).catch(err => {
+                throw err;
+            });
         }catch(err){
-
+            response = {
+                done: false,
+                msg: Messages.COMMENTDELETE_ERROR
+            };
         }
         return response;
+    }
+
+    private async deleteCommentPromise(deleteData: object): Promise<string>{
+        return await new Promise<string>((resolve,reject)=> {
+            const headers: HttpHeaders = new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              });
+              this._http.post(this._url,deleteData,{headers: headers, responseType: 'text'}).subscribe(res => {
+                resolve(res);
+              },error => {
+                reject(error);
+              })
+        });
     }
 }
