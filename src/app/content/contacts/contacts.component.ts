@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import MessageDialog from 'src/classes/messagedialog';
-import MessageDialogInterface from 'src/classes/messagedialog.interface';
+import MessageDialog from 'src/classes/dialogs/messagedialog';
+import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import * as constants from '../../../constants/constants';
 
 @Component({

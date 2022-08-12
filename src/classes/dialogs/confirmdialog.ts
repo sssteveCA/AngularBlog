@@ -1,7 +1,7 @@
 //This class is to use the Bootstrap confirm dialog
 
 import * as bootstrap from "bootstrap";
-import ConfirmDialogInterface from "./confirmdialog.interface";
+import ConfirmDialogInterface from "../../interfaces/dialogs/confirmdialog.interface";
 
 export default class ConfirmDialog{
 

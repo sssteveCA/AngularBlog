@@ -3,8 +3,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import * as constants from '../../../constants/constants';
 import * as messages from '../../../messages/messages';
-import MessageDialog from '../../../classes/messagedialog';
-import MessageDialogInterface from 'src/classes/messagedialog.interface';
+import MessageDialog from '../../../classes/dialogs/messagedialog';
+import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import { Messages } from 'src/constants/messages';
 
 @Component({

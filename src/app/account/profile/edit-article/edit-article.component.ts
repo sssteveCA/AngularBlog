@@ -7,10 +7,10 @@ import * as messages from 'src/messages/messages';
 import { ApiService } from 'src/app/api.service';
 import { Api2Service } from 'src/app/api2.service';
 import { Article } from 'src/app/models/article.model';
-import ConfirmDialog from 'src/classes/confirmdialog';
-import ConfirmDialogInterface from 'src/classes/confirmdialog.interface';
-import MessageDialogInterface from 'src/classes/messagedialog.interface';
-import MessageDialog from 'src/classes/messagedialog';
+import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
+import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
+import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
+import MessageDialog from 'src/classes/dialogs/messagedialog';
 
 @Component({
   selector: 'app-edit-article',

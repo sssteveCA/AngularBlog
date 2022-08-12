@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
 import * as constants from 'src/constants/constants';
 import * as messages from 'src/messages/messages';
-import ConfirmDialog from 'src/classes/confirmdialog';
-import MessageDialog from 'src/classes/messagedialog';
+import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
+import MessageDialog from 'src/classes/dialogs/messagedialog';
 import { Article } from 'src/app/models/article.model';
-import ConfirmDialogInterface from 'src/classes/confirmdialog.interface';
-import MessageDialogInterface from 'src/classes/messagedialog.interface';
+import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
+import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import { Observable } from 'rxjs';
 
 @Component({

@@ -1,5 +1,5 @@
 import * as bootstrap from "bootstrap";
-import MessageDialogInterface from "./messagedialog.interface";
+import MessageDialogInterface from "../../interfaces/dialogs/messagedialog.interface";
 
 export default class MessageDialog{
     private _bt_ok: Element; //'OK' button

@@ -4,11 +4,11 @@ import { Comment } from 'src/app/models/comment.model';
 import * as constants from "../../../../constants/constants";
 import { Messages } from 'src/constants/messages';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import MessageDialogInterface from 'src/classes/messagedialog.interface';
-import MessageDialog from 'src/classes/messagedialog';
+import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
+import MessageDialog from 'src/classes/dialogs/messagedialog';
 import { ApiService } from 'src/app/api.service';
-import ConfirmDialogInterface from 'src/classes/confirmdialog.interface';
-import ConfirmDialog from 'src/classes/confirmdialog';
+import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
+import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
 
 @Component({
   selector: 'app-comments',

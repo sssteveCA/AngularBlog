@@ -3,8 +3,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
-import MessageDialog from 'src/classes/messagedialog';
-import MessageDialogInterface from 'src/classes/messagedialog.interface';
+import MessageDialog from 'src/classes/dialogs/messagedialog';
+import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import { Messages } from 'src/constants/messages';
 import * as constants from '../../../constants/constants';
 

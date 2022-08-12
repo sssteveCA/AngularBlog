@@ -7,8 +7,8 @@ import * as constants from 'src/constants/constants';
 import * as messages from 'src/messages/messages';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import MessageDialogInterface from 'src/classes/messagedialog.interface';
-import MessageDialog from 'src/classes/messagedialog';
+import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
+import MessageDialog from 'src/classes/dialogs/messagedialog';
 
 @Component({
   selector: 'app-new-article',

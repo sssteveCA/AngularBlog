@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import ConfirmDialog from 'src/classes/confirmdialog';
-import ConfirmDialogInterface from 'src/classes/confirmdialog.interface';
-import MessageDialog from 'src/classes/messagedialog';
-import MessageDialogInterface from 'src/classes/messagedialog.interface';
+import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
+import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
+import MessageDialog from 'src/classes/dialogs/messagedialog';
+import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import * as constants from '../../constants/constants';
 import * as messages from '../../messages/messages';
 import { ApiService } from '../api.service';
