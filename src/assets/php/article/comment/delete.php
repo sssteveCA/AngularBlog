@@ -17,6 +17,8 @@ require_once("../../classes/article/comment/comment.php");
 require_once("../../classes/article/comment/commentauthorizedcontroller.php");
 require_once("../../classes/article/comment/commentauthorizedview.php");
 
+use AngularBlog\Interfaces\Constants as C;
+
 $input = file_get_contents("php://input");
 $delete = json_decode($input,true);
 
@@ -26,6 +28,13 @@ $response = [
     'msg' => '',
     'delete' => $delete
 ];
+
+if(isset($delete['token_key'],$delete['comment_id']) && $delete['token_key'] != '' && $delete['comment_id'] != ''){
+
+}//if(isset($delete['token_key'],$delete['comment_id']) && $delete['token_key'] != '' && $delete['comment_id'] != ''){
+else
+    //$response['msg'] = C::FILL_ALL_FIELDS;
+    $response['msg'] = C::COMMENTDELETE_ERROR;
 
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
 ?>

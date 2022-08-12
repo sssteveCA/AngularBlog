@@ -9,6 +9,7 @@ import MessageDialog from 'src/classes/messagedialog';
 import { ApiService } from 'src/app/api.service';
 import ConfirmDialogInterface from 'src/classes/confirmdialog.interface';
 import ConfirmDialog from 'src/classes/confirmdialog';
+import { resolve } from 'dns';
 
 @Component({
   selector: 'app-comments',
@@ -53,13 +54,9 @@ export class CommentsComponent implements OnInit,AfterViewInit {
         'permalink': this.permalink,
         'token_key': this.userCookie['token_key']
       };
-      /* console.log("post values");
-      console.log(post_values); */
-      const headers: HttpHeaders = new HttpHeaders().set('Content-Type','application/json').set('Accept','application/json');
-      this.http.post(this.addComment_url,post_values,{headers: headers, responseType: 'text'}).subscribe(res => {
-        //console.log(res);
-        let json: object = JSON.parse(res);
+      this.addCommentPromise(post_values).then(res => {
         //console.log(json);
+        let json: object = JSON.parse(res);
         if(json['done'] === true){
           setTimeout(()=>{
             this.getCommnents();
@@ -72,14 +69,14 @@ export class CommentsComponent implements OnInit,AfterViewInit {
           };
           this.dialogMessage(md_data);
         }
-      },error => {
-        console.warn(error);
+      }).catch(err => {
+        console.warn(err);
         let md_data: MessageDialogInterface = {
           title: 'Nuovo commento',
           message: Messages.COMMENTNEW_ERROR
         };
         this.dialogMessage(md_data);
-      });
+      });//this.addCommentPromise(post_values).then(res => {
     }//if(this.newComment.valid){
     else{
       let md_data: MessageDialogInterface = {
@@ -88,6 +85,20 @@ export class CommentsComponent implements OnInit,AfterViewInit {
       };
       this.dialogMessage(md_data);
     }
+  }
+
+  private async addCommentPromise(createData: object): Promise<any>{
+    return await new Promise((resolve,reject)=>{
+      const headers: HttpHeaders = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      });
+      this.http.post(this.addComment_url,createData,{headers: headers, responseType: 'text'}).subscribe(res => {
+        resolve(res);
+      }, error => {
+        reject(error);
+      });
+    });
   }
 
   //delete comment event
@@ -112,6 +123,21 @@ export class CommentsComponent implements OnInit,AfterViewInit {
       };
       this.deletePromise(delete_data).then(res => {
         console.log(res);
+        const json: object = JSON.parse(res);
+        if(json['done'] === true){
+          //delete operation executed
+          setTimeout(()=>{
+            this.getCommnents();
+          },500);
+        }
+        else{
+          //Error during comment delete
+          let md_data: MessageDialogInterface = {
+            title: 'Elimina commento',
+            message: json['msg']
+          };
+          this.dialogMessage(md_data);
+        }
       }).catch(err => {
         console.warn(err);
         let md_data: MessageDialogInterface = {
