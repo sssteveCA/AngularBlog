@@ -9,7 +9,6 @@ import MessageDialog from 'src/classes/messagedialog';
 import { ApiService } from 'src/app/api.service';
 import ConfirmDialogInterface from 'src/classes/confirmdialog.interface';
 import ConfirmDialog from 'src/classes/confirmdialog';
-import { resolve } from 'dns';
 
 @Component({
   selector: 'app-comments',
@@ -55,7 +54,7 @@ export class CommentsComponent implements OnInit,AfterViewInit {
         'token_key': this.userCookie['token_key']
       };
       this.addCommentPromise(post_values).then(res => {
-        //console.log(json);
+        console.log(res);
         let json: object = JSON.parse(res);
         if(json['done'] === true){
           setTimeout(()=>{

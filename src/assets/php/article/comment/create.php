@@ -4,7 +4,7 @@ require_once("../../cors.php");
 require_once("../../interfaces/constants.php");
 require_once("../../interfaces/model_errors.php");
 require_once("../../interfaces/token_errors.php");
-require_once("../../interfaces/article/omment/comment_errors.php");
+require_once("../../interfaces/article/comment/comment_errors.php");
 require_once("../../interfaces/article/article_errors.php");
 require_once("../../interfaces/article/comment/addcommentcontroller_errors.php");
 require_once("../../interfaces/article/comment/addcommentview_errors.php");
