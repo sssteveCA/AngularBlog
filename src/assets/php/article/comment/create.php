@@ -6,8 +6,8 @@ require_once("../../interfaces/model_errors.php");
 require_once("../../interfaces/token_errors.php");
 require_once("../../interfaces/article/comment/comment_errors.php");
 require_once("../../interfaces/article/article_errors.php");
-require_once("../../interfaces/article/comment/addcommentcontroller_errors.php");
-require_once("../../interfaces/article/comment/addcommentview_errors.php");
+require_once("../../interfaces/article/comment/addcontroller_errors.php");
+require_once("../../interfaces/article/comment/addview_errors.php");
 require_once("../../vendor/autoload.php");
 require_once("../../traits/error.trait.php");
 require_once("../../traits/message.trait.php");
@@ -16,14 +16,15 @@ require_once("../../classes/model.php");
 require_once("../../classes/token.php");
 require_once("../../classes/article/comment/comment.php");
 require_once("../../classes/article/article.php");
-require_once("../../classes/article/comment/addcommentcontroller.php");
-require_once("../../classes/article/comment/addcommentview.php");
+require_once("../../classes/article/comment/addcontroller.php");
+require_once("../../classes/article/comment/addview.php");
 
-use AngularBlog\Interfaces\Article\Comment\AddCommentControllerErrors as Acce;
-use AngularBlog\Interfaces\Article\Comment\AddCommentViewErrors as Acve;
+use AngularBlog\Interfaces\Article\Comment\AddControllerErrors as Ace;
+use AngularBlog\Interfaces\Article\Comment\AddViewErrors as Ave;
 use AngularBlog\Classes\Article\Article;
-use AngularBlog\Classes\Article\Comment\AddCommentController;
-use AngularBlog\Classes\Article\Comment\AddCommentView;
+use AngularBlog\Classes\Article\Comment\AddController;
+use AngularBlog\Classes\Article\Comment\AddtController;
+use AngularBlog\Classes\Article\Comment\AddView;
 use AngularBlog\Classes\Comment\Comment;
 use AngularBlog\Classes\Token;
 use AngularBlog\Interfaces\Constants as C;
@@ -45,8 +46,8 @@ if(isset($post['permalink'],$post['token_key'],$post['comment_text']) && $post['
             'permalink' => $post['permalink']
         ];
         file_put_contents(C::FILE_LOG,"create data => ".var_export($data,true)."\r\n",FILE_APPEND);
-        $addCommentController = new AddCommentController($data);
-        $addCommentView = new AddCommentView($addCommentController);
+        $addController = new AddController($data);
+        $addCommentView = new AddView($addController);
         if($addCommentView->isDone())
             $response['done'] = true;
         else{
@@ -57,10 +58,10 @@ if(isset($post['permalink'],$post['token_key'],$post['comment_text']) && $post['
         $msg = $e->getMessage();
         file_put_contents(C::FILE_LOG,"create exception => ".var_export($msg,true)."\r\n",FILE_APPEND);
         switch($msg){
-            case Acce::NOARTICLEPERMALINK_EXC:
-            case Acce::NOCOMMENT_EXC:
-            case Acce::NOTOKENKEY_EXC:
-            case Acve::NOADDCOMMENTCONTROLLERINSTANCE_EXC:
+            case Ace::NOARTICLEPERMALINK_EXC:
+            case Ace::NOCOMMENT_EXC:
+            case Ace::NOTOKENKEY_EXC:
+            case Ave::NOADDCOMMENTCONTROLLERINSTANCE_EXC:
                 $response['msg'] = C::COMMENTCREATION_ERROR;
                 break;
             default:

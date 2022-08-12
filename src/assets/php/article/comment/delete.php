@@ -18,6 +18,8 @@ require_once("../../classes/article/comment/commentauthorizedcontroller.php");
 require_once("../../classes/article/comment/commentauthorizedview.php");
 
 use AngularBlog\Interfaces\Constants as C;
+use AngularBlog\Classes\Token;
+use AngularBlog\Classes\Comment\Comment;
 
 $input = file_get_contents("php://input");
 $delete = json_decode($input,true);
@@ -30,7 +32,14 @@ $response = [
 ];
 
 if(isset($delete['token_key'],$delete['comment_id']) && $delete['token_key'] != '' && $delete['comment_id'] != ''){
+    $token_data = ['token_key' => $delete['token_key']];
+    $comment_data = ['id' => $delete['comment_id']];
+    try{
+        $token = new Token($token_data);
+        $comment = new Comment($comment_data);
+    }catch(Exception $e){
 
+    }
 }//if(isset($delete['token_key'],$delete['comment_id']) && $delete['token_key'] != '' && $delete['comment_id'] != ''){
 else
     //$response['msg'] = C::FILL_ALL_FIELDS;

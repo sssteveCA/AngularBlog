@@ -10,10 +10,10 @@ use AngularBlog\Classes\Token;
 use AngularBlog\Classes\User;
 use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Traits\ResponseTrait;
-use AngularBlog\Interfaces\Article\Comment\AddCommentControllerErrors as Acce;
+use AngularBlog\Interfaces\Article\Comment\AddControllerErrors as Ace;
 use MongoDB\BSON\ObjectId;
 
-class AddCommentController implements Acce{
+class AddController implements Ace{
     use ErrorTrait, ResponseTrait;
 
     private ?string $author_name; //Username of account that posts the comment
@@ -49,14 +49,14 @@ class AddCommentController implements Acce{
     public function getUser(){return $this->user;}
     public function getError(){
         switch($this->errno){
-            case Acce::FROM_ARTICLE:
-                $this->error = Acce::FROM_ARTICLE_MSG;
+            case Ace::FROM_ARTICLE:
+                $this->error = Ace::FROM_ARTICLE_MSG;
                 break;
-            case Acce::FROM_TOKEN:
-                $this->error = Acce::FROM_TOKEN_MSG;
+            case Ace::FROM_TOKEN:
+                $this->error = Ace::FROM_TOKEN_MSG;
                 break;
-            case Acce::FROM_COMMENT:
-                $this->error = Acce::FROM_COMMENT_MSG;
+            case Ace::FROM_COMMENT:
+                $this->error = Ace::FROM_COMMENT_MSG;
                 break;
             default:
                 $this->error = null;
@@ -67,9 +67,9 @@ class AddCommentController implements Acce{
 
     //Check if array provided has valid values
     private function checkValues(array $data){
-        if(!isset($data['permalink']))throw new \Exception(Acce::NOARTICLEPERMALINK_EXC);
-        if(!isset($data['comment_text']))throw new \Exception(Acce::NOCOMMENT_EXC);
-        if(!isset($data['token_key']))throw new \Exception(Acce::NOTOKENKEY_EXC);
+        if(!isset($data['permalink']))throw new \Exception(Ace::NOARTICLEPERMALINK_EXC);
+        if(!isset($data['comment_text']))throw new \Exception(Ace::NOCOMMENT_EXC);
+        if(!isset($data['token_key']))throw new \Exception(Ace::NOTOKENKEY_EXC);
     }
 
     private function insertComment(): bool{
@@ -90,7 +90,7 @@ class AddCommentController implements Acce{
             $created = true;
         }
         else
-            $this->errno = Acce::FROM_COMMENT;
+            $this->errno = Ace::FROM_COMMENT;
         return $created;
     }
 
@@ -106,7 +106,7 @@ class AddCommentController implements Acce{
             $got = true;
         }//if($get_article){
         else
-            $this->errno = Acce::FROM_ARTICLE;
+            $this->errno = Ace::FROM_ARTICLE;
         return $got;
     }
 
@@ -115,13 +115,13 @@ class AddCommentController implements Acce{
             case 0:
                 $this->response = "";
                 break;
-            case Acce::FROM_ARTICLE:
+            case Ace::FROM_ARTICLE:
                 $this->response = C::COMMENTCREATION_ERROR;
                 break;
-            case Acce::FROM_COMMENT:
+            case Ace::FROM_COMMENT:
                 $this->response = C::COMMENTCREATION_ERROR;
                 break;
-            case Acce::FROM_TOKEN:
+            case Ace::FROM_TOKEN:
                 $errnoT = $this->token->getErrno();
                 switch($errnoT){
                     case Te::TOKENEXPIRED:
@@ -132,7 +132,7 @@ class AddCommentController implements Acce{
                         break;
                 }
                 break;
-            case Acce::NOUSERIDFOUND:
+            case Ace::NOUSERIDFOUND:
                 $this->response = C::LOGIN_NOTLOGGED;
                 break;
         }
@@ -149,7 +149,7 @@ class AddCommentController implements Acce{
             //Check if token is expired
             $this->token->expireControl();
             if($this->token->isExpired()){
-                $this->errno = Acce::FROM_TOKEN;
+                $this->errno = Ace::FROM_TOKEN;
             }
             else{
                 $this->author_name = $this->token->getUsername();
@@ -158,7 +158,7 @@ class AddCommentController implements Acce{
                 
         }
         else
-            $this->errno = Acce::NOUSERIDFOUND;
+            $this->errno = Ace::NOUSERIDFOUND;
         //file_put_contents(CreateController::$logFile,"setToken() result => ".var_export($set,true)."\r\n",FILE_APPEND);
         return $set;
     }

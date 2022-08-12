@@ -196,6 +196,7 @@ export class MyArticlesComponent implements OnInit {
               cd.bt_yes.addEventListener('click',()=>{
                 cd.instance.dispose();
                 document.body.removeChild(cd.div_dialog);
+                document.body.style.overflow = 'auto';
                 let deleteData = {
                   'article_id': article.id,
                   'token_key': localStorage.getItem('token_key')

@@ -3,15 +3,15 @@
 namespace AngularBlog\Classes\Article\Comment;
 
 use AngularBlog\Traits\MessageTrait;
-use AngularBlog\Interfaces\Article\Comment\AddCommentViewErrors as Acve;
+use AngularBlog\Interfaces\Article\Comment\AddViewErrors as Ave;
 
-class AddCommentView implements Acve{
+class AddView implements Ave{
     use MessageTrait;
 
-    private ?AddCommentController $acc;
+    private ?AddController $acc;
 
-    public function __construct(?AddCommentController $acc){
-        if(!$acc)throw new \Exception(Acve::NOADDCOMMENTCONTROLLERINSTANCE_EXC);
+    public function __construct(?AddController $acc){
+        if(!$acc)throw new \Exception(Ave::NOADDCOMMENTCONTROLLERINSTANCE_EXC);
         $this->acc = $acc;
         $errnoAcc = $this->acc->getErrno();
         if($errnoAcc == 0)

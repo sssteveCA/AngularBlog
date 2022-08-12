@@ -2,7 +2,7 @@
 
 namespace AngularBlog\Interfaces\Article\Comment;
 
-interface AddCommentControllerErrors{
+interface AddControllerErrors{
     //Exceptions
     const NOARTICLEPERMALINK_EXC = "Non hai passato il permalink dell'articolo";
     const NOCOMMENT_EXC = "Non hai fornito il testo del commento";
