@@ -89,20 +89,6 @@ export class CommentsComponent implements OnInit,AfterViewInit {
     }
   }
 
-  private async addCommentPromise(createData: object): Promise<any>{
-    return await new Promise((resolve,reject)=>{
-      const headers: HttpHeaders = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      });
-      this.http.post(this.addComment_url,createData,{headers: headers, responseType: 'text'}).subscribe(res => {
-        resolve(res);
-      }, error => {
-        reject(error);
-      });
-    });
-  }
-
   //delete comment event
   deleteComment(event): void{
     let link: JQuery = $(event.target);

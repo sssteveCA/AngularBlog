@@ -25,12 +25,12 @@ export default class AddComment{
     public async addComment(): Promise<object>{
         let response: object = {};
         try{
-            const post_values: object = {
+            const addcomment_values: object = {
                 'comment_text': this._comment_text,
                 'permalink': this._permalink,
                 'token_key': this._token_key
             };
-            await this.addCommentPromise(post_values).then(res => {
+            await this.addCommentPromise(addcomment_values).then(res => {
                 //console.log(res);
                 response = JSON.parse(res);
                 //console.log(response);
