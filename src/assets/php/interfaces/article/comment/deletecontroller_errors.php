@@ -2,7 +2,8 @@
 
 namespace AngularBlog\Interfaces\Article\Comment;
 
-interface CommentAuthorizedViewErrors{
+interface DeleteControllerErrors{
     
 }
+
 ?>
