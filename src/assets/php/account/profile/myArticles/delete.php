@@ -27,18 +27,18 @@ use AngularBlog\Classes\Myarticles\DeleteController;
 use AngularBlog\Classes\Myarticles\DeleteView;
 
 $input = file_get_contents('php://input');
-$post = json_decode($input,true);
+$delete = json_decode($input,true);
 
 $response = [
     'done' => false,
     'expired' => false,
     'msg' => ''
-    //'post' => $post
+    //'delete' => $delete
 ];
 
-if(isset($post['article_id'],$post['token_key']) && $post['article_id'] != '' && $post['token_key'] != '' ){
-    $token_data = ['token_key' => $post['token_key']];
-    $article_data = ['id' => $post['article_id']];
+if(isset($delete['article_id'],$delete['token_key']) && $delete['article_id'] != '' && $delete['token_key'] != '' ){
+    $token_data = ['token_key' => $delete['token_key']];
+    $article_data = ['id' => $delete['article_id']];
     try{
         $token = new Token($token_data);
         $article = new Article($article_data);
@@ -61,7 +61,7 @@ if(isset($post['article_id'],$post['token_key']) && $post['article_id'] != '' &&
         file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
         $response['msg'] = C::ARTICLEDELETE_ERROR;
     }
-}//if(isset($post['article_id'],$post['token_key']) && $post['article_id'] != '' && $post['token_key'] != '' ){
+}//if(isset($delete['article_id'],$delete['token_key']) && $delete['article_id'] != '' && $delete['token_key'] != '' ){
 else{
     $response['msg'] = C::ARTICLEDELETE_ERROR;
 }

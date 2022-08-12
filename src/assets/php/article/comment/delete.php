@@ -22,6 +22,7 @@ use AngularBlog\Classes\Article\Comment\DeleteController;
 use AngularBlog\Classes\Article\Comment\DeleteView;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Token;
+use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Classes\Comment\Comment;
 
 $input = file_get_contents("php://input");
@@ -44,8 +45,18 @@ if(isset($delete['token_key'],$delete['comment_id']) && $delete['token_key'] != 
             'comment' => $comment,
             'token' => $token
         ];
+        $deleteController = new DeleteController($dc_data);
+        $deleteView = new DeleteView($deleteController);
+        $response['msg'] = $deleteView->getMessage();
+        if($deleteView->isDone())
+            $response['done'] = true;
+        $errnoT = $deleteController->getToken()->getErrno();
+        if($errnoT == Te::TOKENEXPIRED){
+            $response['expired'] = true;
+        }
     }catch(Exception $e){
-
+        file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
+        $response['msg'] = C::COMMENTDELETE_ERROR;
     }
 }//if(isset($delete['token_key'],$delete['comment_id']) && $delete['token_key'] != '' && $delete['comment_id'] != ''){
 else
