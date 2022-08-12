@@ -62,7 +62,7 @@ class ArticleAuthorizedController implements Aace{
         return $this->error;
     }
 
-    //Cntrol if values inside array are Article,User,Token types
+    //Check if values inside array are Article,User,Token types
     private function checkVariables(array $data){
         if(!isset($data['article']))throw new \Exception(Aace::NOARTICLEINSTANCE_EXC);
         if(!isset($data['token']))throw new \Exception(Aace::NOTOKENINSTANCE_EXC);
