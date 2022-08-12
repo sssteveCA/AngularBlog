@@ -2,12 +2,15 @@
 
 namespace AngularBlog\Classes\Article\Comment;
 
+use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Comment\Comment;
 use AngularBlog\Classes\Token;
+use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Traits\ResponseTrait;
 use AngularBlog\Interfaces\Article\Comment\DeleteControllerErrors as Dce;
-USE AngularBlog\Classes\Article\Comment\CommentAuthorizedController;
+use AngularBlog\Classes\Article\Comment\CommentAuthorizedController;
+use AngularBlog\Interfaces\Article\Comment\CommentAuthorizedControllerErrors as Cace;
 use MongoDB\BSON\ObjectId;
 
 class DeleteController implements Dce{
@@ -16,6 +19,8 @@ class DeleteController implements Dce{
     private ?Comment $comment;
     private ?Comment $cac_comment;
     private ?Token $token;
+    private ?CommentAuthorizedController $cac;
+    private static $logFile = C::FILE_LOG;
 
     public function __construct(array $data)
     {
@@ -87,6 +92,41 @@ class DeleteController implements Dce{
         return $del;
     }
 
-
+    //Set the response to send to the view
+    private function setResponse(){
+        file_put_contents(DeleteController::$logFile,"DeleteController setResponse errno => {$this->errno}\r\n",FILE_APPEND);
+        switch($this->errno){
+            case 0:
+                $this->response = "";
+                break;
+            case Dce::FROM_COMMENTAUTHORIZEDCONTROLLER:
+                $cacErrno = $this->cac->getErrno();
+                switch($cacErrno){
+                    case Cace::FROM_TOKEN:
+                        $errnoT = $this->token->getErrno();
+                        switch($errnoT){
+                            case Te::TOKENEXPIRED:
+                                $this->response = Te::TOKENEXPIRED_MSG;
+                                break;
+                            default:
+                                $this->response = C::COMMENTDELETE_ERROR;
+                                break;
+                        }
+                        break;
+                    case Cace::TOKEN_NOTFOUND:
+                    case Cace::FORBIDDEN:
+                        $this->response = Cace::FORBIDDEN_MSG;
+                        break;
+                    default:
+                        $this->response = C::COMMENTDELETE_ERROR;
+                        break;
+                }//switch($Cacerrno){
+                break;
+            case Dce::COMMENTNOTDELETED:
+            default:
+                $this->response = C::COMMENTDELETE_ERROR;
+                break;
+        }
+    }
 }
 ?>
