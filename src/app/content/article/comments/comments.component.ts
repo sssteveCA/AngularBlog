@@ -19,6 +19,7 @@ export class CommentsComponent implements OnInit,AfterViewInit {
 
   @Input() permalink: string|null;
   addComment_url: string = constants.createComment;
+  deleteComment_url: string = constants.deleteComment;
   getComments_url: string = constants.articleComments;
 
    done: boolean;
@@ -100,14 +101,45 @@ export class CommentsComponent implements OnInit,AfterViewInit {
     };
     let cd: ConfirmDialog = new ConfirmDialog(cd_data);
     cd.bt_yes.addEventListener('click', ()=>{
+      //User confirms comment delete
       cd.instance.dispose();
       cd.div_dialog.remove();
       document.body.style.overflow = 'auto';
+      console.log(this.userCookie);
+      const delete_data = {
+        'token_key': this.userCookie['token_key'],
+        'comment_id': comment_id
+      };
+      this.deletePromise(delete_data).then(res => {
+        console.log(res);
+      }).catch(err => {
+        console.warn(err);
+        let md_data: MessageDialogInterface = {
+          title: 'Elimina commento',
+          message: Messages.COMMENTDELETE_ERROR
+        };
+        this.dialogMessage(md_data);
+      });
     });
     cd.bt_no.addEventListener('click',()=>{
       cd.instance.dispose();
       cd.div_dialog.remove();
       document.body.style.overflow = 'auto';
+    });
+  }
+
+  //comment delete request
+  private async deletePromise(deleteData: object): Promise<any>{
+    return await new Promise((resolve,reject) => {
+      const headers: HttpHeaders = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      });
+      this.http.post(this.deleteComment_url,deleteData,{headers: headers, responseType: 'text'}).subscribe(res => {
+        resolve(res);
+      },error => {
+        reject(error);
+      })
     });
   }
 

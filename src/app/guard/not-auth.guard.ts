@@ -18,7 +18,7 @@ export class NotAuthGuard implements CanActivate {
       this.userCookie["token_key"] = token_key;
       this.userCookie["username"] = username;
     }
-    console.log(this.userCookie);
+    //console.log(this.userCookie);
     this.api.userChanged.subscribe(user => {
       //detect changes from cookie value
       this.userCookie = user;
