@@ -7,18 +7,18 @@ use AngularBlog\Classes\Article\Article;
 use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Interfaces\Article\ArticleAuthorizedControllerErrors as Aace;
 use AngularBlog\Classes\Token;
+use AngularBlog\Traits\AuthorizedTrait;
 use MongoDB\BSON\ObjectId;
 use AngularBlog\Traits\ErrorTrait;
+use AngularBlog\Traits\ResponseTrait;
 
 //Check if user is authorized to do write operation with a certain article
 class ArticleAuthorizedController implements Aace{
 
-    use ErrorTrait;
+    use ErrorTrait, ResponseTrait, AuthorizedTrait;
 
     private ?Article $article;
     private ?Token $token;
-    private bool $authorized = false;
-    private string $response = "";
     private static string $logFile = C::FILE_LOG;
 
     public function __construct(array $data){
@@ -41,7 +41,6 @@ class ArticleAuthorizedController implements Aace{
 
     public function getArticle(){return $this->article;}
     public function getToken(){return $this->token;}
-    public function getResponse(){return $this->response;}
     public function getError(){
         switch($this->errno){
             case Aace::ARTICLE_NOTFOUND:
@@ -62,8 +61,6 @@ class ArticleAuthorizedController implements Aace{
         }
         return $this->error;
     }
-
-    public function isAuthorized(){return $this->authorized;}
 
     //Cntrol if values inside array are Article,User,Token types
     private function checkVariables(array $data){
