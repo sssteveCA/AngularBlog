@@ -1,5 +1,4 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Console } from "console";
 import { Messages } from "src/constants/messages";
 import DeleteCommentInterface from "src/interfaces/requests/article/comment/deletecomment.interface";
 
@@ -28,9 +27,9 @@ export default class DeleteComment{
                 'token_key': this._token_key,
             }
             await this.deleteCommentPromise(deletecomment_values).then(res => {
-                console.log(res);
+                //console.log(res);
                 response = JSON.parse(res);
-                console.log(response);
+                //console.log(response);
             }).catch(err => {
                 throw err;
             });

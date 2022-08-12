@@ -11,6 +11,8 @@ import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interfa
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
 import AddCommentInterface from 'src/interfaces/requests/article/comment/addcomment.interface';
 import AddComment from 'src/classes/requests/article/comment/addcomment';
+import DeleteCommentInterface from 'src/interfaces/requests/article/comment/deletecomment.interface';
+import DeleteComment from 'src/classes/requests/article/comment/deletecomment';
 
 @Component({
   selector: 'app-comments',
@@ -104,25 +106,26 @@ export class CommentsComponent implements OnInit,AfterViewInit {
       cd.instance.dispose();
       cd.div_dialog.remove();
       document.body.style.overflow = 'auto';
-      console.log(this.userCookie);
-      const delete_data = {
-        'token_key': this.userCookie['token_key'],
-        'comment_id': comment_id
+      //console.log(this.userCookie);
+      let dd_data: DeleteCommentInterface = {
+        comment_id: comment_id,
+        http: this.http,
+        token_key: this.userCookie['token_key'],
+        url: this.deleteComment_url
       };
-      this.deletePromise(delete_data).then(res => {
-        console.log(res);
-        const json: object = JSON.parse(res);
-        if(json['done'] === true){
+      let dd: DeleteComment = new DeleteComment(dd_data);
+      dd.deleteComment().then(obj => {
+        if(obj['done'] === true){
           //delete operation executed
           setTimeout(()=>{
             this.getCommnents();
           },500);
-        }
+        }//if(obj['done'] === true){
         else{
           //Error during comment delete
           let md_data: MessageDialogInterface = {
             title: 'Elimina commento',
-            message: json['msg']
+            message: obj['msg']
           };
           this.dialogMessage(md_data);
         }
@@ -139,21 +142,6 @@ export class CommentsComponent implements OnInit,AfterViewInit {
       cd.instance.dispose();
       cd.div_dialog.remove();
       document.body.style.overflow = 'auto';
-    });
-  }
-
-  //comment delete request
-  private async deletePromise(deleteData: object): Promise<any>{
-    return await new Promise((resolve,reject) => {
-      const headers: HttpHeaders = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      });
-      this.http.post(this.deleteComment_url,deleteData,{headers: headers, responseType: 'text'}).subscribe(res => {
-        resolve(res);
-      },error => {
-        reject(error);
-      })
     });
   }
 
