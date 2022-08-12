@@ -32,7 +32,7 @@ This blog has/will have the following features:
         <li>Comments list</li>
         <li>Add new comment</li>
         <li>*Edit comment</li>
-        <li>*Delete comment</li>
+        <li>Delete comment</li>
       </ul>
     </li>
   </ul>
