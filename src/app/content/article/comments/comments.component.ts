@@ -13,6 +13,8 @@ import AddCommentInterface from 'src/interfaces/requests/article/comment/addcomm
 import AddComment from 'src/classes/requests/article/comment/addcomment';
 import DeleteCommentInterface from 'src/interfaces/requests/article/comment/deletecomment.interface';
 import DeleteComment from 'src/classes/requests/article/comment/deletecomment';
+import GetCommentsInterface from 'src/interfaces/requests/article/comment/getcomments.interface';
+import GetComments from 'src/classes/requests/article/comment/getcomments';
 
 @Component({
   selector: 'app-comments',
@@ -156,25 +158,22 @@ export class CommentsComponent implements OnInit,AfterViewInit {
 
   //Get comments of this article
   getCommnents(): void{
-    let get_url: string = this.getComments_url+'?permalink='+this.permalink;
-    let token_key = localStorage.getItem('token_key');
-    if(token_key !== null){
-      get_url += "&token_key="+token_key;
-    }
-    this.http.get(get_url,{responseType: 'text'}).subscribe(res => {
-      //console.log(res);
-      let json: object = JSON.parse(res);
-      this.done = json['done'] as boolean;
-      this.empty = json['empty'] as boolean;
-      this.error = json['error'] as boolean;
-      this.message = json['msg'] as string;
+    let gc_data: GetCommentsInterface = {
+      http: this.http,
+      permalink: this.permalink as string,
+      token_key: localStorage.getItem('token_key') as string|null,
+      url: this.getComments_url
+    };
+    let gc: GetComments = new GetComments(gc_data);
+    gc.getComments().then(obj => {
+      this.done = obj['done'] as boolean;
+      this.empty = obj['empty'] as boolean;
+      this.error = obj['error'] as boolean;
+      this.message = obj['msg'] as string;
       if(!this.empty)
-        this.comments = json['comments'] as Comment[];
-      /* console.log(this.done);
-      console.log(this.empty); */
-      //onsole.log(this.comments);
-    }, error => {
-      console.warn(error);
+        this.comments = obj['comments'] as Comment[];
+    }).catch(err => {
+      console.warn(err);
       this.error = true;
       this.message = Messages.COMMENTLIST_ERROR;
     });
