@@ -9,6 +9,8 @@ require_once("../../../interfaces/myarticles/createcontroller_errors.php");
 require_once("../../../interfaces/myarticles/createview_errors.php");
 require_once("../../../vendor/autoload.php");
 require_once("../../../traits/error.trait.php");
+require_once("../../../traits/message.trait.php");
+require_once("../../../traits/response.trait.php");
 require_once("../../../classes/model.php");
 require_once("../../../classes/token.php");
 require_once("../../../classes/article/article.php");
