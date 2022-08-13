@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Article } from "src/app/models/article.model";
+import { Messages } from "src/constants/messages";
 import UpdateArticleInterface from "src/interfaces/requests/article/updatearticle.interface";
 
 export default class UpdateArticle{
@@ -27,11 +28,30 @@ export default class UpdateArticle{
                 article: this._article,
                 token_key: this._token_key
             };
-            const headers = new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json');
-            
+            await this.updateArticlePromise(updatearticle_values).then(res => {
+                console.log(res);
+                response = JSON.parse(res);
+                console.log(response);
+            }).catch(err => {
+                throw err;
+            });
         }catch(err){
-
+            response = {
+              done: false,
+              msg: Messages.ARTICLEUPDATE_ERROR  
+            };
         }
         return response;
+    }
+
+    private async updateArticlePromise(updateData: object): Promise<string>{
+        return await new Promise<string>((resolve,reject)=>{
+            const headers = new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json');
+            this._http.put(this._url,updateData,{headers: headers, responseType: 'text'}).subscribe(res => {
+                resolve(res);
+            },error => {
+                reject(error);
+            })
+        });
     }
 }
