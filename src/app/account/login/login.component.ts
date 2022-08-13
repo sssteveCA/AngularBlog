@@ -9,6 +9,7 @@ import { Messages } from 'src/constants/messages';
 import * as constants from '../../../constants/constants';
 import LoginRequestInterface from 'src/interfaces/loginrequest.interface';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import LoginRequest from 'src/classes/requests/loginrequest';
 
 @Component({
   selector: 'app-login',
@@ -47,45 +48,33 @@ export class LoginComponent implements OnInit {
   }
 
   //user try to login with data passed
-  login(data: any): void{
-    let params = new HttpParams({fromObject: data});
-    this.http.post(constants.loginUrl, params, {responseType: 'text'}).subscribe(res => {
-      //console.log(res);
-      try{
-        let rJson = JSON.parse(res);
+  login(data: LoginRequestInterface): void{
+    let login: LoginRequest = new LoginRequest(data);
+    login.login().then(obj => {
+      //console.log(obj);
+      if(obj['done'] && typeof obj['username'] !== 'undefined'){
+        localStorage.setItem("token_key",obj["token_key"]);
+        localStorage.setItem("username",obj["username"]);
+        this.userCookie["token_key"] = localStorage.getItem("token_key");
+        this.userCookie["username"] = localStorage.getItem("username");
+        this.api.changeUserdata(this.userCookie);
+        this.router.navigate([constants.loginRedirect]);
+      }
+      else{
         //console.log(rJson);
-        if(rJson['done'] && typeof rJson['username'] !== 'undefined'){
-          localStorage.setItem("token_key",rJson["token_key"]);
-          localStorage.setItem("username",rJson["username"]);
-          this.userCookie["token_key"] = localStorage.getItem("token_key");
-          this.userCookie["username"] = localStorage.getItem("username");
-          this.api.changeUserdata(this.userCookie);
-          this.router.navigate([constants.loginRedirect]);
-        }
-        else{
-          //console.log(rJson);
-          const md_data: MessageDialogInterface = {
-            title: 'Login',
-            message: rJson['msg']
-          };
-          this.dialogMessage(md_data);
-        }
-      }catch(e){
-        console.warn(e);
         const md_data: MessageDialogInterface = {
           title: 'Login',
-          message: Messages.LOGIN_ERROR
+          message: obj['msg']
         };
         this.dialogMessage(md_data);
       }
-    },error => {
-      console.warn(error);
+    }).catch(err => {
       const md_data: MessageDialogInterface = {
         title: 'Login',
         message: Messages.LOGIN_ERROR
       };
       this.dialogMessage(md_data);
-    });
+    })
   }
 
   dialogMessage(md_data: MessageDialogInterface){
