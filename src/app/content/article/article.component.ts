@@ -2,7 +2,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Article } from 'src/app/models/article.model';
+import { GetArticle } from 'src/classes/requests/article/getarticle';
 import * as constants from 'src/constants/constants';
+import GetArticleInterface from 'src/interfaces/requests/article/getarticle.interface';
 
 @Component({
   selector: 'app-article',
@@ -13,7 +15,7 @@ export class ArticleComponent implements OnInit {
 
   article: string | null;
   //articles: Article = new Array();
-  url: string = constants.articleView;
+  getArticle_url: string = constants.articleView;
 
   constructor(public route: ActivatedRoute, public http: HttpClient, private router: Router) {
     this.route.paramMap.subscribe((params: ParamMap) => {
@@ -24,23 +26,30 @@ export class ArticleComponent implements OnInit {
     });
    }
 
+  ngOnInit(): void {
+    }
+
+
    //get articles list from input query
    getArticle(permalink: string){
-     const options = {responseType: 'string'};
-     this.http.get(this.url+'?permalink='+permalink,{responseType: 'text'}).subscribe(res =>{
-       //console.log(res);
-       let rJson = JSON.parse(res);
-       //console.log(rJson);
-       if(rJson['done'] == true)
-        this.showArticle(rJson['article']);
+    const ga_data: GetArticleInterface = {
+      http: this.http,
+      permalink: permalink,
+      url: this.getArticle_url
+    };
+    let ga: GetArticle = new GetArticle(ga_data);
+    ga.getArticle().then(obj => {
+      if(obj['done'] == true)
+        this.showArticle(obj['article']);
       else{
-          this.router.navigate(['/404']); 
+          //this.router.navigateByUrl(constants.notFoundUrl); 
       }//else{
-     });
+    }).catch(err => {
+      //this.router.navigateByUrl(constants.notFoundUrl);
+    });
    }
 
-  ngOnInit(): void {
-  }
+  
 
   //create HTML content from articles data
   showArticle(data: any){
