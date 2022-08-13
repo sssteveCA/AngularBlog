@@ -11,6 +11,8 @@ require_once("../../../interfaces/myarticles/getcontrollererrors.php");
 require_once("../../../interfaces/myarticles/getviewerrors.php");
 require_once("../../../vendor/autoload.php");
 require_once("../../../traits/error.trait.php");
+require_once("../../../traits/message.trait.php");
+require_once("../../../traits/response.trait.php");
 require_once("../../../classes/model.php");
 require_once("../../../classes/models.php");
 require_once("../../../classes/token.php");

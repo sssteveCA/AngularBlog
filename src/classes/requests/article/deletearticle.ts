@@ -27,9 +27,9 @@ export default class DeleteArticle{
                 token_key: this._token_key
             };
             await this.deleteArticlePromise(deletearticle_values).then(res => {
-                console.log(res);
+                //console.log(res);
                 response = JSON.parse(res);
-                console.log(response);
+                //console.log(response);
             }).catch(err => {
                 throw err;
             });
