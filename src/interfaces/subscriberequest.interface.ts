@@ -6,6 +6,7 @@ export default interface SubscribeRequestInterface{
     http: HttpClient;
     name: string;
     password: string;
+    subscribed: number;
     surname: string;
     url: string;
     username: string;

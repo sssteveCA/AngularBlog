@@ -6,6 +6,8 @@ import * as messages from '../../../messages/messages';
 import MessageDialog from '../../../classes/dialogs/messagedialog';
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import { Messages } from 'src/constants/messages';
+import SubscribeRequestInterface from 'src/interfaces/subscriberequest.interface';
+import SubscribeRequest from 'src/classes/requests/subscriberequest';
 
 @Component({
   selector: 'app-register',
@@ -20,6 +22,7 @@ export class RegisterComponent implements OnInit {
   formGroup: FormGroup;
   showPassword: boolean = false;
   showConf: boolean = false;
+  subscribe_url: string = constants.registerUrl;
 
   constructor(public fb: FormBuilder, public http: HttpClient) {
     this.formGroup = fb.group({
@@ -39,14 +42,16 @@ export class RegisterComponent implements OnInit {
   onSubmit(): void{
     if(this.formGroup.valid){
       //form data are all valid
-      let dati = {
+      let dati: SubscribeRequestInterface = {
+        http: this.http,
         name : this.formGroup.controls['name'].value,
         surname : this.formGroup.controls['surname'].value,
         username : this.formGroup.controls['username'].value,
         email : this.formGroup.controls['email'].value,
         password : this.formGroup.controls['password'].value,
         confPwd : this.formGroup.controls['confPwd'].value,
-        subscribed: 0
+        subscribed: 0,
+        url: this.subscribe_url
       };
       console.log(dati);
       if(dati['password'] == dati['confPwd']){
@@ -95,7 +100,13 @@ export class RegisterComponent implements OnInit {
   }
 
   //if data are correct subscribe to blog
-  subscribe(data: any): void{
+  subscribe(data: SubscribeRequestInterface): void{
+    let subscribe: SubscribeRequest = new SubscribeRequest(data);
+    subscribe.subscribe().then(obj => {
+
+    }).catch(err => {
+
+    });
     let params = new HttpParams({fromObject: data});
     /*Object.keys(data).forEach(function(key){
       //append data from Object to HttpParams
