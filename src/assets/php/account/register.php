@@ -17,20 +17,23 @@ use AngularBlog\Classes\Subscribe\RegistrationView;
 use AngularBlog\Classes\User;
 use AngularBlog\Interfaces\Constants as C;
 
+$input = file_get_contents("php://input");
+$post = json_decode($input,true);
+
 $response = array();
 $response['msg'] = '';
 $response['done'] = false;
 
-if(isset($_POST['name'],$_POST['surname'],$_POST['username'],$_POST['email'],$_POST['password'],$_POST['confPwd'],$_POST['subscribed'])){
-    if(preg_match(User::$regex['password'],$_POST['password'])){
+if(isset($post['name'],$post['surname'],$post['username'],$post['email'],$post['password'],$post['confPwd'],$post['subscribed'])){
+    if(preg_match(User::$regex['password'],$post['password'])){
         try{
             $data = array(
-                'name' => $_POST['name'],
-                'surname' => $_POST['surname'],
-                'username' => $_POST['username'],
-                'email' => $_POST['email'],
-                'password' => $_POST['password'],
-                'subscribed' => $_POST['subscribed'],
+                'name' => $post['name'],
+                'surname' => $post['surname'],
+                'username' => $post['username'],
+                'email' => $post['email'],
+                'password' => $post['password'],
+                'subscribed' => $post['subscribed'],
             );
             $user = new User($data);
             $rc = new RegistrationController($user);
