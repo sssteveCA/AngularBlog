@@ -28,9 +28,9 @@ export default class UpdateArticle{
                 token_key: this._token_key
             };
             await this.updateArticlePromise(updatearticle_values).then(res => {
-                console.log(res);
+                //console.log(res);
                 response = JSON.parse(res);
-                console.log(response);
+                //console.log(response);
             }).catch(err => {
                 throw err;
             });
