@@ -70,6 +70,9 @@ export const myArticlesUrl: string = host+angularPath+phpFolder+"/account/profil
 //url redirect if user not logged try access to poute that need to be authenticated
 export const notLoggedRedirect: string = "/login";
 
+//url redirect if resource not found
+export const notFoundUrl: string = '/404';
+
 //url for get information of the logged account
 export const profileUrl: string = host+angularPath+phpFolder+"/account/profile.php";
 
