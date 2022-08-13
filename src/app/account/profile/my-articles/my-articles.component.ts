@@ -10,6 +10,10 @@ import { Article } from 'src/app/models/article.model';
 import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import { Observable } from 'rxjs';
+import DeleteArticleInterface from 'src/interfaces/requests/article/deletearticle.interface';
+import DeleteArticle from 'src/classes/requests/article/deletearticle';
+import { Messages } from 'src/constants/messages';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-my-articles',
@@ -20,6 +24,8 @@ export class MyArticlesComponent implements OnInit {
 
   userCookie: any = {};
   articles: Article[] = new Array();
+  deleteArticle_url: string = constants.articleDeleteUrl;
+  blog_url: string = constants.homeUrl+constants.blogUrl;
   message: string|null = null;
   done: boolean = false; //True if request has returned article list
 
@@ -37,7 +43,7 @@ export class MyArticlesComponent implements OnInit {
         this.api.removeItems();
         this.userCookie = {};
         this.api.changeUserdata(this.userCookie);
-        this.router.navigate([constants.notLoggedRedirect]);
+        this.router.navigateByUrl(constants.notLoggedRedirect);
       }
       
   }).catch(err => {
@@ -125,16 +131,81 @@ export class MyArticlesComponent implements OnInit {
     });
   }
 
+  public deleteArticle(event): void{
+    //Get the delete button when click occurred
+    let click_button: JQuery = $(event.target);
+    //Get the article id of element in the same div
+    let article_id: string = click_button.siblings('.article_id').val() as string;
+    console.log(this.userCookie);
+    let cd_data: ConfirmDialogInterface = {
+      title: 'Rimuovi articolo',
+      message: messages.deleteArticleConfirm
+    };
+    let cd: ConfirmDialog = new ConfirmDialog(cd_data);
+    cd.bt_yes.addEventListener('click', ()=>{
+      cd.instance.dispose();
+      document.body.removeChild(cd.div_dialog);
+      document.body.style.overflow = 'auto';
+      let da_data: DeleteArticleInterface = {
+        article_id: article_id,
+        http: this.http,
+        token_key: this.userCookie['token_key'],
+        url: this.deleteArticle_url
+      };
+      let da: DeleteArticle = new DeleteArticle(da_data);
+      da.deleteArticle().then(obj => {
+        if(obj['expired'] == true){
+          //Session expired
+          this.api.removeItems();
+          this.userCookie = {};
+          this.api.changeUserdata(this.userCookie);
+        }
+        let md_data: MessageDialogInterface = {
+          title: 'Rimuovi articolo',
+          message: obj['msg']
+        };
+        let md: MessageDialog = new MessageDialog(md_data);
+        md.bt_ok.addEventListener('click',()=>{
+          md.instance.dispose();
+          md.div_dialog.remove();
+          document.body.style.overflow = 'auto';
+          if(obj['done'] == true)
+            this.getArticles();
+        });
+      }).catch(err => {
+        let md_data: MessageDialogInterface = {
+          title: 'Rimuovi articolo',
+          message: Messages.DELETEARTICLE_ERROR
+        };
+        this.dialogMessage(md_data);
+      })
+    });
+    cd.bt_no.addEventListener('click',()=>{
+      cd.instance.dispose();
+      document.body.removeChild(cd.div_dialog);
+      document.body.style.overflow = 'auto';
+    });
+  }
+
+  private dialogMessage(md_data: MessageDialogInterface){
+    let md: MessageDialog = new MessageDialog(md_data);
+    md.bt_ok.addEventListener('click',()=>{
+      md.instance.dispose();
+      md.div_dialog.remove();
+      document.body.style.overflow = 'auto';
+    });
+  }
+
   //Get all user articles
   private getArticles(): void{
     this.http.get(constants.myArticlesUrl+'?token_key='+this.userCookie['token_key'],{responseType: 'text'}).subscribe(res => {
-      //console.log(res);
+      console.log(res);
       let rJson = JSON.parse(res);
       if(rJson['done'] == true){
         this.done = true;
         this.message = null;
         this.articles = rJson['articles'] as Array<Article>;
-        this.insertArticles(this.router);
+        //this.insertArticles(this.router);
       }//if(rJson['done'] == true){
       else{
         this.done = false;
