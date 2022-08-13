@@ -14,6 +14,8 @@ import DeleteArticleInterface from 'src/interfaces/requests/article/deletearticl
 import DeleteArticle from 'src/classes/requests/article/deletearticle';
 import { Messages } from 'src/constants/messages';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import GetArticlesInterface from 'src/interfaces/requests/article/getarticles.interface';
+import GetArticles from 'src/classes/requests/article/getarticles';
 
 @Component({
   selector: 'app-my-articles',
@@ -25,6 +27,7 @@ export class MyArticlesComponent implements OnInit {
   userCookie: any = {};
   articles: Article[] = new Array();
   deleteArticle_url: string = constants.articleDeleteUrl;
+  getArticles_url: string = constants.myArticlesUrl;
   blog_url: string = constants.homeUrl+constants.blogUrl;
   message: string|null = null;
   done: boolean = false; //True if request has returned article list
@@ -198,20 +201,26 @@ export class MyArticlesComponent implements OnInit {
 
   //Get all user articles
   private getArticles(): void{
-    this.http.get(constants.myArticlesUrl+'?token_key='+this.userCookie['token_key'],{responseType: 'text'}).subscribe(res => {
-      console.log(res);
-      let rJson = JSON.parse(res);
-      if(rJson['done'] == true){
+    const ga_data: GetArticlesInterface = {
+      http: this.http,
+      token_key: this.userCookie['token_key'],
+      url: this.getArticles_url
+    };
+    let ga: GetArticles = new GetArticles(ga_data);
+    ga.getArticles().then(obj => {
+      if(obj['done'] == true){
         this.done = true;
         this.message = null;
-        this.articles = rJson['articles'] as Array<Article>;
+        this.articles = obj['articles'] as Array<Article>;
         //this.insertArticles(this.router);
-      }//if(rJson['done'] == true){
+      }//if(obj['done'] == true){
       else{
         this.done = false;
-        this.message = rJson['msg'];
+        this.message = obj['msg'];
       }        
-      //console.log(rJson);
+    }).catch(err => {
+      this.done = false;
+      this.message = Messages.ARTICLESVIEW_ERROR;
     });
   }
 
