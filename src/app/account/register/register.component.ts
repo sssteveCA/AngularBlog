@@ -103,31 +103,13 @@ export class RegisterComponent implements OnInit {
   subscribe(data: SubscribeRequestInterface): void{
     let subscribe: SubscribeRequest = new SubscribeRequest(data);
     subscribe.subscribe().then(obj => {
-
-    }).catch(err => {
-
-    });
-    let params = new HttpParams({fromObject: data});
-    /*Object.keys(data).forEach(function(key){
-      //append data from Object to HttpParams
-      params.append(key,data[key]);
-    });*/
-    console.log(params);
-    this.http.post(constants.registerUrl, params,{responseType: 'text'}).subscribe(res => {
-      //console.log(res);
-      let rJson = JSON.parse(res);
-      const data: MessageDialogInterface = {
+      const md_data: MessageDialogInterface = {
         title: 'Registrazione',
-        message: rJson['msg']
+        message: obj['msg']
       };
-      let md = new MessageDialog(data);
-      md.bt_ok.addEventListener('click',()=>{
-        md.instance.dispose();
-        md.div_dialog.remove();
-      });
-    },error => {
-      console.warn(error);
-      let md_data: MessageDialogInterface = {
+      this.dialogMessage(md_data);
+    }).catch(err => {
+      const md_data: MessageDialogInterface = {
         title: 'Registrazione',
         message: Messages.SUBSCRIBE_ERROR
       };
