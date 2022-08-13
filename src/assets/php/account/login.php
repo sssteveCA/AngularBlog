@@ -24,15 +24,18 @@ use AngularBlog\Classes\Login\LoginView;
 use AngularBlog\Classes\Token;
 use MongoDB\Driver\Exception\BulkWriteException;
 
+$input = file_get_contents("php://input");
+$post = json_decode($input,true);
+
 $response = array();
 $response['done'] = false;
-$response['post'] = $_POST;
+$response['post'] = $post;
 
-if(isset($_POST['username'],$_POST['password']) && $_POST['username'] != '' && $_POST['password'] != ''){
+if(isset($post['username'],$post['password']) && $post['username'] != '' && $post['password'] != ''){
     try{
         $data = [
-            'username' => $_POST['username'],
-            'password' => $_POST['password']
+            'username' => $post['username'],
+            'password' => $post['password']
         ];
         $user = new User($data);
         $loginController = new LoginController($user);

@@ -7,6 +7,8 @@ import MessageDialog from 'src/classes/dialogs/messagedialog';
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import { Messages } from 'src/constants/messages';
 import * as constants from '../../../constants/constants';
+import LoginRequestInterface from 'src/interfaces/loginrequest.interface';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +18,7 @@ import * as constants from '../../../constants/constants';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
+  login_url: string = constants.loginUrl;
   showPassword: boolean = false;
   @ViewChild('password',{static: false}) iPass: ElementRef;
   public userCookie : any = {};
@@ -69,7 +72,7 @@ export class LoginComponent implements OnInit {
         }
       }catch(e){
         console.warn(e);
-        let md_data: MessageDialogInterface = {
+        const md_data: MessageDialogInterface = {
           title: 'Login',
           message: Messages.LOGIN_ERROR
         };
@@ -77,7 +80,7 @@ export class LoginComponent implements OnInit {
       }
     },error => {
       console.warn(error);
-      let md_data: MessageDialogInterface = {
+      const md_data: MessageDialogInterface = {
         title: 'Login',
         message: Messages.LOGIN_ERROR
       };
@@ -98,13 +101,20 @@ export class LoginComponent implements OnInit {
   onSubmit(): void{
     if(this.loginForm.valid){
       //if all inputs are valid
-      let data = {
+      const data: LoginRequestInterface = {
+        http: this.http,
         username: this.loginForm.controls['username'].value,
-        password: this.loginForm.controls['password'].value
+        password: this.loginForm.controls['password'].value,
+        url: this.login_url
       };
       this.login(data);
     }//if(this.loginForm.valid){
     else{
+      const md_data: MessageDialogInterface = {
+        title: 'Login',
+        message: Messages.INVALIDDATA_ERROR
+      };
+      this.dialogMessage(md_data);
     }
     
   }
