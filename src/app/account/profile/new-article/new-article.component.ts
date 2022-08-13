@@ -9,6 +9,9 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import MessageDialog from 'src/classes/dialogs/messagedialog';
+import AddArticleInterface from 'src/interfaces/requests/article/addarticle.interface';
+import AddArticle from 'src/classes/requests/article/addarticle';
+import { Messages } from 'src/constants/messages';
 
 @Component({
   selector: 'app-new-article',
@@ -17,6 +20,7 @@ import MessageDialog from 'src/classes/dialogs/messagedialog';
 })
 export class NewArticleComponent implements OnInit {
 
+  addArticle_url: string = constants.articleCreateUrl;
   article: Article = new Article();
   form: FormGroup;
   userCookie: any = {};
@@ -68,44 +72,45 @@ export class NewArticleComponent implements OnInit {
       article: this.article
     }
     if(this.form.valid){
-      //All form input fields validated
-      const headers = new HttpHeaders().set('Content-Type','application/json').set('Accept','application/json');
-      this.http.post(constants.articleCreateUrl,data,{headers: headers,responseType: 'text'}).subscribe(res => {
-        //Send data in JSON format
-        console.log("Create.php response => ");
-        console.log(res);
-        let rJson = JSON.parse(res);
-        if(rJson['expired'] == true){
+      const aa_data: AddArticleInterface = {
+        article: this.article,
+        http: this.http,
+        token_key: this.userCookie['token_key'],
+        url: this.addArticle_url
+      };
+      let aa: AddArticle = new AddArticle(aa_data);
+      aa.createArticle().then(obj => {
+        if(obj['expired'] == true){
           //session expired
           this.api.removeItems();
           this.userCookie = {};
           this.api.changeUserdata(this.userCookie);
           //this.router.navigateByUrl(constants.notLoggedRedirect);
         }
-        const data: MessageDialogInterface = {
+        const md_data: MessageDialogInterface = {
           title: 'Creazione articolo',
-          message: rJson['msg']
+          message: obj['msg']
         };
-        let md = new MessageDialog(data);
+        let md = new MessageDialog(md_data);
         md.bt_ok.addEventListener('click',()=>{
           md.instance.dispose();
           md.div_dialog.remove();
           document.body.style.overflow = 'auto';
         });
-        
-      },error => {
-        console.warn(error);
+      }).catch(err => {
+        const md_data: MessageDialogInterface = {
+          title: 'Creazione articolo',
+          message: Messages.ARTICLENEW_ERROR
+        };
+        let md = new MessageDialog(md_data);
+        md.bt_ok.addEventListener('click',()=>{
+          md.instance.dispose();
+          md.div_dialog.remove();
+          document.body.style.overflow = 'auto';
+        });
       });
     }
     else{
-      /* let invalid = [];
-      const controls = this.form.controls;
-      for(const name in controls){
-        if(controls[name].invalid){
-          invalid.push(name);
-        }
-      } 
-      console.log(invalid);*/
       const data: MessageDialogInterface = {
         title: 'Creazione articolo',
         message: messages.invalidData
