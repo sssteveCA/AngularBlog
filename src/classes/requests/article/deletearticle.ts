@@ -23,7 +23,7 @@ export default class DeleteArticle{
         let response: object = {};
         try{
             let deletearticle_values: object = {
-                article: this._article_id,
+                article_id: this._article_id,
                 token_key: this._token_key
             };
             await this.deleteArticlePromise(deletearticle_values).then(res => {
