@@ -16,7 +16,6 @@ export class GetArticle{
     }
 
     get full_url(){return this._full_url;}
-    get http(){return this._http;}
     get permalink(){return this._permalink;}
     get url(){return this._url;}
 

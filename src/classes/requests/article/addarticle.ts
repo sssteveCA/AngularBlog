@@ -17,7 +17,6 @@ export default class AddArticle{
     }
 
     get article(){return this._article;}
-    get http(){return this._http;}
     get token_key(){return this._token_key;}
     get url(){return this._url;}
 
