@@ -11,6 +11,9 @@ import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
 import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import MessageDialog from 'src/classes/dialogs/messagedialog';
+import UpdateArticleInterface from 'src/interfaces/requests/article/updatearticle.interface';
+import UpdateArticle from 'src/classes/requests/article/updatearticle';
+import { Messages } from 'src/constants/messages';
 
 @Component({
   selector: 'app-edit-article',
@@ -23,6 +26,7 @@ export class EditArticleComponent implements OnInit {
   form: FormGroup;
   authorized: boolean = false; //true if user can edit the founded article
   message: string = "";
+  updateArticle_url: string = constants.articleEditScriptUrl;
   userCookie: any = {};
 
   constructor(
@@ -117,10 +121,15 @@ export class EditArticleComponent implements OnInit {
       this.article.permalink = this.form.controls['permalink'].value;
       this.article.categories = this.form.controls['categories'].value;
       this.article.tags = this.form.controls['tags'].value;
-      this.editPromise(this.article).then(res => {
-        console.log(res);
-        let rJson = JSON.parse(res);
-        if(rJson['expired'] == true){
+      const ua_data: UpdateArticleInterface = {
+        article: this.article,
+        http: this.http,
+        token_key: this.userCookie['token_key'],
+        url: this.updateArticle_url
+      };
+      let ua: UpdateArticle = new UpdateArticle(ua_data);
+      ua.updateArticle().then(obj => {
+        if(obj['expired'] == true){
           //Session expired
           this.api.removeItems();
           this.userCookie = {};
@@ -128,7 +137,7 @@ export class EditArticleComponent implements OnInit {
         }
         const data: MessageDialogInterface = {
           title: 'Modifica articolo',
-          message: rJson['msg']
+          message: obj['msg']
         };
         let cd = new MessageDialog(data);
         cd.bt_ok.addEventListener('click', ()=>{
@@ -137,31 +146,21 @@ export class EditArticleComponent implements OnInit {
           document.body.style.overflow = 'auto';
         }); 
       }).catch(err => {
-        console.warn(err);
+        const data: MessageDialogInterface = {
+          title: 'Modifica articolo',
+          message: Messages.ARTICLEUPDATE_ERROR
+        };
+        let cd = new MessageDialog(data);
+        cd.bt_ok.addEventListener('click', ()=>{
+          cd.instance.dispose();
+          cd.div_dialog.remove();
+          document.body.style.overflow = 'auto';
+        }); 
       });
     });
     cd.bt_no.addEventListener('click',()=>{
       cd.instance.dispose();
       document.body.removeChild(cd.div_dialog);
-    });
-  }
-
-  //Edit article HTTP request
-  async editPromise(article: Article): Promise<any>{
-    return await new Promise((resolve,reject)=>{
-      const data = {
-        token_key: this.userCookie['token_key'],
-        article: article
-      };
-      const headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      });
-      this.http.put(constants.articleEditScriptUrl,data,{headers: headers,responseType: 'text'}).subscribe(res =>{
-        resolve(res);
-      },error => {
-        reject(error);
-      })
     });
   }
 

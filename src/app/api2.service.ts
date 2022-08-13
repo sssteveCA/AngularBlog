@@ -31,8 +31,8 @@ export class Api2Service {
       'Content-Type': 'application/json'
     });
     await this.isAuthorizedArticlePromise(url,data,headers).then(res => {
-      console.log("Api2Service isAuthorizedArticlePromise => ");
-      console.log(res);
+      /* console.log("Api2Service isAuthorizedArticlePromise => ");
+      console.log(res); */
       let rJson = JSON.parse(res as string);
       if(rJson['authorized'] == true){
         authStatus['authorized'] = true;
