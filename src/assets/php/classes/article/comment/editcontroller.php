@@ -81,7 +81,6 @@ class EditController implements Ece{
 
     //Update comment information
     private function edit_comment(): bool{
-        file_put_contents(EditController::$logFile,"Edit Controller edit Comment\r\n",FILE_APPEND);
         $edited = false;
         $this->errno = 0;
         $comment_id = $this->comment->getId();

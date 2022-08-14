@@ -248,14 +248,20 @@ export class CommentsComponent implements OnInit,AfterViewInit {
       let ec: UpdateComment = new UpdateComment(uc_data);
       ec.updateComment().then(obj => {
         if(obj['done'] == true){
-
+          text_div.html('<div>'+obj['comment']+'</div>');
         }
         else{
           let md_data: MessageDialogInterface = {
             title: 'Modifica commento',
             message: obj['msg']
           }
-          this.dialogMessage(md_data);
+          let md: MessageDialog = new MessageDialog(md_data);
+          md.bt_ok.addEventListener('click', ()=>{
+            md.instance.dispose();
+            md.div_dialog.remove();
+            document.body.style.overflow = 'auto';
+            text_div.html('<div>'+this.oldComment_str+'</div>');
+          });
         }
       }).catch(err => {
         const md_data: MessageDialogInterface = {

@@ -89,12 +89,15 @@ abstract class Model implements Me{
         $updateOne = $this->collection->updateOne($filter,$data,$options);
         $matched = $updateOne->getMatchedCount();
         $updated = $updateOne->getModifiedCount();
-        file_put_contents(Model::$logFile,var_export($filter,true)."\r\n",FILE_APPEND);
+        /* file_put_contents(Model::$logFile,var_export($filter,true)."\r\n",FILE_APPEND);
         file_put_contents(Model::$logFile,var_export($data,true)."\r\n",FILE_APPEND);
         file_put_contents(Model::$logFile,"Matched => {$matched}\r\n",FILE_APPEND);
-        file_put_contents(Model::$logFile,"Updated => {$updated}\r\n",FILE_APPEND);
+        file_put_contents(Model::$logFile,"Updated => {$updated}\r\n",FILE_APPEND); */
         $upserted = $updateOne->getUpsertedCount();
-        if(!($matched > 0 && $updated > 0) || $upserted <= 0)$this->errno = Me::NOTUPDATED;
+        //file_put_contents(Model::$logFile,"Model update Updserted => {$upserted}\r\n",FILE_APPEND);
+        if(!($matched > 0 && $updated > 0)){
+            if($upserted <= 0)$this->errno = Me::NOTUPDATED;
+        }
         return $updateOne;
     }
 
