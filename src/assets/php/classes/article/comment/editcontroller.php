@@ -21,7 +21,26 @@ class EditController implements Ece{
 
     public function __construct(array $data)
     {
-        
+        $this->checkValues($data);
+        $this->comment = $data['comment'];
+        $this->token = $data['token'];
+    }
+
+    public function getComment(){return $this->comment;}
+    public function getToken(){return $this->token;}
+    public function getError(){
+        switch($this->errno){
+            case Ece::FROM_COMMENTAUTHORIZEDCONTROLLER:
+                $this->error = Ece::FROM_COMMENTAUTHORIZEDCONTROLLER_MSG;
+                break;
+            case Ece::COMMENTNOTUPDATED:
+                $this->error = Ece::COMMENTNOTUPDATED_MSG;
+                break;
+            default:
+                $this->error = null;
+                break;
+        }
+        return $this->error;
     }
 
     //Check if array provided has valid values
@@ -30,6 +49,24 @@ class EditController implements Ece{
         if(!isset($data['token']))throw new \Exception(Ece::NOTOKENINSTANCE_EXC);
         if(!$data['comment'] instanceof Comment)throw new \Exception(Ece::INVALIDCOMMENTTYPE_EXC);
         if(!$data['token'] instanceof Token)throw new \Exception(Ece::INVALIDTOKENTYPE_EXC);
+    }
+
+    //Check if user is authorized to edit the article
+    private function checkAuthorization(): bool{
+        $authorized = false;
+        $this->errno = 0;
+        $this->cac_comment = clone $this->comment;
+        $this->cac = new CommentAuthorizedController([
+            'comment' => $this->cac_comment,
+            'token' => $this->token
+        ]);
+        $cacErrno = $this->cac->getErrno();
+        if($cacErrno == 0){
+            $authorized = true;
+        }
+        else
+            $this->errno = Ece::FROM_COMMENTAUTHORIZEDCONTROLLER;
+        return $authorized;
     }
 }
 
