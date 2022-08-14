@@ -9,11 +9,13 @@ use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Traits\ResponseTrait;
 use AngularBlog\Interfaces\Article\Comment\EditControllerErrors as Ece;
 use AngularBlog\Classes\Article\Comment\CommentAuthorizedController;
+use AngularBlog\Classes\Myarticles\EditContoller;
+use MongoDB\BSON\ObjectId;
 
 class EditController implements Ece{
     use ErrorTrait, ResponseTrait;
 
-    private ?Comment $article;
+    private ?Comment $comment;
     private ?Comment $cac_comment; //Comment used by CommentAuthorizationController class
     private ?CommentAuthorizedController $aac;
     private ?Token $token;
@@ -24,6 +26,10 @@ class EditController implements Ece{
         $this->checkValues($data);
         $this->comment = $data['comment'];
         $this->token = $data['token'];
+        $auth = $this->checkAuthorization();
+        if($auth){
+
+        }
     }
 
     public function getComment(){return $this->comment;}
@@ -51,7 +57,7 @@ class EditController implements Ece{
         if(!$data['token'] instanceof Token)throw new \Exception(Ece::INVALIDTOKENTYPE_EXC);
     }
 
-    //Check if user is authorized to edit the article
+    //Check if user is authorized to edit the comment
     private function checkAuthorization(): bool{
         $authorized = false;
         $this->errno = 0;
@@ -67,6 +73,24 @@ class EditController implements Ece{
         else
             $this->errno = Ece::FROM_COMMENTAUTHORIZEDCONTROLLER;
         return $authorized;
+    }
+
+    //Update comment information
+    private function edit_comment(): bool{
+        file_put_contents(EditController::$logFile,"Edit Controller edit Comment\r\n",FILE_APPEND);
+        $edited = false;
+        $this->errno = 0;
+        $comment_id = $this->comment->getId();
+        $filter = ['_id' => new ObjectId($comment_id)];
+        $values = ['$set' => [
+            
+        ]];
+        $comment_edit = $this->comment->comment_update($filter,$values);
+        if($comment_edit)
+            $edited = true;
+        else
+            $this->errno = Ece::COMMENTNOTUPDATED;
+        return $edited;
     }
 }
 

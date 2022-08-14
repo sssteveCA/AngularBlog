@@ -94,7 +94,7 @@ abstract class Model implements Me{
         file_put_contents(Model::$logFile,"Matched => {$matched}\r\n",FILE_APPEND);
         file_put_contents(Model::$logFile,"Updated => {$updated}\r\n",FILE_APPEND);
         $upserted = $updateOne->getUpsertedCount();
-        if(!($matched > 0 && $updated > 0) || $upserted > 0)$this->errno = Me::NOTUPDATED;
+        if(!($matched > 0 && $updated > 0) || $upserted <= 0)$this->errno = Me::NOTUPDATED;
         return $updateOne;
     }
 
