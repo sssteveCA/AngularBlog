@@ -31,7 +31,7 @@ This blog has/will have the following features:
       <ul>
         <li>Comments list</li>
         <li>Add new comment</li>
-        <li>*Edit comment</li>
+        <li>Edit comment</li>
         <li>Delete comment</li>
       </ul>
     </li>
@@ -42,14 +42,7 @@ This blog has/will have the following features:
 *These features are not added yet
 </div>
 <br>
-<div>
-  You need the following softwares to run this app:
-  <ul>
-    <li><a href="https://angular.io/">Angular</a></li>
-    <li>A web server with PHP integration</li>
-    <li><a href="https://github.com/mongodb/mongo-php-library">MongoDB PHP library</a></li>
-  </ul>
-</div>
+
 
 
 
