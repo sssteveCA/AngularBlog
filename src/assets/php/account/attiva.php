@@ -9,6 +9,8 @@ require_once('../interfaces/subscribe/verifycontroller_errors.php');
 require_once('../interfaces/subscribe/verifyview_errors.php');
 require_once('../vendor/autoload.php');
 require_once("../traits/error.trait.php");
+require_once("../traits/message.trait.php");
+require_once("../traits/response.trait.php");
 require_once('../classes/model.php');
 require_once('../classes/user.php');
 require_once('../classes/subscribe/verifycontroller.php');
@@ -31,10 +33,10 @@ if(isset($_REQUEST['emailVerif']) && $_REQUEST['emailVerif'] != ''){
             $user = new User($data);
             $vc = new VerifyController($user);
             $vv = new VerifyView($vc);
-            $msg = $vv->getMessage();
+            $response['msg'] = $vv->getMessage();
             file_put_contents(C::FILE_LOG,"Msg => \r\n",FILE_APPEND);
-            file_put_contents(C::FILE_LOG,$msg."\r\n",FILE_APPEND);
-            switch($msg){
+            file_put_contents(C::FILE_LOG,$response['msg']."\r\n",FILE_APPEND);
+            switch($response['msg']){
                 case C::ACTIVATION_OK:
                     $response['status'] = 1;
                     break;

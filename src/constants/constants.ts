@@ -81,3 +81,6 @@ export const registerUrl: string = host+angularPath+phpFolder+"/account/register
 
 //php script for articles search
 export const searchArticles: string = host+angularPath+phpFolder+"/article/search_articles.php";
+
+//pop script for comment update
+export const commentUpdate: string = host+angularPath+phpFolder+"/article/comment/edit.php";

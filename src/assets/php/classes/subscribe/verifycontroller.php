@@ -7,13 +7,13 @@ use AngularBlog\Interfaces\ModelErrors as Me;
 use AngularBlog\Interfaces\Subscribe\VerifyControllerErrors as Vce;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Traits\ErrorTrait;
+use AngularBlog\Traits\ResponseTrait;
 
 class VerifyController implements Vce,Me,C{
 
-    use ErrorTrait;
+    use ErrorTrait, ResponseTrait;
 
     private ?User $user;
-    private string $response = "";
     private static string $logFile = C::FILE_LOG;
 
     public function __construct(?User $user)
@@ -25,7 +25,6 @@ class VerifyController implements Vce,Me,C{
         file_put_contents(VerifyController::$logFile,"Response in constructor => ".var_export($this->response,true)."\r\n",FILE_APPEND);
     }
 
-    public function getResponse(){return $this->response;}
     public function getError(){
         switch($this->error){
             default:
@@ -54,8 +53,9 @@ class VerifyController implements Vce,Me,C{
                     ['subscribed' => false]]
             ];
             $updateSet = [
-                '$set' => ['emailVerif' => null, 'last_modified' => $lastMod,'subscribed' => true] 
+                '$set' => ['emailVerif' => null,'last_modified' => $lastMod,'subscribed' => true]
              ];
+             file_put_contents(VerifyController::$logFile,"updateSet => ".var_export($updateSet,true)."\r\n",FILE_APPEND);
              $update = $this->user->user_update($updateFilter,$updateSet);
              if($update){
                 file_put_contents(VerifyController::$logFile,"Update true\r\n",FILE_APPEND);

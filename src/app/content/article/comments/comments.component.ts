@@ -15,6 +15,7 @@ import DeleteCommentInterface from 'src/interfaces/requests/article/comment/dele
 import DeleteComment from 'src/classes/requests/article/comment/deletecomment';
 import GetCommentsInterface from 'src/interfaces/requests/article/comment/getcomments.interface';
 import GetComments from 'src/classes/requests/article/comment/getcomments';
+import UpdateCommentInterface from 'src/interfaces/requests/article/comment/updatecomment.interface';
 
 @Component({
   selector: 'app-comments',
@@ -27,6 +28,7 @@ export class CommentsComponent implements OnInit,AfterViewInit {
   addComment_url: string = constants.createComment;
   deleteComment_url: string = constants.deleteComment;
   getComments_url: string = constants.articleComments;
+  updateComment_url: string = constants.commentUpdate;
 
    done: boolean;
    error: boolean;
@@ -34,6 +36,7 @@ export class CommentsComponent implements OnInit,AfterViewInit {
    comments: Comment[];
    message: string;
    newComment: FormControl = new FormControl('',Validators.required);
+   oldComment_str: string;
    logged: boolean;
    userCookie: any = {};
 
@@ -221,15 +224,25 @@ export class CommentsComponent implements OnInit,AfterViewInit {
     let comment_div: JQuery = link.parents('.comment');
     let text_div: JQuery = comment_div.find('.text');
     let textarea_inside: boolean = text_div.find('textarea').length > 0 ? true : false;
-    console.log(textarea_inside);
+    //console.log(textarea_inside);
     if(textarea_inside == false){
       //If element is a div turn into a textarea
       let comment_text: string = text_div.children('div').html() as string;
+      this.oldComment_str = comment_text;
       text_div.html('<div><textarea style="resize: vertical; width: 100%;">'+comment_text+'</textarea></div>');
     }
     else{
       //If element is not a div turn it into  a div
       let new_comment_val: string = text_div.find('textarea').val() as string;
+      const ec_data: UpdateCommentInterface = {
+        comment_id: comment_id,
+        http: this.http,
+        new_comment: new_comment_val,
+        old_comment: this.oldComment_str,
+        token_key: this.userCookie['token_key'],
+        url: this.updateComment_url
+      };
+      console.log(ec_data);
       text_div.html('<div>'+new_comment_val+'</div>');
     }
   } 
