@@ -11,6 +11,8 @@ use AngularBlog\Interfaces\Article\Comment\EditControllerErrors as Ece;
 use AngularBlog\Classes\Article\Comment\CommentAuthorizedController;
 use AngularBlog\Classes\Myarticles\EditContoller;
 use MongoDB\BSON\ObjectId;
+use AngularBlog\Interfaces\TokenErrors as Te;
+use AngularBlog\Interfaces\Article\Comment\CommentAuthorizedControllerErrors as Cace;
 
 class EditController implements Ece{
     use ErrorTrait, ResponseTrait;
@@ -28,8 +30,10 @@ class EditController implements Ece{
         $this->token = $data['token'];
         $auth = $this->checkAuthorization();
         if($auth){
-
+            $this->edit_comment();
         }
+        $this->setResponse();
+
     }
 
     public function getComment(){return $this->comment;}
@@ -83,7 +87,7 @@ class EditController implements Ece{
         $comment_id = $this->comment->getId();
         $filter = ['_id' => new ObjectId($comment_id)];
         $values = ['$set' => [
-            
+            'comment' => $this->comment->getComment()
         ]];
         $comment_edit = $this->comment->comment_update($filter,$values);
         if($comment_edit)
@@ -91,6 +95,42 @@ class EditController implements Ece{
         else
             $this->errno = Ece::COMMENTNOTUPDATED;
         return $edited;
+    }
+
+    //Set the response to send to the view
+    private function setResponse(){
+        switch($this->errno){
+            case 0:
+                $this->response = "OK";
+                break;
+            case Ece::FROM_COMMENTAUTHORIZEDCONTROLLER:
+                $aacErrno = $this->aac->getErrno();
+                switch($aacErrno){
+                    case Cace::FROM_TOKEN:
+                        $errnoT = $this->token->getErrno();
+                        switch($errnoT){
+                            case Te::TOKENEXPIRED:
+                                $this->response = Te::TOKENEXPIRED_MSG;
+                                break;
+                            default:
+                                $this->response = C::COMMENTUPDATE_ERROR;
+                                break;
+                        }
+                        break;
+                    case Cace::TOKEN_NOTFOUND:
+                    case Cace::FORBIDDEN:
+                        $this->response = Cace::FORBIDDEN_MSG;
+                        break;
+                    default:
+                        $this->response = C::COMMENTUPDATE_ERROR;
+                        break;
+                }//switch($aacErrno){
+                break;
+            case Ece::COMMENTNOTUPDATED:
+            default:
+                $this->response = C::COMMENTUPDATE_ERROR;
+                break;
+        }
     }
 }
 

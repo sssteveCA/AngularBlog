@@ -35,7 +35,8 @@ $response = [
 if(isset($patch['comment_id'],$patch['new_comment'],$patch['old_comment'],$patch['token_key']) && $patch['comment_id'] != '' && $patch['new_comment'] != '' && $patch['old_comment'] != '' && $patch['token_key'] != ''){
     $token_data = ['token_key' => $patch['token_key']];
     $comment_data = [
-        'id' => $patch['comment_id']
+        'id' => $patch['comment_id'],
+        'comment' => $patch['new_comment']
     ];
     try{
         $token = new Token($token_data);
