@@ -58,10 +58,10 @@ class VerifyController implements Vce,Me,C{
                     'last_modified' => $lastMod,
                     'subscribed' => true
             ]];
-             file_put_contents(VerifyController::$logFile,"updateSet => ".var_export($updateSet,true)."\r\n",FILE_APPEND);
+             //file_put_contents(VerifyController::$logFile,"updateSet => ".var_export($updateSet,true)."\r\n",FILE_APPEND);
              $update = $this->user->user_update($updateFilter,$updateSet);
              if($update){
-                file_put_contents(VerifyController::$logFile,"Update true\r\n",FILE_APPEND);
+                //file_put_contents(VerifyController::$logFile,"Update true\r\n",FILE_APPEND);
                  $ok = true;
              }
              else $this->errno = Vce::FROMUSER;

@@ -49,7 +49,7 @@ if(isset($_REQUEST['emailVerif']) && $_REQUEST['emailVerif'] != ''){
             }
         }
         catch(Exception $e){
-            file_put_contents(C::FILE_LOG,$e->getMessage()."\r\n",FILE_APPEND);
+            file_put_contents(C::FILE_LOG,$e."\r\n",FILE_APPEND);
             $response['status'] = -2;
         }
     }//if(preg_match(User::$regex['emailVerif'],$_REQUEST['emailVerif'])){

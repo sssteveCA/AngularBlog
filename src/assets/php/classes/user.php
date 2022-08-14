@@ -177,7 +177,7 @@ class User extends Model implements Ue{
     public function user_update(array $filter, array $data): bool{
         $updated = false;
         $this->errno = 0;
-		$data['last_modified'] = date('Y-m-d H:i:s');
+		$data['$set']['last_modified'] = date('Y-m-d H:i:s');
         parent::update($filter,$data);
         if($this->errno == 0)$updated = true;
         return $updated;
