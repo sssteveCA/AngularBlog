@@ -14,7 +14,7 @@
         </div>
         <div class="article-buttons">
             <input type="hidden" class="article_id" name="article_id" value="{{article.id}}">
-            <a class="btn btn-primary btn_edit" role="button">MODIFICA</a>
+            <a class="btn btn-primary btn_edit" role="button" [routerLink]="[editArticle_url, article.id]">MODIFICA</a>
             <a class="btn btn-danger btn_delete" role="button" (click)="$event.preventDefault();deleteArticle($event)">ELIMINA</a>
         </div>
     </div>

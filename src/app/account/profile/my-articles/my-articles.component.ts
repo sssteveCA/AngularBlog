@@ -27,6 +27,7 @@ export class MyArticlesComponent implements OnInit {
   userCookie: any = {};
   articles: Article[] = new Array();
   deleteArticle_url: string = constants.articleDeleteUrl;
+  editArticle_url: string = constants.articleEditUrl;
   getArticles_url: string = constants.myArticlesUrl;
   blog_url: string = constants.homeUrl+constants.blogUrl;
   message: string|null = null;
