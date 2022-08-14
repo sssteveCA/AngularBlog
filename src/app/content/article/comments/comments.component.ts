@@ -16,6 +16,7 @@ import DeleteComment from 'src/classes/requests/article/comment/deletecomment';
 import GetCommentsInterface from 'src/interfaces/requests/article/comment/getcomments.interface';
 import GetComments from 'src/classes/requests/article/comment/getcomments';
 import UpdateCommentInterface from 'src/interfaces/requests/article/comment/updatecomment.interface';
+import UpdateComment from 'src/classes/requests/article/comment/updatecomment';
 
 @Component({
   selector: 'app-comments',
@@ -234,7 +235,7 @@ export class CommentsComponent implements OnInit,AfterViewInit {
     else{
       //If element is not a div turn it into  a div
       let new_comment_val: string = text_div.find('textarea').val() as string;
-      const ec_data: UpdateCommentInterface = {
+      const uc_data: UpdateCommentInterface = {
         comment_id: comment_id,
         http: this.http,
         new_comment: new_comment_val,
@@ -242,7 +243,17 @@ export class CommentsComponent implements OnInit,AfterViewInit {
         token_key: this.userCookie['token_key'],
         url: this.updateComment_url
       };
-      console.log(ec_data);
+      console.log(uc_data);
+      let ec: UpdateComment = new UpdateComment(uc_data);
+      ec.updateComment().then(obj => {
+
+      }).catch(err => {
+        const md_data: MessageDialogInterface = {
+          title: 'Modifica commento',
+          message: Messages.COMMENTUPDATE_ERROR
+        };
+        this.dialogMessage(md_data);
+      });
       text_div.html('<div>'+new_comment_val+'</div>');
     }
   } 
