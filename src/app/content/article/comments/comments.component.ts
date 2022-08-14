@@ -17,6 +17,7 @@ import GetCommentsInterface from 'src/interfaces/requests/article/comment/getcom
 import GetComments from 'src/classes/requests/article/comment/getcomments';
 import UpdateCommentInterface from 'src/interfaces/requests/article/comment/updatecomment.interface';
 import UpdateComment from 'src/classes/requests/article/comment/updatecomment';
+import { IfStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-comments',
@@ -246,15 +247,30 @@ export class CommentsComponent implements OnInit,AfterViewInit {
       console.log(uc_data);
       let ec: UpdateComment = new UpdateComment(uc_data);
       ec.updateComment().then(obj => {
+        if(obj['done'] == true){
 
+        }
+        else{
+          let md_data: MessageDialogInterface = {
+            title: 'Modifica commento',
+            message: obj['msg']
+          }
+          this.dialogMessage(md_data);
+        }
       }).catch(err => {
         const md_data: MessageDialogInterface = {
           title: 'Modifica commento',
           message: Messages.COMMENTUPDATE_ERROR
         };
-        this.dialogMessage(md_data);
+        let md: MessageDialog = new MessageDialog(md_data);
+        md.bt_ok.addEventListener('click', ()=>{
+          md.instance.dispose();
+          md.div_dialog.remove();
+          document.body.style.overflow = 'auto';
+          text_div.html('<div>'+this.oldComment_str+'</div>')
+        });
       });
-      text_div.html('<div>'+new_comment_val+'</div>');
+      //text_div.html('<div>'+new_comment_val+'</div>');
     }
   } 
 }

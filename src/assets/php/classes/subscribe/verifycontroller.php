@@ -53,8 +53,11 @@ class VerifyController implements Vce,Me,C{
                     ['subscribed' => false]]
             ];
             $updateSet = [
-                '$set' => ['emailVerif' => null,'last_modified' => $lastMod,'subscribed' => true]
-             ];
+                '$set' => [
+                    'emailVerif' => null,
+                    'last_modified' => $lastMod,
+                    'subscribed' => true
+            ]];
              file_put_contents(VerifyController::$logFile,"updateSet => ".var_export($updateSet,true)."\r\n",FILE_APPEND);
              $update = $this->user->user_update($updateFilter,$updateSet);
              if($update){

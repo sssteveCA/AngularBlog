@@ -22,6 +22,7 @@ interface Constants{
     const COMMENTCREATION_ERROR = "Errore durante l'inserimento del commento. ".Constants::ADMIN_CONTACT;
     const COMMENTDELETE_ERROR = "Errore durante la cancellazione del commento. ".Constants::ADMIN_CONTACT;
     const COMMENTLIST_ERROR = "Impossibile mostrare i commenti. ".Constants::ADMIN_CONTACT;
+    const COMMENTUPDATE_ERROR = "Errore durante la modifica del commento. ".Constants::ADMIN_CONTACT;
     const INSERTCOMMENT_ERROR = "Inserisci un commento per continuare";
     const COMMENTLIST_EMPTY = "Questo articolo non contiene alcun commento";
 
