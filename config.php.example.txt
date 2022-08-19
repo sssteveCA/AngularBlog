@@ -1,0 +1,17 @@
+config.php example
+
+<?php
+
+namespace AngularBlog;
+
+//Edit this values depending on your environment
+interface Config{
+    //Angular server
+    const ANGULAR_SCHEME = "http";
+    const ANGULAR_HOSTNAME = 'localhost';
+    const ANGULAR_PORT = 4200;
+
+    
+}
+
+?>
