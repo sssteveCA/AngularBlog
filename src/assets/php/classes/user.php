@@ -2,6 +2,7 @@
 
 namespace AngularBlog\Classes;
 
+use AngularBlog\Config as Cf;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\ModelErrors as Me;
 use AngularBlog\Interfaces\UserErrors as Ue;
@@ -40,8 +41,8 @@ class User extends Model implements Ue{
 
     public function __construct(array $data = array())
     {
-        $data['connection_url'] = isset($data['connection_url']) ? $data['connection_url']: C::MONGODB_CONNECTION_STRING;
-        $data['database_name'] = isset($data['database_name']) ? $data['database_name']: C::MONGODB_DATABASE;
+        $data['connection_url'] = isset($data['connection_url']) ? $data['connection_url']: Cf::MONGODB_CONNECTION_STRING;
+        $data['database_name'] = isset($data['database_name']) ? $data['database_name']: Cf::MONGODB_DATABASE;
         $data['collection_name'] = isset($data['collection_name']) ? $data['collection_name']: C::MONGODB_COLLECTION_USERS;
         parent::__construct($data);
         $indexArr = [
