@@ -1,5 +1,7 @@
 <?php
 
+use AngularBlog\Config as Cf;
+
 //database constants
 const HOSTNAME = 'localhost';
 const USERNAME = 'root';
@@ -11,16 +13,19 @@ const TABLE_USERS = 'utentiBlog';
 //error messages
 const UNKNOWN_ERROR = 'Errore sconosciuto';
 
+$angular_hostname = Cf::ANGULAR_HOSTNAME;
+$angular_home_url = Cf::ANGULAR_MAIN_URL;
+
 //account activation link
-$att = "http://localhost:4200/attiva";
+$att = "{$angular_home_url}/attiva";
 
 //cookie
 const COOKIE_NAME = 'username';
 
 //mail headers
 $headers = <<<HEADER
-From: Admin <noreply@localhost.lan>
-Reply-to: <noreply@localhost.lan>
+From: Admin <noreply@{$angular_hostname}.lan>
+Reply-to: <noreply@{$angular_hostname}.lan>
 Content-type: text/html
 MIME-Version: 1.0
 HEADER;
