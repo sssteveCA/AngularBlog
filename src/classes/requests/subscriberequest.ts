@@ -46,7 +46,7 @@ export default class SubscribeRequest{
                 username: this._username
             };
             await this.subscribePromise(subscribe_values).then(res => {
-                console.log(res);
+                //console.log(res);
                 response = JSON.parse(res);
             }).catch(err => {
                 throw err;

@@ -66,7 +66,7 @@ export class NewArticleComponent implements OnInit {
     this.article.permalink = this.form.controls['permalink'].value;
     this.article.categories = this.form.controls['categories'].value;
     this.article.tags = this.form.controls['tags'].value;
-    console.log(this.article);
+    //console.log(this.article);
     const data = {
       token_key: this.userCookie['token_key'],
       article: this.article
@@ -126,12 +126,12 @@ export class NewArticleComponent implements OnInit {
 
   observeFromService(): void{
     this.api.loginChanged.subscribe(logged => {
-      console.log("logged");
-      console.log(logged);
+      /* console.log("logged");
+      console.log(logged); */
     });
     this.api.userChanged.subscribe(userdata => {
-      console.log("userdata");
-      console.log(userdata);
+      /* console.log("userdata");
+      console.log(userdata); */
       this.userCookie['token_key'] = userdata['token_key'];
       this.userCookie['username'] = userdata['username'];
     });

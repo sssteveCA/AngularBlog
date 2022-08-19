@@ -86,7 +86,7 @@ export class MenuComponent implements OnInit {
   observeFromService(): void{
     this.api.loginChanged.subscribe(logged => {
       //console.log("logged");
-      console.log(logged);
+      //console.log(logged);
     });
     this.api.userChanged.subscribe(userdata => {
       /* console.log("userdata");

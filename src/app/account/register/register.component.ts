@@ -53,7 +53,7 @@ export class RegisterComponent implements OnInit {
         subscribed: 0,
         url: this.subscribe_url
       };
-      console.log(dati);
+      //console.log(dati);
       if(dati['password'] == dati['confPwd']){
         this.subscribe(dati);
       }

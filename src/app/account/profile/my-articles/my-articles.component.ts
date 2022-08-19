@@ -16,6 +16,7 @@ import { Messages } from 'src/constants/messages';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import GetArticlesInterface from 'src/interfaces/requests/article/getarticles.interface';
 import GetArticles from 'src/classes/requests/article/getarticles';
+import { Config } from 'config';
 
 @Component({
   selector: 'app-my-articles',
@@ -29,7 +30,7 @@ export class MyArticlesComponent implements OnInit {
   deleteArticle_url: string = constants.articleDeleteUrl;
   editArticle_url: string = constants.articleEditUrl;
   getArticles_url: string = constants.myArticlesUrl;
-  blog_url: string = constants.homeUrl+constants.blogUrl;
+  blog_url: string = Config.ANGULAR_MAIN_URL+constants.blogUrl;
   message: string|null = null;
   done: boolean = false; //True if request has returned article list
 
@@ -63,11 +64,11 @@ export class MyArticlesComponent implements OnInit {
 
   observeFromService(): void{
     this.api.loginChanged.subscribe(logged => {
-      console.log("logged");
+      //console.log("logged");
       //console.log(logged);
     });
     this.api.userChanged.subscribe(userdata => {
-      console.log("userdata");
+      //console.log("userdata");
       //console.log(userdata);
       this.userCookie['token_key'] = userdata['token_key'];
       this.userCookie['username'] = userdata['username'];

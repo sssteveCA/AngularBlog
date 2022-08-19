@@ -202,7 +202,7 @@ export class CommentsComponent implements OnInit,AfterViewInit {
     //console.log("observeFormService logged => "+this.logged);
     this.api.loginChanged.subscribe(logged => {
       //console.log("logged");
-      console.log(logged);
+      //console.log(logged);
     });
     this.api.userChanged.subscribe(userdata => {
       /* console.log("userdata");
@@ -244,7 +244,7 @@ export class CommentsComponent implements OnInit,AfterViewInit {
         token_key: this.userCookie['token_key'],
         url: this.updateComment_url
       };
-      console.log(uc_data);
+      //console.log(uc_data);
       let ec: UpdateComment = new UpdateComment(uc_data);
       ec.updateComment().then(obj => {
         if(obj['done'] == true){

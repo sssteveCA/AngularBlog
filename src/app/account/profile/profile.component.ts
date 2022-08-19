@@ -21,8 +21,8 @@ export class ProfileComponent implements OnInit {
           this.userCookie['username'] = localStorage.getItem("username");
           this.api.changeUserdata(this.userCookie);
           this.http.get(constants.profileUrl,{responseType: 'text'}).subscribe(res => {
-            console.log("Profile component profileUrl request");
-            console.log(res);
+            /* console.log("Profile component profileUrl request");
+            console.log(res); */
             let rJson = JSON.parse(res);
           });
         }
@@ -50,12 +50,12 @@ export class ProfileComponent implements OnInit {
 
   observeFromService(): void{
     this.api.loginChanged.subscribe(logged => {
-      console.log("logged");
-      console.log(logged);
+      /* console.log("logged");
+      console.log(logged); */
     });
     this.api.userChanged.subscribe(userdata => {
-      console.log("userdata");
-      console.log(userdata);
+      /* console.log("userdata");
+      console.log(userdata); */
       this.userCookie['token_key'] = userdata['token_key'];
       this.userCookie['username'] = userdata['username'];
     });
