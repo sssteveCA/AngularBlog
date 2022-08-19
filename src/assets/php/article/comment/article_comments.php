@@ -3,6 +3,7 @@
 //List of comments of single article
 
 require_once("../../cors.php");
+require_once("../../../../../config.php");
 require_once("../../config.php");
 require_once("../../interfaces/constants.php");
 require_once("../../interfaces/models_errors.php");

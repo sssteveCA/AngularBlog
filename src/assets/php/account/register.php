@@ -1,5 +1,6 @@
 <?php
 require_once('../cors.php');
+require_once("../../../../config.php");
 require_once('../interfaces/constants.php');
 require_once('../interfaces/model_errors.php');
 require_once('../interfaces/user_errors.php');
