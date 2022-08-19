@@ -12,6 +12,9 @@ interface Config{
     const ANGULAR_PORT = 4200;
     const ANGULAR_MAIN_URL = Config::ANGULAR_SCHEME."://".Config::ANGULAR_HOSTNAME.":".Config::ANGULAR_PORT;
 
+    //MongoDB
+    const MONGODB_CONNECTION_STRING = "mongodb://localhost:27017";
+    const MONGODB_DATABASE = 'AngularBlog';
 }
 
 ?>
