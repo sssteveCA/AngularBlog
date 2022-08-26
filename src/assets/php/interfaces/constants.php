@@ -52,12 +52,12 @@ interface Constants{
     const LOGOUT_ERROR_USERNOTFOUND = "Impossibile completare il logout perché la chiave passata non è valida";
 
     //MongoDB
-    const MONGODB_CONNECTION_STRING = "mongodb://localhost:27017";
-    const MONGODB_DATABASE = 'AngularBlog';
-    const MONGODB_COLLECTION_ARTICLES = 'articles';
-    const MONGODB_COLLECTION_COMMENTS = 'comments';
-    const MONGODB_COLLECTION_TOKENS = 'tokens';
-    const MONGODB_COLLECTION_USERS = 'users';
+    const MONGODB_CONNECTION_STRING = Cf::MONGODB_CONNECTION_STRING;
+    const MONGODB_DATABASE = Cf::MONGODB_DATABASE;
+    const MONGODB_COLLECTION_ARTICLES = Cf::MONGODB_COLLECTION_ARTICLES;
+    const MONGODB_COLLECTION_COMMENTS = Cf::MONGODB_COLLECTION_COMMENTS;
+    const MONGODB_COLLECTION_TOKENS = Cf::MONGODB_COLLECTION_TOKENS;
+    const MONGODB_COLLECTION_USERS = Cf::MONGODB_COLLECTION_USERS;
 
     //Registration
     const REG_ERROR = "Errore durante la registrazione dell' account. ".Constants::ADMIN_CONTACT;

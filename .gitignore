@@ -49,6 +49,3 @@ Thumbs.db
 **/vendor/**
 *.txt
 
-config.php
-!config.php.example.txt
-
