@@ -20,7 +20,7 @@ export class IndexComponent implements OnInit {
 
   passVariablesObserver(): void{
     this.pvs.textContainer$.subscribe(tc_class => {
-      console.log(`index component ${tc_class}`);
+      //console.log(`index component ${tc_class}`);
       this.text_container = tc_class;
     });
   }
