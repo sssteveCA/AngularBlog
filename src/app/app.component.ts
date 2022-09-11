@@ -15,6 +15,11 @@ export class AppComponent {
   path : string;
 
   constructor(private router: Router, private api: ApiService, private pvs: PassvariablesService){
+    this.pvs.textComponent$.subscribe(tc_class => {
+      console.log("tc_class => "+tc_class);
+    });
+    this.pvs.textComponentChange(this.text_container);
+    this.passVariables();
     //console.log(this.router);
     this.router.events.subscribe((event) => {
       //console.log(event);
@@ -38,8 +43,6 @@ export class AppComponent {
    * Pass the variables from this component to children components
    */
   passVariables(): void{
-    this.pvs.textComponent$.subscribe(tc_class => {
-      console.log("tc_class => "+tc_class);
-    });
+    
   }
 }
