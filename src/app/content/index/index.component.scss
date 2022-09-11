@@ -2,39 +2,5 @@
 
 @import "../../../styles.scss";
 
-$init-top-pos: -15px;
-
-$text-cont-map: (
-    "class": ".text-container",
-    "init-top-pos": $init-top-pos
-);
-
-@mixin keyframes(){
-    $init-top-pos: map.get($text-cont-map, "init-top-pos");
-    @keyframes moves-fade {
-        0%{opacity: 0; top: $init-top-pos;}
-        100%{opacity: 1; top: 0px;}
-    }
-}
-
-@mixin text-container-animation($tc-map){
-    $tc-map-class: map.get($tc-map,"class");
-    $init-top-pos: map.get($tc-map,"init-top-pos");
-    $map: (
-        "name": moves-fade,
-        "duration": 2s,
-        "direction": normal,
-        "delay": 0s,
-        "fill-mode": forwards,
-        "count": 1,
-        "timing-function": linear
-    );
-    #{$tc-map-class}{
-       position: relative;
-       top: $init-top-pos;
-       @include animation($map); 
-    }  
-}
-
-@include keyframes();
+@include keyframes($text-cont-map);
 @include text-container-animation($text-cont-map);
