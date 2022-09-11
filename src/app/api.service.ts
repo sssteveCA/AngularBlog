@@ -24,8 +24,7 @@ export class ApiService {
       this.http.post(url,body,{headers: headers, responseType: 'text'}).subscribe(res => {
         //console.log("Login status request resolve => ");
         //console.log(res);
-        resolve(res);
-        
+        resolve(res);       
       },
       error =>{
         console.warn("Login status request error => ");
