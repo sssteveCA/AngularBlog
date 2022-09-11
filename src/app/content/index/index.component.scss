@@ -2,10 +2,11 @@
 
 @import "../../../styles.scss";
 
+$init-top-pos: -15px;
 
 $text-cont-map: (
     "class": ".text-container",
-    "init-top-pos": -15px
+    "init-top-pos": $init-top-pos
 );
 
 @mixin keyframes(){
@@ -16,10 +17,17 @@ $text-cont-map: (
     }
 }
 
-@mixin comp-content-animation($tc-map){
+@mixin text-container-animation($tc-map){
     $tc-map-class: map.get($tc-map,"class");
     $init-top-pos: map.get($tc-map,"init-top-pos");
     $map: (
+        "name": moves-fade,
+        "duration": 2s,
+        "direction": normal,
+        "delay": 0s,
+        "fill-mode": forwards,
+        "count": 1,
+        "timing-function": linear
     );
     #{$tc-map-class}{
        position: relative;
@@ -29,4 +37,4 @@ $text-cont-map: (
 }
 
 @include keyframes();
-@include comp-content-animation($text-cont-map);
+@include text-container-animation($text-cont-map);

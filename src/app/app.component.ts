@@ -9,6 +9,7 @@ import * as constants from '../constants/constants';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  text_container = 'text-container';
   title = 'AngularBlog';
   path : string;
 
