@@ -10,7 +10,9 @@ export class WhoWeAreComponent implements OnInit {
 
   text_container: string = "";
 
-  constructor(private pvs: PassvariablesService) { }
+  constructor(private pvs: PassvariablesService) { 
+    this.passVariablesObserver();
+  }
 
   ngOnInit(): void {
   }
