@@ -8,18 +8,21 @@ import { PassvariablesService } from 'src/app/services/passvariables.service';
 })
 export class IndexComponent implements OnInit {
 
+  text_container: string = "";
+
   constructor(private pvs: PassvariablesService) {
-     this.pvs.textComponent$.subscribe(tc_class => {
-      console.log(`index component ${tc_class}`);
-    });
     this.passVariablesObserver();
   }
 
   ngOnInit(): void {
+    
   }
 
   passVariablesObserver(): void{
-    
+    this.pvs.textContainer$.subscribe(tc_class => {
+      console.log(`index component ${tc_class}`);
+      this.text_container = tc_class;
+    });
   }
 
 }

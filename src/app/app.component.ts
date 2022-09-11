@@ -2,7 +2,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { ApiService } from './api.service';
 import * as constants from '../constants/constants';
-import { PassvariablesService } from './services/passvariables.service';
 
 @Component({
   selector: 'app-root',
@@ -10,16 +9,10 @@ import { PassvariablesService } from './services/passvariables.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  text_container = 'text-container';
   title = 'AngularBlog';
   path : string;
 
-  constructor(private router: Router, private api: ApiService, private pvs: PassvariablesService){
-    this.pvs.textComponent$.subscribe(tc_class => {
-      console.log("tc_class => "+tc_class);
-    });
-    this.pvs.textComponentChange(this.text_container);
-    this.passVariables();
+  constructor(private router: Router, private api: ApiService){
     //console.log(this.router);
     this.router.events.subscribe((event) => {
       //console.log(event);
@@ -39,10 +32,5 @@ export class AppComponent {
     }
   }
 
-  /**
-   * Pass the variables from this component to children components
-   */
-  passVariables(): void{
-    
-  }
+
 }

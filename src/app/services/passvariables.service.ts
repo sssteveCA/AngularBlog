@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PassvariablesService {
 
-  private textComponentS = new Subject<string>();
+  private text_container = new BehaviorSubject('text-container');
 
-  public textComponent$ = this.textComponentS.asObservable();
+  public textContainer$ = this.text_container.asObservable();
 
   constructor() { }
 
-  public textComponentChange(tc: string): void{
-    this.textComponentS.next(tc);
+  public textContainerChange(tc: string): void{
+    this.text_container.next(tc);
   }
 }
