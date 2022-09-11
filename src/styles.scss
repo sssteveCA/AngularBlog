@@ -1,5 +1,18 @@
+@use "sass:map";
+
 /* You can add global styles to this file, and also import other style files */
 @import 'app/account/profile/my-articles/my-articles.component.scss';
 @import 'app/account/profile/new-article/new-article.component.scss';
 @import 'app/account/profile/edit-article/edit-article.component.scss';
 @import 'app/content/article/comments/comments.component.scss';
+
+
+@mixin animation($map){
+    animation-name: map.get($map, "name");
+    animation-duration: map.get($map, "duration");
+    animation-direction: map.get($map, "direction");
+    animation-delay: map.get($map, "delay");
+    animation-fill-mode: map.get($map, "fill-mode");
+    animation-iteration-count: map.get($map, "count");
+    animation-timing-function: map.get($map, "timing-function");
+}
