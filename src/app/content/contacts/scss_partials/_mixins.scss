@@ -3,3 +3,12 @@
 @mixin contactsBtn(){
     margin: $ct-margin;
 }
+
+@mixin contacts-style(){
+    .#{$container-class}{
+         min-width: 300px;
+         ##{$contacts-spinner-id}{
+             min-width: 50px;
+         }
+     } 
+ }

@@ -1,4 +1,4 @@
-<div class="p-5 mb-4 bg-light rounded-3">
+<div class="main-container p-5 mb-4 bg-light rounded-3">
     <div class="container-fluid py-5">
       <h1 class="display-5 fw-bold headerPage">Contatti</h1>
       <form method="post" [formGroup]="contactForm" (submit)="onSubmit()">
@@ -15,9 +15,29 @@
             <label for="message">Messaggio</label>
             <textarea id="message" class="form-control" name="message" rows="6" formControlName="message"></textarea>
           </div>
-          <div class="mb-3 d-flex flex-column flex-md-row justify-content-evenly">
-            <button type="submit" class="btn btn-primary">INVIA</button>
-            <button type="reset" class="btn btn-secondary">ANNULLA</button>
+          <div class="mb-3 d-flex flex-column flex-sm-row justify-content-center justify-content-sm-evenly">
+            <div class="d-flex justify-content-center">
+              <button type="submit" class="btn btn-primary">INVIA</button>
+              <div id="contacts-spinner" class="spinner-grow ms-4" [ngClass]="{'d-none':!showSpinner}" style="width: 3rem; height: 3rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+            <div class="d-flex justify-content-center">
+              <button type="reset" class="btn btn-secondary me-5 me-sm-0">ANNULLA</button>
+            </div>
+            <!-- <div class="container">
+              <div class="row">
+                  <div class="col-6 col-sm-4 col-md-3 offset-3 offset-sm-2 offset-md-3 d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">INVIA</button>
+                    <div id="contacts-spinner" class="spinner-grow ms-4" [ngClass]="{'d-none':!showSpinner}" style="width: 3rem; height: 3rem;" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  </div>
+                  <div class="col-6 col-sm-4 col-md-3 offset-3 offset-sm-2 offset-md-3 d-flex justify-content-center">
+                    <button type="reset" class="btn btn-secondary">ANNULLA</button>
+                  </div>
+              </div>
+            </div>    -->
           </div>
         </fieldset>
       </form>

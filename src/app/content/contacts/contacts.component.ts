@@ -15,6 +15,7 @@ import * as constants from '../../../constants/constants';
 export class ContactsComponent implements OnInit {
 
   contactForm: FormGroup;
+  showSpinner: boolean = false;
 
   constructor(public fb: FormBuilder, public http: HttpClient) {
     this.contactForm = fb.group({
@@ -36,6 +37,7 @@ export class ContactsComponent implements OnInit {
         message : this.contactForm.controls['message'].value
       };
       //console.log(dati);
+      this.showSpinner = true;
       this.sendEmail(dati);
     }//if(this.contactForm.valid){
     else{
@@ -45,7 +47,8 @@ export class ContactsComponent implements OnInit {
   sendEmail(data: any): void{
     let params = new HttpParams({fromObject: data});
     this.http.post(constants.contactUrl,params,{responseType: 'text'}).subscribe(res => {
-      //console.log(res);
+      this.showSpinner = false;
+      console.log(res);
       try{
         let rJson = JSON.parse(res);
         //console.log(rJson);
