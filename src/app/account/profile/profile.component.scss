@@ -1,0 +1,17 @@
+@use "sass:map";
+
+@import "../../../styles.scss";
+
+@mixin container-style($map){
+    $main-container-class: map.get($map, "class");
+    $main-container-init-top: map.get($map,"init-top-pos");
+    #{$main-container-class}{
+        position: relative;
+        top: $main-container-init-top;
+    }
+}
+
+
+@include keyframes($main-container-map);
+@include container-style($main-container-map);
+@include move-appereance-animation($main-container-map);

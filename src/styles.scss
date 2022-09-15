@@ -13,6 +13,11 @@ $form-container-map: (
     "init-top-pos": $init-top-pos
 );
 
+$main-container-map: (
+    "class": ".main-container",
+    "init-top-pos": $init-top-pos
+);
+
 $text-cont-map: (
     "class": ".text-container",
     "init-top-pos": $init-top-pos
