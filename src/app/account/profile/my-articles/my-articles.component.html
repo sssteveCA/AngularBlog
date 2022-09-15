@@ -15,7 +15,14 @@
         <div class="article-buttons">
             <input type="hidden" class="article_id" name="article_id" value="{{article.id}}">
             <a class="btn btn-primary btn_edit" role="button" [routerLink]="[editArticle_url, article.id]">MODIFICA</a>
-            <a class="btn btn-danger btn_delete" role="button" (click)="$event.preventDefault();deleteArticle($event)">ELIMINA</a>
+            <div>
+                <input type="hidden" name="article_pos" value="{{i}}">
+                <a class="btn btn-danger btn_delete" role="button" (click)="$event.preventDefault();deleteArticle($event)">ELIMINA</a>
+                <div class="spinner-grow ms-4" [ngClass]="{'d-none': spinnerShow != i}" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            
         </div>
     </div>
 </div>

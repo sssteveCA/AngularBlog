@@ -33,6 +33,7 @@ export class MyArticlesComponent implements OnInit {
   blog_url: string = Config.ANGULAR_MAIN_URL+constants.blogUrl;
   message: string|null = null;
   done: boolean = false; //True if request has returned article list
+  spinnerShow: number = -1; //Spinner to show specifying the position whe delete button click occurs
 
   constructor(public http: HttpClient, public api: ApiService,private router: Router) {
     this.observeFromService();
@@ -79,7 +80,8 @@ export class MyArticlesComponent implements OnInit {
     //Get the delete button when click occurred
     let click_button: JQuery = $(event.target);
     //Get the article id of element in the same div
-    let article_id: string = click_button.siblings('.article_id').val() as string;
+    let article_id: string = click_button.parents('.article-buttons').children('input[name=article_id]').val() as string;
+    let article_pos: number = click_button.siblings('input[name=article_pos]').val() as number;
     let cd_data: ConfirmDialogInterface = {
       title: 'Rimuovi articolo',
       message: messages.deleteArticleConfirm
@@ -96,7 +98,9 @@ export class MyArticlesComponent implements OnInit {
         url: this.deleteArticle_url
       };
       let da: DeleteArticle = new DeleteArticle(da_data);
+      this.spinnerShow = article_pos;
       da.deleteArticle().then(obj => {
+        this.spinnerShow = -1;
         if(obj['expired'] == true){
           //Session expired
           this.api.removeItems();
@@ -116,6 +120,7 @@ export class MyArticlesComponent implements OnInit {
             this.getArticles();
         });
       }).catch(err => {
+        this.spinnerShow = -1;
         let md_data: MessageDialogInterface = {
           title: 'Rimuovi articolo',
           message: Messages.DELETEARTICLE_ERROR
