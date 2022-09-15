@@ -3,4 +3,4 @@
 @import "../../../styles.scss";
 
 @include keyframes($text-cont-map);
-@include text-container-animation($text-cont-map);
+@include move-appereance-animation($text-cont-map);

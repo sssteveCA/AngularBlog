@@ -1,8 +1,12 @@
+@use "sass:map";
+
+@import "../../../styles.scss";
+
 //buttons
 $ct-margin: 10px auto auto;
 
 //container
-$container-class: "main-container";
+$container-class: "form-container";
 
 //spinner
 $contacts-spinner-id: "contacts-spinner";
@@ -15,8 +19,12 @@ $ct-resize: none;
     margin: $ct-margin;
 }
 
-@mixin contacts-style(){
-    .#{$container-class}{
+@mixin contacts-style($map){
+    $contacts-container-class: map.get($map,"class");
+    $contacts-container-init-top: map.get($map,"init-top-pos");
+    #{$contacts-container-class}{
+        position: relative;
+        top: $contacts-container-init-top;
          min-width: 300px;
          ##{$contacts-spinner-id}{
              min-width: 50px;
@@ -32,5 +40,7 @@ textarea{
     resize: $ct-resize;
 }
 
-@include contacts-style();
+@include keyframes($form-container-map);
+@include contacts-style($form-container-map);
+@include move-appereance-animation($form-container-map);
 

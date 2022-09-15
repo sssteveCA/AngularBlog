@@ -1,3 +1,7 @@
+@use "sass:map";
+
+@import "../../../styles.scss";
+
 //formContainer
 $fc-width: 100%;
 $fc-height: 100%;
@@ -12,6 +16,8 @@ $bt-width: fit-content;
 $bt-margin: 20px auto auto;
 
 @mixin container(){
+    position: relative;
+    top: $init-top-pos;
     height: $fc-height;
     width: $fc-width;
     min-width: $fc-minWidth;
@@ -27,7 +33,9 @@ $bt-margin: 20px auto auto;
     margin: $bt-margin;
 }
 
-.formContainer{
+@mixin form-container-style($map){
+    $form-container-class: map.get($map,"class");
+    #{$form-container-class}{
     @include container();
     form{
         @include form();
@@ -36,3 +44,8 @@ $bt-margin: 20px auto auto;
         }
     }
 }
+}
+
+@include keyframes($form-container-map);
+@include form-container-style($form-container-map);
+@include move-appereance-animation($form-container-map);

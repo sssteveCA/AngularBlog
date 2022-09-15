@@ -1,4 +1,6 @@
+@use "sass:map";
 
+@import "../../../styles.scss";
 
 //formContainer
 $fc-width: 100%;
@@ -16,6 +18,8 @@ $bt-margin: 20px auto auto;
 $reg-align: center;
 
 @mixin container(){
+    position: relative;
+    top: $init-top-pos;
     width: $fc-width;
     min-width: $fc-minWidth;
 }
@@ -34,12 +38,15 @@ $reg-align: center;
     text-align: $reg-align;
 }
 
-.formContainer{
-    @include container();
-    form{
-        @include form();
-        button{
-            @include buttons();
+@mixin form-container-style($map){
+    $form-container-class: map.get($map,"class");
+    #{$form-container-class}{
+        @include container();
+        form{
+            @include form();
+            button{
+                @include buttons();
+            }
         }
     }
 }
@@ -47,3 +54,7 @@ $reg-align: center;
 .registerMsg{
     @include registrationMsg();
 }
+
+@include keyframes($form-container-map);
+@include form-container-style($form-container-map);
+@include move-appereance-animation($form-container-map);

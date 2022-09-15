@@ -8,13 +8,19 @@
 
 $init-top-pos: -15px;
 
+$form-container-map: (
+    "class": ".form-container",
+    "init-top-pos": $init-top-pos
+);
+
 $text-cont-map: (
     "class": ".text-container",
     "init-top-pos": $init-top-pos
 );
 
-@mixin keyframes($text-cont-map){
-    $init-top-pos: map.get($text-cont-map, "init-top-pos");
+
+@mixin keyframes($map){
+    $init-top-pos: map.get($map, "init-top-pos");
     @keyframes moves-fade {
         0%{opacity: 0; top: $init-top-pos;}
         100%{opacity: 1; top: 0px;}
@@ -31,9 +37,9 @@ $text-cont-map: (
     animation-timing-function: map.get($map, "timing-function");
 }
 
-@mixin text-container-animation($tc-map){
-    $tc-map-class: map.get($tc-map,"class");
-    $init-top-pos: map.get($tc-map,"init-top-pos");
+@mixin move-appereance-animation($map){
+    $map-class: map.get($map,"class");
+    $init-top-pos: map.get($map,"init-top-pos");
     $map: (
         "name": moves-fade,
         "duration": 1.5s,
@@ -43,7 +49,7 @@ $text-cont-map: (
         "count": 1,
         "timing-function": linear
     );
-    #{$tc-map-class}{
+    #{$map-class}{
        position: relative;
        top: $init-top-pos;
        @include animation($map); 
