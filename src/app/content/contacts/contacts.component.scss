@@ -1,6 +1,36 @@
-@import 'scss_partials/variables';
-@import 'scss_partials/mixins';
-@import 'scss_partials/base';
+//buttons
+$ct-margin: 10px auto auto;
+
+//container
+$container-class: "main-container";
+
+//spinner
+$contacts-spinner-id: "contacts-spinner";
+
+//textare
+$ct-resize: none;
+
+//for buttons contact form
+@mixin contactsBtn(){
+    margin: $ct-margin;
+}
+
+@mixin contacts-style(){
+    .#{$container-class}{
+         min-width: 300px;
+         ##{$contacts-spinner-id}{
+             min-width: 50px;
+         }
+     } 
+ }
+
+ button{
+    @include contactsBtn();
+}
+
+textarea{
+    resize: $ct-resize;
+}
 
 @include contacts-style();
 

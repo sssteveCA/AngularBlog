@@ -1,3 +1,23 @@
-@import 'scss_partials/variables';
-@import 'scss_partials/mixins';
-@import 'scss_partials/base';
+//breakpoints
+$xs-max: 575px;
+
+//menu
+$menu-marginBottom: 20px;
+
+//searchForm params
+$sf-minWidth: 250px;
+$sf-marginBottom: 10px;
+
+//xs bootstrap breakpoint (0- 575px)
+@media screen and(max-width: $xs-max){
+    li#navForm {
+        min-width: $sf-minWidth;
+        * {
+            margin-bottom: $sf-marginBottom;
+        }
+    } 
+}
+
+nav#menu{
+    margin-bottom: $menu-marginBottom;
+}

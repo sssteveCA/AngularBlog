@@ -1,3 +1,49 @@
-@import 'scss_partials/variables';
-@import 'scss_partials/mixins';
-@import 'scss_partials/base';
+
+
+//formContainer
+$fc-width: 100%;
+$fc-minWidth: 300px;
+
+//form
+$form-position: relative;
+$form-top: 40%;
+
+//buttons
+$bt-width: fit-content;
+$bt-margin: 20px auto auto;
+
+//registration message
+$reg-align: center;
+
+@mixin container(){
+    width: $fc-width;
+    min-width: $fc-minWidth;
+}
+
+@mixin form(){
+    position: $form-position;
+    top: $form-top;
+}
+
+@mixin buttons(){
+    width: $bt-width;
+    margin: $bt-margin;
+}
+
+@mixin registrationMsg(){
+    text-align: $reg-align;
+}
+
+.formContainer{
+    @include container();
+    form{
+        @include form();
+        button{
+            @include buttons();
+        }
+    }
+}
+
+.registerMsg{
+    @include registrationMsg();
+}

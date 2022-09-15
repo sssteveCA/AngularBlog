@@ -1,3 +1,9 @@
-@import 'scss_partials/variables';
-@import 'scss_partials/mixins';
-@import 'scss_partials/base';
+$footer-height: 200px;
+$footer-marginTop: 20px;
+$footer-bgColor: rgba(58, 128, 0,0.5);
+
+div#footer{
+    margin-top: $footer-marginTop;
+    height: $footer-height;
+    background-color: $footer-bgColor;
+}

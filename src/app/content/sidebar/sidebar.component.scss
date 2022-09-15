@@ -1,3 +1,11 @@
-@import 'scss_partials/variables';
-@import 'scss_partials/mixins';
-@import 'scss_partials/base';
+$sidebar-height: 400px;
+$sidebar-bgColor: rgba(253, 220, 34, 0.5);
+
+@mixin divSide(){
+    height: $sidebar-height;
+    background-color: $sidebar-bgColor;
+}
+
+div#sidebar{
+    @include divSide();
+}

@@ -1,3 +1,38 @@
-@import 'scss_partials/variables';
-@import 'scss_partials/mixins';
-@import 'scss_partials/base';
+//formContainer
+$fc-width: 100%;
+$fc-height: 100%;
+$fc-minWidth: 300px;
+
+//form
+$form-position: relative;
+$form-top: 0%;
+
+//buttons
+$bt-width: fit-content;
+$bt-margin: 20px auto auto;
+
+@mixin container(){
+    height: $fc-height;
+    width: $fc-width;
+    min-width: $fc-minWidth;
+}
+
+@mixin form(){
+    position: $form-position;
+    top: $form-top;
+}
+
+@mixin buttons(){
+    width: $bt-width;
+    margin: $bt-margin;
+}
+
+.formContainer{
+    @include container();
+    form{
+        @include form();
+        button{
+            @include buttons();
+        }
+    }
+}

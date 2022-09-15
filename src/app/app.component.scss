@@ -1,3 +1,6 @@
-@import 'scss_partials/variables';
-@import 'scss_partials/mixins';
-@import 'scss_partials/base';
+//var for all header with class 'headerPage'
+$hr-textAlign: center;
+
+::ng-deep .headerPage{
+    text-align: $hr-textAlign;
+}

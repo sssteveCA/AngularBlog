@@ -1,3 +1,7 @@
-@import 'scss_partials/variables';
-@import 'scss_partials/mixins';
-@import 'scss_partials/base';
+$nf-bgColor: rgba(255,0,0,0.3);
+$nf-border: 3px solid red;
+
+div#divNotFound{
+    background-color: $nf-bgColor;
+    border: $nf-border;
+}
