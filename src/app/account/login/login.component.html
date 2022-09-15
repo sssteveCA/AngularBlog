@@ -30,8 +30,19 @@
           <label for="cbPass">Mostra password</label>
         </div>
         <div class="mb-3 d-flex flex-column flex-sm-row justify-content-sm-evenly">
+            
+            
+        </div>
+        <div class="mb-3 d-flex flex-column flex-sm-row justify-content-center justify-content-sm-between">
+          <div class="my-3 d-flex justify-content-center">
             <button type="submit" class="btn btn-primary">ACCEDI</button>
-            <button type="reset" class="btn btn-secondary">ANNULLA</button>
+            <div id="login-spinner" class="spinner-grow ms-4" [ngClass]="{'d-none':!showSpinner}" style="width: 3rem; height: 3rem;" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          <div class="my-3 d-flex justify-content-center">
+            <button type="reset" class="btn btn-secondary me-5 me-sm-0">ANNULLA</button>
+          </div>
         </div>
       </form>
 </div>

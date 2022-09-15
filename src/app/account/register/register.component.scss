@@ -30,7 +30,7 @@ $bt-margin: 20px auto auto;
 
 @mixin buttons(){
     width: $bt-width;
-    margin: $bt-margin;
+    //margin: $bt-margin;
 }
 
 @mixin form-container-style($map){

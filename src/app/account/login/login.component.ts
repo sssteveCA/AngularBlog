@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
   showPassword: boolean = false;
   @ViewChild('password',{static: false}) iPass: ElementRef;
   public userCookie : any = {};
+  showSpinner:boolean = false;
 
   constructor(private fb: FormBuilder,private router: Router, private http:HttpClient, private api: ApiService) {
     this.loginForm = fb.group({
@@ -50,7 +51,9 @@ export class LoginComponent implements OnInit {
   //user try to login with data passed
   login(data: LoginRequestInterface): void{
     let login: LoginRequest = new LoginRequest(data);
+    this.showSpinner = true;
     login.login().then(obj => {
+      this.showSpinner = false;
       //console.log(obj);
       if(obj['done'] && typeof obj['username'] !== 'undefined'){
         localStorage.setItem("token_key",obj["token_key"]);
@@ -69,6 +72,7 @@ export class LoginComponent implements OnInit {
         this.dialogMessage(md_data);
       }
     }).catch(err => {
+      this.showSpinner = false;
       const md_data: MessageDialogInterface = {
         title: 'Login',
         message: Messages.LOGIN_ERROR

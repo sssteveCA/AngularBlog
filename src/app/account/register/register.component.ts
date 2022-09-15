@@ -23,6 +23,7 @@ export class RegisterComponent implements OnInit {
   showPassword: boolean = false;
   showConf: boolean = false;
   subscribe_url: string = constants.registerUrl;
+  showSpinner: boolean = false;
 
   constructor(public fb: FormBuilder, public http: HttpClient) {
     this.formGroup = fb.group({
@@ -102,13 +103,16 @@ export class RegisterComponent implements OnInit {
   //if data are correct subscribe to blog
   subscribe(data: SubscribeRequestInterface): void{
     let subscribe: SubscribeRequest = new SubscribeRequest(data);
+    this.showSpinner = true;
     subscribe.subscribe().then(obj => {
+      this.showSpinner = false;
       const md_data: MessageDialogInterface = {
         title: 'Registrazione',
         message: obj['msg']
       };
       this.dialogMessage(md_data);
     }).catch(err => {
+      this.showSpinner = false;
       const md_data: MessageDialogInterface = {
         title: 'Registrazione',
         message: Messages.SUBSCRIBE_ERROR
