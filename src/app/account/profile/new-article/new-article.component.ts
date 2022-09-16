@@ -12,6 +12,8 @@ import MessageDialog from 'src/classes/dialogs/messagedialog';
 import AddArticleInterface from 'src/interfaces/requests/article/addarticle.interface';
 import AddArticle from 'src/classes/requests/article/addarticle';
 import { Messages } from 'src/constants/messages';
+import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
+import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
 
 @Component({
   selector: 'app-new-article',
@@ -67,47 +69,22 @@ export class NewArticleComponent implements OnInit {
     this.article.categories = this.form.controls['categories'].value;
     this.article.tags = this.form.controls['tags'].value;
     //console.log(this.article);
-    const data = {
-      token_key: this.userCookie['token_key'],
-      article: this.article
-    }
     if(this.form.valid){
-      const aa_data: AddArticleInterface = {
-        article: this.article,
-        http: this.http,
-        token_key: this.userCookie['token_key'],
-        url: this.addArticle_url
+      let cd_data: ConfirmDialogInterface = {
+        title: 'Creazione articolo',
+        message: Messages.CREATEARTICLE_CONFIRM
       };
-      let aa: AddArticle = new AddArticle(aa_data);
-      aa.createArticle().then(obj => {
-        if(obj['expired'] == true){
-          //session expired
-          this.api.removeItems();
-          this.userCookie = {};
-          this.api.changeUserdata(this.userCookie);
-          //this.router.navigateByUrl(constants.notLoggedRedirect);
-        }
-        const md_data: MessageDialogInterface = {
-          title: 'Creazione articolo',
-          message: obj['msg']
-        };
-        let md = new MessageDialog(md_data);
-        md.bt_ok.addEventListener('click',()=>{
-          md.instance.dispose();
-          md.div_dialog.remove();
-          document.body.style.overflow = 'auto';
-        });
-      }).catch(err => {
-        const md_data: MessageDialogInterface = {
-          title: 'Creazione articolo',
-          message: Messages.ARTICLENEW_ERROR
-        };
-        let md = new MessageDialog(md_data);
-        md.bt_ok.addEventListener('click',()=>{
-          md.instance.dispose();
-          md.div_dialog.remove();
-          document.body.style.overflow = 'auto';
-        });
+      let cd: ConfirmDialog = new ConfirmDialog(cd_data);
+      cd.bt_yes.addEventListener('click', ()=>{
+        cd.instance.dispose();
+        document.body.removeChild(cd.div_dialog);
+        document.body.style.overflow = 'auto';
+        this.newArticle();
+      });
+      cd.bt_no.addEventListener('click',()=>{
+        cd.instance.dispose();
+        document.body.removeChild(cd.div_dialog);
+        document.body.style.overflow = 'auto';
       });
     }
     else{
@@ -122,6 +99,46 @@ export class NewArticleComponent implements OnInit {
         document.body.style.overflow = 'auto';
       });
     }
+  }
+
+  newArticle(): void{
+    const aa_data: AddArticleInterface = {
+      article: this.article,
+      http: this.http,
+      token_key: this.userCookie['token_key'],
+      url: this.addArticle_url
+    };
+    let aa: AddArticle = new AddArticle(aa_data);
+    aa.createArticle().then(obj => {
+      if(obj['expired'] == true){
+        //session expired
+        this.api.removeItems();
+        this.userCookie = {};
+        this.api.changeUserdata(this.userCookie);
+        //this.router.navigateByUrl(constants.notLoggedRedirect);
+      }
+      const md_data: MessageDialogInterface = {
+        title: 'Creazione articolo',
+        message: obj['msg']
+      };
+      let md = new MessageDialog(md_data);
+      md.bt_ok.addEventListener('click',()=>{
+        md.instance.dispose();
+        md.div_dialog.remove();
+        document.body.style.overflow = 'auto';
+      });
+    }).catch(err => {
+      const md_data: MessageDialogInterface = {
+        title: 'Creazione articolo',
+        message: Messages.ARTICLENEW_ERROR
+      };
+      let md = new MessageDialog(md_data);
+      md.bt_ok.addEventListener('click',()=>{
+        md.instance.dispose();
+        md.div_dialog.remove();
+        document.body.style.overflow = 'auto';
+      });
+    });
   }
 
   observeFromService(): void{

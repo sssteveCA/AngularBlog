@@ -10,6 +10,7 @@ export namespace Messages{
     export const COMMENTNEW_ERROR: string = "Errore durante l'inserimento del commento. "+ADMIN_CONTACT;
     export const COMMENTUPDATE_ERROR: string = "Errore durante la modifica del commento. "+ADMIN_CONTACT;
     export const INSERTCOMMENT_ERROR: string = "Inserisci un commento per continuare";
+    export const CREATEARTICLE_CONFIRM: string = "Vuoi creare un nuovo articolo con le informazioni inserite?";
     export const DELETEARTICLE_CONFIRM: string = "Sei sicuro di voler rimuovere definitivamente questo articolo?";
     export const DELETEARTICLE_ERROR: string = "Errore durante la rimozione dell'articolo. "+ADMIN_CONTACT;
     export const DELETECOMMENT_CONFIRM: string = "Vuoi rimuovere questo commento?";
