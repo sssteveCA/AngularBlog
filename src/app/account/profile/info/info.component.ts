@@ -30,10 +30,39 @@ export class InfoComponent implements OnInit {
   }
 
   /**
+   * When user submit edit password form
+   */
+  editPasswordSubmit(): void{
+    if(this.groupEp.valid){
+      let cdi: ConfirmDialogInterface = {
+        title: 'Modifica password',
+        message: Messages.EDITPASSWORD_CONFIRM
+      };
+      let cd: ConfirmDialog = new ConfirmDialog(cdi);
+      cd.bt_yes.addEventListener('click',()=>{
+        cd.instance.dispose();
+        cd.div_dialog.remove();
+        document.body.style.overflow = 'auto';
+      });
+      cd.bt_no.addEventListener('click',()=>{
+        cd.instance.dispose();
+        cd.div_dialog.remove();
+        document.body.style.overflow = 'auto';
+      });
+    }//if(this.groupEp.valid){
+    else{
+      let mdi: MessageDialogInterface = {
+        title: 'Modifica password',
+        message: 'Uno o più dati tra quelli richiesti hanno un formato non valido'
+      };
+      this.messageDialog(mdi);
+    }
+  }
+
+  /**
    * When user submit edit username form
    */
   editUsernameSubmit(): void{
-    console.log("editUsername submit");
     if(this.groupEu.valid){
       let cdi: ConfirmDialogInterface = {
         title: 'Modifica username',
