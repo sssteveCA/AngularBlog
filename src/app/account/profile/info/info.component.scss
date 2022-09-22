@@ -1,0 +1,29 @@
+
+$section-class: ".section";
+
+@mixin section-style($selector){
+    $sections: 3;
+    #{$selector}{
+        padding: 100px 0px;
+        display: flex;
+        justify-content: center;
+    }
+    @for $i from 1 through $sections{
+        #{$selector}{
+            border-left: 1px solid black;
+            border-right: 1px solid black;
+            @if $i < 3{
+                &:nth-child(#{$i}){
+                    border-top: 1px solid black;   
+                }
+            }
+            @else if $i == 3{
+                &:nth-child(#{$i}){
+                    border-bottom: 1px solid black;
+                }
+            }
+        }   
+    }//@for $i from 1 through $sections{
+}
+
+@include section-style($section-class);
