@@ -6,7 +6,7 @@
         <div class="sub-header">
             <h3 class="text-center">Modifica nome utente</h3>
         </div>
-        <form id="fEditUser" method="post" [formGroup]="groupEu">
+        <form id="fEditUser" method="post" [formGroup]="groupEu" (submit)="editUsernameSubmit()">
             <div class="container-fluid">
                 <div class="row">
                     <mat-form-field class="example-full-width" appearance="fill">

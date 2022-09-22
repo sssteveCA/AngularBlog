@@ -3,6 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
+import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
+import MessageDialog from 'src/classes/dialogs/messagedialog';
+import { Messages } from 'src/constants/messages';
+import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
+import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import * as constants from '../../../../constants/constants';
 
 @Component({
@@ -22,6 +27,46 @@ export class InfoComponent implements OnInit {
    }
 
   ngOnInit(): void {
+  }
+
+  /**
+   * When user submit edit username form
+   */
+  editUsernameSubmit(): void{
+    console.log("editUsername submit");
+    if(this.groupEu.valid){
+      let cdi: ConfirmDialogInterface = {
+        title: 'Modifica username',
+        message: Messages.EDITUSERNAME_CONFIRM
+      };
+      let cd: ConfirmDialog = new ConfirmDialog(cdi);
+      cd.bt_yes.addEventListener('click',()=>{
+        cd.instance.dispose();
+        cd.div_dialog.remove();
+        document.body.style.overflow = 'auto';
+      });
+      cd.bt_no.addEventListener('click',()=>{
+        cd.instance.dispose();
+        cd.div_dialog.remove();
+        document.body.style.overflow = 'auto';
+      });
+    }//if(this.groupEu.valid){
+    else{
+      let mdi: MessageDialogInterface = {
+        title: 'Modifica nome utente',
+        message: 'Il nome utente inserito ha un formato non valido'
+      };
+      this.messageDialog(mdi);
+    }
+  }
+
+  messageDialog(mdi: MessageDialogInterface): void{
+    let md: MessageDialog = new MessageDialog(mdi);
+    md.bt_ok.addEventListener('click', ()=>{
+      md.instance.dispose();
+      md.div_dialog.remove();
+      document.body.style.overflow = 'auto';
+    });
   }
 
   observeFromService(): void{
