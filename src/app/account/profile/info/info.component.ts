@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatFormField, MatFormFieldControl } from '@angular/material/form-field';
+import { MatInput, MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
@@ -16,6 +19,11 @@ import * as constants from '../../../../constants/constants';
   styleUrls: ['./info.component.scss']
 })
 export class InfoComponent implements OnInit {
+
+  @ViewChild('currentPwd', {static: false}) iCurrPwd: ElementRef<HTMLInputElement>;
+  @ViewChild('newPwd', {static: false}) iNewPwd: ElementRef<HTMLInputElement>;
+  @ViewChild('confNewPwd', {static: false}) iConfNewPwd: ElementRef<HTMLInputElement>;
+  @ViewChild('showPwd', {static: false}) cbShowPwd: MatCheckbox;
 
   userCookie: any = {};
   groupEu: FormGroup; //Edit username form group
@@ -137,4 +145,19 @@ export class InfoComponent implements OnInit {
     });
   }
 
+  /**
+   * When the value of 'show password' checkbox change
+   */
+  showPwdCbChange(): void{
+    if(this.cbShowPwd.checked){
+      this.iCurrPwd.nativeElement.setAttribute('type','text');
+      this.iNewPwd.nativeElement.setAttribute('type','text');
+      this.iConfNewPwd.nativeElement.setAttribute('type','text');
+    }
+    else{
+      this.iCurrPwd.nativeElement.setAttribute('type','password');
+      this.iNewPwd.nativeElement.setAttribute('type','password');
+      this.iConfNewPwd.nativeElement.setAttribute('type','password');
+    }
+  }
 }
