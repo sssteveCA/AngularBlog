@@ -28,6 +28,7 @@ import { InfoComponent } from './account/profile/info/info.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 
@@ -62,7 +63,8 @@ import {MatButtonModule} from '@angular/material/button';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
 import * as constants from '../../../../constants/constants';
@@ -18,6 +18,7 @@ export class InfoComponent implements OnInit {
 
   constructor(public http: HttpClient, public api: ApiService, public router: Router, public fb: FormBuilder) {
     this.observeFromService();
+    this.setFormsGroup();
    }
 
   ngOnInit(): void {
@@ -52,8 +53,14 @@ export class InfoComponent implements OnInit {
   }
 
   setFormsGroup(): void{
-    this.groupEu = this.fb.group({});
-    this.groupEp = this.fb.group({});
+    this.groupEu = this.fb.group({
+      'username': ['', Validators.compose([Validators.required, Validators.minLength(3)])]
+    });
+    this.groupEp = this.fb.group({
+      'currentPwd': ['', Validators.compose([Validators.required, Validators.minLength(6)])],
+      'newPwd': ['', Validators.compose([Validators.required, Validators.minLength(6)])],
+      'confNewPwd': ['', Validators.compose([Validators.required, Validators.minLength(6)])],
+    });
   }
 
 }
