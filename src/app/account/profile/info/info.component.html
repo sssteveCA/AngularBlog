@@ -16,7 +16,7 @@
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-3 text-center">
-                        <button mat-raised-button color="primary">MODIFICA</button>
+                        <button mat-raised-button type="submit" color="primary">MODIFICA</button>
                     </div>  
                 </div>
             </div>
@@ -53,7 +53,7 @@
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-3 text-center">
-                        <button mat-raised-button color="primary">MODIFICA</button>
+                        <button mat-raised-button type="submit" color="primary">MODIFICA</button>
                     </div>
                 </div>
             </div>
@@ -63,11 +63,11 @@
         <div class="sub-header">
             <h3 class="text-center">Elimina il tuo account</h3>
         </div>
-        <form id="fDelAccount" method="post">
+        <form id="fDelAccount" method="post" (submit)="deleteAccountSubmit()">
             <div class="container-fluid">
                 <div class="row justify-content-center">
                     <div class="col-3 text-center">
-                        <button mat-raised-button color="warn">ELIMINA</button>
+                        <button mat-raised-button type="submit" color="warn">ELIMINA</button>
                     </div>
                 </div>
             </div>

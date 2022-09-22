@@ -38,6 +38,27 @@ export class InfoComponent implements OnInit {
   }
 
   /**
+   * When user submit delete account form
+   */
+  deleteAccountSubmit(): void{
+    let cdi: ConfirmDialogInterface = {
+      title: 'Elimina account',
+      message: Messages.DELETEACCOUNT_CONFIRM
+    };
+    let cd: ConfirmDialog = new ConfirmDialog(cdi);
+    cd.bt_yes.addEventListener('click',()=>{
+      cd.instance.dispose();
+      cd.div_dialog.remove();
+      document.body.style.overflow = 'auto';
+    });
+    cd.bt_no.addEventListener('click', ()=>{
+      cd.instance.dispose();
+      cd.div_dialog.remove();
+      document.body.style.overflow = 'auto';
+    });
+  }
+
+  /**
    * When user submit edit password form
    */
   editPasswordSubmit(): void{

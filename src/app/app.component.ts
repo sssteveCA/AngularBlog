@@ -27,10 +27,7 @@ export class AppComponent {
     return {
       'background-image' : "url('"+constants.imgUrl+"')",
       'background-repeat' : 'repeat',
-      'z-index': '-1',
-      height: '-webkit-fill-available'
+      'z-index': '-1'
     }
   }
-
-
 }
