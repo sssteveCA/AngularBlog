@@ -109,7 +109,7 @@ export class InfoComponent implements OnInit {
   editUsernameSubmit(): void{
     if(this.groupEu.valid){
       let cdi: ConfirmDialogInterface = {
-        title: 'Modifica username',
+        title: 'Modifica nome utente',
         message: Messages.EDITUSERNAME_CONFIRM
       };
       let cd: ConfirmDialog = new ConfirmDialog(cdi);
