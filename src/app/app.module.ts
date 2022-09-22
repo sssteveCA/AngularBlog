@@ -24,6 +24,7 @@ import { MyArticlesComponent } from './account/profile/my-articles/my-articles.c
 import { NewArticleComponent } from './account/profile/new-article/new-article.component';
 import { EditArticleComponent } from './account/profile/edit-article/edit-article.component';
 import { CommentsComponent } from './content/article/comments/comments.component';
+import { InfoComponent } from './account/profile/info/info.component';
 
 
 
@@ -47,7 +48,8 @@ import { CommentsComponent } from './content/article/comments/comments.component
     MyArticlesComponent,
     NewArticleComponent,
     EditArticleComponent,
-    CommentsComponent
+    CommentsComponent,
+    InfoComponent
   ],
   imports: [
     BrowserModule,
