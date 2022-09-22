@@ -26,7 +26,7 @@ export default class MessageDialog{
     //Set html for the dialog
     private htmlDialog(): void{
         this._html = `
-<div id="dialog" class="modal" tabindex="-1">
+<div id="messagedialog" class="modal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -51,7 +51,7 @@ export default class MessageDialog{
         this._div_dialog.setAttribute('id','md_div_dialog');
         this._div_dialog.innerHTML = this._html;
         document.body.appendChild(this._div_dialog);
-        let modalEl = document.getElementById('dialog');
+        let modalEl = document.getElementById('messagedialog');
         this._instance = new bootstrap.Modal(modalEl as Element,{
             focus: true
         });
