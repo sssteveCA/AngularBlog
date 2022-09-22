@@ -13,7 +13,9 @@ export class InfoComponent implements OnInit {
 
   userCookie: any = {};
 
-  constructor(public http: HttpClient, public api: ApiService, public router: Router) { }
+  constructor(public http: HttpClient, public api: ApiService, public router: Router) {
+    this.observeFromService();
+   }
 
   ngOnInit(): void {
   }

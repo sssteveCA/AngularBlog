@@ -16,6 +16,7 @@ import { WhoWeAreComponent } from './content/who-we-are/who-we-are.component';
 import { AuthGuard } from './guard/auth.guard';
 import { NotAuthGuard } from './guard/not-auth.guard';
 import { EditArticleComponent } from './account/profile/edit-article/edit-article.component';
+import { InfoComponent } from './account/profile/info/info.component';
 
 const routes: Routes = [
   {path : "", component : IndexComponent},
@@ -28,6 +29,7 @@ const routes: Routes = [
   {path: "register", component: RegisterComponent,canActivate:[NotAuthGuard]},
   {path: "attiva", component: AttivaComponent,canActivate:[NotAuthGuard]},
   {path: "profile", component:ProfileComponent, canActivate:[AuthGuard]},
+  {path: "profile/info", component: InfoComponent, canActivate:[AuthGuard]},
   {path: "profile/myArticles", component:MyArticlesComponent, canActivate:[AuthGuard]},
   {path: "profile/myArticles/create", component:NewArticleComponent, canActivate:[AuthGuard]},
   {path: "profile/myArticles/edit/:articleId",component: EditArticleComponent, canActivate:[AuthGuard]},
