@@ -1,29 +1,14 @@
 
-$section-class: ".section";
+$section-class: ".info-section";
 
 @mixin section-style($selector){
-    $sections: 3;
+    $sections: 4;
     #{$selector}{
-        padding: 100px 0px;
+        padding: 25px 0px;
         display: flex;
         justify-content: center;
+        flex-direction: column;
     }
-    @for $i from 1 through $sections{
-        #{$selector}{
-            border-left: 1px solid black;
-            border-right: 1px solid black;
-            @if $i < 3{
-                &:nth-child(#{$i}){
-                    border-top: 1px solid black;   
-                }
-            }
-            @else if $i == 3{
-                &:nth-child(#{$i}){
-                    border-bottom: 1px solid black;
-                }
-            }
-        }   
-    }//@for $i from 1 through $sections{
 }
 
 @include section-style($section-class);
