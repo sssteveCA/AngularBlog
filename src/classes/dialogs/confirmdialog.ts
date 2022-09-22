@@ -28,7 +28,9 @@ export default class ConfirmDialog{
     get title(){return this._title;}
     get html(){return this._html;}
 
-    //Set html for the dialog
+    /**
+     * Set the HTML for the dialog
+     */
     private htmlDialog(): void{
         this._html = `
 <div id="confirmdialog" class="modal" tabindex="-1">
@@ -51,7 +53,9 @@ export default class ConfirmDialog{
         `;
     }
 
-    //Add dialog to DOM & show
+    /**
+     * Add the dialog to DOM and show
+     */
     private showDialog(): void{
         this._div_dialog = document.createElement('div');
         this._div_dialog.setAttribute('id','cd_div_dialog');

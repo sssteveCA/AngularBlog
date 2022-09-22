@@ -8,9 +8,11 @@ import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
 import MessageDialog from 'src/classes/dialogs/messagedialog';
+import PasswordConfirmDialog from 'src/classes/dialogs/passwordconfirmdialog';
 import { Messages } from 'src/constants/messages';
 import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
+import PasswordConfirmDialogInterface from 'src/interfaces/dialogs/passwordconfirmdialog.interface';
 import * as constants from '../../../../constants/constants';
 
 @Component({
@@ -49,7 +51,20 @@ export class InfoComponent implements OnInit {
     cd.bt_yes.addEventListener('click',()=>{
       cd.instance.dispose();
       cd.div_dialog.remove();
-      document.body.style.overflow = 'auto';
+      let pcdi: PasswordConfirmDialogInterface = {
+        title: 'Elimina account'
+      };
+      let pcd: PasswordConfirmDialog = new PasswordConfirmDialog(pcdi);
+      pcd.bt_ok.addEventListener('click',()=>{
+        pcd.instance.dispose();
+        pcd.div_dialog.remove();
+        document.body.style.overflow = 'auto';
+      });
+      pcd.bt_canc.addEventListener('click',()=>{
+        pcd.instance.dispose();
+        pcd.div_dialog.remove();
+        document.body.style.overflow = 'auto';
+      })
     });
     cd.bt_no.addEventListener('click', ()=>{
       cd.instance.dispose();
