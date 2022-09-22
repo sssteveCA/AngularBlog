@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
 import * as constants from '../../../../constants/constants';
@@ -12,8 +13,10 @@ import * as constants from '../../../../constants/constants';
 export class InfoComponent implements OnInit {
 
   userCookie: any = {};
+  groupEu: FormGroup; //Edit username form group
+  groupEp: FormGroup; //Edit password form group
 
-  constructor(public http: HttpClient, public api: ApiService, public router: Router) {
+  constructor(public http: HttpClient, public api: ApiService, public router: Router, public fb: FormBuilder) {
     this.observeFromService();
    }
 
@@ -46,6 +49,11 @@ export class InfoComponent implements OnInit {
       this.userCookie['token_key'] = userdata['token_key'];
       this.userCookie['username'] = userdata['username'];
     });
+  }
+
+  setFormsGroup(): void{
+    this.groupEu = this.fb.group({});
+    this.groupEp = this.fb.group({});
   }
 
 }
