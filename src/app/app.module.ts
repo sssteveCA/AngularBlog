@@ -25,6 +25,7 @@ import { NewArticleComponent } from './account/profile/new-article/new-article.c
 import { EditArticleComponent } from './account/profile/edit-article/edit-article.component';
 import { CommentsComponent } from './content/article/comments/comments.component';
 import { InfoComponent } from './account/profile/info/info.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -56,7 +57,8 @@ import { InfoComponent } from './account/profile/info/info.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
