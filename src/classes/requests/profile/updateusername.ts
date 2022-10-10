@@ -18,6 +18,10 @@ export default class UpdateUsername{
     get token_key(){return this._token_key;}
     get url(){return this._url;}
 
+    /**
+     * Update the current logged username
+     * @returns 
+     */
     public async updateUsername(): Promise<object>{
         let response: object = {};
         try{
