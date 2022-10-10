@@ -45,7 +45,7 @@ export default class DeleteArticle{
     private async deleteArticlePromise(deleteData: object): Promise<string>{
         return await new Promise<string>((resolve,reject)=>{
             const headers = new HttpHeaders().set('Content-Type','application/json').set('Accept','application/json');
-            this._http.post(this.url,deleteData,{headers: headers, responseType: 'text'}).subscribe(res => {
+            this._http.post(this._url,deleteData,{headers: headers, responseType: 'text'}).subscribe(res => {
                 resolve(res);
             },error => {
                 reject(error);
