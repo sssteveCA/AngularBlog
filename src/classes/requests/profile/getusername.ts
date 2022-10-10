@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import GetUsernameInterface from "src/interfaces/requests/profile/getusername.interface";
 
 export class getUsername{
@@ -15,4 +15,38 @@ export class getUsername{
 
     get token_key(){return this._token_key;}
     get url(){return this._url;}
+
+    /**
+     * Get the current logged username
+     * @returns 
+     */
+    public async getUsername(): Promise<object>{
+        let response: object = {};
+        try{
+            let getusername_values: object = {
+                token_key: this._token_key
+            };
+            await this.getUsernamePromise(getusername_values).then( res => {
+                console.log(res);
+                response = JSON.parse(res);
+            }).catch(err => {
+                throw err;
+            });
+        }catch(err){
+
+        }
+        return response;
+    }
+
+    private async getUsernamePromise(gu: object): Promise<string>{
+        let promise = await new Promise<string>((resolve, reject) => {
+            const headers = new HttpHeaders().set('Content-Type','application/json').set('Accept','application/json');
+            this._http.post(this.url, gu, {headers: headers, responseType: 'text'}).subscribe(res => {
+                resolve(res);
+            }, error => {
+                reject(error);
+            });
+        });
+        return promise;
+    }
 }
