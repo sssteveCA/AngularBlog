@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import UpdatePasswordInterface from "src/interfaces/requests/profile/updatepassword.interface";
 
 export default class UpdatePassword{
@@ -23,4 +23,37 @@ export default class UpdatePassword{
     get old_password(){return this._old_password;}
     get token_key(){return this._token_key;}
     get url(){return this._url;}
+
+    public async updatePassword(): Promise<object>{
+        let response: object = {};
+        try{
+            const passwordUpdate_values: object = {
+                conf_new_password: this._conf_new_password,
+                new_password: this._new_password,
+                old_password: this._old_password,
+                token_key: this._token_key
+            };
+            await this.updatePasswordPromise(passwordUpdate_values).then(res => {
+                //console.log(res);
+                response = JSON.parse(res);
+                //console.log(response);
+            }).catch(err => {
+                throw err;
+            });
+        }catch(err){
+
+        }
+        return response;
+    }
+
+    private async updatePasswordPromise(up: object):Promise<string>{
+        return await new Promise<string>((resolve,reject)=>{
+            const headers = new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json');
+            this._http.put(this._url,up,{headers: headers, responseType: 'text'}).subscribe(res => {
+                resolve(res);
+            }, error => {
+                reject(error);
+            });
+        });
+    }
 }
