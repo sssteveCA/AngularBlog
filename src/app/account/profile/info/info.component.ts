@@ -43,7 +43,11 @@ export class InfoComponent implements OnInit {
   updateUsernameUrl: string = constants.profileUpdateUsernameUrl;
   updatePasswordUrl: string = constants.profileUpdatePasswordUrl;
   deleteProfileUrl: string = constants.profileDeleteUrl;
+  showUsernameSpinner: boolean = true;
+  showPasswordSpinner: boolean = false;
+  showDeleteProfileSpinner: boolean = false;
   usernameError: boolean = false;
+
 
   constructor(public http: HttpClient, public api: ApiService, public router: Router, public fb: FormBuilder) {
     this.observeFromService();
@@ -224,9 +228,8 @@ export class InfoComponent implements OnInit {
       else{
         this.usernameError = true;
       }
-
     }).catch(err => {
-
+      this.usernameError = true;
     });
   }
 

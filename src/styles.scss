@@ -62,4 +62,13 @@ $text-cont-map: (
     }  
 }
 
+@mixin spinner-style(){
+    .spinner-grow{
+        width: 3rem !important; 
+        height: 3rem !important;
+    }
+}
+
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+@include spinner-style();

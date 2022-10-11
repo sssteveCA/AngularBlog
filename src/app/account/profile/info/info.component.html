@@ -21,8 +21,13 @@
                 </div>
             </div>
         </form>
+        <div class="mt-2 text-center" [class.d-none]="!showUsernameSpinner">
+            <div class="spinner-grow" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
         <ng-template [ngIf]="usernameError">
-            <div class="alert aler-danger my-5" role="alert">Impossibile rilevare il tuo nome utente</div>
+            <div class="alert alert-danger mt-5 text-center" role="alert">Impossibile rilevare il tuo nome utente</div>
         </ng-template>
     </div>
     <div class="edit-password info-section">
@@ -61,6 +66,9 @@
                 </div>
             </div>
         </form>
+        <div class="spinner-grow" [class.d-none]="!showPasswordSpinner" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
     </div>
     <div class="delete-account info-section">
         <div class="sub-header">
@@ -75,5 +83,8 @@
                 </div>
             </div>
         </form>
+        <div class="spinner-grow" [class.d-none]="!showDeleteProfileSpinner" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
     </div>
 </div>
