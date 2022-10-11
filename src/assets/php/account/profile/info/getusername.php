@@ -9,6 +9,7 @@ use AngularBlog\Classes\User;
 use AngularBlog\Interfaces\Constants as C;
 
 require_once("../../../cors.php");
+require_once("../../../../../../config.php");
 require_once("../../../interfaces/constants.php");
 require_once("../../../interfaces/exception_messages.php");
 require_once("../../../interfaces/from_errors.php");
