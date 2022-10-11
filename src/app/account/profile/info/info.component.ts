@@ -9,13 +9,18 @@ import { ApiService } from 'src/app/api.service';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
 import MessageDialog from 'src/classes/dialogs/messagedialog';
 import PasswordConfirmDialog from 'src/classes/dialogs/passwordconfirmdialog';
+import DeleteProfile from 'src/classes/requests/profile/deleteprofile';
 import { getUsername } from 'src/classes/requests/profile/getusername';
+import UpdatePassword from 'src/classes/requests/profile/updatepassword';
 import UpdateUsername from 'src/classes/requests/profile/updateusername';
 import { Messages } from 'src/constants/messages';
+import { DaParams, EpParams } from 'src/constants/types';
 import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import PasswordConfirmDialogInterface from 'src/interfaces/dialogs/passwordconfirmdialog.interface';
+import DeleteProfileInterface from 'src/interfaces/requests/profile/deleteprofile.interface';
 import GetUsernameInterface from 'src/interfaces/requests/profile/getusername.interface';
+import UpdatePasswordInterface from 'src/interfaces/requests/profile/updatepassword.interface';
 import UpdateUsernameInterface from 'src/interfaces/requests/profile/updateusername.interface';
 import * as constants from '../../../../constants/constants';
 
@@ -48,6 +53,22 @@ export class InfoComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  private deleteAccountRequest(da_params: DaParams): void{
+    let da_data: DeleteProfileInterface = {
+      conf_password: da_params.conf_password,
+      http: this.http,
+      password: da_params.password,
+      token_key: this.userCookie['token_key'],
+      url: this.deleteProfileUrl
+    };
+    let da: DeleteProfile = new DeleteProfile(da_data);
+    da.deleteProfile().then(obj => {
+
+    }).catch(err => {
+
+    });
+  }
+
   /**
    * When user submit delete account form
    */
@@ -65,9 +86,14 @@ export class InfoComponent implements OnInit {
       };
       let pcd: PasswordConfirmDialog = new PasswordConfirmDialog(pcdi);
       pcd.bt_ok.addEventListener('click',()=>{
+        let da_params: DaParams = {
+          conf_password: pcd.i_confpass.value,
+          password: pcd.i_pass.value
+        };
         pcd.instance.dispose();
         pcd.div_dialog.remove();
         document.body.style.overflow = 'auto';
+        this.deleteAccountRequest(da_params);
       });
       pcd.bt_canc.addEventListener('click',()=>{
         pcd.instance.dispose();
@@ -82,8 +108,21 @@ export class InfoComponent implements OnInit {
     });
   }
 
-  editPasswordRequest(): void{
+  private editPasswordRequest(ep_params: EpParams): void{
+    let ep_data: UpdatePasswordInterface = {
+      conf_new_password: ep_params.conf_new_password,
+      http: this.http,
+      new_password: ep_params.new_password,
+      old_password: ep_params.old_password,
+      token_key: this.userCookie['token_key'],
+      url: this.updatePasswordUrl
+    };
+    let ep: UpdatePassword = new UpdatePassword(ep_data);
+    ep.updatePassword().then(obj => {
 
+    }).catch(err => {
+
+    });
   }
 
   /**
@@ -100,6 +139,12 @@ export class InfoComponent implements OnInit {
         cd.instance.dispose();
         cd.div_dialog.remove();
         document.body.style.overflow = 'auto';
+        let ep_params: EpParams = {
+          conf_new_password: this.groupEp.controls['confNewPwd'].value,
+          new_password: this.groupEp.controls['newPwd'].value,
+          old_password: this.groupEp.controls['currentPwd'].value
+        };
+        this.editPasswordRequest(ep_params);
       });
       cd.bt_no.addEventListener('click',()=>{
         cd.instance.dispose();
@@ -116,7 +161,7 @@ export class InfoComponent implements OnInit {
     }
   }
 
-  editUsernameRequest(new_username: string): void{
+  private editUsernameRequest(new_username: string): void{
     let uu_data: UpdateUsernameInterface = {
       http: this.http,
       token_key: this.userCookie['token_key'],
@@ -163,8 +208,7 @@ export class InfoComponent implements OnInit {
     }
   }
 
-
-  getUsername(): void{
+  private getUsername(): void{
     let gu_data: GetUsernameInterface = {
       http: this.http,
       token_key: this.userCookie['token_key'],
