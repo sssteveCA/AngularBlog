@@ -118,6 +118,26 @@ export const notLoggedRedirect: string = "/login";
 export const notFoundUrl: string = '/404';
 
 /**
+ * URL to delete the logged account
+ */
+ export const profileDeleteUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/info/deleteprofile.php";
+
+/**
+ * URL to get the logged username
+ */
+export const profileGetUsernameUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/info/getusername.php";
+
+/**
+ * URL to update the account logged password
+ */
+ export const profileUpdatePasswordUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/info/updatepassword.php";
+
+/**
+ * URL to update the logged username
+ */
+ export const profileUpdateUsernameUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/info/updateusername.php";
+
+/**
  * url for get information of the logged account
  */
 export const profileUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile.php";

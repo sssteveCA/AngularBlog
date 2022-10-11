@@ -9,10 +9,14 @@ import { ApiService } from 'src/app/api.service';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
 import MessageDialog from 'src/classes/dialogs/messagedialog';
 import PasswordConfirmDialog from 'src/classes/dialogs/passwordconfirmdialog';
+import { getUsername } from 'src/classes/requests/profile/getusername';
+import UpdateUsername from 'src/classes/requests/profile/updateusername';
 import { Messages } from 'src/constants/messages';
 import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import PasswordConfirmDialogInterface from 'src/interfaces/dialogs/passwordconfirmdialog.interface';
+import GetUsernameInterface from 'src/interfaces/requests/profile/getusername.interface';
+import UpdateUsernameInterface from 'src/interfaces/requests/profile/updateusername.interface';
 import * as constants from '../../../../constants/constants';
 
 @Component({
@@ -30,10 +34,15 @@ export class InfoComponent implements OnInit {
   userCookie: any = {};
   groupEu: FormGroup; //Edit username form group
   groupEp: FormGroup; //Edit password form group
+  getUsernameUrl: string = constants.profileGetUsernameUrl;
+  updateUsernameUrl: string = constants.profileUpdateUsernameUrl;
+  updatePasswordUrl: string = constants.profileUpdatePasswordUrl;
+  deleteProfileUrl: string = constants.profileDeleteUrl;
 
   constructor(public http: HttpClient, public api: ApiService, public router: Router, public fb: FormBuilder) {
     this.observeFromService();
     this.setFormsGroup();
+    this.getUsername();
    }
 
   ngOnInit(): void {
@@ -73,6 +82,10 @@ export class InfoComponent implements OnInit {
     });
   }
 
+  editPasswordRequest(): void{
+
+  }
+
   /**
    * When user submit edit password form
    */
@@ -103,6 +116,21 @@ export class InfoComponent implements OnInit {
     }
   }
 
+  editUsernameRequest(new_username: string): void{
+    let uu_data: UpdateUsernameInterface = {
+      http: this.http,
+      token_key: this.userCookie['token_key'],
+      new_username: new_username,
+      url: this.updateUsernameUrl
+    };
+    let uu: UpdateUsername = new UpdateUsername(uu_data);
+    uu.updateUsername().then(obj => {
+
+    }).catch(err => {
+
+    });
+  }
+
   /**
    * When user submit edit username form
    */
@@ -117,6 +145,8 @@ export class InfoComponent implements OnInit {
         cd.instance.dispose();
         cd.div_dialog.remove();
         document.body.style.overflow = 'auto';
+        let new_username: string = this.groupEu.controls['username'].value;
+        this.editUsernameRequest(new_username);
       });
       cd.bt_no.addEventListener('click',()=>{
         cd.instance.dispose();
@@ -131,6 +161,21 @@ export class InfoComponent implements OnInit {
       };
       this.messageDialog(mdi);
     }
+  }
+
+
+  getUsername(): void{
+    let gu_data: GetUsernameInterface = {
+      http: this.http,
+      token_key: this.userCookie['token_key'],
+      url: this.getUsernameUrl
+    }
+    let gu: getUsername = new getUsername(gu_data);
+    gu.getUsername().then(obj => {
+
+    }).catch(err => {
+
+    });
   }
 
   messageDialog(mdi: MessageDialogInterface): void{
