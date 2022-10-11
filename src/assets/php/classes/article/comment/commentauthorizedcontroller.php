@@ -4,6 +4,10 @@ namespace AngularBlog\Classes\Article\Comment;
 
 use AngularBlog\Classes\Comment\Comment;
 use AngularBlog\Classes\Token;
+use AngularBlog\Exceptions\CommentTypeMismatchException;
+use AngularBlog\Exceptions\NoCommentInstanceException;
+use AngularBlog\Exceptions\NoTokenInstanceException;
+use AngularBlog\Exceptions\TokenTypeMismatchException;
 use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Interfaces\Article\Comment\CommentAuthorizedControllerErrors as Cace;
 use AngularBlog\Traits\AuthorizedTrait;
@@ -62,10 +66,10 @@ class CommentAuthorizedController implements Cace{
 
     //Check if values inside array are Article,User,Token types
     private function checkVariables(array $data){
-        if(!isset($data['comment']))throw new \Exception(Cace::NOCOMMENTINSTANCE_EXC);
-        if(!isset($data['token']))throw new \Exception(Cace::NOTOKENINSTANCE_EXC);
-        if(!$data['comment'] instanceof Comment)throw new \Exception(Cace::COMMENTTYPEMISMATCH_EXC);
-        if(!$data['token'] instanceof Token)throw new \Exception(Cace::TOKENTYPEMISMATCH_EXC);
+        if(!isset($data['comment']))throw new NoCommentInstanceException(Cace::NOCOMMENTINSTANCE_EXC);
+        if(!isset($data['token']))throw new NoTokenInstanceException(Cace::NOTOKENINSTANCE_EXC);
+        if(!$data['comment'] instanceof Comment)throw new CommentTypeMismatchException(Cace::COMMENTTYPEMISMATCH_EXC);
+        if(!$data['token'] instanceof Token)throw new TokenTypeMismatchException(Cace::TOKENTYPEMISMATCH_EXC);
     }
 
     //Get article info by id

@@ -5,6 +5,7 @@ namespace AngularBlog\Classes\Logout;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\Logout\LogoutControllerErrors as Loce;
 use AngularBlog\Classes\Token;
+use AngularBlog\Exceptions\NoTokenInstanceException;
 use AngularBlog\Traits\ErrorTrait;
 
 class LogoutController implements C,Loce{
@@ -16,7 +17,7 @@ class LogoutController implements C,Loce{
 
     public function __construct(?Token $token)
     {
-        if(!$token)throw new \Exception(Loce::NOTOKENINSTANCE_EXC);
+        if(!$token)throw new NoTokenInstanceException(Loce::NOTOKENINSTANCE_EXC);
         $this->token = $token;
         $this->logout();
         $this->setResponse();

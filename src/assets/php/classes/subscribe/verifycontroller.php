@@ -3,6 +3,7 @@
 namespace AngularBlog\Classes\Subscribe;
 
 use AngularBlog\Classes\User;
+use AngularBlog\Exceptions\NoUserInstanceException;
 use AngularBlog\Interfaces\ModelErrors as Me;
 use AngularBlog\Interfaces\Subscribe\VerifyControllerErrors as Vce;
 use AngularBlog\Interfaces\Constants as C;
@@ -18,7 +19,7 @@ class VerifyController implements Vce,Me,C{
 
     public function __construct(?User $user)
     {
-        if(!$user)throw new \Exception(Vce::NOUSERINSTANCE_EXC);
+        if(!$user)throw new NoUserInstanceException(Vce::NOUSERINSTANCE_EXC);
         $this->user = $user;
         $this->active();
         $this->setResponse();

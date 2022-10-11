@@ -7,6 +7,10 @@ use AngularBlog\Classes\Article\Article;
 use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Interfaces\Article\ArticleAuthorizedControllerErrors as Aace;
 use AngularBlog\Classes\Token;
+use AngularBlog\Exceptions\ArticleTypeMismatchException;
+use AngularBlog\Exceptions\NoArticleInstanceException;
+use AngularBlog\Exceptions\NoTokenInstanceException;
+use AngularBlog\Exceptions\TokenTypeMismatchException;
 use AngularBlog\Traits\AuthorizedTrait;
 use MongoDB\BSON\ObjectId;
 use AngularBlog\Traits\ErrorTrait;
@@ -64,10 +68,10 @@ class ArticleAuthorizedController implements Aace{
 
     //Check if values inside array are Article,User,Token types
     private function checkVariables(array $data){
-        if(!isset($data['article']))throw new \Exception(Aace::NOARTICLEINSTANCE_EXC);
-        if(!isset($data['token']))throw new \Exception(Aace::NOTOKENINSTANCE_EXC);
-        if(!$data['article'] instanceof Article)throw new \Exception(Aace::ARTICLETYPEMISMATCH_EXC);
-        if(!$data['token'] instanceof Token)throw new \Exception(Aace::TOKENTYPEMISMATCH_EXC);
+        if(!isset($data['article']))throw new NoArticleInstanceException(Aace::NOARTICLEINSTANCE_EXC);
+        if(!isset($data['token']))throw new NoTokenInstanceException(Aace::NOTOKENINSTANCE_EXC);
+        if(!$data['article'] instanceof Article)throw new ArticleTypeMismatchException(Aace::ARTICLETYPEMISMATCH_EXC);
+        if(!$data['token'] instanceof Token)throw new TokenTypeMismatchException(Aace::TOKENTYPEMISMATCH_EXC);
     }
 
     //Get token by token key

@@ -6,6 +6,7 @@ use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\Subscribe\RegistrationControllerErrors as Rce;
 use AngularBlog\Interfaces\UserErrors as Ue;
 use AngularBlog\Classes\User;
+use AngularBlog\Exceptions\NoUserInstanceException;
 use AngularBlog\Traits\ErrorTrait;
 
 //This class add subscriber data to DB and send activation email to user
@@ -20,7 +21,7 @@ class RegistrationController implements Rce,Ue,C{
 
     public function __construct(?User $user)
     {
-        if(!$user)throw new \Exception(Rce::NOUSERINSTANCE_EXC);
+        if(!$user)throw new NoUserInstanceException(Rce::NOUSERINSTANCE_EXC);
         $this->user = $user;
         $reg = $this->registration();
         if($reg){

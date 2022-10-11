@@ -6,6 +6,7 @@ use AngularBlog\Classes\Token;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\Login\LoginControllerErrors as Lce;
 use AngularBlog\Classes\User;
+use AngularBlog\Exceptions\NoUserInstanceException;
 use MongoDB\BSON\ObjectId;
 use MongoDB\Driver\Exception\BulkWriteException;
 use AngularBlog\Traits\ErrorTrait;
@@ -20,7 +21,7 @@ class LoginController implements Lce,C{
 
     public function __construct(?User $user)
     {
-        if(!$user)throw new \Exception(Lce::NOUSERINSTANCE_EXC);
+        if(!$user)throw new NoUserInstanceException(Lce::NOUSERINSTANCE_EXC);
         $this->user = $user;
         $login = $this->login();
         if($login){

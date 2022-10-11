@@ -8,6 +8,10 @@ use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Classes\Article\Article;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\Article\ArticleAuthorizedController;
+use AngularBlog\Exceptions\ArticleTypeMismatchException;
+use AngularBlog\Exceptions\NoArticleInstanceException;
+use AngularBlog\Exceptions\NoTokenInstanceException;
+use AngularBlog\Exceptions\TokenTypeMismatchException;
 use AngularBlog\Interfaces\Article\ArticleAuthorizedControllerErrors as Aace;
 use MongoDB\BSON\ObjectId;
 use AngularBlog\Traits\ErrorTrait;
@@ -58,10 +62,10 @@ class EditContoller implements Ece{
 
     //Check if array provided has valid values
     private function checkValues(array $data){
-        if(!isset($data['article']))throw new \Exception(Ece::NOARTICLEINSTANCE_EXC);
-        if(!isset($data['token']))throw new \Exception(Ece::NOTOKENINSTANCE_EXC);
-        if(!$data['article'] instanceof Article)throw new \Exception(Ece::INVALIDARTICLETYPE_EXC);
-        if(!$data['token'] instanceof Token)throw new \Exception(Ece::INVALIDTOKENTYPE_EXC);
+        if(!isset($data['article']))throw new NoArticleInstanceException(Ece::NOARTICLEINSTANCE_EXC);
+        if(!isset($data['token']))throw new NoTokenInstanceException(Ece::NOTOKENINSTANCE_EXC);
+        if(!$data['article'] instanceof Article)throw new ArticleTypeMismatchException(Ece::INVALIDARTICLETYPE_EXC);
+        if(!$data['token'] instanceof Token)throw new TokenTypeMismatchException(Ece::INVALIDTOKENTYPE_EXC);
 
     }
 

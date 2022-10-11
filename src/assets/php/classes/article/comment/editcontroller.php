@@ -10,6 +10,10 @@ use AngularBlog\Traits\ResponseTrait;
 use AngularBlog\Interfaces\Article\Comment\EditControllerErrors as Ece;
 use AngularBlog\Classes\Article\Comment\CommentAuthorizedController;
 use AngularBlog\Classes\Myarticles\EditContoller;
+use AngularBlog\Exceptions\CommentTypeMismatchException;
+use AngularBlog\Exceptions\NoCommentInstanceException;
+use AngularBlog\Exceptions\NoTokenInstanceException;
+use AngularBlog\Exceptions\TokenTypeMismatchException;
 use MongoDB\BSON\ObjectId;
 use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Interfaces\Article\Comment\CommentAuthorizedControllerErrors as Cace;
@@ -55,10 +59,10 @@ class EditController implements Ece{
 
     //Check if array provided has valid values
     private function checkValues(array $data){
-        if(!isset($data['comment']))throw new \Exception(Ece::NOACOMMENTINSTANCE_EXC);
-        if(!isset($data['token']))throw new \Exception(Ece::NOTOKENINSTANCE_EXC);
-        if(!$data['comment'] instanceof Comment)throw new \Exception(Ece::INVALIDCOMMENTTYPE_EXC);
-        if(!$data['token'] instanceof Token)throw new \Exception(Ece::INVALIDTOKENTYPE_EXC);
+        if(!isset($data['comment']))throw new NoCommentInstanceException(Ece::NOACOMMENTINSTANCE_EXC);
+        if(!isset($data['token']))throw new NoTokenInstanceException(Ece::NOTOKENINSTANCE_EXC);
+        if(!$data['comment'] instanceof Comment)throw new CommentTypeMismatchException(Ece::INVALIDCOMMENTTYPE_EXC);
+        if(!$data['token'] instanceof Token)throw new TokenTypeMismatchException(Ece::INVALIDTOKENTYPE_EXC);
     }
 
     //Check if user is authorized to edit the comment

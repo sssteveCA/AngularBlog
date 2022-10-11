@@ -6,6 +6,7 @@ use AngularBlog\Interfaces\Logout\LogoutViewErrors as Love;
 use AngularBlog\Classes\Logout\LogoutController;
 
 class LogoutView implements Love{
+
     private ?LogoutController $loc;
     private bool $logoutOk = false; //If it's true don't show a message and redirect to homepage
     private string $message = "";

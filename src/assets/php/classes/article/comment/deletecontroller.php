@@ -10,6 +10,10 @@ use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Traits\ResponseTrait;
 use AngularBlog\Interfaces\Article\Comment\DeleteControllerErrors as Dce;
 use AngularBlog\Classes\Article\Comment\CommentAuthorizedController;
+use AngularBlog\Exceptions\CommentTypeMismatchException;
+use AngularBlog\Exceptions\NoCommentInstanceException;
+use AngularBlog\Exceptions\NoTokenInstanceException;
+use AngularBlog\Exceptions\TokenTypeMismatchException;
 use AngularBlog\Interfaces\Article\Comment\CommentAuthorizedControllerErrors as Cace;
 use MongoDB\BSON\ObjectId;
 
@@ -71,10 +75,10 @@ class DeleteController implements Dce{
 
     //Check if array provided has valid values
     private function checkValues(array $data){
-        if(!isset($data['comment']))throw new \Exception(Dce::NOCOMMENTINSTANCE_EXC);
-        if(!isset($data['token']))throw new \Exception(Dce::NOTOKENINSTANCE_EXC);
-        if(!$data['comment'] instanceof Comment)throw new \Exception(Dce::INVALIDCOMMENTTYPE_EXC);
-        if(!$data['token'] instanceof Token)throw new \Exception(Dce::INVALIDTOKENTYPE_EXC);
+        if(!isset($data['comment']))throw new NoCommentInstanceException(Dce::NOCOMMENTINSTANCE_EXC);
+        if(!isset($data['token']))throw new NoTokenInstanceException(Dce::NOTOKENINSTANCE_EXC);
+        if(!$data['comment'] instanceof Comment)throw new CommentTypeMismatchException(Dce::INVALIDCOMMENTTYPE_EXC);
+        if(!$data['token'] instanceof Token)throw new TokenTypeMismatchException(Dce::INVALIDTOKENTYPE_EXC);
     }
 
     //Delete the comment

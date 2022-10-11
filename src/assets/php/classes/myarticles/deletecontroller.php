@@ -9,6 +9,10 @@ use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Classes\Article\Article;
 use AngularBlog\Classes\Article\ArticleAuthorizedController;
 use AngularBlog\Classes\Token;
+use AngularBlog\Exceptions\ArticleTypeMismatchException;
+use AngularBlog\Exceptions\NoArticleInstanceException;
+use AngularBlog\Exceptions\NoTokenInstanceException;
+use AngularBlog\Exceptions\TokenTypeMismatchException;
 use MongoDB\BSON\ObjectId;
 use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Traits\ResponseTrait;
@@ -53,10 +57,10 @@ class DeleteController implements Dce{
 
     //Check if array provided has valid values
     private function checkValues(array $data){
-        if(!isset($data['article']))throw new \Exception(Dce::NOARTICLEINSTANCE_EXC);
-        if(!isset($data['token']))throw new \Exception(Dce::NOTOKENINSTANCE_EXC);
-        if(!$data['article'] instanceof Article)throw new \Exception(Dce::INVALIDARTICLETYPE_EXC);
-        if(!$data['token'] instanceof Token)throw new \Exception(Dce::INVALIDTOKENTYPE_EXC);
+        if(!isset($data['article']))throw new NoArticleInstanceException(Dce::NOARTICLEINSTANCE_EXC);
+        if(!isset($data['token']))throw new NoTokenInstanceException(Dce::NOTOKENINSTANCE_EXC);
+        if(!$data['article'] instanceof Article)throw new ArticleTypeMismatchException(Dce::INVALIDARTICLETYPE_EXC);
+        if(!$data['token'] instanceof Token)throw new TokenTypeMismatchException(Dce::INVALIDTOKENTYPE_EXC);
     }
 
     //Check if user is authorized to edit the article
