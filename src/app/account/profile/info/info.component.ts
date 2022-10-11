@@ -43,6 +43,7 @@ export class InfoComponent implements OnInit {
   updateUsernameUrl: string = constants.profileUpdateUsernameUrl;
   updatePasswordUrl: string = constants.profileUpdatePasswordUrl;
   deleteProfileUrl: string = constants.profileDeleteUrl;
+  usernameError: boolean = false;
 
   constructor(public http: HttpClient, public api: ApiService, public router: Router, public fb: FormBuilder) {
     this.observeFromService();
@@ -216,6 +217,13 @@ export class InfoComponent implements OnInit {
     }
     let gu: getUsername = new getUsername(gu_data);
     gu.getUsername().then(obj => {
+      if(obj['done'] == true){
+
+      }//if(obj['done'] == true){
+      else if(obj['done'] == false && obj['expired'] == true){}
+      else{
+        this.usernameError = true;
+      }
 
     }).catch(err => {
 

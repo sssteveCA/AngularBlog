@@ -21,6 +21,9 @@
                 </div>
             </div>
         </form>
+        <ng-template [ngIf]="usernameError">
+            <div class="alert aler-danger my-5" role="alert">Impossibile rilevare il tuo nome utente</div>
+        </ng-template>
     </div>
     <div class="edit-password info-section">
         <div class="sub-header">
