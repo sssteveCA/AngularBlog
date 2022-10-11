@@ -18,6 +18,7 @@ class GetUsernameController implements Guce {
 
     private ?Token $token;
     private ?User $user;
+    private string $username;
     private static string $logFile = C::FILE_LOG;
 
     public function __construct(array $data)
@@ -35,7 +36,15 @@ class GetUsernameController implements Guce {
     }
 
     private function getUsername(): bool{
-        return false;
+        $this->errno = 0;
+        $token_key = $this->token->getTokenKey();
+        $token_get = $this->token->token_get(['token_key' => $token_key]);
+        if($this->token->getErrno() != 0) return false;
+        $user_id = $this->token->getUserId();
+        $user_get = $this->user->user_get(['_id' => $user_id]);
+        if($this->user->getErrno() != 0)return false;
+        $this->username = $this->user->getUsername();
+        return true;
     }
 }
 ?>
