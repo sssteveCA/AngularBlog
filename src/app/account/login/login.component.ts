@@ -72,6 +72,7 @@ export class LoginComponent implements OnInit {
         this.dialogMessage(md_data);
       }
     }).catch(err => {
+      //console.log(err);
       this.showSpinner = false;
       const md_data: MessageDialogInterface = {
         title: 'Login',
