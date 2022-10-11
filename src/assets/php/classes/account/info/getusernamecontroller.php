@@ -23,6 +23,8 @@ class GetUsernameController implements Guce{
     public function __construct(array $data)
     {
         $this->checkValues($data);
+        $this->token = $data['token'];
+        $this->user = $data['user'];
     }
 
     private function checkValues(array $data){
