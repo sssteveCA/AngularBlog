@@ -24,7 +24,7 @@ export class getUsername{
         let response: object = {};
         try{
             await this.getUsernamePromise().then( res => {
-                console.log(res);
+                //console.log(res);
                 response = JSON.parse(res);
             }).catch(err => {
                 throw err;

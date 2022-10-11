@@ -43,7 +43,7 @@ export class InfoComponent implements OnInit {
   updateUsernameUrl: string = constants.profileUpdateUsernameUrl;
   updatePasswordUrl: string = constants.profileUpdatePasswordUrl;
   deleteProfileUrl: string = constants.profileDeleteUrl;
-  showUsernameSpinner: boolean = true;
+  showUsernameSpinner: boolean = false;
   showPasswordSpinner: boolean = false;
   showDeleteProfileSpinner: boolean = false;
   usernameError: boolean = false;
@@ -216,13 +216,13 @@ export class InfoComponent implements OnInit {
   private getUsername(): void{
     let gu_data: GetUsernameInterface = {
       http: this.http,
-      token_key: this.userCookie['token_key'],
+      token_key: localStorage.getItem("token_key") as string,
       url: this.getUsernameUrl
-    }
+    };
     let gu: getUsername = new getUsername(gu_data);
     gu.getUsername().then(obj => {
       if(obj['done'] == true){
-
+        this.groupEu.controls['username'].setValue(obj['username']);
       }//if(obj['done'] == true){
       else if(obj['done'] == false && obj['expired'] == true){}
       else{

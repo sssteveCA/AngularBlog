@@ -66,8 +66,10 @@
                 </div>
             </div>
         </form>
-        <div class="spinner-grow" [class.d-none]="!showPasswordSpinner" role="status">
-            <span class="visually-hidden">Loading...</span>
+        <div class="mt-2 text-center" [class.d-none]="!showPasswordSpinner">
+            <div class="spinner-grow"  role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
         </div>
     </div>
     <div class="delete-account info-section">
@@ -83,8 +85,10 @@
                 </div>
             </div>
         </form>
-        <div class="spinner-grow" [class.d-none]="!showDeleteProfileSpinner" role="status">
-            <span class="visually-hidden">Loading...</span>
+        <div class="mt-2 text-center" [class.d-none]="!showDeleteProfileSpinner">
+            <div class="spinner-grow"  role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
         </div>
     </div>
 </div>
