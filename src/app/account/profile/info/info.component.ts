@@ -15,6 +15,7 @@ import UpdatePassword from 'src/classes/requests/profile/updatepassword';
 import UpdateUsername from 'src/classes/requests/profile/updateusername';
 import { Messages } from 'src/constants/messages';
 import { DaParams, EpParams } from 'src/constants/types';
+import { messageDialog } from 'src/functions/functions';
 import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import PasswordConfirmDialogInterface from 'src/interfaces/dialogs/passwordconfirmdialog.interface';
@@ -162,7 +163,7 @@ export class InfoComponent implements OnInit {
         title: 'Modifica password',
         message: 'Uno o più dati tra quelli richiesti hanno un formato non valido'
       };
-      this.messageDialog(mdi);
+      messageDialog(mdi);
     }
   }
 
@@ -209,7 +210,7 @@ export class InfoComponent implements OnInit {
         title: 'Modifica nome utente',
         message: 'Il nome utente inserito ha un formato non valido'
       };
-      this.messageDialog(mdi);
+      messageDialog(mdi);
     }
   }
 
@@ -224,21 +225,17 @@ export class InfoComponent implements OnInit {
       if(obj['done'] == true){
         this.groupEu.controls['username'].setValue(obj['username']);
       }//if(obj['done'] == true){
-      else if(obj['done'] == false && obj['expired'] == true){}
+      else if(obj['done'] == false && obj['expired'] == true){
+        this.api.removeItems();
+        this.userCookie = {};
+        this.api.changeUserdata(this.userCookie);
+        this.router.navigateByUrl(constants.notLoggedRedirect);
+      }
       else{
         this.usernameError = true;
       }
     }).catch(err => {
       this.usernameError = true;
-    });
-  }
-
-  messageDialog(mdi: MessageDialogInterface): void{
-    let md: MessageDialog = new MessageDialog(mdi);
-    md.bt_ok.addEventListener('click', ()=>{
-      md.instance.dispose();
-      md.div_dialog.remove();
-      document.body.style.overflow = 'auto';
     });
   }
 

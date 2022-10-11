@@ -10,6 +10,7 @@ import * as constants from '../../../constants/constants';
 import LoginRequestInterface from 'src/interfaces/loginrequest.interface';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import LoginRequest from 'src/classes/requests/loginrequest';
+import { messageDialog } from 'src/functions/functions';
 
 @Component({
   selector: 'app-login',
@@ -69,7 +70,7 @@ export class LoginComponent implements OnInit {
           title: 'Login',
           message: obj['msg']
         };
-        this.dialogMessage(md_data);
+        messageDialog(md_data);
       }
     }).catch(err => {
       //console.log(err);
@@ -78,17 +79,8 @@ export class LoginComponent implements OnInit {
         title: 'Login',
         message: Messages.LOGIN_ERROR
       };
-      this.dialogMessage(md_data);
+      messageDialog(md_data);
     })
-  }
-
-  dialogMessage(md_data: MessageDialogInterface){
-    let md: MessageDialog = new MessageDialog(md_data);
-    md.bt_ok.addEventListener('click',()=>{
-      md.instance.dispose();
-      md.div_dialog.remove();
-      document.body.style.overflow = 'auto';
-    });
   }
 
   //when login form is submitted
@@ -108,7 +100,7 @@ export class LoginComponent implements OnInit {
         title: 'Login',
         message: Messages.INVALIDDATA_ERROR
       };
-      this.dialogMessage(md_data);
+      messageDialog(md_data);
     }
     
   }

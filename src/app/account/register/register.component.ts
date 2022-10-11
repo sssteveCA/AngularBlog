@@ -8,6 +8,7 @@ import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interfa
 import { Messages } from 'src/constants/messages';
 import SubscribeRequestInterface from 'src/interfaces/subscriberequest.interface';
 import SubscribeRequest from 'src/classes/requests/subscriberequest';
+import { messageDialog } from 'src/functions/functions';
 
 @Component({
   selector: 'app-register',
@@ -110,24 +111,15 @@ export class RegisterComponent implements OnInit {
         title: 'Registrazione',
         message: obj['msg']
       };
-      this.dialogMessage(md_data);
+      messageDialog(md_data);
     }).catch(err => {
       this.showSpinner = false;
       const md_data: MessageDialogInterface = {
         title: 'Registrazione',
         message: Messages.SUBSCRIBE_ERROR
       };
-      this.dialogMessage(md_data);
+      messageDialog(md_data);
     });
-  }
-
-  dialogMessage(md_data: MessageDialogInterface) {
-    let md: MessageDialog = new MessageDialog(md_data);
-      md.bt_ok.addEventListener('click',()=>{
-        md.instance.dispose();
-        md.div_dialog.remove();
-        document.body.style.overflow = 'auto';
-      });
   }
 
 }

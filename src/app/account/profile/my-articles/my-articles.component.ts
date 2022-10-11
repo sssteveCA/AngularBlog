@@ -17,6 +17,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import GetArticlesInterface from 'src/interfaces/requests/article/getarticles.interface';
 import GetArticles from 'src/classes/requests/article/getarticles';
 import { Config } from 'config';
+import { messageDialog } from 'src/functions/functions';
 
 @Component({
   selector: 'app-my-articles',
@@ -125,21 +126,12 @@ export class MyArticlesComponent implements OnInit {
           title: 'Rimuovi articolo',
           message: Messages.DELETEARTICLE_ERROR
         };
-        this.dialogMessage(md_data);
+        messageDialog(md_data);
       })
     });
     cd.bt_no.addEventListener('click',()=>{
       cd.instance.dispose();
       document.body.removeChild(cd.div_dialog);
-      document.body.style.overflow = 'auto';
-    });
-  }
-
-  private dialogMessage(md_data: MessageDialogInterface){
-    let md: MessageDialog = new MessageDialog(md_data);
-    md.bt_ok.addEventListener('click',()=>{
-      md.instance.dispose();
-      md.div_dialog.remove();
       document.body.style.overflow = 'auto';
     });
   }

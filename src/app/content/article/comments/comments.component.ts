@@ -17,7 +17,7 @@ import GetCommentsInterface from 'src/interfaces/requests/article/comment/getcom
 import GetComments from 'src/classes/requests/article/comment/getcomments';
 import UpdateCommentInterface from 'src/interfaces/requests/article/comment/updatecomment.interface';
 import UpdateComment from 'src/classes/requests/article/comment/updatecomment';
-import { IfStmt } from '@angular/compiler';
+import { messageDialog } from 'src/functions/functions';
 
 @Component({
   selector: 'app-comments',
@@ -78,7 +78,7 @@ export class CommentsComponent implements OnInit,AfterViewInit {
             title: 'Nuovo commento',
             message: obj['msg']
           };
-          this.dialogMessage(md_data);
+          messageDialog(md_data);
         }
       }).catch(err => {
         console.warn(err);
@@ -86,7 +86,7 @@ export class CommentsComponent implements OnInit,AfterViewInit {
           title: 'Nuovo commento',
           message: Messages.COMMENTNEW_ERROR
         };
-        this.dialogMessage(md_data);
+        messageDialog(md_data);
       });//this.addCommentPromise(post_values).then(res => {
     }//if(this.newComment.valid){
     else{
@@ -94,7 +94,7 @@ export class CommentsComponent implements OnInit,AfterViewInit {
         title: 'Nuovo commento',
         message: Messages.INSERTCOMMENT_ERROR
       };
-      this.dialogMessage(md_data);
+      messageDialog(md_data);
     }
   }
 
@@ -134,7 +134,7 @@ export class CommentsComponent implements OnInit,AfterViewInit {
             title: 'Elimina commento',
             message: obj['msg']
           };
-          this.dialogMessage(md_data);
+          messageDialog(md_data);
         }
       }).catch(err => {
         console.warn(err);
@@ -142,7 +142,7 @@ export class CommentsComponent implements OnInit,AfterViewInit {
           title: 'Elimina commento',
           message: Messages.COMMENTDELETE_ERROR
         };
-        this.dialogMessage(md_data);
+        messageDialog(md_data);
       });
     });
     cd.bt_no.addEventListener('click',()=>{
@@ -150,15 +150,6 @@ export class CommentsComponent implements OnInit,AfterViewInit {
       cd.div_dialog.remove();
       document.body.style.overflow = 'auto';
     });
-  }
-
-  dialogMessage(md_data: MessageDialogInterface) {
-    let md: MessageDialog = new MessageDialog(md_data);
-      md.bt_ok.addEventListener('click',()=>{
-        md.instance.dispose();
-        md.div_dialog.remove();
-        document.body.style.overflow = 'auto';
-      });
   }
 
   //Get comments of this article
