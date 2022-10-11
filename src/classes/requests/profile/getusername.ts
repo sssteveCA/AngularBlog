@@ -23,10 +23,7 @@ export class getUsername{
     public async getUsername(): Promise<object>{
         let response: object = {};
         try{
-            let getusername_values: object = {
-                token_key: this._token_key
-            };
-            await this.getUsernamePromise(getusername_values).then( res => {
+            await this.getUsernamePromise().then( res => {
                 console.log(res);
                 response = JSON.parse(res);
             }).catch(err => {
@@ -38,10 +35,10 @@ export class getUsername{
         return response;
     }
 
-    private async getUsernamePromise(gu: object): Promise<string>{
+    private async getUsernamePromise(): Promise<string>{
         let promise = await new Promise<string>((resolve, reject) => {
             const headers = new HttpHeaders().set('Content-Type','application/json').set('Accept','application/json');
-            this._http.post(this.url, gu, {headers: headers, responseType: 'text'}).subscribe(res => {
+            this._http.get(`${this.url}?token_key=${this._token_key}`, {headers: headers, responseType: 'text'}).subscribe(res => {
                 resolve(res);
             }, error => {
                 reject(error);
