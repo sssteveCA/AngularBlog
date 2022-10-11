@@ -2,9 +2,9 @@
 
 namespace AngularBlog\Interfaces\MyArticles;
 
-interface GetControllerErrors{
-    //Exception
-    const NOTOKENKEY_EXC = "Non è stata fornita la chiave di login";
+use AngularBlog\Interfaces\ExceptionMessages;
+
+interface GetControllerErrors extends ExceptionMessages{
 
     //Numbers
     const NOUSERIDFOUND = 1;

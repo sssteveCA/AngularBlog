@@ -2,11 +2,10 @@
 
 namespace AngularBlog\Interfaces\Subscribe;
 
-//Error constants of RegistrationController class
-interface RegistrationControllerErrors{
+use AngularBlog\Interfaces\ExceptionMessages;
 
-    //Exceptions
-    const NOUSERINSTANCE_EXC = "L'oggetto User passato è uguale a null";
+//Error constants of RegistrationController class
+interface RegistrationControllerErrors extends ExceptionMessages{
 
     //numbers
     const MAILNOTSENT = 1;

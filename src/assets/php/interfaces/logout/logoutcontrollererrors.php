@@ -2,10 +2,10 @@
 
 namespace AngularBlog\Interfaces\Logout;
 
+use AngularBlog\Interfaces\ExceptionMessages;
+
 //Errors of class LogoutController
-interface LogoutControllerErrors{
-    //Exceptions
-    const NOTOKENINSTANCE_EXC = "L'oggetto Token passato è uguale a null";
+interface LogoutControllerErrors extends ExceptionMessages{
 
     //Numbers
     const TOKENNOTDELETED = 1; //Failed deleting the token

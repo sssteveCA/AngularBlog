@@ -2,12 +2,9 @@
 
 namespace AngularBlog\Interfaces\Article\Comment;
 
-interface CommentAuthorizedControllerErrors{
-     //Exceptions
-     const NOCOMMENTINSTANCE_EXC = "L'oggetto Comment passato è uguale a null";
-     const NOTOKENINSTANCE_EXC = "L'oggetto Token passato è uguale a null";
-     const COMMENTTYPEMISMATCH_EXC = "La variabile Comment non è del tipo atteso";
-     const TOKENTYPEMISMATCH_EXC = "La variabile Token non è del tipo atteso";
+use AngularBlog\Interfaces\ExceptionMessages;
+
+interface CommentAuthorizedControllerErrors extends ExceptionMessages{
 
      //Numbers
     const COMMENT_NOTFOUND = 1; //No comment found with passed id

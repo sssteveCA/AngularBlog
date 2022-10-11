@@ -2,12 +2,9 @@
 
 namespace AngularBlog\Interfaces\Article\Comment;
 
-interface AddControllerErrors{
-    //Exceptions
-    const NOARTICLEPERMALINK_EXC = "Non hai passato il permalink dell'articolo";
-    const NOCOMMENT_EXC = "Non hai fornito il testo del commento";
-    const NOTOKENKEY_EXC = "Non è stata fornita la chiave di login";
+use AngularBlog\Interfaces\ExceptionMessages;
 
+interface AddControllerErrors extends ExceptionMessages{
     //Numbers
     const FROM_ARTICLE = 1;
     const FROM_TOKEN = 2;

@@ -2,9 +2,9 @@
 
 namespace AngularBlog\Interfaces\Subscribe;
 
-interface VerifyControllerErrors{
-    //Exception
-    const NOUSERINSTANCE_EXC = "L'oggetto User passato è uguale a null";
+use AngularBlog\Interfaces\ExceptionMessages;
+
+interface VerifyControllerErrors extends ExceptionMessages{
 
     //Numbers
     const DATANOTSET = 1;

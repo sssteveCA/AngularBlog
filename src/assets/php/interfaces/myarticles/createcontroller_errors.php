@@ -2,11 +2,9 @@
 
 namespace AngularBlog\Interfaces\MyArticles;
 
-interface CreateControllerErrors{
-    //Exception
-    const NOTOKENKEY_EXC = "Non è stata fornita la chiave di login";
-    const NOARTICLEDATA_EXC = "Non hai passato i dati dell'articolo da creare";
+use AngularBlog\Interfaces\ExceptionMessages;
 
+interface CreateControllerErrors extends ExceptionMessages{
     //Numbers
     const NOUSERIDFOUND = 1;
     const INVALIDARTICLEDATA = 2;

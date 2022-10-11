@@ -2,9 +2,9 @@
 
 namespace AngularBlog\Interfaces\Login;
 
-interface LoginControllerErrors{
-    //Exceptions
-    const NOUSERINSTANCE_EXC = "L'oggetto User passato è uguale a null";
+use AngularBlog\Interfaces\ExceptionMessages;
+
+interface LoginControllerErrors extends ExceptionMessages{
 
     //Numbers
     const USERNAMENOTFOUND = 1;
