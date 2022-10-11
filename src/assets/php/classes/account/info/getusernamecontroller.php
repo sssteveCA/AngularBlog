@@ -1,6 +1,6 @@
 <?php
 
-namespace AngularBlog\Classes\Account\Info;
+namespace AngularBlog\Classes\Account;
 
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\User;
@@ -9,7 +9,7 @@ use AngularBlog\Exceptions\NoUserInstanceException;
 use AngularBlog\Exceptions\TokenTypeMismatchException;
 use AngularBlog\Exceptions\UserTypeMismatchException;
 use AngularBlog\Traits\ErrorTrait;
-use AngularBlog\Interfaces\Account\Info\GetUsernameControllerErrors as Guce;
+use AngularBlog\Interfaces\Account\GetUsernameControllerErrors as Guce;
 use AngularBlog\Traits\ResponseTrait;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\TokenErrors as Te;
@@ -31,6 +31,7 @@ class GetUsernameController implements Guce {
         $this->setResponse();
     }
 
+    public function getToken(){ return $this->token; }
     public function getError(){
         switch($this->errno){
             case Guce::FROM_TOKEN:
@@ -66,7 +67,7 @@ class GetUsernameController implements Guce {
             return false;
         }
         $user_id = $this->token->getUserId();
-        $user_get = $this->user->user_get(['_id' => $user_id]);
+        $user_get = $this->user->user_get(['_id' => new ObjectId($user_id)]);
         if($this->user->getErrno() != 0){
             $this->errno = Guce::FROM_USER;
             return false;

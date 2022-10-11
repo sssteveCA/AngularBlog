@@ -1,9 +1,9 @@
 <?php
 
-namespace AngularBlog\Classes\Account\Info;
+namespace AngularBlog\Classes\Info;
 
-use AngularBlog\Traits\ErrorTrait;
-use AngularBlog\Interfaces\Account\Info\GetUsernameViewErrors as Guve;
+use AngularBlog\Classes\Account\GetUsernameController;
+use AngularBlog\Interfaces\Account\GetUsernameViewErrors as Guve;
 use AngularBlog\Traits\MessageTrait;
 
 class GetUsernameView implements Guve{
@@ -15,6 +15,8 @@ class GetUsernameView implements Guve{
     {
         if(!$guc)throw new \Exception(Guve::NOGETUSERNAMECONTROLLERINSTANCE_EXC);
         $this->guc = $guc;
+        if($this->guc->getErrno() == 0)
+            $this->done = true;
         $this->message = $this->guc->getResponse();
     }
 }

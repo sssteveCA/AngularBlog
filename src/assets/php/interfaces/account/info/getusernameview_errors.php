@@ -1,6 +1,6 @@
 <?php
 
-namespace AngularBlog\Interfaces\Account\Info;
+namespace AngularBlog\Interfaces\Account;
 
 interface GetUsernameViewErrors{
     //Exceptions
