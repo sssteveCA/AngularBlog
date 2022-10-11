@@ -13,7 +13,7 @@ use AngularBlog\Interfaces\Account\Info\GetUsernameControllerErrors as Guce;
 use AngularBlog\Traits\ResponseTrait;
 use AngularBlog\Interfaces\Constants as C;
 
-class GetUsernameController implements Guce{
+class GetUsernameController implements Guce {
     use ErrorTrait, ResponseTrait;
 
     private ?Token $token;

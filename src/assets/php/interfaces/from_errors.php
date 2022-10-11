@@ -7,13 +7,19 @@ namespace AngularBlog\Interfaces;
  */
 interface FromErrors{
     //Numbers
-    const FROM_ARTICLE = 1;
-    const FROM_TOKEN = 2;
-    const FROM_COMMENT = 3;
+    const FROM_ARTICLE = 50;
+    const FROM_TOKEN = 51;
+    const FROM_COMMENT = 52;
+    const FROM_USER = 2; //Error from User instance
+    const FROM_COMMENTAUTHORIZEDCONTROLLER = 60;
+    const FROM_ARTICLEAUTHORIZEDCONTROLLER = 61; 
 
     //Messages
-    const FROM_ARTICLE_MSG = "Errore dalla classe Article";
-    const FROM_TOKEN_MSG = "Errore nella classe Token";
-    const FROM_COMMENT_MSG = "Errore nella classe Comment";
+    const FROM_ARTICLE_MSG = "Errore nell' oggetto Article";
+    const FROM_TOKEN_MSG = "Errore nell' oggetto Token";
+    const FROM_COMMENT_MSG = "Errore nell' oggetto Comment";
+    const FROM_USER_MSG = "Errore nell' oggetto User";
+    const FROM_COMMENTAUTHORIZEDCONTROLLER_MSG = "Errore nell'oggetto CommentAuthorizedController";
+    const FROM_ARTICLEAUTHORIZEDCONTROLLER_MSG = "Errore nell'oggetto ArticleAuthorizedController";
 }
 ?>

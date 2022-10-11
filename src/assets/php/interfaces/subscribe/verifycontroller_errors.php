@@ -3,15 +3,14 @@
 namespace AngularBlog\Interfaces\Subscribe;
 
 use AngularBlog\Interfaces\ExceptionMessages;
+use AngularBlog\Interfaces\FromErrors;
 
-interface VerifyControllerErrors extends ExceptionMessages{
+interface VerifyControllerErrors extends ExceptionMessages, FromErrors{
 
     //Numbers
     const DATANOTSET = 1;
-    const FROMUSER = 2; //Error from User instance
 
     //Messages
     const DATANOTSET_MSG = "I dati richiesti non sono stati impostati";
-    const FROMUSER_MSG = "Errore nell'oggetto User";
 }
 ?>

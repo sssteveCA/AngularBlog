@@ -59,7 +59,7 @@ class EditController implements Ece{
 
     //Check if array provided has valid values
     private function checkValues(array $data){
-        if(!isset($data['comment']))throw new NoCommentInstanceException(Ece::NOACOMMENTINSTANCE_EXC);
+        if(!isset($data['comment']))throw new NoCommentInstanceException(Ece::NOCOMMENTINSTANCE_EXC);
         if(!isset($data['token']))throw new NoTokenInstanceException(Ece::NOTOKENINSTANCE_EXC);
         if(!$data['comment'] instanceof Comment)throw new CommentTypeMismatchException(Ece::INVALIDCOMMENTTYPE_EXC);
         if(!$data['token'] instanceof Token)throw new TokenTypeMismatchException(Ece::INVALIDTOKENTYPE_EXC);

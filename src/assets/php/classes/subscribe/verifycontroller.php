@@ -32,8 +32,8 @@ class VerifyController implements Vce,Me,C{
                 case Vce::DATANOTSET:
                     $this->error = Vce::DATANOTSET_MSG;
                     break;
-                case Vce::FROMUSER:
-                    $this->error = Vce::FROMUSER_MSG;
+                case Vce::FROM_USER:
+                    $this->error = Vce::FROM_USER_MSG;
                     break;
                 $this->error = null;
                 break;
@@ -65,7 +65,7 @@ class VerifyController implements Vce,Me,C{
                 //file_put_contents(VerifyController::$logFile,"Update true\r\n",FILE_APPEND);
                  $ok = true;
              }
-             else $this->errno = Vce::FROMUSER;
+             else $this->errno = Vce::FROM_USER;
         }//if(isset($emailVerif)){
         else $this->errno = Vce::DATANOTSET;
         return $ok;
@@ -78,7 +78,7 @@ class VerifyController implements Vce,Me,C{
             case 0:
                 $this->response = C::ACTIVATION_OK;
                 break;
-            case Vce::FROMUSER:
+            case Vce::FROM_USER:
                 $errnoU = $this->user->getErrno();
                 switch($errnoU){
                     case Me::NOTUPDATED:

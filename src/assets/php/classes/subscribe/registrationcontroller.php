@@ -38,8 +38,8 @@ class RegistrationController implements Rce,Ue,C{
             case Rce::MAILNOTSENT:
                 $this->error = Rce::MAILNOTSENT_MSG;
                 break;
-            case Rce::FROMUSER:
-                $this->error = Rce::FROMUSER_MSG;
+            case Rce::FROM_USER:
+                $this->error = Rce::FROM_USER_MSG;
                 break;
             default:
                 $this->error = null;
@@ -57,7 +57,7 @@ class RegistrationController implements Rce,Ue,C{
             //Data added to DB
             $registration = true;
         }//if($create){
-        else $this->errno = Rce::FROMUSER;
+        else $this->errno = Rce::FROM_USER;
         return $registration;
     }
 
@@ -127,7 +127,7 @@ HTML;
             case Rce::MAILNOTSENT:
                 $this->response = C::EMAIL_ERROR;
                 break;
-            case Rce::FROMUSER:
+            case Rce::FROM_USER:
                 $errnoU = $this->user->getErrno();
                 switch($errnoU){
                     case Ue::INVALIDDATAFORMAT:

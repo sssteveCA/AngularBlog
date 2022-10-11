@@ -3,14 +3,13 @@
 namespace AngularBlog\Interfaces\MyArticles;
 
 use AngularBlog\Interfaces\ExceptionMessages;
+use AngularBlog\Interfaces\FromErrors;
 
-interface DeleteControllerErrors extends ExceptionMessages{
+interface DeleteControllerErrors extends ExceptionMessages, FromErrors{
     //Numbers
-    const FROM_ARTICLEAUTHORIZEDCONTROLLER = 1; //Error from ArticleAuthorizedController
     const ARTICLENOTDELETED = 2; //Article not deleted from Database
 
     //Messages
-    const FROM_ARTICLEAUTHORIZEDCONTROLLER_MSG = "Errore dalla classe ArticleAuthorizedController";
     const ARTICLENOTDELETED_MSG = "L'articolo non è stato rimosso";
 }
 ?>
