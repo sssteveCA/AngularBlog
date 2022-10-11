@@ -1,5 +1,5 @@
 export namespace Messages{
-    export const ADMIN_CONTACT: string = "Se il problema persiste, contattare l'amministratore";
+    const ADMIN_CONTACT: string = "Se il problema persiste, contattare l'amministratore";
     export const ARTICLEAUTHORIZED_ERROR: string = "C'è stato un errore durante la verifica dell'autorizzazione a modificare l'articolo. "+ADMIN_CONTACT;
     export const ARTICLENEW_ERROR: string = "Errore durante la creazione dell'articolo. "+ADMIN_CONTACT;
     export const ARTICLEUPDATE_ERROR: string = "Errore durante la modifica dell'articolo. "+ADMIN_CONTACT;
