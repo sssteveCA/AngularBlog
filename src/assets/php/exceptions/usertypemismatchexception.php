@@ -6,9 +6,9 @@ use Exception;
 use Throwable;
 
 /**
- * Exception thrown when Token instance provided is null
+ * Exception thrown when param is not an instance of User
  */
-class NoTokenInstanceException extends Exception{
+class UserTypeMismatchException extends Exception{
     public function __construct($message, $code = 0, Throwable $previous = null) {
         parent::__construct($message, $code, $previous);
     }

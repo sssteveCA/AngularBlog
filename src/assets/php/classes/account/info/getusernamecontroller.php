@@ -3,6 +3,7 @@
 namespace AngularBlog\Classes\Account\Info;
 
 use AngularBlog\Classes\Token;
+use AngularBlog\Exceptions\NoTokenInstanceException;
 use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Interfaces\Account\Info\GetUsernameControllerErrors as Guce;
 use AngularBlog\Traits\ResponseTrait;
@@ -20,7 +21,7 @@ class GetUsernameController implements Guce{
     }
 
     private function checkValues(array $data){
-        if(!isset($data['token'])) throw new \Exception(Guce::NOTOKENINSTANCE_EXC);
+        if(!isset($data['token'])) throw new NoTokenInstanceException(Guce::NOTOKENINSTANCE_EXC);
     }
 
     private function getUsername(): bool{
