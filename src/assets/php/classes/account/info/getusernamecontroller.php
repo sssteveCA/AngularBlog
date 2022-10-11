@@ -12,6 +12,7 @@ use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Interfaces\Account\Info\GetUsernameControllerErrors as Guce;
 use AngularBlog\Traits\ResponseTrait;
 use AngularBlog\Interfaces\Constants as C;
+use AngularBlog\Interfaces\TokenErrors as Te;
 
 class GetUsernameController implements Guce {
     use ErrorTrait, ResponseTrait;
@@ -59,6 +60,11 @@ class GetUsernameController implements Guce {
             $this->errno = Guce::FROM_TOKEN;
             return false;
         } 
+        $this->token->expireControl();
+        if($this->token->getErrno() != 0){
+            $this->errno = Guce::FROM_TOKEN;
+            return false;
+        }
         $user_id = $this->token->getUserId();
         $user_get = $this->user->user_get(['_id' => $user_id]);
         if($this->user->getErrno() != 0){
@@ -75,7 +81,15 @@ class GetUsernameController implements Guce {
                 $this->response = $this->username;
                 break;
             case Guce::FROM_TOKEN:
-                $this->response = "";
+                $errnoT = $this->token->getErrno();
+                switch($errnoT){
+                    case Te::TOKENEXPIRED:
+                        $this->response = "EXPIRED";
+                        break;
+                    default:
+                        $this->response = "";
+                        break;
+                }
                 break;
             case Guce::FROM_USER:
                 $this->response = "";
