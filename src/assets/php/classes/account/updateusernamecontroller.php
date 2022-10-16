@@ -42,5 +42,11 @@ class UpdateUsernameController implements Uuce{
         if(!$data['token'] instanceof User)throw new UserTypeMismatchException(Uuce::USERTYPEMISMATCH_EXC);
     }
 
+    private function checkAuthorization(): bool{
+        $this->errno = 0;
+        $this->uac_user = clone $this->user;
+        return false;
+    }
+
 }
 ?>
