@@ -28,9 +28,12 @@ require_once("../../../classes/account/userauthorizedview.php");
 require_once("../../../classes/account/updateusernamecontroller.php");
 require_once("../../../classes/account/updateusernameview.php");
 
+use AngularBlog\Interfaces\Constants as C;
+use AngularBlog\Interfaces\TokenErrors as Te;
+use AngularBlog\Classes\Account\UpdateUsernameController;
+use AngularBlog\Classes\Account\UpdateUsernameView;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\User;
-use AngularBlog\Interfaces\Constants as C;
 
 $response = [
     "done" => false, "expired" => false, "msg" => ""
@@ -39,23 +42,38 @@ $response = [
 $input = file_get_contents("php://input");
 $update = json_decode($input,true);
 
-if(isset($update["token_key"],$update["new_username"])){
-    $token_data = [ "token_key" => $update["token_key"] ];
-    $user_data = ["username" => $update["username"]]; 
-    try{
-        $token = new Token($token_data);
-        $user = new User($user_data);
-        $euc_data = [
-            "token" => $token, "user" => $user
-        ];
-
-    }catch(Exception $e){
-
-    }
-}//if(isset($update["token_key"],$update["new_username"])){
+if(isset($update["token_key"],$update["new_username"]) && $update["token_key"] != "" && $update["new_username"] != ""){
+    if(preg_match(User::$regex["username"],$update["new_username"])){
+        $token_data = [ "token_key" => $update["token_key"] ];
+        $user_data = [ "username" => $update["new_username"]]; 
+        try{
+            $token = new Token($token_data);
+            $user = new User($user_data);
+            $uuc_data = [
+                "token" => $token, "user" => $user
+            ];
+            $uuController = new UpdateUsernameController($uuc_data);
+            $uuView = new UpdateUsernameView($uuController);
+            $response['msg'] = $uuView->getMessage();
+            if($uuView->isDone())
+                $response['done'] = true;
+            else{
+            $errnoT = $uuController->getToken()->getErrno();
+                if($errnoT == Te::TOKENEXPIRED)
+                    $response['expired'] = true; 
+            }
+        }catch(Exception $e){
+            echo "Exception message => ".$e->getMessage()."\r\n";
+            $response['msg'] = C::USERNAME_UPDATE_ERROR;
+        }
+    }//if(preg_match(User::$regex["username"],$update["new_username"])){
+    else{
+        $response["msg"] = "Il formato del nome utente inserito non è corretto";
+    }  
+}//if(isset($update["token_key"],$update["new_username"]) && $update["token_key"] != "" && preg_match(User::$regex["username"],$update["new_username"])){
 else{
     $response["msg"] = C::FILL_ALL_FIELDS;
 }
 
-echo json_encode($response);
+echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
 ?>
