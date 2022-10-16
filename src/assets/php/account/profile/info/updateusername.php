@@ -56,8 +56,10 @@ if(isset($update["token_key"],$update["new_username"]) && $update["token_key"] !
             $uuController = new UpdateUsernameController($uuc_data);
             $uuView = new UpdateUsernameView($uuController);
             $response['msg'] = $uuView->getMessage();
-            if($uuView->isDone())
+            if($uuView->isDone()){
                 $response['done'] = true;
+                $response['new_username'] = $update['new_username'];
+            }  
             else{
             $errnoT = $uuController->getToken()->getErrno();
                 if($errnoT == Te::TOKENEXPIRED){

@@ -69,7 +69,6 @@ export class InfoComponent implements OnInit {
     };
     let da: DeleteProfile = new DeleteProfile(da_data);
     da.deleteProfile().then(obj => {
-
     }).catch(err => {
 
     });
@@ -176,9 +175,37 @@ export class InfoComponent implements OnInit {
     };
     let uu: UpdateUsername = new UpdateUsername(uu_data);
     uu.updateUsername().then(obj => {
-
+      if(obj['done']){
+          localStorage.setItem('username', obj['new_username']);
+          this.userCookie['username'] = localStorage.getItem('username');
+          this.api.changeUserdata(this.userCookie);
+          let md_data: MessageDialogInterface = {
+            title: "Modifica nome utente",
+            message: obj['msg']
+          };
+          messageDialog(md_data);
+      }//if(obj['done']){
+      else{
+        if(obj['expired'] == true){
+          this.api.removeItems();
+          this.userCookie = {};
+          this.api.changeUserdata(this.userCookie);
+          this.router.navigateByUrl(constants.notLoggedRedirect);
+        }
+        else{
+          let md_data: MessageDialogInterface = {
+            title: "Modifica nome utente",
+            message: obj['msg']
+          };
+          messageDialog(md_data);
+        }
+      }
     }).catch(err => {
-
+      let md_data: MessageDialogInterface = {
+        title: "Modifica nome utente",
+        message: Messages.EDITUSERNAME_ERROR
+      };
+      messageDialog(md_data);
     });
   }
 
