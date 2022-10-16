@@ -12,7 +12,8 @@ interface FromErrors{
     const FROM_COMMENT = 52;
     const FROM_USER = 2; //Error from User instance
     const FROM_COMMENTAUTHORIZEDCONTROLLER = 60;
-    const FROM_ARTICLEAUTHORIZEDCONTROLLER = 61; 
+    const FROM_ARTICLEAUTHORIZEDCONTROLLER = 61;
+    const FROM_USERAUTHORIZEDCONTROLLER = 62;
 
     //Messages
     const FROM_ARTICLE_MSG = "Errore nell' oggetto Article";
@@ -21,5 +22,6 @@ interface FromErrors{
     const FROM_USER_MSG = "Errore nell' oggetto User";
     const FROM_COMMENTAUTHORIZEDCONTROLLER_MSG = "Errore nell'oggetto CommentAuthorizedController";
     const FROM_ARTICLEAUTHORIZEDCONTROLLER_MSG = "Errore nell'oggetto ArticleAuthorizedController";
+    const FROM_USERAUTHORIZEDCONTROLLER_MSG = "Errore nell'oggetto UserAuthorizedController";
 }
 ?>
