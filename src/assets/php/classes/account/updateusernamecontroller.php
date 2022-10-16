@@ -11,6 +11,7 @@ use AngularBlog\Exceptions\UserTypeMismatchException;
 use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Traits\ResponseTrait;
 use AngularBlog\Interfaces\Account\UpdateUsernameControllerErrors as Uuce;
+use MongoDB\BSON\ObjectId;
 
 
 class UpdateUsernameController implements Uuce{
@@ -26,13 +27,19 @@ class UpdateUsernameController implements Uuce{
         $this->checkValues($data);
         $auth = $this->checkAuthorization();
         if($auth){
-            
+            $this->update_username();
         }
     }
 
     public function getToken(){return $this->token;}
     public function getError(){
         switch($this->errno){
+            case Uuce::UPDATE_TOKEN:
+                $this->errno = Uuce::UPDATE_TOKEN_MSG;
+                break;
+            case Uuce::UPDATE_USER:
+                $this->error = Uuce::UPDATE_USER_MSG;
+                break;
             case Uuce::FROM_USERAUTHORIZEDCONTROLLER:
                 $this->error = Uuce::FROM_USERAUTHORIZEDCONTROLLER_MSG;
                 break;
@@ -52,6 +59,9 @@ class UpdateUsernameController implements Uuce{
         $this->user = $data['user'];
     }
 
+    /**
+     * Check if user is authorized to update the username
+     */
     private function checkAuthorization(): bool{
         $this->errno = 0;
         $this->uac_user = clone $this->user;
@@ -62,6 +72,33 @@ class UpdateUsernameController implements Uuce{
         $uacErrno = $this->uac->getErrno();
         if($uacErrno == 0) return true;
         $this->errno = Uuce::FROM_USERAUTHORIZEDCONTROLLER;
+        return false;
+    }
+
+    /**
+     * Update the username of the logged account
+     */
+    private function update_username(): bool{
+        $this->errno = 0;
+        $user_id = $this->token->getUserId();
+        $new_username = $this->user->getUsername();
+        $filter = ['_id' => new ObjectId($user_id)];
+        $values = ['$set' => [
+            'username' => $new_username
+        ]];
+        $user_update = $this->user->user_update($filter,$values);
+        if($user_update){
+            $filter = [
+                'token_key' => $this->token->getTokenKey()
+            ];
+            $values = [ '$set' => [
+                'username' => $new_username
+            ]];
+            $token_update = $this->token->token_update($filter,$values);
+            if($token_update) return true;
+            else $this->errno = Uuce::UPDATE_TOKEN;
+        }//if($user_update){
+        else $this->errno = Uuce::UPDATE_USER;
         return false;
     }
 
