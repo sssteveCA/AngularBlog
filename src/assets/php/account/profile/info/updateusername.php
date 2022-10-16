@@ -3,14 +3,18 @@
 require_once("../../../cors.php");
 require_once("../../../../../../config.php");
 require_once("../../../interfaces/constants.php");
+require_once("../../../interfaces/exception_messages.php");
+require_once("../../../interfaces/from_errors.php");
 require_once("../../../interfaces/model_errors.php");
 require_once("../../../interfaces/user_errors.php");
 require_once("../../../interfaces/token_errors.php");
+require_once("../../../interfaces/account/updateusernamecontroller_errors.php");
+require_once("../../../interfaces/account/updateusernameview_errors.php");
 require_once("../../../classes/model.php");
 require_once("../../../classes/token.php");
 require_once("../../../classes/user.php");
-require_once("../../../classes/account/editusernamecontroller.php");
-require_once("../../../classes/account/editusernameview.php");
+require_once("../../../classes/account/updateusernamecontroller.php");
+require_once("../../../classes/account/updateusernameview.php");
 
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\User;
@@ -29,6 +33,10 @@ if(isset($update["token_key"],$update["new_username"])){
     try{
         $token = new Token($token_data);
         $user = new User($user_data);
+        $euc_data = [
+            "token" => $token, "user" => $user
+        ];
+
     }catch(Exception $e){
 
     }
