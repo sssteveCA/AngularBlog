@@ -4,6 +4,8 @@ namespace AngularBlog\Classes\Account;
 
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\User;
+use AngularBlog\Interfaces\Constants as C;
+use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Exceptions\NoTokenInstanceException;
 use AngularBlog\Exceptions\NoUserInstanceException;
 use AngularBlog\Exceptions\TokenTypeMismatchException;
@@ -27,8 +29,9 @@ class UserAuthorizedController implements Uace{
         $this->checkVariables($data);
         $tokenOk = $this->getTokenByKey();
         if($tokenOk){
-            
+            $this->authorized = true;
         }//if($tokenOk){
+        $this->setResponse();
     }
 
     public function getToken(){return $this->token;}
@@ -48,6 +51,9 @@ class UserAuthorizedController implements Uace{
         return $this->error;
     }
 
+    /**
+     * Check if required data exists and are in a valid format
+     */
     private function checkVariables(array $data){
         if(!isset($data['token']))throw new NoTokenInstanceException(Uace::NOTOKENINSTANCE_EXC);
         if(!isset($data['user']))throw new NoUserInstanceException(Uace::NOUSERINSTANCE_EXC);
@@ -55,6 +61,9 @@ class UserAuthorizedController implements Uace{
         if(!$data['user'] instanceof User)throw new UserTypeMismatchException(Uace::USERTYPEMISMATCH_EXC);
     }
 
+    /**
+     * Check if token exist and it isn't expired
+     */
     private function getTokenByKey(): bool{
         $this->errno = 0;
         $key = $this->token->getTokenKey();
@@ -70,6 +79,34 @@ class UserAuthorizedController implements Uace{
         else
             $this->errno = Uace::TOKEN_NOTFOUND;
         return false;
+    }
+
+    /**
+     * Set the response to send to the view
+     */
+    private function setResponse(){
+        switch($this->errno){
+            case 0:
+                $this->response = "OK";
+                break;
+            case Uace::FROM_TOKEN:
+                $errnoT = $this->token->getErrno();
+                switch($errnoT){
+                    case Te::TOKENEXPIRED:
+                        $this->response = Te::TOKENEXPIRED_MSG;
+                        break;
+                    default:
+                        $this->response = C::ERROR_UNKNOWN;
+                        break;
+                }//switch($errnoT){
+                break;
+            case Uace::TOKEN_NOTFOUND:
+                $this->response = Uace::TOKEN_NOTFOUND_MSG;
+                break;
+            default:
+                $this->response = C::ERROR_UNKNOWN;
+                break;
+        }//switch($this->errno){
     }
 }
 ?>
