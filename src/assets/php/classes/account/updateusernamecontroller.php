@@ -2,7 +2,11 @@
 
 namespace AngularBlog\Classes\Account;
 
+use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Token;
+use AngularBlog\Interfaces\TokenErrors as Te;
+use AngularBlog\Interfaces\Account\UpdateUsernameControllerErrors as Uuce;
+use AngularBlog\Interfaces\Account\UserAuthorizedControllerErrors as Uace;
 use AngularBlog\Classes\User;
 use AngularBlog\Exceptions\NoTokenInstanceException;
 use AngularBlog\Exceptions\NoUserInstanceException;
@@ -10,7 +14,6 @@ use AngularBlog\Exceptions\TokenTypeMismatchException;
 use AngularBlog\Exceptions\UserTypeMismatchException;
 use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Traits\ResponseTrait;
-use AngularBlog\Interfaces\Account\UpdateUsernameControllerErrors as Uuce;
 use MongoDB\BSON\ObjectId;
 
 
@@ -29,6 +32,7 @@ class UpdateUsernameController implements Uuce{
         if($auth){
             $this->update_username();
         }
+        $this->setResponse();
     }
 
     public function getToken(){return $this->token;}
@@ -100,6 +104,41 @@ class UpdateUsernameController implements Uuce{
         }//if($user_update){
         else $this->errno = Uuce::UPDATE_USER;
         return false;
+    }
+
+    /**
+     * Set the response to send to the view
+     */
+    private function setResponse(){
+        switch($this->errno){
+            case 0:
+                $this->response = C::USERNAME_UPDATE_OK;
+                break;
+            case Uuce::FROM_USERAUTHORIZEDCONTROLLER:
+                $errnoUac = $this->uac->getErrno();
+                switch($errnoUac){
+                    case Uace::TOKEN_NOTFOUND:
+                        $this->response = C::USERNAME_UPDATE_ERROR;
+                        break;
+                    case Uace::FROM_TOKEN:
+                        $errnoT = $this->uac->getToken()->getErrno();
+                        switch($errnoT){
+                            case Te::TOKENEXPIRED:
+                                $this->response = Te::TOKENEXPIRED_MSG;
+                                break;
+                            default:
+                                $this->response = C::USERNAME_UPDATE_ERROR;
+                                break;
+                        }//switch($errnoT){
+                        break;
+                }//switch($errnoUac){
+                break;
+            case Uuce::UPDATE_USER:
+            case Uuce::UPDATE_TOKEN:
+            default:
+                $this->response = C::USERNAME_UPDATE_ERROR;
+                break;
+        }//switch($this->errno){
     }
 
 }

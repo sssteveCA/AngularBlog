@@ -66,6 +66,10 @@ interface Constants{
     //Search
     const SEARCH_ERROR = "Errore durante la ricerca degli articoli. ".Constants::ADMIN_CONTACT;
 
+    //User
+    const USERNAME_UPDATE_OK = "Il nome utente è stato aggiornato";
+    const USERNAME_UPDATE_ERROR = "Errore durante la modifica del nome utente. ".Constants::ADMIN_CONTACT;
+
     //Other
     const ADMIN_CONTACT = "Se il problema persiste contattare l' amministratore del sito";
 }
