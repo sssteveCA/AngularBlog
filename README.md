@@ -11,7 +11,13 @@ This blog has/will have the following features:
   <ul>
     <li>Registration</li>
     <li>Login</li>
-    <li>*Profile managing</li>
+    <li>
+      Profile managing
+      <ul>
+        <li>Username update</li>
+        <li>*Account delete</li>
+      </ul>
+    </li>
   </ul>
   <li>Session<li>
   <ul>
