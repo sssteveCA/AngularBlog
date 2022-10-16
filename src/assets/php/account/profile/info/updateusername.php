@@ -23,7 +23,7 @@ $update = json_decode($input,true);
 
 if(isset($update["token_key"],$update["new_username"])){
     $token_data = [ "token_key" => $update["token_key"] ];
-    $user_data = []; 
+    $user_data = ["username" => $update["username"]]; 
     try{
         $token = new Token($token_data);
         $user = new User($user_data);
