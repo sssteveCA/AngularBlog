@@ -13,7 +13,7 @@ class UserAuthorizedView implements Uave{
 
     public function __construct(?UserAuthorizedController $uac)
     {
-        if(!$uac)throw new Exception("");
+        if(!$uac)throw new Exception(Uave::NOUSERAUTHORIZEDCONTROLLERINSTANCE_EXC);
         $this->uac = $uac;
         $errnoUac = $this->uac->getErrno();
         if($errnoUac == 0)
