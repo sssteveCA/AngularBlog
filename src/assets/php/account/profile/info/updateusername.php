@@ -9,6 +9,8 @@ require_once("../../../interfaces/token_errors.php");
 require_once("../../../classes/model.php");
 require_once("../../../classes/token.php");
 require_once("../../../classes/user.php");
+require_once("../../../classes/account/editusernamecontroller.php");
+require_once("../../../classes/account/editusernameview.php");
 
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\User;
