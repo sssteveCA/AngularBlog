@@ -58,7 +58,7 @@ class UpdateUsernameController implements Uuce{
         if(!isset($data['token']))throw new NoTokenInstanceException(Uuce::NOTOKENINSTANCE_EXC);
         if(!isset($data['user']))throw new NoUserInstanceException(Uuce::NOUSERINSTANCE_EXC);
         if(!$data['token'] instanceof Token)throw new TokenTypeMismatchException(Uuce::TOKENTYPEMISMATCH_EXC);
-        if(!$data['token'] instanceof User)throw new UserTypeMismatchException(Uuce::USERTYPEMISMATCH_EXC);
+        if(!$data['user'] instanceof User)throw new UserTypeMismatchException(Uuce::USERTYPEMISMATCH_EXC);
         $this->token = $data['token'];
         $this->user = $data['user'];
     }
@@ -71,7 +71,7 @@ class UpdateUsernameController implements Uuce{
         $this->uac_user = clone $this->user;
         $this->uac = new UserAuthorizedController([
             'token' => $this->token,
-            'user' => $this->uac
+            'user' => $this->uac_user
         ]);
         $uacErrno = $this->uac->getErrno();
         if($uacErrno == 0) return true;

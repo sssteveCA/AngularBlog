@@ -59,6 +59,8 @@ class UserAuthorizedController implements Uace{
         if(!isset($data['user']))throw new NoUserInstanceException(Uace::NOUSERINSTANCE_EXC);
         if(!$data['token'] instanceof Token)throw new TokenTypeMismatchException(Uace::TOKENTYPEMISMATCH_EXC);
         if(!$data['user'] instanceof User)throw new UserTypeMismatchException(Uace::USERTYPEMISMATCH_EXC);
+        $this->token = $data['token'];
+        $this->user = $data['user'];
     }
 
     /**

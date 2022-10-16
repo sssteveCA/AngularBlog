@@ -20,6 +20,7 @@ require_once("../../../traits/authorized.trait.php");
 require_once("../../../traits/error.trait.php");
 require_once("../../../traits/message.trait.php");
 require_once("../../../traits/response.trait.php");
+require_once("../../../vendor/autoload.php");
 require_once("../../../classes/model.php");
 require_once("../../../classes/token.php");
 require_once("../../../classes/user.php");
@@ -59,8 +60,10 @@ if(isset($update["token_key"],$update["new_username"]) && $update["token_key"] !
                 $response['done'] = true;
             else{
             $errnoT = $uuController->getToken()->getErrno();
-                if($errnoT == Te::TOKENEXPIRED)
-                    $response['expired'] = true; 
+                if($errnoT == Te::TOKENEXPIRED){
+                    $response['expired'] = true;
+                    $response['msg'] = Te::TOKENEXPIRED_MSG;
+                }           
             }
         }catch(Exception $e){
             echo "Exception message => ".$e->getMessage()."\r\n";
