@@ -11,7 +11,7 @@ require_once("../../interfaces/article/comment/comment_errors.php");
 require_once("../../interfaces/article/article_errors.php");
 require_once("../../interfaces/article/comment/addcontroller_errors.php");
 require_once("../../interfaces/article/comment/addview_errors.php");
-require_once("../../vendor/autoload.php");
+require_once("../../../../../vendor/autoload.php");
 require_once("../../traits/error.trait.php");
 require_once("../../traits/message.trait.php");
 require_once("../../traits/response.trait.php");

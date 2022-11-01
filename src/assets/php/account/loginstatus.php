@@ -7,7 +7,7 @@ require_once("../interfaces/exception_messages.php");
 require_once("../interfaces/from_errors.php");
 require_once("../interfaces/model_errors.php");
 require_once("../interfaces/token_errors.php");
-require_once("../vendor/autoload.php");
+require_once('../../../../vendor/autoload.php');
 require_once("../traits/error.trait.php");
 require_once("../classes/model.php");
 require_once("../classes/token.php");

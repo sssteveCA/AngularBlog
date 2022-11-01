@@ -10,7 +10,7 @@ require_once("../../../interfaces/token_errors.php");
 require_once("../../../interfaces/article/article_errors.php");
 require_once("../../../interfaces/myarticles/createcontroller_errors.php");
 require_once("../../../interfaces/myarticles/createview_errors.php");
-require_once("../../../vendor/autoload.php");
+require_once("../../../../../../vendor/autoload.php");
 require_once("../../../traits/error.trait.php");
 require_once("../../../traits/message.trait.php");
 require_once("../../../traits/response.trait.php");

@@ -12,7 +12,7 @@ require_once("../../../interfaces/article/articleauthorizedcontroller_errors.php
 require_once("../../../interfaces/article/articleauthorizedview_errors.php");
 require_once("../../../interfaces/myarticles/deletecontroller_errors.php");
 require_once("../../../interfaces/myarticles/deleteview_errors.php");
-require_once("../../../vendor/autoload.php");
+require_once("../../../../../../vendor/autoload.php");
 require_once("../../../traits/authorized.trait.php");
 require_once("../../../traits/error.trait.php");
 require_once("../../../traits/message.trait.php");
