@@ -60,6 +60,7 @@ interface Constants{
     const MONGODB_COLLECTION_USERS = Cf::MONGODB_COLLECTION_USERS;
 
     //Password
+    const PASSWORD_UPDATE_OK = "La password è stata aggiornata";
     const PASSWORD_UPDATE_ERROR = "Errore durante la modifica della password. ".Constants::ADMIN_CONTACT;
 
     //Registration

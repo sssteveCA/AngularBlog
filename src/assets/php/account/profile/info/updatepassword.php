@@ -10,6 +10,7 @@ require_once("../../../interfaces/constants.php");
 require_once("../../../interfaces/exception_messages.php");
 require_once("../../../interfaces/token_errors.php");
 require_once("../../../interfaces/user_errors.php");
+require_once("../../../interfaces/account/userauthorizedcontroller_errors.php");
 require_once("../../../interfaces/account/updatepasswordcontroller_errors.php");
 require_once("../../../interfaces/account/updatepasswordview_errors.php");
 require_once("../../../exceptions/notokeninstanceexception.php");
@@ -24,6 +25,7 @@ require_once("../../../../../../vendor/autoload.php");
 require_once("../../../classes/model.php");
 require_once("../../../classes/token.php");
 require_once("../../../classes/user.php");
+require_once("../../../classes/account/userauthorizedcontroller.php");
 require_once("../../../classes/account/updatepasswordcontroller.php");
 require_once("../../../classes/account/updatepasswordview.php");
 

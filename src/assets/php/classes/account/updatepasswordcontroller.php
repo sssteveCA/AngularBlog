@@ -12,6 +12,9 @@ use AngularBlog\Exceptions\UserTypeMismatchException;
 use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Traits\ResponseTrait;
 use AngularBlog\Interfaces\Account\UpdatePasswordControllerErrors as Upce;
+use AngularBlog\Interfaces\Account\UserAuthorizedControllerErrors as Uace;
+use AngularBlog\Interfaces\TokenErrors as Te;
+use AngularBlog\Interfaces\Constants as C;
 use MongoDB\BSON\ObjectId;
 
 class UpdatePasswordController implements Upce{
@@ -28,6 +31,8 @@ class UpdatePasswordController implements Upce{
     {
         $this->checkValues($data);
         $auth = $this->checkAuthorization();
+        if($auth)
+            $this->update_password();
     }
 
     public function getToken(){return $this->token;}
@@ -56,6 +61,8 @@ class UpdatePasswordController implements Upce{
         if(!isset($data['user'])) throw new NoUserInstanceException(Upce::NOUSERINSTANCE_EXC);
         if(!$data['token'] instanceof Token) throw new TokenTypeMismatchException(Upce::TOKENTYPEMISMATCH_EXC);
         if(!$data['token'] instanceof User) throw new UserTypeMismatchException(Upce::USERTYPEMISMATCH_EXC);
+        $this->new_password = $data['new_password'];
+        $this->old_password = $data['old_password'];
         $this->token = $data['token'];
         $this->user = $data['user'];
     }
@@ -93,6 +100,43 @@ class UpdatePasswordController implements Upce{
         }//if(password_verify($this->current_password,$this->uac_user->getPassword())){
         else $this->errno = Upce::CURRENT_PASSWORD_WRONG;
         return false;
+    }
+
+    /**
+     * Set the response to send to the view
+     */
+    private function setResponse(){
+        switch($this->errno){
+            case 0:
+                $this->response = C::PASSWORD_UPDATE_OK;
+                break;
+            case Upce::CURRENT_PASSWORD_WRONG:
+                $this->response = Upce::CURRENT_PASSWORD_WRONG_MSG;
+                break;
+            case Upce::FROM_USERAUTHORIZEDCONTROLLER:
+                $errnoUac = $this->uac->getErrno();
+                switch($errnoUac){
+                    case Uace::TOKEN_NOTFOUND:
+                        $this->response = C::PASSWORD_UPDATE_ERROR;
+                        break;
+                    case Uace::FROM_TOKEN:
+                        $errnoT = $this->token->getErrno();
+                        switch($errnoT){
+                            case Te::TOKENEXPIRED:
+                                $this->response = Te::TOKENEXPIRED_MSG;
+                                break;
+                            default:
+                                $this->response = C::PASSWORD_UPDATE_ERROR;
+                                break;
+                        }//switch($errnoT){
+                        break;
+                }//switch($errnoUac){
+                break;
+            case Upce::UPDATE_USER:
+            default:
+                $this->response = C::PASSWORD_UPDATE_ERROR;
+                break;
+        }
     }
 }
 ?>
