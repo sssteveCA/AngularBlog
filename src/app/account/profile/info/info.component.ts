@@ -123,12 +123,15 @@ export class InfoComponent implements OnInit {
       url: this.updatePasswordUrl
     };
     let ep: UpdatePassword = new UpdatePassword(ep_data);
+    this.showPasswordSpinner = true;
     ep.updatePassword().then(obj => {
+      this.showPasswordSpinner = false;
       let md_data: MessageDialogInterface = {
         title: 'Modifica password', message: obj['msg']
       };
       messageDialog(md_data);
     }).catch(err => {
+      this.showPasswordSpinner = false;
       let md_data: MessageDialogInterface = {
         title: 'Modifica password', message: Messages.EDITPASSWORD_ERROR
       };

@@ -34,7 +34,7 @@ export default class ConfirmDialog{
     private htmlDialog(): void{
         this._html = `
 <div id="confirmdialog" class="modal" tabindex="-1">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title w-100 text-center">${this._title}</h3>
