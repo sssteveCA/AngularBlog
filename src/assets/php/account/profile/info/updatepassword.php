@@ -9,6 +9,8 @@ require_once("../../../cors.php");
 require_once("../../../../../../config.php");
 require_once("../../../interfaces/constants.php");
 require_once("../../../interfaces/exception_messages.php");
+require_once("../../../interfaces/from_errors.php");
+require_once("../../../interfaces/model_errors.php");
 require_once("../../../interfaces/token_errors.php");
 require_once("../../../interfaces/user_errors.php");
 require_once("../../../interfaces/account/userauthorizedcontroller_errors.php");
@@ -64,20 +66,20 @@ if(isset($update["token_key"],$update["conf_new_password"],$update["new_password
                     }
                 }//else di if($upView->isDone()){
             }catch(Exception $e){
-                http_response_code(500);
                 $response['msg'] = C::PASSWORD_UPDATE_ERROR;
             }
         }//if($update["new_password"] == $update["conf_new_password"]){
         else{
-            http_response_code(400);
             $response['msg'] = C::ERROR_CONFIRM_PASSWORD_DIFFERENT;
         } 
     }//if(preg_match(User::$regex["new_password"],$update["new_password"])){
     else{
-        http_response_code(400);
         $response['msg'] = 'La nuova password inserita ha un formato non valido';
     }
 }//if(isset($update["token_key"],$update["conf_new_password"],$update["new_password"],$update["old_password"])){
+else{
+    $response['msg'] = C::FILL_ALL_FIELDS;
+}
 
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
 ?>
