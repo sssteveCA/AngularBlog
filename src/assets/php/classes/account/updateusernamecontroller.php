@@ -131,6 +131,10 @@ class UpdateUsernameController implements Uuce{
                                 break;
                         }//switch($errnoT){
                         break;
+                    case Uace::TOKEN_NOTFOUND:
+                    case Uace::USER_NOTFOUND:
+                        $this->response = C::PASSWORD_UPDATE_ERROR;
+                        break;
                 }//switch($errnoUac){
                 break;
             case Uuce::UPDATE_USER:

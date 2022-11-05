@@ -27,10 +27,10 @@ class UserAuthorizedController implements Uace{
     public function __construct(array $data)
     {
         $this->checkVariables($data);
-        $tokenOk = $this->getTokenByKey();
-        if($tokenOk){
-            $this->authorized = true;
-        }//if($tokenOk){
+        if($this->getTokenByKey()){
+            if($this->getUserByTokenKey())
+                $this->authorized = true;
+        }//if($this->getTokenByKey()){
         $this->setResponse();
     }
 
@@ -40,6 +40,9 @@ class UserAuthorizedController implements Uace{
         switch($this->errno){
             case Uace::TOKEN_NOTFOUND:
                 $this->error = Uace::TOKEN_NOTFOUND_MSG;
+                break;
+            case Uace::USER_NOTFOUND:
+                $this->error = Uace::USER_NOTFOUND_MSG;
                 break;
             case Uace::FROM_TOKEN:
                 $this->error = Uace::FROM_TOKEN_MSG;
@@ -67,6 +70,7 @@ class UserAuthorizedController implements Uace{
      * Check if token exist and it isn't expired
      */
     private function getTokenByKey(): bool{
+        echo "UserAuthorizedControllergetTokenByKey\r\n";
         $this->errno = 0;
         $key = $this->token->getTokenKey();
         $data = ['token_key' => $key];
@@ -80,6 +84,19 @@ class UserAuthorizedController implements Uace{
         }
         else
             $this->errno = Uace::TOKEN_NOTFOUND;
+        return false;
+    }
+
+
+    /**
+     * Get the user info that has the checked token key
+     */
+    private function getUserByTokenKey(): bool{
+        $this->errno = 0;
+        $key = $this->token->getTokenKey();
+        $got = $this->user->user_get(['token_key' => $key]);
+        if($got) return true;
+        else $this->errno = Uace::USER_NOTFOUND;
         return false;
     }
 
@@ -104,6 +121,9 @@ class UserAuthorizedController implements Uace{
                 break;
             case Uace::TOKEN_NOTFOUND:
                 $this->response = Uace::TOKEN_NOTFOUND_MSG;
+                break;
+            case Uace::USER_NOTFOUND:
+                $this->response = Uace::USER_NOTFOUND_MSG;
                 break;
             default:
                 $this->response = C::ERROR_UNKNOWN;

@@ -43,7 +43,7 @@ $input = file_get_contents("php://input");
 $update = json_decode($input,true);
 
 if(isset($update["token_key"],$update["conf_new_password"],$update["new_password"],$update["old_password"])){
-    if(preg_match(User::$regex["new_password"],$update["new_password"])){
+    if(preg_match(User::$regex["password"],$update["new_password"])){
         if($update["new_password"] == $update["conf_new_password"]){
             $token_data = [ "token_key" => $update["token_key"]];
             try{
@@ -66,6 +66,7 @@ if(isset($update["token_key"],$update["conf_new_password"],$update["new_password
                     }
                 }//else di if($upView->isDone()){
             }catch(Exception $e){
+                echo "updatepassword.php exception =>".var_export($e->getMessage(),true)."\r\n";
                 $response['msg'] = C::PASSWORD_UPDATE_ERROR;
             }
         }//if($update["new_password"] == $update["conf_new_password"]){
