@@ -1,6 +1,7 @@
 <?php
 
 use AngularBlog\Classes\Account\UpdatePasswordController;
+use AngularBlog\Classes\Account\UpdatePasswordView;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\User;
 
@@ -30,6 +31,7 @@ require_once("../../../classes/account/updatepasswordcontroller.php");
 require_once("../../../classes/account/updatepasswordview.php");
 
 use AngularBlog\Interfaces\Constants as C;
+use AngularBlog\Interfaces\TokenErrors as Te;
 
 $response = [
     "done" => false, "expired" => false, "msg" => ""
@@ -48,7 +50,19 @@ if(isset($update["token_key"],$update["conf_new_password"],$update["new_password
                 $upc_data = [
                     'new_password' => $update['new_password'], 'old_password' => $update['old_password'], 'token' => $token, 'user' => $user
                 ];
-                $upc = new UpdatePasswordController($upc_data);
+                $upController = new UpdatePasswordController($upc_data);
+                $upView = new UpdatePasswordView($upController);
+                $response['msg'] = $upView->getMessage();
+                if($upView->isDone()){
+                    $response['done'] = true;
+                }// if($upView->isDone()){
+                else{
+                    $errnoT = $upController->getToken()->getErrno();
+                    if($errnoT == Te::TOKENEXPIRED){
+                        $response['expired'] = true;
+                        $response['msg'] = Te::TOKENEXPIRED_MSG;
+                    }
+                }//else di if($upView->isDone()){
             }catch(Exception $e){
                 http_response_code(500);
                 $response['msg'] = C::PASSWORD_UPDATE_ERROR;
@@ -65,5 +79,5 @@ if(isset($update["token_key"],$update["conf_new_password"],$update["new_password
     }
 }//if(isset($update["token_key"],$update["conf_new_password"],$update["new_password"],$update["old_password"])){
 
-echo json_encode($response);
+echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
 ?>
