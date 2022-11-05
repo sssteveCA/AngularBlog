@@ -43,8 +43,13 @@ if(isset($update["token_key"],$update["conf_new_password"],$update["new_password
             try{
                 $token = new Token($token_data);
                 $user = new User();
+                $upc_data = [
+                    'new_password' => $update['new_password'], 'old_password' => $update['old_password'], 'token' => $token, 'user' => $user
+                ];
+                $upc = new UpdatePasswordController($upc_data);
             }catch(Exception $e){
-
+                http_response_code(500);
+                $response['msg'] = C::PASSWORD_UPDATE_ERROR;
             }
         }//if($update["new_password"] == $update["conf_new_password"]){
         else{

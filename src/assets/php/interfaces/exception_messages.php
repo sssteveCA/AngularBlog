@@ -8,6 +8,7 @@ interface ExceptionMessages{
     const INVALIDARTICLETYPE_EXC = "L'articolo fornito non è in un formato valido";
     const INVALIDCOMMENTTYPE_EXC = "Il commento fornito non è in un formato valido";
     const INVALIDTOKENTYPE_EXC = "Il token fornito non è in un formato valido";
+    const MISSINGVALUES_EXC = 'Uno o più valori richiesti non sono presenti';
     const NOARTICLEINSTANCE_EXC = "L'oggetto Article passato è uguale a null";
     const NOARTICLEDATA_EXC = "Non hai passato i dati dell'articolo da creare";
     const NOARTICLEPERMALINK_EXC = "Non hai passato il permalink dell'articolo";

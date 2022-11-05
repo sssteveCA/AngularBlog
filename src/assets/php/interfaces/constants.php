@@ -59,6 +59,9 @@ interface Constants{
     const MONGODB_COLLECTION_TOKENS = Cf::MONGODB_COLLECTION_TOKENS;
     const MONGODB_COLLECTION_USERS = Cf::MONGODB_COLLECTION_USERS;
 
+    //Password
+    const PASSWORD_UPDATE_ERROR = "Errore durante la modifica della password. ".Constants::ADMIN_CONTACT;
+
     //Registration
     const REG_ERROR = "Errore durante la registrazione dell' account. ".Constants::ADMIN_CONTACT;
     const REG_SUBSCRIBE_LINK = Cf::ANGULAR_MAIN_URL.'/attiva';
