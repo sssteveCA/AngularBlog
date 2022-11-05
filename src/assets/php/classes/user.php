@@ -170,6 +170,7 @@ class User extends Model implements Ue{
             $this->creation_time = $user["creation_time"];
             $this->last_modified = $user["last_modified"];
             $this->subscribed = $user["subscribed"];
+            //echo "User user_get true \r\n";
             $got = true;
         }//if($this->errno == 0){
         return $got;
