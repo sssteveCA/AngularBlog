@@ -1,13 +1,17 @@
 <?php
 
+use AngularBlog\Classes\Account\UpdatePasswordController;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\User;
 
 require_once("../../../cors.php");
 require_once("../../../../../../config.php");
 require_once("../../../interfaces/constants.php");
+require_once("../../../interfaces/exception_messages.php");
 require_once("../../../interfaces/token_errors.php");
 require_once("../../../interfaces/user_errors.php");
+require_once("../../../interfaces/account/updatepasswordcontroller_errors.php");
+require_once("../../../interfaces/account/updatepasswordview_errors.php");
 require_once("../../../traits/authorized.trait.php");
 require_once("../../../traits/error.trait.php");
 require_once("../../../traits/message.trait.php");
