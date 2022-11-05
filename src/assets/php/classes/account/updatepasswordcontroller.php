@@ -33,6 +33,7 @@ class UpdatePasswordController implements Upce{
         $auth = $this->checkAuthorization();
         if($auth)
             $this->update_password();
+        $this->setResponse();
     }
 
     public function getToken(){return $this->token;}
@@ -94,7 +95,7 @@ class UpdatePasswordController implements Upce{
             $user_id = $this->token->getUserId();
             $filter = ['_id' => new ObjectId($user_id)];
             $new_password_hash = password_hash($this->new_password,PASSWORD_DEFAULT);
-            $values = ['set' => [
+            $values = ['$set' => [
                 'password' => $new_password_hash
             ]];
             echo "UpdatePasswordController update_password new password hash => ".var_export($new_password_hash,true)."\r\n";
@@ -143,6 +144,7 @@ class UpdatePasswordController implements Upce{
                 $this->response = C::PASSWORD_UPDATE_ERROR;
                 break;
         }
+        echo "UpdatePasswordController setResponse response => ".var_export($this->response,true)."\r\n";
     }
 }
 ?>
