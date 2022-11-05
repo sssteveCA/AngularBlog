@@ -16,6 +16,8 @@ require_once("../../../../../../vendor/autoload.php");
 require_once("../../../classes/model.php");
 require_once("../../../classes/token.php");
 require_once("../../../classes/user.php");
+require_once("../../../classes/account/updatepasswordcontroller.php");
+require_once("../../../classes/account/updatepasswordview.php");
 
 $response = [
     "done" => false, "expired" => false, "msg" => ""
