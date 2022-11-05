@@ -124,9 +124,15 @@ export class InfoComponent implements OnInit {
     };
     let ep: UpdatePassword = new UpdatePassword(ep_data);
     ep.updatePassword().then(obj => {
-
+      let md_data: MessageDialogInterface = {
+        title: 'Modifica password', message: obj['msg']
+      };
+      messageDialog(md_data);
     }).catch(err => {
-
+      let md_data: MessageDialogInterface = {
+        title: 'Modifica password', message: Messages.EDITPASSWORD_ERROR
+      };
+      messageDialog(md_data);
     });
   }
 
@@ -158,11 +164,11 @@ export class InfoComponent implements OnInit {
       });
     }//if(this.groupEp.valid){
     else{
-      let mdi: MessageDialogInterface = {
+      let md_data: MessageDialogInterface = {
         title: 'Modifica password',
         message: 'Uno o più dati tra quelli richiesti hanno un formato non valido'
       };
-      messageDialog(mdi);
+      messageDialog(md_data);
     }
   }
 

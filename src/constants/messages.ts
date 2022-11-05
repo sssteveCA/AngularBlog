@@ -17,6 +17,7 @@ export namespace Messages{
     export const DELETECOMMENT_CONFIRM: string = "Vuoi rimuovere questo commento?";
     export const EDITARTICLE_CONFIRM: string = "Vuoi modificare l'articolo con le informazioni inserite?";
     export const EDITPASSWORD_CONFIRM: string = "Sei sicuro di voler modificare la tua password?";
+    export const EDITPASSWORD_ERROR: string = "Errore durante la modifica della password. "+ADMIN_CONTACT;
     export const EDITUSERNAME_CONFIRM: string = "Sei sicuro di voler modificare il nome utente?";
     export const EDITUSERNAME_ERROR: string = "Errore durante la modifica del nome utente. "+ADMIN_CONTACT;
     export const INVALIDDATA_ERROR: string = "I dati inseriti non sono validi, riprova";

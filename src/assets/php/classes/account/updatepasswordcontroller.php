@@ -87,18 +87,17 @@ class UpdatePasswordController implements Upce{
      * Update the password of the logged account
      */
     private function update_password(): bool{
-        echo "UpdatePasswordController update_password\r\n";
         $this->errno = 0;
         $user_password_hash = $this->uac_user->getPasswordHash();
         if(password_verify($this->current_password,$user_password_hash)){
-            echo "UpdatePasswordController update_password password verify\r\n";
+            //echo "UpdatePasswordController update_password password verify\r\n";
             $user_id = $this->token->getUserId();
             $filter = ['_id' => new ObjectId($user_id)];
             $new_password_hash = password_hash($this->new_password,PASSWORD_DEFAULT);
             $values = ['$set' => [
                 'password' => $new_password_hash
             ]];
-            echo "UpdatePasswordController update_password new password hash => ".var_export($new_password_hash,true)."\r\n";
+            //echo "UpdatePasswordController update_password new password hash => ".var_export($new_password_hash,true)."\r\n";
             $password_update = $this->user->user_update($filter,$values);
             if($password_update) return true;
             else $this->errno = Upce::UPDATE_USER;
@@ -111,7 +110,7 @@ class UpdatePasswordController implements Upce{
      * Set the response to send to the view
      */
     private function setResponse(){
-        echo "UpdatePasswordController setResponse errno => ".var_export($this->errno,true)."\r\n";
+        //echo "UpdatePasswordController setResponse errno => ".var_export($this->errno,true)."\r\n";
         switch($this->errno){
             case 0:
                 $this->response = C::PASSWORD_UPDATE_OK;
@@ -144,7 +143,6 @@ class UpdatePasswordController implements Upce{
                 $this->response = C::PASSWORD_UPDATE_ERROR;
                 break;
         }
-        echo "UpdatePasswordController setResponse response => ".var_export($this->response,true)."\r\n";
     }
 }
 ?>

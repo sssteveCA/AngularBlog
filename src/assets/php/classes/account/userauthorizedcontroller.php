@@ -71,7 +71,6 @@ class UserAuthorizedController implements Uace{
      * Check if token exist and it isn't expired
      */
     private function getTokenByKey(): bool{
-        echo "UserAuthorizedControllergetTokenByKey\r\n";
         $this->errno = 0;
         $key = $this->token->getTokenKey();
         $data = ['token_key' => $key];
@@ -95,7 +94,7 @@ class UserAuthorizedController implements Uace{
     private function getUserByTokenKey(): bool{
         $this->errno = 0;
         $user_id = $this->token->getUserId();
-        echo "UserAutorizedController user_id =>".var_export($user_id,true)."\r\n";
+        //echo "UserAutorizedController user_id =>".var_export($user_id,true)."\r\n";
         $filter = ['_id' => new ObjectId($user_id)];
         $got = $this->user->user_get($filter);
         if($got) return true;
@@ -107,7 +106,7 @@ class UserAuthorizedController implements Uace{
      * Set the response to send to the view
      */
     private function setResponse(){
-        echo "UpdateAuthorizedController setResponse errno =>".var_export($this->errno,true)."\r\n";
+        //echo "UpdateAuthorizedController setResponse errno =>".var_export($this->errno,true)."\r\n";
         switch($this->errno){
             case 0:
                 $this->response = "OK";
