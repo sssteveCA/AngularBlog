@@ -1,7 +1,7 @@
 <div>This is a blog app that allows to view and manage the articles created by registered users</div>
 <br>
 <div>
-This app uses Angular for frontend, PHP for backend and MongoDB for the database. I use XAMPP with Apache server for testing the app.
+This app uses Angular for frontend, PHP for backend and MongoDB for the database ( with <a href="https://github.com/mongodb/mongo-php-library">MongoDB PHP Library</a> ).
 </div>
 <br>
 <div>
@@ -15,6 +15,7 @@ This blog has/will have the following features:
       Profile managing
       <ul>
         <li>Username update</li>
+        <li>Password update</li>
         <li>*Account delete</li>
       </ul>
     </li>
