@@ -4,40 +4,34 @@
       <form method="post" [formGroup]="contactForm" (submit)="onSubmit()">
         <fieldset>
           <div class="mb-3">
-            <label for="email" class="form-label">Il tuo indirizzo email</label>
-            <input type="email" class="form-control" id="email" name="email" formControlName="email">
+            <mat-form-field class="w-100" appearence="fill">
+              <mat-label for="email">Il tuo indirizzo email</mat-label>
+              <input matInput type="email" id="email" name="email" formControlName="email">
+            </mat-form-field>
           </div>
           <div class="mb-3">
-            <label for="subject" class="form-label">Oggetto</label>
-            <input type="text" class="form-control" id="subject" name="subject" formControlName="subject">
+            <mat-form-field class="w-100" appearence="fill">
+              <mat-label for="subject">Oggetto</mat-label>
+              <input matInput type="text" id="subject" name="subject" formControlName="subject">
+            </mat-form-field>
           </div>
-          <div class="form-group mb-3">
-            <label for="message">Messaggio</label>
-            <textarea id="message" class="form-control" name="message" rows="6" formControlName="message"></textarea>
+          <div class="mb-3">
+            <mat-form-field class="w-100" appearence="fill">
+              <mat-label for="message">Messaggio</mat-label>
+              <textarea matInput id="message" name="message" rows="6" formControlName="message"></textarea>
+            </mat-form-field>
+            
           </div>
           <div class="mb-3 d-flex flex-column flex-sm-row justify-content-center justify-content-sm-evenly">
             <div class="d-flex justify-content-center">
-              <button type="submit" class="btn btn-primary">INVIA</button>
+              <button mat-raised-button color="primary" type="submit">INVIA</button>
               <div id="contacts-spinner" class="spinner-grow ms-4" [ngClass]="{'d-none':!showSpinner}" style="width: 3rem; height: 3rem;" role="status">
                 <span class="visually-hidden">Loading...</span>
               </div>
             </div>
             <div class="d-flex justify-content-center">
-              <button type="reset" class="btn btn-secondary me-5 me-sm-0">ANNULLA</button>
+              <button mat-raised-button color="warn" type="reset" class="me-5 me-sm-0">ANNULLA</button>
             </div>
-            <!-- <div class="container">
-              <div class="row">
-                  <div class="col-6 col-sm-4 col-md-3 offset-3 offset-sm-2 offset-md-3 d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary">INVIA</button>
-                    <div id="contacts-spinner" class="spinner-grow ms-4" [ngClass]="{'d-none':!showSpinner}" style="width: 3rem; height: 3rem;" role="status">
-                      <span class="visually-hidden">Loading...</span>
-                    </div>
-                  </div>
-                  <div class="col-6 col-sm-4 col-md-3 offset-3 offset-sm-2 offset-md-3 d-flex justify-content-center">
-                    <button type="reset" class="btn btn-secondary">ANNULLA</button>
-                  </div>
-              </div>
-            </div>    -->
           </div>
         </fieldset>
       </form>
