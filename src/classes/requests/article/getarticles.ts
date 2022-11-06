@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { Messages } from "src/constants/messages";
 import GetArticlesInterface from "src/interfaces/requests/article/getarticles.interface";
 
@@ -24,17 +24,23 @@ export default class GetArticles{
         let response: object = {};
         try{
             await this.getArticlesPromise().then(res => {
-                //console.log(res);
+                console.log(res);
                 response = JSON.parse(res);
                 //console.log(response);
             }).catch(err => {
+                //console.warn(err);
                 throw err;
             });
         }catch(err){
-            response = {
-                done: false,
-                msg: Messages.DELETEARTICLE_ERROR
-            };
+            response = { done: false };
+            if(err instanceof HttpErrorResponse){
+                let errorString: string = err.error as string;
+                let errorBody: object = JSON.parse(errorString);
+                response['msg'] = errorBody['msg'];
+            }//if(err instanceof HttpErrorResponse){
+            else{
+                response['msg'] = Messages.GETARTICLES_ERROR;
+            }
         }
         return response;
     }

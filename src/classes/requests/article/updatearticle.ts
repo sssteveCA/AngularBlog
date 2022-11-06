@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { Article } from "src/app/models/article.model";
 import { Messages } from "src/constants/messages";
 import UpdateArticleInterface from "src/interfaces/requests/article/updatearticle.interface";
@@ -35,10 +35,15 @@ export default class UpdateArticle{
                 throw err;
             });
         }catch(err){
-            response = {
-              done: false,
-              msg: Messages.ARTICLEUPDATE_ERROR  
-            };
+            response = { done: false };
+            if(err instanceof HttpErrorResponse){
+                let errorString: string = err.error as string;
+                let errorBody: object = JSON.parse(errorString);
+                response['msg'] = errorBody['msg'];
+            }//if(err instanceof HttpErrorResponse){
+            else{
+                response['msg'] = Messages.ARTICLEUPDATE_ERROR;
+            }
         }
         return response;
     }

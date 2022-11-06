@@ -118,7 +118,7 @@ export class MyArticlesComponent implements OnInit {
           md.div_dialog.remove();
           document.body.style.overflow = 'auto';
           if(obj['done'] == true)
-            this.getArticles();
+            this.getArticles(); 
         });
       }).catch(err => {
         this.spinnerShow = -1;
@@ -143,8 +143,11 @@ export class MyArticlesComponent implements OnInit {
       token_key: this.userCookie['token_key'],
       url: this.getArticles_url
     };
+    /* console.log("myArticles getArticles ga_data");
+    console.log(ga_data); */
     let ga: GetArticles = new GetArticles(ga_data);
     ga.getArticles().then(obj => {
+      //console.log(obj);
       if(obj['done'] == true){
         this.done = true;
         this.message = null;
@@ -156,6 +159,7 @@ export class MyArticlesComponent implements OnInit {
         this.message = obj['msg'];
       }        
     }).catch(err => {
+      //console.warn(err);
       this.done = false;
       this.message = Messages.ARTICLESVIEW_ERROR;
     });
