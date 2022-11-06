@@ -11,6 +11,7 @@ require_once("../interfaces/logout/logoutcontrollererrors.php");
 require_once("../interfaces/logout/logoutviewerrors.php");
 require_once('../../../../vendor/autoload.php');
 require_once("../traits/error.trait.php");
+require_once("../traits/message.trait.php");
 require_once("../traits/response.trait.php");
 require_once("../classes/model.php");
 require_once("../classes/token.php");

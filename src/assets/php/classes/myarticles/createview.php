@@ -19,6 +19,7 @@ class CreateView implements Cve{
         $errnoCc = $this->cc->getErrno();
         if($errnoCc == 0)
             $this->done = true;
+        $this->response_code = $this->cc->getResponseCode();
         $this->message = $this->cc->getResponse();
     }
 

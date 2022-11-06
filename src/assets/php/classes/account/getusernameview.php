@@ -17,6 +17,7 @@ class GetUsernameView implements Guve{
         $this->guc = $guc;
         if($this->guc->getErrno() == 0)
             $this->done = true;
+        $this->response_code = $this->guc->getResponseCode();
         $this->message = $this->guc->getResponse();
     }
 }

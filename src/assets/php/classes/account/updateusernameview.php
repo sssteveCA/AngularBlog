@@ -17,6 +17,7 @@ class UpdateUsernameView implements Uuve{
         $errnoUuc = $this->uuc->getErrno();
         if($errnoUuc == 0)
             $this->done = true;
+        $this->response_code = $this->uuc->getResponseCode();
         $this->message = $this->uuc->getResponse();
     }
 

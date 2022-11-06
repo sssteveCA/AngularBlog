@@ -19,6 +19,7 @@ class EditView implements Eve{
         $errnoEc = $this->ec->getErrno();
         if($errnoEc == 0)
             $this->done = true;
+        $this->response_code = $this->ec->getResponseCode();
         $this->message = $this->ec->getResponse();
     }
 

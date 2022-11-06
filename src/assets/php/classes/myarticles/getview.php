@@ -20,6 +20,7 @@ class GetView implements Gve{
     {
         if(!$gc)throw new \Exception(Gve::NOGETCONTROLLERINSTANCE_EXC);
         $this->gc = $gc;
+        $this->response_code = $this->gc->getResponseCode();
         $errnoGc = $this->gc->getErrno();
         if($errnoGc == 0)
             $this->foundArticles = true;

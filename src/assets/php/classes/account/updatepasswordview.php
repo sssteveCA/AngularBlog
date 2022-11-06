@@ -17,6 +17,7 @@ class UpdatePasswordView implements Upve{
         $errnoUpc = $this->upc->getErrno();
         if($errnoUpc == 0)
             $this->done = true;
+        $this->response_code = $this->upc->getResponseCode();
         $this->message = $this->upc->getResponse();
         //echo "UpdatePasswordView message => ".var_export($this->message,true)."\r\n";
     }

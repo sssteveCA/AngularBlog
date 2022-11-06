@@ -16,6 +16,7 @@ class AddView implements Ave{
         $errnoAcc = $this->acc->getErrno();
         if($errnoAcc == 0)
             $this->done = true;
+        $this->response_code = $this->acc->getResponseCode();
         $this->message = $this->acc->getResponse();
     }
 

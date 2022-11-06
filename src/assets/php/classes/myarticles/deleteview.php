@@ -18,6 +18,7 @@ class DeleteView implements Dve{
         $errnoDc = $this->dc->getErrno();
         if($errnoDc == 0)
             $this->done = true;
+        $this->response_code = $this->dc->getResponseCode();
         $this->message = $this->dc->getResponse();
     }
 
