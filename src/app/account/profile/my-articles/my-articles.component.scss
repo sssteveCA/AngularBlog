@@ -1,3 +1,5 @@
+@import "../../../../scss/partials/backlink";
+
 //Variables
 $container-id: '#articles-list';
 $container-min-width: 300px;
@@ -15,9 +17,6 @@ $single-selectors: (
     'ids': (
         #{$container-id}: (
             min-width: #{$container-min-width}
-        ),
-        '#link-back': (
-            padding: 20px 20px
         )
     ),
     'tags': (
