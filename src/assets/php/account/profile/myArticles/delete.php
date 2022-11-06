@@ -63,12 +63,15 @@ if(isset($delete['article_id'],$delete['token_key']) && $delete['article_id'] !=
                 $response['expired'] = true;
             }
         }
+        http_response_code($deleteView->getResponseCode());
     }catch(Exception $e){
+        http_response_code(500);
         file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
         $response['msg'] = C::ARTICLEDELETE_ERROR;
     }
 }//if(isset($delete['article_id'],$delete['token_key']) && $delete['article_id'] != '' && $delete['token_key'] != '' ){
 else{
+    http_response_code(400);
     $response['msg'] = C::ARTICLEDELETE_ERROR;
 }
 

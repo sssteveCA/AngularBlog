@@ -65,20 +65,25 @@ if(isset($update["token_key"],$update["conf_new_password"],$update["new_password
                         $response['msg'] = Te::TOKENEXPIRED_MSG;
                     }
                 }//else di if($upView->isDone()){
+                http_response_code($upView->getResponseCode());
             }catch(Exception $e){
-                echo "updatepassword.php exception =>".var_export($e->getMessage(),true)."\r\n";
+                http_response_code(500);
+                //echo "updatepassword.php exception =>".var_export($e->getMessage(),true)."\r\n";
                 $response['msg'] = C::PASSWORD_UPDATE_ERROR;
             }
         }//if($update["new_password"] == $update["conf_new_password"]){
         else{
+            http_response_code(400);
             $response['msg'] = C::ERROR_CONFIRM_PASSWORD_DIFFERENT;
         } 
     }//if(preg_match(User::$regex["new_password"],$update["new_password"])){
     else{
+        http_response_code(400);
         $response['msg'] = 'La nuova password inserita ha un formato non valido';
     }
 }//if(isset($update["token_key"],$update["conf_new_password"],$update["new_password"],$update["old_password"])){
 else{
+    http_response_code(400);
     $response['msg'] = C::FILL_ALL_FIELDS;
 }
 

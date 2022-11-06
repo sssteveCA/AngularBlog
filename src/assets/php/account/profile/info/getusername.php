@@ -53,7 +53,9 @@ if(isset($_GET["token_key"])){
                     $response["expired"] = true;
             }
         }//else di if($guv->isDone()){
+        http_response_code($guv->getResponseCode());
     }catch(Exception $e){
+        http_response_code(500);
         $error = $e->getMessage();
         file_put_contents(C::FILE_LOG, "{$error}\r\n",FILE_APPEND);
     }

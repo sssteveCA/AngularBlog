@@ -61,14 +61,19 @@ if(isset($delete['token_key'],$delete['comment_id']) && $delete['token_key'] != 
         if($errnoT == Te::TOKENEXPIRED){
             $response['expired'] = true;
         }
+        http_response_code($deleteView->getResponseCode());
     }catch(Exception $e){
+        http_response_code(500);
         file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
         $response['msg'] = C::COMMENTDELETE_ERROR;
     }
 }//if(isset($delete['token_key'],$delete['comment_id']) && $delete['token_key'] != '' && $delete['comment_id'] != ''){
-else
+else{
+    http_response_code(400);
     //$response['msg'] = C::FILL_ALL_FIELDS;
     $response['msg'] = C::COMMENTDELETE_ERROR;
+}
+    
 
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
 ?>

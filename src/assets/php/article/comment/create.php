@@ -56,8 +56,9 @@ if(isset($post['permalink'],$post['token_key'],$post['comment_text']) && $post['
         else{
             $msg = $addCommentView->getMessage();
         }
-
+        http_response_code($addCommentView->getResponseCode());
     }catch(Exception $e){
+        http_response_code(500);
         $msg = $e->getMessage();
         file_put_contents(C::FILE_LOG,"create exception => ".var_export($msg,true)."\r\n",FILE_APPEND);
         switch($msg){
@@ -65,15 +66,14 @@ if(isset($post['permalink'],$post['token_key'],$post['comment_text']) && $post['
             case Ace::NOCOMMENT_EXC:
             case Ace::NOTOKENKEY_EXC:
             case Ave::NOADDCOMMENTCONTROLLERINSTANCE_EXC:
+            default:     
                 $response['msg'] = C::COMMENTCREATION_ERROR;
-                break;
-            default:
-                $response['msg'] = C::ERROR_UNKNOWN;
                 break;
         }
     }
 }//if(isset($post['permalink'],$post['token_key'],$post['comment'])){
 else{
+    http_response_code(400);
     $response['msg'] = C::INSERTCOMMENT_ERROR;
 }
 

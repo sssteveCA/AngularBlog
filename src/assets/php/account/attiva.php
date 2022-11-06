@@ -39,23 +39,30 @@ if(isset($_REQUEST['emailVerif']) && $_REQUEST['emailVerif'] != ''){
             file_put_contents(C::FILE_LOG,$response['msg']."\r\n",FILE_APPEND);
             switch($response['msg']){
                 case C::ACTIVATION_OK:
+                    http_response_code(200);
                     $response['status'] = 1;
                     break;
                 case C::ACTIVATION_INVALID_CODE:
+                    http_response_code(400);
                     $response['status'] = -1;
                     break;
                 default:
+                    http_response_code(500);
                     $response['status'] = -2;
                     break;
             }
         }
         catch(Exception $e){
+            http_response_code(500);
             file_put_contents(C::FILE_LOG,$e."\r\n",FILE_APPEND);
             $response['status'] = -2;
         }
     }//if(preg_match(User::$regex['emailVerif'],$_REQUEST['emailVerif'])){
 }//if(isset($_REQUEST['emailVerif']) && $_REQUEST['emailVerif'] != ''){
-else $response['status'] = 0;
+else{
+    http_response_code(400);
+    $response['status'] = 0;
+} 
 
 echo json_encode($response);
 ?>

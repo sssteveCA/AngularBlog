@@ -70,20 +70,26 @@ if(isset($_GET['permalink']) && $_GET['permalink'] != '' && $_GET['permalink'] !
                 $response['msg'] = C::COMMENTLIST_EMPTY;
             }
             $response['done'] = true;
+            http_response_code(200);
         }//if($article_found){
         else{
+            http_response_code(500);
             $response['error'] = true;
             $response['msg'] = C::COMMENTLIST_ERROR;
         }  
     }catch(Exception $e){
+        http_response_code(500);
         $message = $e->getMessage();
         file_put_contents(C::FILE_LOG,"Exception message => ".var_export($message,true)."\r\n",FILE_APPEND);
         $response['error'] = true;
         $response['msg'] = C::COMMENTLIST_ERROR;
     }
 }//if(isset($_GET['permalink']) && $_GET['permalink'] != ''){
-else
+else{
+    http_response_code(400);
     $response['msg'] = C::FILL_ALL_FIELDS;
+}
+    
 
 echo json_encode($response);
 

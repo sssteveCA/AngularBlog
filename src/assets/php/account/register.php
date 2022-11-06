@@ -45,17 +45,25 @@ if(isset($post['name'],$post['surname'],$post['username'],$post['email'],$post['
             $rv = new RegistrationView($rc);
             if($rc->getErrno() == 0)$response['done'] = true;
             $response['msg'] = $rv->getMessage();
+            http_response_code($rv->getResponseCode());
         }
         catch(Exception $e){
+            http_response_code(500);
             file_put_contents(C::FILE_LOG,$e->getMessage()."\r\n",FILE_APPEND);
             $response['msg'] = C::REG_ERROR;
         }
     }//if(preg_match(User::$regex['password'],$_POST['password'])){
-    else 
+    else{
+        http_response_code(400);
         $response['msg'] = C::ERROR_CONFIRM_PASSWORD_DIFFERENT;
+    }
+        
 }//if(isset($_POST['name'],$_POST['surname'],$_POST['username'],$_POST['email'],$_POST['password'],$_POST['confPwd'],$_POST['subscribed'])){
-else
+else{
+    http_response_code(400);
     $response['msg'] = C::FILL_ALL_FIELDS;
+}
+    
 
 echo json_encode($response);
 ?>

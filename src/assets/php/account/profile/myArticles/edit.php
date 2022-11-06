@@ -75,17 +75,23 @@ if(isset($post['article'],$post['token_key']) && $post['token_key'] != ''){
                     $response['expired'] = true;
                 }
             }
+            http_response_code($editView->getResponseCode());
         }catch(Exception $e){
+            http_response_code(500);
             file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
             $response['msg'] = C::ARTICLEEDITING_ERROR;
         }
     }//if(isset($post['article']['id'],$post['article']['title'],$post['article']['introtext'],$post['article']['content'],$post['article']['permalink'],$post['article']['categories'],$post['article']['tags']) && $post['article']['id'] != '' && $post['article']['title'] != '' && $post['article']['introtext'] != '' && $post['article']['content'] != '' && $post['article']['permalink'] != ''){
     else{
+        http_response_code(400);
         $response['msg'] = C::FILL_ALL_FIELDS;
     }
 }//if(isset($post['article'],$post['token_key']) && $post['token_key'] != ''){
-else
-    $response['msg'] = C::FILL_ALL_FIELDS;
+else{
+    http_response_code(400);
+    $response['msg'] = C::ARTICLEEDITING_ERROR;
+}
+    
 
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
 

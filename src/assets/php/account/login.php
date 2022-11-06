@@ -56,15 +56,19 @@ if(isset($post['username'],$post['password']) && $post['username'] != '' && $pos
         else
             $response['msg'] = $loginView->getMessage();
         $response['error'] = $loginController->getError();
+        http_response_code($loginView->getResponseCode());
     }
     catch(Exception $e){
+        http_response_code(500);
         file_put_contents(C::FILE_LOG,$e->getMessage()."\r\n",FILE_APPEND);
         $response['msg'] = C::LOGIN_ERROR;
-    }
-    
+    }  
 }//if(isset($_POST['username'],$_POST['password']) && $_POST['username'] != '' && $_POST['password'] != ''){
-else
+else{
+    http_response_code(400);
     $response['msg'] = C::FILL_ALL_FIELDS;
+}
+    
 
 
 echo json_encode($response);

@@ -54,24 +54,28 @@ if(isset($post['token_key'],$post['article']) && $post['token_key'] != ''){
                 $response['expired'] = true;
             }
         }
+        http_response_code($createView->getResponseCode());
     }catch(Exception $e){
         $msg = $e->getMessage();
         switch($msg){
             case Cce::NOARTICLEDATA_EXC:
+                http_response_code(400);
                 $response['msg'] = $msg;
                 break;
             case Cce::NOTOKENKEY_EXC:
             case Cve::NOCREATECONTROLLERINSTANCE_EXC:
-                $response['msg'] = C::ARTICLECREATION_ERROR;
-                break;
             default:
-                $response['msg'] = C::ERROR_UNKNOWN;
+                http_response_code(500);
+                $response['msg'] = C::ARTICLECREATION_ERROR;
                 break;
         }
     }
 }//if(isset($post['token_key']) && $post['token_key'] != ''){
-else
+else{
+    http_response_code(400);
     $response['msg'] = C::FILL_ALL_FIELDS;
+}
+    
 
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
 ?>

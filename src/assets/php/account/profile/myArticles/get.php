@@ -59,14 +59,18 @@ if(isset($_GET['token_key']) && $_GET['token_key'] != ''){
         }
         else
             $response['msg'] = $getView->getMessage();
+        http_response_code($getView->getResponseCode());
     }catch(Exception $e){
+        http_response_code(500);
         $response['msg'] = C::SEARCH_ERROR;
         file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
-    }
-    
+    }  
 }//if(isset($_GET['token_key']) && $_GET['token_key'] != ''){
-else
+else{
+    http_response_code(400);
     $response['msg'] = C::FILL_ALL_FIELDS;
+}
+    
 
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
 ?>

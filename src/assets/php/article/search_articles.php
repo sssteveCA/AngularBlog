@@ -33,7 +33,7 @@ if(isset($_POST['query']) && $_POST['query'] != ''){
         $filter = array(
             'title' =>  $regex
         );
-        file_put_contents(C::FILE_LOG,"Search articles filter => ".var_export($filter,true)."\r\n",FILE_APPEND);
+        //file_put_contents(C::FILE_LOG,"Search articles filter => ".var_export($filter,true)."\r\n",FILE_APPEND);
         $found = $al->articlelist_get($filter);
         if($found){
             //At least one article found
