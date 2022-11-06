@@ -130,27 +130,33 @@ class ArticleAuthorizedController implements Aace{
     private function setResponse(){
         switch($this->errno){
             case 0:
+                $this->response_code = 200;
                 $this->response = "OK";
                 break;
             case Aace::FROM_TOKEN:
                 $errnoT = $this->token->getErrno();
                 switch($errnoT){
                     case Te::TOKENEXPIRED:
+                        $this->response_code = 401;
                         $this->response = Te::TOKENEXPIRED_MSG;
                         break;
                     default:
+                        $this->response_code = 500;
                         $this->response = C::ERROR_UNKNOWN;
                         break;
                 }//switch($errnoT){
                 break;
             case Aace::TOKEN_NOTFOUND:
             case Aace::FORBIDDEN:
+                $this->response_code = 403;
                 $this->response = Aace::FORBIDDEN_MSG;
                 break;
             case Aace::ARTICLE_NOTFOUND:
+                $this->response_code = 404;
                 $this->response = Aace::ARTICLE_NOTFOUND_MSG;
                 break;
             default:
+                $this->response_code = 500;
                 $this->response = C::ERROR_UNKNOWN;
                 break;
         }

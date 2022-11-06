@@ -19,6 +19,7 @@ class ArticleAuthorizedView implements Aave{
         $errnoAcc = $this->aac->getErrno();
         if($errnoAcc == 0)
             $this->done = true;
+        $this->response_code = $this->aac->getResponseCode();
         $this->message = $this->aac->getResponse();
     }
 

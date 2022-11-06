@@ -41,7 +41,7 @@ $post = json_decode($input,true);
 if(isset($post['token_key'],$post['username'],$post['article_id']) && $post['token_key'] != '' && $post['username'] != '' && $post['article_id'] != ''){
     $token_key = $post['token_key'];
     $article_id = $post['article_id'];
-    file_put_contents(C::FILE_LOG,"article_authorized article id => ".var_export($article_id,true)."\r\n",FILE_APPEND);
+    //file_put_contents(C::FILE_LOG,"article_authorized article id => ".var_export($article_id,true)."\r\n",FILE_APPEND);
     try{
         $article = new Article(['id' => $article_id]);
         $token = new Token(['token_key' => $token_key]);
@@ -67,14 +67,18 @@ if(isset($post['token_key'],$post['username'],$post['article_id']) && $post['tok
                 'tags' => implode(",",$article->getTags())
             ];
         }
-            
+        http_response_code($aav->getResponseCode());  
     }catch(Exception $e){
+        http_response_code(500);
         file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
         $response['msg'] = C::ERROR_UNKNOWN;
     }
 }//if(isset($post['token_key'],$post['username'],$post['article_id']) && $post['token_key'] != '' && $post['username'] != '' && $post['article_id'] != ''){
-else
+else{
+    http_response_code(400);
     $response['msg'] = C::FILL_ALL_FIELDS;
+}
+    
 
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
 
