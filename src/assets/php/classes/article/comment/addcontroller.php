@@ -113,27 +113,31 @@ class AddController implements Ace{
     private function setResponse(){
         switch($this->errno){
             case 0:
+                $this->response_code = 200;
                 $this->response = "";
                 break;
-            case Ace::FROM_ARTICLE:
-                $this->response = C::COMMENTCREATION_ERROR;
-                break;
-            case Ace::FROM_COMMENT:
-                $this->response = C::COMMENTCREATION_ERROR;
+            case Ace::NOUSERIDFOUND:
+                $this->response_code = 401;
+                $this->response = C::LOGIN_NOTLOGGED;
                 break;
             case Ace::FROM_TOKEN:
                 $errnoT = $this->token->getErrno();
                 switch($errnoT){
                     case Te::TOKENEXPIRED:
+                        $this->response_code = 401;
                         $this->response = Te::TOKENEXPIRED_MSG;
                         break;
                     default:
+                        $this->response_code = 500;
                         $this->response = C::COMMENTCREATION_ERROR;
                         break;
                 }
                 break;
-            case Ace::NOUSERIDFOUND:
-                $this->response = C::LOGIN_NOTLOGGED;
+            case Ace::FROM_ARTICLE:
+            case Ace::FROM_COMMENT:
+            default:
+                $this->response_code = 500;
+                $this->response = C::COMMENTCREATION_ERROR;
                 break;
         }
     }

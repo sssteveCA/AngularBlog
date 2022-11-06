@@ -8,16 +8,16 @@ use AngularBlog\Interfaces\UserErrors as Ue;
 use AngularBlog\Classes\User;
 use AngularBlog\Exceptions\NoUserInstanceException;
 use AngularBlog\Traits\ErrorTrait;
+use AngularBlog\Traits\ResponseTrait;
 
 //This class add subscriber data to DB and send activation email to user
 class RegistrationController implements Rce,Ue,C{
 
-    use ErrorTrait;
+    use ErrorTrait, ResponseTrait;
 
     private ?User $user; //User object with data to store in DB
     private ?string $headers = null; //Email activation headers
     private ?string $message = null; //Email activation body message
-    private string $response = ""; //Response message
 
     public function __construct(?User $user)
     {
@@ -32,7 +32,6 @@ class RegistrationController implements Rce,Ue,C{
     }
 
     public function getUser(){return $this->user;}
-    public function getResponse(){return $this->response;}
     public function getError(){
         switch($this->errno){
             case Rce::MAILNOTSENT:
@@ -122,23 +121,28 @@ HTML;
     private function setResponse(){
         switch($this->errno){
             case 0:
+                $this->response_code = 200;
                 $this->response = C::EMAIL_ACCOUNT_CREATED;
                 break;
             case Rce::MAILNOTSENT:
+                $this->response_code = 500;
                 $this->response = C::EMAIL_ERROR;
                 break;
             case Rce::FROM_USER:
                 $errnoU = $this->user->getErrno();
                 switch($errnoU){
                     case Ue::INVALIDDATAFORMAT:
+                        $this->response_code = 400;
                         $this->response = Ue::INVALIDDATAFORMAT_MSG;
                         break;
                     default:
+                        $this->response_code = 500;
                         $this->response = C::REG_ERROR;
                         break;
                 }
                 break;
             default:
+                $this->response_code = 500;
                 $this->error = C::REG_ERROR;
                 break;
         }

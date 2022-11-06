@@ -10,14 +10,14 @@ use AngularBlog\Exceptions\NoUserInstanceException;
 use MongoDB\BSON\ObjectId;
 use MongoDB\Driver\Exception\BulkWriteException;
 use AngularBlog\Traits\ErrorTrait;
+use AngularBlog\Traits\ResponseTrait;
 
 class LoginController implements Lce,C{
 
-    use ErrorTrait;
+    use ErrorTrait, ResponseTrait;
 
     private ?User $user; //User object with data to store in DB
     private ?Token $token; //Returned token when login has success
-    private string $response = ""; //Response message
 
     public function __construct(?User $user)
     {
@@ -32,7 +32,6 @@ class LoginController implements Lce,C{
 
     public function getUser(){return $this->user;}
     public function getToken(){return $this->token;}
-    public function getResponse(){return $this->response;}
     public function getError(){
         switch($this->errno){
             case Lce::USERNAMENOTFOUND:
@@ -122,20 +121,20 @@ class LoginController implements Lce,C{
     private function setResponse(){
         switch($this->errno){
             case 0:
+                $this->response_code = 200;
                 $this->response = ""; //No response, redirect to personal area
                 break;
             case Lce::USERNAMENOTFOUND:
             case Lce::WRONGPASSWORD:
             case Lce::ACCOUNTNOTACTIVATED:
+                $this->response_code = 401;
                 $this->response = $this->getError();
                 break;
             case Lce::TOKENNOTSETTED:
+            default:
+                $this->response_code = 500;
                 $this->response = C::LOGIN_ERROR;
                 break;
-            default:
-                $this->response = C::ERROR_UNKNOWN;
-                break;
-
         }
     }
 }

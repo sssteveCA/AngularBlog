@@ -76,20 +76,24 @@ class VerifyController implements Vce,Me,C{
         file_put_contents(VerifyController::$logFile,"Vc errno {$this->errno}\r\n",FILE_APPEND);
         switch($this->errno){
             case 0:
+                $this->response_code = 200;
                 $this->response = C::ACTIVATION_OK;
                 break;
             case Vce::FROM_USER:
                 $errnoU = $this->user->getErrno();
                 switch($errnoU){
                     case Me::NOTUPDATED:
+                        $this->response_code = 400;
                         $this->response = C::ACTIVATION_INVALID_CODE;
                         break;
                     default:
+                        $this->response_code = 500;
                         $this->response = C::ACTIVATION_ERROR;
                         break;
                 }
                 break;
             default:
+                $this->response_code = 500;
                 $this->response = C::ACTIVATION_ERROR;
                 break;
         }//switch($this->errno){

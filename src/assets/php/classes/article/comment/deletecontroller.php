@@ -101,6 +101,7 @@ class DeleteController implements Dce{
         file_put_contents(DeleteController::$logFile,"DeleteController setResponse errno => {$this->errno}\r\n",FILE_APPEND);
         switch($this->errno){
             case 0:
+                $this->response_code = 200;
                 $this->response = "";
                 break;
             case Dce::FROM_COMMENTAUTHORIZEDCONTROLLER:
@@ -110,24 +111,29 @@ class DeleteController implements Dce{
                         $errnoT = $this->token->getErrno();
                         switch($errnoT){
                             case Te::TOKENEXPIRED:
+                                $this->response_code = 401;
                                 $this->response = Te::TOKENEXPIRED_MSG;
                                 break;
                             default:
+                                $this->response_code = 500;
                                 $this->response = C::COMMENTDELETE_ERROR;
                                 break;
                         }
                         break;
                     case Cace::TOKEN_NOTFOUND:
                     case Cace::FORBIDDEN:
+                        $this->response_code = 403;
                         $this->response = Cace::FORBIDDEN_MSG;
                         break;
                     default:
+                        $this->response_code = 500;
                         $this->response = C::COMMENTDELETE_ERROR;
                         break;
                 }//switch($Cacerrno){
                 break;
             case Dce::COMMENTNOTDELETED:
             default:
+                $this->response_code = 500;
                 $this->response = C::COMMENTDELETE_ERROR;
                 break;
         }

@@ -112,27 +112,28 @@ class UpdateUsernameController implements Uuce{
     private function setResponse(){
         switch($this->errno){
             case 0:
+                $this->response_code = 200;
                 $this->response = C::USERNAME_UPDATE_OK;
                 break;
             case Uuce::FROM_USERAUTHORIZEDCONTROLLER:
                 $errnoUac = $this->uac->getErrno();
                 switch($errnoUac){
-                    case Uace::TOKEN_NOTFOUND:
-                        $this->response = C::USERNAME_UPDATE_ERROR;
-                        break;
                     case Uace::FROM_TOKEN:
                         $errnoT = $this->uac->getToken()->getErrno();
                         switch($errnoT){
                             case Te::TOKENEXPIRED:
+                                $this->response_code = 401;
                                 $this->response = Te::TOKENEXPIRED_MSG;
                                 break;
                             default:
+                                $this->response_code = 500;
                                 $this->response = C::USERNAME_UPDATE_ERROR;
                                 break;
                         }//switch($errnoT){
                         break;
                     case Uace::TOKEN_NOTFOUND:
                     case Uace::USER_NOTFOUND:
+                        $this->response_code = 500;
                         $this->response = C::PASSWORD_UPDATE_ERROR;
                         break;
                 }//switch($errnoUac){
@@ -140,6 +141,7 @@ class UpdateUsernameController implements Uuce{
             case Uuce::UPDATE_USER:
             case Uuce::UPDATE_TOKEN:
             default:
+                $this->response_code = 500;
                 $this->response = C::USERNAME_UPDATE_ERROR;
                 break;
         }//switch($this->errno){

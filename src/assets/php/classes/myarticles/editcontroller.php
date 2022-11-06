@@ -15,16 +15,16 @@ use AngularBlog\Exceptions\TokenTypeMismatchException;
 use AngularBlog\Interfaces\Article\ArticleAuthorizedControllerErrors as Aace;
 use MongoDB\BSON\ObjectId;
 use AngularBlog\Traits\ErrorTrait;
+use AngularBlog\Traits\ResponseTrait;
 
 class EditContoller implements Ece{
 
-    use ErrorTrait;
+    use ErrorTrait, ResponseTrait;
 
     private ?Article $article;
     private ?Article $aac_article; //Article used by ArticleAuthorizationController class
     private ?ArticleAuthorizedController $aac;
     private ?Token $token;
-    private string $response = "";
     private static string $logFile = C::FILE_LOG;
 
     public function __construct(array $data)
@@ -41,7 +41,6 @@ class EditContoller implements Ece{
     }
 
     public function getToken(){return $this->token;}
-    public function getResponse(){return $this->response;}
     public function getError(){
         switch($this->errno){
             case Ece::FROM_ARTICLEAUTHORIZEDCONTROLLER:
@@ -115,6 +114,7 @@ class EditContoller implements Ece{
     private function setResponse(){
         switch($this->errno){
             case 0:
+                $this->response_code = 200;
                 $this->response = C::ARTICLEEDITING_OK;
                 break;
             case Ece::FROM_ARTICLEAUTHORIZEDCONTROLLER:
@@ -124,27 +124,33 @@ class EditContoller implements Ece{
                         $errnoT = $this->token->getErrno();
                         switch($errnoT){
                             case Te::TOKENEXPIRED:
+                                $this->response_code = 401;
                                 $this->response = Te::TOKENEXPIRED_MSG;
                                 break;
                             default:
+                                $this->response_code = 500;
                                 $this->response = C::ARTICLEEDITING_ERROR;
                                 break;
                         }
                         break;
                     case Aace::TOKEN_NOTFOUND:
                     case Aace::FORBIDDEN:
+                        $this->response_code = 403;
                         $this->response = Aace::FORBIDDEN_MSG;
                         break;
                     default:
+                        $this->response_code = 500;
                         $this->response = C::ARTICLEEDITING_ERROR;
                         break;
                 }//switch($aacErrno){
                 break;
             case Ece::PERMALINKDUPLICATE:
+                $this->response_code = 400;
                 $this->response = $this->getError();
                 break;
             case Ece::ARTICLENOTUPDATED:
             default:
+                $this->response_code = 500;
                 $this->response = C::ARTICLEEDITING_ERROR;
                 break;
         }

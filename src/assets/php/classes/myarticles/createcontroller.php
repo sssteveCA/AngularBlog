@@ -8,16 +8,16 @@ use AngularBlog\Interfaces\MyArticles\CreateControllerErrors as Cce;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\Article\Article;
 use AngularBlog\Traits\ErrorTrait;
+use AngularBlog\Traits\ResponseTrait;
 
 class CreateController implements Cce{
 
-    use ErrorTrait;
+    use ErrorTrait, ResponseTrait;
 
     private ?string $token_key;
     private array $article_data = array();
     private ?Token $token;
     private ?Article $article;
-    private string $response = "";
     private static string $logFile = C::FILE_LOG;
 
     public function __construct(array $data)
@@ -39,7 +39,6 @@ class CreateController implements Cce{
     public function getToken(){return $this->token;}
     public function getTokenKey(){return $this->token_key;}
     public function getArticle(){return $this->article;}
-    public function getResponse(){return $this->response;}
     public function getError(){
         switch($this->errno){
             case Cce::NOUSERIDFOUND:
@@ -123,30 +122,37 @@ class CreateController implements Cce{
     private function setResponse(){
         switch($this->errno){
             case 0:
+                $this->response_code = 200;
                 $this->response = "L'articolo è stato inserito con successo";
                 break;
             case Cce::NOUSERIDFOUND:
+                $this->response_code = 401;
                 $this->response = "Errore durante la creazione dell'articolo. Prova a rieseguire il login e ritenta";
                 break;
             case Cce::INVALIDARTICLEDATA:
             case Cce::DUPLICATEDPERMALINK:
+                $this->response_code = 400;
                 $this->response = $this->getError();
                 break;
             case Cce::FROMARTICLE:
+                $this->response_code = 500;
                 $this->response = C::ARTICLECREATION_ERROR;
                 break;
             case Cce::FROM_TOKEN:
                 $errnoT = $this->token->getErrno();
                 switch($errnoT){
                     case Te::TOKENEXPIRED:
+                        $this->response_code = 401;
                         $this->response = Te::TOKENEXPIRED_MSG;
                         break;
                     default:
+                        $this->response_code = 500;
                         $this->response = C::ARTICLECREATION_ERROR;
                         break;
                 }
                 break;
             default:
+                $this->response_code = 500;
                 $this->response = C::ARTICLECREATION_ERROR;
                 break;
         }

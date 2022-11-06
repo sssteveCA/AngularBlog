@@ -13,6 +13,7 @@ require_once("../interfaces/login/logincontroller_errors.php");
 require_once("../interfaces/login/loginview_errors.php");
 require_once('../../../../vendor/autoload.php');
 require_once("../traits/error.trait.php");
+require_once("../traits/response.trait.php");
 require_once("../classes/model.php");
 require_once("../classes/user.php");
 require_once("../classes/token.php");

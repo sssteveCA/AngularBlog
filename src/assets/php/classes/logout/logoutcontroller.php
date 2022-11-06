@@ -7,13 +7,13 @@ use AngularBlog\Interfaces\Logout\LogoutControllerErrors as Loce;
 use AngularBlog\Classes\Token;
 use AngularBlog\Exceptions\NoTokenInstanceException;
 use AngularBlog\Traits\ErrorTrait;
+use AngularBlog\Traits\ResponseTrait;
 
 class LogoutController implements C,Loce{
 
-    use ErrorTrait;
+    use ErrorTrait, ResponseTrait;
 
     private ?Token $token;
-    private ?string $response = "";
 
     public function __construct(?Token $token)
     {
@@ -24,7 +24,6 @@ class LogoutController implements C,Loce{
     }
 
     public function getToken(){return $this->token;}
-    public function getResponse(){return $this->response;}
     public function getError(){
         switch($this->errno){
             case Loce::TOKENNOTDELETED:
@@ -57,13 +56,13 @@ class LogoutController implements C,Loce{
     private function setResponse(){
         switch($this->errno){
             case 0:
+                $this->response_code = 200;
                 $this->response = ""; //No response, redirect to home page
                 break;
             case Loce::TOKENNOTDELETED:
-                $this->response = C::LOGOUT_ERROR;
-                break;
             default:
-                $this->response = C::ERROR_UNKNOWN;
+                $this->response_code = 500;
+                $this->response = C::LOGOUT_ERROR;
                 break;
         }
     }

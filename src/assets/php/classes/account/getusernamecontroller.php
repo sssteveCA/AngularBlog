@@ -80,23 +80,28 @@ class GetUsernameController implements Guce {
     private function setResponse(){
         switch($this->errno){
             case 0:
+                $this->response_code = 200;
                 $this->response = $this->username;
                 break;
             case Guce::FROM_TOKEN:
                 $errnoT = $this->token->getErrno();
                 switch($errnoT){
                     case Te::TOKENEXPIRED:
+                        $this->response_code = 401;
                         $this->response = "EXPIRED";
                         break;
                     default:
+                        $this->response_code = 500;
                         $this->response = "";
                         break;
                 }
                 break;
             case Guce::FROM_USER:
+                $this->response_code = 500;
                 $this->response = "";
                 break;
             default:
+                $this->response_code = 500;
                 $this->response = "";
                 break;
         }

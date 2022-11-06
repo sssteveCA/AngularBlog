@@ -99,9 +99,10 @@ class DeleteController implements Dce{
 
     //Set the response to send to the view
     private function setResponse(){
-        file_put_contents(DeleteController::$logFile,"DeleteController setResponse errno => {$this->errno}\r\n",FILE_APPEND);
+        //file_put_contents(DeleteController::$logFile,"DeleteController setResponse errno => {$this->errno}\r\n",FILE_APPEND);
         switch($this->errno){
             case 0:
+                $this->response_code = 200;
                 $this->response = C::ARTICLEDELETE_OK;
                 break;
             case Dce::FROM_ARTICLEAUTHORIZEDCONTROLLER:
@@ -111,24 +112,29 @@ class DeleteController implements Dce{
                         $errnoT = $this->token->getErrno();
                         switch($errnoT){
                             case Te::TOKENEXPIRED:
+                                $this->response_code = 401;
                                 $this->response = Te::TOKENEXPIRED_MSG;
                                 break;
                             default:
+                                $this->response_code = 500;
                                 $this->response = C::ARTICLEDELETE_ERROR;
                                 break;
                         }
                         break;
                     case Aace::TOKEN_NOTFOUND:
                     case Aace::FORBIDDEN:
+                        $this->response_code = 403;
                         $this->response = Aace::FORBIDDEN_MSG;
                         break;
                     default:
+                        $this->response_code = 500;
                         $this->response = C::ARTICLEDELETE_ERROR;
                         break;
                 }//switch($aacErrno){
                 break;
             case Dce::ARTICLENOTDELETED:
             default:
+                $this->response_code = 500;
                 $this->response = C::ARTICLEDELETE_ERROR;
                 break;
         }

@@ -113,9 +113,11 @@ class UpdatePasswordController implements Upce{
         //echo "UpdatePasswordController setResponse errno => ".var_export($this->errno,true)."\r\n";
         switch($this->errno){
             case 0:
+                $this->response_code = 200;
                 $this->response = C::PASSWORD_UPDATE_OK;
                 break;
             case Upce::CURRENT_PASSWORD_WRONG:
+                $this->response_code = 401;
                 $this->response = Upce::CURRENT_PASSWORD_WRONG_MSG;
                 break;
             case Upce::FROM_USERAUTHORIZEDCONTROLLER:
@@ -125,21 +127,25 @@ class UpdatePasswordController implements Upce{
                         $errnoT = $this->token->getErrno();
                         switch($errnoT){
                             case Te::TOKENEXPIRED:
+                                $this->response_code = 401;
                                 $this->response = Te::TOKENEXPIRED_MSG;
                                 break;
                             default:
+                                $this->response_code = 500;
                                 $this->response = C::PASSWORD_UPDATE_ERROR;
                                 break;
                         }//switch($errnoT){
                         break;
                     case Uace::TOKEN_NOTFOUND:
                     case Uace::USER_NOTFOUND:
+                        $this->response_code = 500;
                         $this->response = C::PASSWORD_UPDATE_ERROR;
                         break;
                 }//switch($errnoUac){
                 break;
             case Upce::UPDATE_USER:
             default:
+                $this->response_code = 500;
                 $this->response = C::PASSWORD_UPDATE_ERROR;
                 break;
         }

@@ -104,6 +104,7 @@ class EditController implements Ece{
     private function setResponse(){
         switch($this->errno){
             case 0:
+                $this->response_code = 200;
                 $this->response = "OK";
                 break;
             case Ece::FROM_COMMENTAUTHORIZEDCONTROLLER:
@@ -113,24 +114,29 @@ class EditController implements Ece{
                         $errnoT = $this->token->getErrno();
                         switch($errnoT){
                             case Te::TOKENEXPIRED:
+                                $this->response_code = 401;
                                 $this->response = Te::TOKENEXPIRED_MSG;
                                 break;
                             default:
+                                $this->response_code = 500;
                                 $this->response = C::COMMENTUPDATE_ERROR;
                                 break;
                         }
                         break;
                     case Cace::TOKEN_NOTFOUND:
                     case Cace::FORBIDDEN:
+                        $this->response_code = 403;
                         $this->response = Cace::FORBIDDEN_MSG;
                         break;
                     default:
+                        $this->response_code = 500;
                         $this->response = C::COMMENTUPDATE_ERROR;
                         break;
                 }//switch($aacErrno){
                 break;
             case Ece::COMMENTNOTUPDATED:
             default:
+                $this->response_code = 500;
                 $this->response = C::COMMENTUPDATE_ERROR;
                 break;
         }
