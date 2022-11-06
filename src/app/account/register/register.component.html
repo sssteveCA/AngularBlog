@@ -2,42 +2,54 @@
     <h1 class="pt-5 text-center">Registrati</h1>
     <form class="col col-sm-6 mx-auto pt-3" method="post" [formGroup]="formGroup" (submit)="onSubmit()">
         <div class="mb-1">
-            <label for="name" class="form-label">Nome</label>
-            <input type="text" class="form-control" id="name" name="name" formControlName="name" placeholder="Almeno 3 caratteri">
+          <mat-form-field class="w-100" appearance="fill">
+            <mat-label for="name">Nome</mat-label>
+            <input matInput type="text" id="name" name="name" formControlName="name" placeholder="Almeno 3 caratteri">
+          </mat-form-field>  
+        </div>
+          <div class="mb-1">
+            <mat-form-field class="w-100" appearance="fill">
+              <mat-label for="surname">Cognome</mat-label>
+              <input matInput type="text" id="surname" name="surname" formControlName="surname" placeholder="Almeno 2 caratteri">
+            </mat-form-field> 
           </div>
           <div class="mb-1">
-            <label for="surname" class="form-label">Cognome</label>
-            <input type="text" class="form-control" id="surname" name="surname" formControlName="surname" placeholder="Almeno 2 caratteri">
-          </div>
-          <div class="mb-1">
-            <label for="username" class="form-label">Username</label>
-            <input type="text" class="form-control" id="username" name="username" formControlName="username" placeholder="Almeno 5 caratteri">
+            <mat-form-field class="w-100" appearance="fill">
+              <mat-label for="username">Username</mat-label>
+              <input matInput type="text" id="username" name="username" formControlName="username" placeholder="Almeno 5 caratteri">
+            </mat-form-field>     
           </div>
         <div class="mb-1">
-          <label for="email" class="form-label">Indirizzo email</label>
-          <input type="email" class="form-control" id="email" name="email" formControlName="email">
+          <mat-form-field class="w-100" appearance="fill">
+            <mat-label for="email">Indirizzo email</mat-label>
+            <input matInput type="email" id="email" name="email" formControlName="email">
+          </mat-form-field>
+          
         </div>
         <div class="mb-1">
-          <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" id="password" name="password" formControlName="password" placeholder="Almeno 6 caratteri" #password>
+          <mat-form-field class="w-100" appearance="fill">
+            <mat-label for="password">Password</mat-label>
+            <input matInput type="password" id="password" name="password" formControlName="password" placeholder="Almeno 6 caratteri" #password>
+          </mat-form-field>
         </div>
         <div class="mb-1">
-            <label for="confPwd" class="form-label">Conferma password</label>
-            <input type="password" class="form-control" id="confPwd" name="confPwd" formControlName="confPwd" placeholder="Almeno 6 caratteri" #confPwd>
+          <mat-form-field class="w-100" appearance="fill">
+            <mat-label for="confPwd">Conferma password</mat-label>
+            <input matInput type="password" id="confPwd" name="confPwd" formControlName="confPwd" placeholder="Almeno 6 caratteri" #confPwd>
+          </mat-form-field>     
         </div>
         <div class="mb-3">
-          <input type="checkbox" id="cbPass" value="1" (change)="fShowPassword()">
-          <label for="cbPass">Mostra password</label>
+          <mat-checkbox id="cbPass" value="1" (change)="fShowPassword()">Mostra password</mat-checkbox>
         </div>
         <div class="mb-3 d-flex flex-column flex-sm-row justify-content-center justify-content-sm-between">
             <div class="my-3 d-flex justify-content-center">
-              <button type="submit" class="btn btn-primary">REGISTRATI</button>
+              <button mat-raised-button color="primary" type="submit">REGISTRATI</button>
               <div id="register-spinner" class="spinner-grow ms-4" [ngClass]="{'d-none':!showSpinner}" style="width: 3rem; height: 3rem;" role="status">
                 <span class="visually-hidden">Loading...</span>
               </div>
             </div>
             <div class="my-3 d-flex justify-content-center">
-              <button type="reset" class="btn btn-secondary me-5 me-sm-0">ANNULLA</button>
+              <button mat-raised-button color="warn" type="reset" class="me-5 me-sm-0">ANNULLA</button>
             </div>      
         </div>
       </form>

@@ -2,44 +2,52 @@
     <h1 class="pt-5 text-center">Accedi</h1>
     <form class="col col-sm-6 mx-auto pt-3" [formGroup]="loginForm" (submit)="onSubmit()">
         <div class="mb-3">
-          <label for="username" class="form-label">Username</label>
-          <input type="text" class="form-control" id="username" name="username" formControlName="username">
-          <small class="text-danger"
-            *ngIf="loginForm.get('username')?.hasError('required')">
-            Campo obbligatorio
-          </small>
-          <small class="text-danger"
-            *ngIf="loginForm.get('username')?.hasError('minlength')">
-            Almeno 5 caratteri
-          </small>
+          <mat-form-field class="w-100" appearance="fill">
+            <mat-label for="username">Username</mat-label>
+            <input matInput type="text" id="username" name="username" formControlName="username">
+          </mat-form-field>
+          <div>
+              <small class="text-danger"
+              *ngIf="loginForm.get('username')?.hasError('required')">
+              Campo obbligatorio
+            </small>
+            <small class="text-danger"
+              *ngIf="loginForm.get('username')?.hasError('minlength')">
+              Almeno 5 caratteri
+            </small>
+          </div>
+          
         </div>
         <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" id="password" name="password" formControlName="password" #password>
-          <small class="text-danger"
-            *ngIf="loginForm.get('password')?.hasError('required')">
-            Campo obbligatorio
-          </small>
-          <small class="text-danger"
-            *ngIf="loginForm.get('password')?.hasError('minlength')">
-            Almeno 6 caratteri
-          </small>
+          <mat-form-field class="w-100" appearance="fill">
+            <mat-label for="password">Password</mat-label>
+            <input matInput type="password" id="password" name="password" formControlName="password" #password>
+          </mat-form-field>
+          <div>
+            <small class="text-danger"
+              *ngIf="loginForm.get('password')?.hasError('required')">
+              Campo obbligatorio
+            </small>
+            <small class="text-danger"
+              *ngIf="loginForm.get('password')?.hasError('minlength')">
+              Almeno 6 caratteri
+            </small>
+          </div> 
         </div>
         <div>
-          <input type="checkbox" id="cbPass" value="1" (change)="fShowPassword()">
-          <label for="cbPass">Mostra password</label>
+          <mat-checkbox id="cbPass" value="1" (change)="fShowPassword()">Mostra password</mat-checkbox>
         </div>
         <div class="mb-3 d-flex flex-column flex-sm-row justify-content-sm-evenly">    
         </div>
         <div class="mb-3 d-flex flex-column flex-sm-row justify-content-center justify-content-sm-between">
           <div class="my-3 d-flex justify-content-center">
-            <button type="submit" class="btn btn-primary">ACCEDI</button>
+            <button mat-raised-button color="primary" type="submit"raised->ACCEDI</button>
             <div id="login-spinner" class="spinner-grow ms-4" [ngClass]="{'d-none':!showSpinner}" style="width: 3rem; height: 3rem;" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
           </div>
           <div class="my-3 d-flex justify-content-center">
-            <button type="reset" class="btn btn-secondary me-5 me-sm-0">ANNULLA</button>
+            <button mat-raised-button color="warn" type="reset" class="me-5 me-sm-0">ANNULLA</button>
           </div>
         </div>
       </form>
