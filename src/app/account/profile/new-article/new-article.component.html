@@ -1,3 +1,9 @@
+<div class="header">
+    <h1 class="text-center">Crea un nuovo articolo</h1>
+</div>
+<div id="link-back" class="h4">
+    <a href="javascript:void(0)" [routerLink] = "['../../']">Torna indietro</a>
+</div>
 <form id="fCreate" method="post" action="#" (ngSubmit)="create(); $event.preventDefault()" [formGroup]="form">
     <div class="container-fluid">
         <div class="row">
@@ -33,8 +39,8 @@
         </div>
         <div class="row my-3">
             <div class="col-12 d-flex justify-content-around">
-                <button type="submit" class="btn btn-primary" >CREA</button>
-                <button type="reset" class="btn btn-danger">ANNULLA</button>
+                <button mat-raised-button color="primary" type="submit">CREA</button>
+                <button mat-raised-button color="warn" type="reset">ANNULLA</button>
             </div>
         </div>
     </div>

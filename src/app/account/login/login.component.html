@@ -1,5 +1,8 @@
 <div class="form-container">
     <h1 class="pt-5 text-center">Accedi</h1>
+    <div id="link-back" class="h4">
+      <a href="javascript:void(0)" [routerLink] = "['/']">Torna indietro</a>
+    </div>
     <form class="col col-sm-6 mx-auto pt-3" [formGroup]="loginForm" (submit)="onSubmit()">
         <div class="mb-3">
           <mat-form-field class="w-100" appearance="fill">

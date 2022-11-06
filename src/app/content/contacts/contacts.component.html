@@ -1,6 +1,9 @@
 <div class="form-container p-5 mb-4 rounded-3">
     <div class="container-fluid py-5">
       <h1 class="display-5 fw-bold headerPage">Contatti</h1>
+      <div id="link-back" class="h4">
+        <a href="javascript:void(0)" [routerLink] = "['/']">Torna indietro</a>
+      </div>
       <form method="post" [formGroup]="contactForm" (submit)="onSubmit()">
         <fieldset>
           <div class="mb-3">
