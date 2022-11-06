@@ -36,6 +36,7 @@ class DeleteController implements Dce{
             //User is authorized to delete this comment
             $del = $this->delete_comment();
         }
+        $this->setResponse();
     }
 
     public function getComment(){return $this->comment;}

@@ -3,43 +3,66 @@
     <div id="link-back" class="h4">
       <a href="javascript:void(0)" [routerLink] = "['/']">Torna indietro</a>
     </div>
-    <form class="col col-sm-6 mx-auto pt-3" method="post" [formGroup]="formGroup" (submit)="onSubmit()">
+    <form class="col col-sm-6 mx-auto pt-3" method="post" [formGroup]="subscribeForm" (submit)="onSubmit()">
         <div class="mb-1">
           <mat-form-field class="w-100" appearance="fill">
             <mat-label for="name">Nome</mat-label>
             <input matInput type="text" id="name" name="name" formControlName="name" placeholder="Almeno 3 caratteri">
-          </mat-form-field>  
+          </mat-form-field> 
+          <div>
+            <small class="text-danger" *ngIf="subscribeForm.get('name')?.hasError('required')">Campo obbligatorio</small>
+            <small class="text-danger" *ngIf="subscribeForm.get('name')?.hasError('minlength')">Almeno 3 caratteri</small>
+          </div> 
         </div>
           <div class="mb-1">
             <mat-form-field class="w-100" appearance="fill">
               <mat-label for="surname">Cognome</mat-label>
               <input matInput type="text" id="surname" name="surname" formControlName="surname" placeholder="Almeno 2 caratteri">
-            </mat-form-field> 
+            </mat-form-field>
+            <div>
+              <small class="text-danger" *ngIf="subscribeForm.get('surname')?.hasError('required')">Campo obbligatorio</small>
+              <small class="text-danger" *ngIf="subscribeForm.get('surname')?.hasError('minlength')">Almeno 2 caratteri</small>
+            </div> 
           </div>
           <div class="mb-1">
             <mat-form-field class="w-100" appearance="fill">
               <mat-label for="username">Username</mat-label>
               <input matInput type="text" id="username" name="username" formControlName="username" placeholder="Almeno 5 caratteri">
-            </mat-form-field>     
+            </mat-form-field>
+            <div>
+              <small class="text-danger" *ngIf="subscribeForm.get('username')?.hasError('required')">Campo obbligatorio</small>
+              <small class="text-danger" *ngIf="subscribeForm.get('username')?.hasError('minlength')">Almeno 5 caratteri</small>
+            </div>      
           </div>
         <div class="mb-1">
           <mat-form-field class="w-100" appearance="fill">
             <mat-label for="email">Indirizzo email</mat-label>
             <input matInput type="email" id="email" name="email" formControlName="email">
           </mat-form-field>
-          
+          <div>
+            <small class="text-danger" *ngIf="subscribeForm.get('email')?.hasError('required')">Campo obbligatorio</small>
+            <small class="text-danger" *ngIf="subscribeForm.get('email')?.hasError('email')">Deve essere un indirizzo email valido</small>
+          </div> 
         </div>
         <div class="mb-1">
           <mat-form-field class="w-100" appearance="fill">
             <mat-label for="password">Password</mat-label>
             <input matInput type="password" id="password" name="password" formControlName="password" placeholder="Almeno 6 caratteri" #password>
           </mat-form-field>
+          <div>
+            <small class="text-danger" *ngIf="subscribeForm.get('password')?.hasError('required')">Campo obbligatorio</small>
+            <small class="text-danger" *ngIf="subscribeForm.get('password')?.hasError('minlength')">Almeno 6 caratteri</small>
+          </div>
         </div>
         <div class="mb-1">
           <mat-form-field class="w-100" appearance="fill">
             <mat-label for="confPwd">Conferma password</mat-label>
             <input matInput type="password" id="confPwd" name="confPwd" formControlName="confPwd" placeholder="Almeno 6 caratteri" #confPwd>
-          </mat-form-field>     
+          </mat-form-field> 
+          <div>
+            <small class="text-danger" *ngIf="subscribeForm.get('confPwd')?.hasError('required')">Campo obbligatorio</small>
+            <small class="text-danger" *ngIf="subscribeForm.get('confPwd')?.hasError('minlength')">Almeno 6 caratteri</small>
+          </div>    
         </div>
         <div class="mb-3">
           <mat-checkbox id="cbPass" value="1" (change)="fShowPassword()">Mostra password</mat-checkbox>

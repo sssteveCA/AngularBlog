@@ -6,7 +6,7 @@ trait ResponseTrait{
     /**
      * The HTTP response status code
      */
-    private string $response_code;
+    private int $response_code = 200;
     /**
      * The response string message to send to the view
      */
