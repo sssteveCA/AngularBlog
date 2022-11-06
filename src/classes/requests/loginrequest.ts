@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Messages } from "src/constants/messages";
 import LoginRequestInterface from "src/interfaces/loginrequest.interface";
+import { Config } from "config";
 
 export default class LoginRequest{
     private _http: HttpClient;

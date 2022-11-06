@@ -1,5 +1,5 @@
 <?php
-session_start();
+//session_start();
 
 require_once("../cors.php");
 require_once("../../../../config.php");
@@ -69,7 +69,5 @@ else{
     $response['msg'] = C::FILL_ALL_FIELDS;
 }
     
-
-
-echo json_encode($response);
+echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
 ?>
