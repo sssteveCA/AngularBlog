@@ -7,17 +7,20 @@ require_once("cors.php");
 require_once("../../../vendor/autoload.php");
 require_once("config.php");
 
+$input = file_get_contents("php://input");
+$post = json_decode($input,true);
+
 $response = array();
 $response['done'] = false;
 
-if(isset($_POST['email'],$_POST['subject'],$_POST['message']) 
-&& $_POST['email'] != '' && $_POST['subject'] != '' && $_POST['message'] != ''){
-    if(preg_match(EMAILREGEX,$_POST['email'])){
+if(isset($post['email'],$post['subject'],$post['message']) 
+&& $post['email'] != '' && $post['subject'] != '' && $post['message'] != ''){
+    if(preg_match(EMAILREGEX,$post['email'])){
         $dotenv = Dotenv::createImmutable(__DIR__."/../../../");
         $dotenv->safeLoad();
-        $email = $_POST['email'];
-        $subject = $_POST['subject'];
-        $message = $_POST['message'];
+        $email = $post['email'];
+        $subject = $post['subject'];
+        $message = $post['message'];
         $htmlMail = htmlMailContact($message);
         $send = @mail(ADMINEMAIL,$subject,$htmlMail,$headers);
         if($send){
@@ -26,7 +29,7 @@ if(isset($_POST['email'],$_POST['subject'],$_POST['message'])
         }
         else
             $response['msg'] = "C'è stato un'errore durante l'invio del messaggio";
-    }//if(preg_match($emailRegex,$_POST['email'])){
+    }//if(preg_match($emailRegex,$post['email'])){
     else
         $response['msg'] = "L'indirizzo email inserito non è valido";
 }
