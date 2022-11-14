@@ -30,6 +30,7 @@ use AngularBlog\Classes\Comment\CommentList;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\User;
 use AngularBlog\Interfaces\Constants as C;
+use Dotenv\Dotenv;
 use MongoDB\BSON\ObjectId;
 
 $response = [
@@ -41,7 +42,9 @@ $response = [
 ];
 
 if(isset($_GET['permalink']) && $_GET['permalink'] != '' && $_GET['permalink'] != 'undefined'){
-    file_put_contents(C::FILE_LOG,"article comments GET => ".var_export($_GET,true)."\r\n",FILE_APPEND);
+    //file_put_contents(C::FILE_LOG,"article comments GET => ".var_export($_GET,true)."\r\n",FILE_APPEND);
+    $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../");
+    $dotenv->safeLoad();
     $permalink = $_GET['permalink'];
     try{
         $token = token_exists($_GET);

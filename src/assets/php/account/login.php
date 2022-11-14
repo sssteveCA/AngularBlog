@@ -26,6 +26,7 @@ use AngularBlog\Classes\User;
 use AngularBlog\Classes\Login\LoginController;
 use AngularBlog\Classes\Login\LoginView;
 use AngularBlog\Classes\Token;
+use Dotenv\Dotenv;
 use MongoDB\Driver\Exception\BulkWriteException;
 
 $input = file_get_contents("php://input");
@@ -36,6 +37,8 @@ $response['done'] = false;
 $response['post'] = $post;
 
 if(isset($post['username'],$post['password']) && $post['username'] != '' && $post['password'] != ''){
+    $dotenv = Dotenv::createImmutable(__DIR__."/../../../../");
+    $dotenv->safeLoad();
     try{
         $data = [
             'username' => $post['username'],

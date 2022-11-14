@@ -17,6 +17,7 @@ require_once("../classes/article/articlelist.php");
 
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Article\ArticleList;
+use Dotenv\Dotenv;
 use MongoDB\BSON\Regex;
 
 $response = [
@@ -26,6 +27,8 @@ $response = [
 $field = 'title';
 
 if(isset($_POST['query']) && $_POST['query'] != ''){
+    $dotenv = Dotenv::createImmutable(__DIR__."/../../../../");
+    $dotenv->safeLoad();
     $query = $_POST['query'];
     try{
         $al = new ArticleList();

@@ -21,6 +21,7 @@ use AngularBlog\Classes\Subscribe\RegistrationController;
 use AngularBlog\Classes\Subscribe\RegistrationView;
 use AngularBlog\Classes\User;
 use AngularBlog\Interfaces\Constants as C;
+use Dotenv\Dotenv;
 
 $input = file_get_contents("php://input");
 $post = json_decode($input,true);
@@ -31,6 +32,8 @@ $response['done'] = false;
 
 if(isset($post['name'],$post['surname'],$post['username'],$post['email'],$post['password'],$post['confPwd'],$post['subscribed'])){
     if(preg_match(User::$regex['password'],$post['password'])){
+        $dotenv = Dotenv::createImmutable(__DIR__."/../../../../");
+        $dotenv->safeLoad();
         try{
             $data = array(
                 'name' => $post['name'],

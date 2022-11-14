@@ -35,6 +35,7 @@ use AngularBlog\Classes\Account\UpdateUsernameController;
 use AngularBlog\Classes\Account\UpdateUsernameView;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\User;
+use Dotenv\Dotenv;
 
 $response = [
     "done" => false, "expired" => false, "msg" => ""
@@ -48,6 +49,8 @@ if(isset($update["token_key"],$update["new_username"]) && $update["token_key"] !
         $token_data = [ "token_key" => $update["token_key"] ];
         $user_data = [ "username" => $update["new_username"]]; 
         try{
+            $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../");
+            $dotenv->safeLoad();
             $token = new Token($token_data);
             $user = new User($user_data);
             $uuc_data = [

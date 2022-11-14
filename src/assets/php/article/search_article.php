@@ -17,6 +17,7 @@ require_once("../classes/user.php");
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Article\Article;
 use AngularBlog\Classes\User;
+use Dotenv\Dotenv;
 use MongoDB\BSON\ObjectId;
 
 $response = array();
@@ -25,6 +26,8 @@ $response['done'] = false;
 $params = array();
 
 if(isset($_GET['permalink']) && $_GET['permalink'] != ''){
+    $dotenv = Dotenv::createImmutable(__DIR__."/../../../../");
+    $dotenv->safeLoad();
     $permalink = $_GET['permalink'];
     $filter = ['permalink' => $permalink];
     try{

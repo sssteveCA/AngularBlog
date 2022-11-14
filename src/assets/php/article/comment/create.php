@@ -24,13 +24,10 @@ require_once("../../classes/article/comment/addview.php");
 
 use AngularBlog\Interfaces\Article\Comment\AddControllerErrors as Ace;
 use AngularBlog\Interfaces\Article\Comment\AddViewErrors as Ave;
-use AngularBlog\Classes\Article\Article;
 use AngularBlog\Classes\Article\Comment\AddController;
-use AngularBlog\Classes\Article\Comment\AddtController;
 use AngularBlog\Classes\Article\Comment\AddView;
-use AngularBlog\Classes\Comment\Comment;
-use AngularBlog\Classes\Token;
 use AngularBlog\Interfaces\Constants as C;
+use Dotenv\Dotenv;
 
 $input = file_get_contents("php://input");
 $post = json_decode($input,true);
@@ -42,6 +39,8 @@ $response = array(
 );
 
 if(isset($post['permalink'],$post['token_key'],$post['comment_text']) && $post['permalink'] != '' && $post['token_key'] != '' && $post['comment_text'] != ''){
+    $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../");
+    $dotenv->safeLoad();
     try{
         $data = [
             'token_key' => $post['token_key'],

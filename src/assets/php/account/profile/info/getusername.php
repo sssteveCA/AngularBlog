@@ -7,6 +7,7 @@ use AngularBlog\Classes\Token;
 use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Classes\User;
 use AngularBlog\Interfaces\Constants as C;
+use Dotenv\Dotenv;
 
 require_once("../../../cors.php");
 require_once("../../../../../../config.php");
@@ -34,6 +35,8 @@ $response = [
 ];
 
 if(isset($_GET["token_key"])){
+    $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../");
+    $dotenv->safeLoad();
     $token_data = ["token_key" => $_GET["token_key"]];
     try{
         $token = new Token($token_data);

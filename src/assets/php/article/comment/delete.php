@@ -31,6 +31,7 @@ use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Token;
 use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Classes\Comment\Comment;
+use Dotenv\Dotenv;
 
 $input = file_get_contents("php://input");
 $delete = json_decode($input,true);
@@ -43,6 +44,8 @@ $response = [
 ];
 
 if(isset($delete['token_key'],$delete['comment_id']) && $delete['token_key'] != '' && $delete['comment_id'] != ''){
+    $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../");
+    $dotenv->safeLoad();
     $token_data = ['token_key' => $delete['token_key']];
     $comment_data = ['id' => $delete['comment_id']];
     try{

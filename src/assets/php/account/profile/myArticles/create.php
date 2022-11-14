@@ -26,6 +26,7 @@ use AngularBlog\Interfaces\MyArticles\CreateControllerErrors as Cce;
 use AngularBlog\Interfaces\MyArticles\CreateViewErrors as Cve;
 use AngularBlog\Classes\Myarticles\CreateController;
 use AngularBlog\Classes\Myarticles\CreateView;
+use Dotenv\Dotenv;
 
 $response = array(
     'done' => false,
@@ -38,6 +39,8 @@ $post = json_decode($input,true);
 //$response['post'] = $post;
 
 if(isset($post['token_key'],$post['article']) && $post['token_key'] != ''){
+    $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../");
+    $dotenv->safeLoad();
     $data = [
         'token_key' => $post['token_key'],
         'article' => $post['article']

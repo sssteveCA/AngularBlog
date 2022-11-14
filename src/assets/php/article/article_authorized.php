@@ -24,10 +24,10 @@ require_once("../classes/article/articleauthorizedview.php");
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Article\ArticleAuthorizedController;
 use AngularBlog\Interfaces\Article\ArticleAuthorizedControllerErrors as Aace;
-use AngularBlog\Interfaces\Article\ArticleAuthorizedViewErrors as Aave;
 use AngularBlog\Classes\Article\Article;
 use AngularBlog\Classes\Article\ArticleAuthorizedView;
 use AngularBlog\Classes\Token;
+use Dotenv\Dotenv;
 
 $response = array(
     'authorized' => false,
@@ -39,6 +39,8 @@ $input = file_get_contents("php://input");
 $post = json_decode($input,true);
 
 if(isset($post['token_key'],$post['username'],$post['article_id']) && $post['token_key'] != '' && $post['username'] != '' && $post['article_id'] != ''){
+    $dotenv = Dotenv::createImmutable(__DIR__."/../../../../");
+    $dotenv->safeLoad();
     $token_key = $post['token_key'];
     $article_id = $post['article_id'];
     //file_put_contents(C::FILE_LOG,"article_authorized article id => ".var_export($article_id,true)."\r\n",FILE_APPEND);

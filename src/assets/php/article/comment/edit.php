@@ -31,6 +31,7 @@ use AngularBlog\Classes\Comment\Comment;
 use AngularBlog\Classes\Token;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\TokenErrors as Te;
+use Dotenv\Dotenv;
 
 $input = file_get_contents("php://input");
 $patch = json_decode($input, true);
@@ -43,6 +44,8 @@ $response = [
 ];
 
 if(isset($patch['comment_id'],$patch['new_comment'],$patch['old_comment'],$patch['token_key']) && $patch['comment_id'] != '' && $patch['new_comment'] != '' && $patch['old_comment'] != '' && $patch['token_key'] != ''){
+    $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../");
+    $dotenv->safeLoad();
     $token_data = ['token_key' => $patch['token_key']];
     $comment_data = [
         'id' => $patch['comment_id'],

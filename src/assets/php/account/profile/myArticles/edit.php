@@ -31,6 +31,7 @@ use AngularBlog\Classes\Token;
 use AngularBlog\Classes\Article\Article;
 use AngularBlog\Classes\Myarticles\EditContoller;
 use AngularBlog\Classes\Myarticles\EditView;
+use Dotenv\Dotenv;
 
 $input = file_get_contents('php://input');
 $post = json_decode($input,true);
@@ -43,6 +44,8 @@ $response = array(
 
 if(isset($post['article'],$post['token_key']) && $post['token_key'] != ''){
     if(isset($post['article']['id'],$post['article']['title'],$post['article']['introtext'],$post['article']['content'],$post['article']['permalink'],$post['article']['categories'],$post['article']['tags']) && $post['article']['id'] != '' && $post['article']['title'] != '' && $post['article']['introtext'] != '' && $post['article']['content'] != '' && $post['article']['permalink'] != ''){
+        $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../");
+        $dotenv->safeLoad();
         $data = [
             'token_key' => $post['token_key'],
             'article_id' => $post['article']['id']

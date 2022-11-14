@@ -21,13 +21,16 @@ use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\User;
 use AngularBlog\Classes\Subscribe\VerifyController;
 use AngularBlog\Classes\Subscribe\VerifyView;
+use Dotenv\Dotenv;
 
 $response = array();
 $response['msg'] = '';
 $response['done'] = false;
 
 if(isset($_REQUEST['emailVerif']) && $_REQUEST['emailVerif'] != ''){
-    if(preg_match(User::$regex['emailVerif'],$_REQUEST['emailVerif'])){     
+    if(preg_match(User::$regex['emailVerif'],$_REQUEST['emailVerif'])){  
+        $dotenv = Dotenv::createImmutable(__DIR__."/../../../../");
+        $dotenv->safeLoad();   
         try{
             $emailVerif = $_REQUEST['emailVerif'];
             $data = array('emailVerif' => $emailVerif);

@@ -14,6 +14,7 @@ require_once("../classes/token.php");
 
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Token;
+use Dotenv\Dotenv;
 
 //This script check if user is still logged
 $response = array(
@@ -26,6 +27,8 @@ $postDecode = json_decode($post,true);
 $response['post'] = $postDecode;
 
 if(isset($postDecode['token_key'],$postDecode['username'])){
+    $dotenv = Dotenv::createImmutable(__DIR__."/../../../../");
+    $dotenv->safeLoad();
     $data = [
         'token_key' => $postDecode['token_key'],
         'username' => $postDecode['username']

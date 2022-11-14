@@ -22,6 +22,7 @@ use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\Logout\LogoutView;
 use AngularBlog\Classes\Logout\LogoutController;
+use Dotenv\Dotenv;
 
 $response = array(
     'msg' => '',
@@ -29,6 +30,8 @@ $response = array(
 );
 
 if(isset($_GET['token_key']) && $_GET['token_key'] != ''){
+    $dotenv = Dotenv::createImmutable(__DIR__."/../../../../");
+    $dotenv->safeLoad();
     $token_key = $_GET['token_key'];
     $filter = ['token_key' => $token_key];
     try{

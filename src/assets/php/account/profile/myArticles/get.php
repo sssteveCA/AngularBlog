@@ -26,12 +26,15 @@ require_once("../../../classes/myarticles/getview.php");
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Myarticles\GetController;
 use AngularBlog\Classes\Myarticles\GetView;
+use Dotenv\Dotenv;
 
 $response = array();
 $response['done'] = false;
 $response['msg'] = '';
 
 if(isset($_GET['token_key']) && $_GET['token_key'] != ''){
+    $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../");
+    $dotenv->safeLoad();
     $data = [
         'token_key' => $_GET['token_key']
     ];
