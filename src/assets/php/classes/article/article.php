@@ -2,7 +2,6 @@
 
 namespace AngularBlog\Classes\Article;
 
-use AngularBlog\Config as Cf;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\Article\ArticleErrors as Ae;
 use AngularBlog\Interfaces\ModelErrors as Me;

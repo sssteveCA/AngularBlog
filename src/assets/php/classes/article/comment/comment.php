@@ -2,7 +2,6 @@
 
 namespace AngularBlog\Classes\Comment;
 
-use AngularBlog\Config as Cf;
 use AngularBlog\Classes\Model;
 use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Interfaces\Article\Comment\CommentErrors as Ce;

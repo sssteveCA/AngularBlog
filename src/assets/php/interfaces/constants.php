@@ -49,14 +49,6 @@ interface Constants{
     const LOGOUT_ERROR = "Errore durante il logout. ".Constants::ADMIN_CONTACT;
     const LOGOUT_ERROR_USERNOTFOUND = "Impossibile completare il logout perché la chiave passata non è valida";
 
-    //MongoDB
-    /* const MONGODB_CONNECTION_STRING = Cf::MONGODB_CONNECTION_STRING;
-    const MONGODB_DATABASE = Cf::MONGODB_DATABASE;
-    const MONGODB_COLLECTION_ARTICLES = Cf::MONGODB_COLLECTION_ARTICLES;
-    const MONGODB_COLLECTION_COMMENTS = Cf::MONGODB_COLLECTION_COMMENTS;
-    const MONGODB_COLLECTION_TOKENS = Cf::MONGODB_COLLECTION_TOKENS;
-    const MONGODB_COLLECTION_USERS = Cf::MONGODB_COLLECTION_USERS; */
-
     //Password
     const PASSWORD_UPDATE_OK = "La password è stata aggiornata";
     const PASSWORD_UPDATE_ERROR = "Errore durante la modifica della password. ".Constants::ADMIN_CONTACT;
