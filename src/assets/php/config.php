@@ -3,12 +3,12 @@
 use AngularBlog\Config as Cf;
 
 //database constants
-const HOSTNAME = 'localhost';
+/* const HOSTNAME = 'localhost';
 const USERNAME = 'root';
 const PASSWORD = '';
 const DATABASE = 'stefano';
 const TABLE_ARTICLES = 'articoli';
-const TABLE_USERS = 'utentiBlog';
+const TABLE_USERS = 'utentiBlog'; */
 
 //error messages
 const UNKNOWN_ERROR = 'Errore sconosciuto';

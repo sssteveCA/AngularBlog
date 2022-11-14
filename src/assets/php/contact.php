@@ -1,7 +1,10 @@
 <?php
 
+use Dotenv\Dotenv;
+
 require_once("cors.php");
-require_once("../../../config.php");
+//require_once("../../../config.php");
+require_once("../../../vendor/autoload.php");
 require_once("config.php");
 
 $response = array();
@@ -10,6 +13,8 @@ $response['done'] = false;
 if(isset($_POST['email'],$_POST['subject'],$_POST['message']) 
 && $_POST['email'] != '' && $_POST['subject'] != '' && $_POST['message'] != ''){
     if(preg_match(EMAILREGEX,$_POST['email'])){
+        $dotenv = Dotenv::createImmutable(__DIR__."/../../../");
+        $dotenv->safeLoad();
         $email = $_POST['email'];
         $subject = $_POST['subject'];
         $message = $_POST['message'];

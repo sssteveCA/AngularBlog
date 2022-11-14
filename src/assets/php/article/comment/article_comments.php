@@ -3,7 +3,8 @@
 //List of comments of single article
 
 require_once("../../cors.php");
-require_once("../../../../../config.php");
+//require_once("../../../../../config.php");
+require_once("../../../../../vendor/autoload.php");
 require_once("../../config.php");
 require_once("../../interfaces/constants.php");
 require_once("../../interfaces/exception_messages.php");
@@ -15,7 +16,6 @@ require_once("../../interfaces/user_errors.php");
 require_once("../../interfaces/article/article_errors.php");
 require_once("../../interfaces/article/comment/comment_errors.php");
 require_once("../../interfaces/article/comment/commentlist_errors.php");
-require_once("../../../../../vendor/autoload.php");
 require_once("../../traits/error.trait.php");
 require_once("../../classes/model.php");
 require_once("../../classes/models.php");
