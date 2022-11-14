@@ -48,7 +48,7 @@ if(isset($update["token_key"],$update["conf_new_password"],$update["new_password
         if($update["new_password"] == $update["conf_new_password"]){
             $token_data = [ "token_key" => $update["token_key"]];
             try{
-                $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../");
+                $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../../");
                 $dotenv->safeLoad();
                 $token = new Token($token_data);
                 $user = new User();

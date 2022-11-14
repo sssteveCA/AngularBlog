@@ -33,7 +33,7 @@ $response['done'] = false;
 $response['msg'] = '';
 
 if(isset($_GET['token_key']) && $_GET['token_key'] != ''){
-    $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../");
+    $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../../");
     $dotenv->safeLoad();
     $data = [
         'token_key' => $_GET['token_key']

@@ -44,7 +44,7 @@ $response = array(
 
 if(isset($post['article'],$post['token_key']) && $post['token_key'] != ''){
     if(isset($post['article']['id'],$post['article']['title'],$post['article']['introtext'],$post['article']['content'],$post['article']['permalink'],$post['article']['categories'],$post['article']['tags']) && $post['article']['id'] != '' && $post['article']['title'] != '' && $post['article']['introtext'] != '' && $post['article']['content'] != '' && $post['article']['permalink'] != ''){
-        $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../");
+        $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../../");
         $dotenv->safeLoad();
         $data = [
             'token_key' => $post['token_key'],

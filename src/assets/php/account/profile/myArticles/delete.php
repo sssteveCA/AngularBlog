@@ -44,7 +44,7 @@ $response = [
 ];
 
 if(isset($delete['article_id'],$delete['token_key']) && $delete['article_id'] != '' && $delete['token_key'] != '' ){
-    $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../");
+    $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../../");
     $dotenv->safeLoad();
     $token_data = ['token_key' => $delete['token_key']];
     $article_data = ['id' => $delete['article_id']];

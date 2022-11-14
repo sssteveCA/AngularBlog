@@ -39,7 +39,7 @@ $post = json_decode($input,true);
 //$response['post'] = $post;
 
 if(isset($post['token_key'],$post['article']) && $post['token_key'] != ''){
-    $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../");
+    $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../../");
     $dotenv->safeLoad();
     $data = [
         'token_key' => $post['token_key'],
