@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { Messages } from "src/constants/messages";
-import SubscribeRequestInterface from "src/interfaces/subscriberequest.interface";
+import SubscribeRequestInterface from "src/interfaces/requests/subscriberequest.interface";
 
 export default class SubscribeRequest{
     private _confPwd: string;
