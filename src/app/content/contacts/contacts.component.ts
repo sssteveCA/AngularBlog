@@ -48,7 +48,7 @@ export class ContactsComponent implements OnInit {
     let params = new HttpParams({fromObject: data});
     this.http.post(constants.contactUrl,params,{responseType: 'text'}).subscribe(res => {
       this.showSpinner = false;
-      console.log(res);
+      //console.log(res);
       try{
         let rJson = JSON.parse(res);
         //console.log(rJson);

@@ -21,12 +21,12 @@ export class BlogComponent implements OnInit {
   //When user click Search button
   onSearchClick(search: HTMLInputElement): void{
     let val = search.value;
-    console.log(val);
+    //console.log(val);
     let params = new HttpParams().append('query',val);
     this.http.post(this.url,params,{responseType: 'text'}).subscribe(res => {
       //console.log(res);
       let rJson = JSON.parse(res);
-      console.log(rJson);
+      //console.log(rJson);
       if(rJson['done'] == true){
         this.articles = rJson['articles'];
         //console.log(this.articles);

@@ -30,7 +30,7 @@ export default class DeleteProfile{
                 token_key: this._token_key
             };
             await this.deleteProfilePromise(deleteProfile_values).then(res => {
-                console.log(res);
+                //console.log(res);
                 response = JSON.parse(res);
                 //console.log(response);
             }).catch(err => {
