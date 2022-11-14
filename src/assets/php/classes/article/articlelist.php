@@ -18,9 +18,9 @@ class ArticleList extends Models implements Ale,C,Me{
 
     public function __construct(array $data = array())
     {
-        $data['connection_url'] = isset($data['connection_url']) ? $data['connection_url']: Cf::MONGODB_CONNECTION_STRING;
-        $data['database_name'] = isset($data['database_name']) ? $data['database_name']: Cf::MONGODB_DATABASE;
-        $data['collection_name'] = isset($data['collection_name']) ? $data['collection_name']: C::MONGODB_COLLECTION_ARTICLES;
+        $data['connection_url'] = isset($data['connection_url']) ? $data['connection_url']: $_ENV['MONGODB_CONNECTION_STRING'];
+        $data['database_name'] = isset($data['database_name']) ? $data['database_name']: $_ENV['MONGODB_DATABASE'];
+        $data['collection_name'] = isset($data['collection_name']) ? $data['collection_name']: $_ENV['MONGODB_COLLECTION_ARTICLES'];
         parent::__construct($data);
     }
 

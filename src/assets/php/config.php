@@ -13,8 +13,8 @@ const TABLE_USERS = 'utentiBlog';
 //error messages
 const UNKNOWN_ERROR = 'Errore sconosciuto';
 
-$angular_hostname = Cf::ANGULAR_HOSTNAME;
-$angular_home_url = Cf::ANGULAR_MAIN_URL;
+$angular_hostname = $_ENV['ANGULAR_HOSTNAME'];
+$angular_home_url = $_ENV['ANGULAR_MAIN_URL'];
 
 //account activation link
 $att = "{$angular_home_url}/attiva";
