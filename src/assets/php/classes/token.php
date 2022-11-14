@@ -2,7 +2,6 @@
 
 namespace AngularBlog\Classes;
 
-use AngularBlog\Config as Cf;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Model;
 use MongoDB\BSON\ObjectId;

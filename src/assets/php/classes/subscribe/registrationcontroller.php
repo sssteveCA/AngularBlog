@@ -84,7 +84,7 @@ HEADER;
 
     //Set email message
     private function setMessage(){
-        $indAtt = C::REG_SUBSCRIBE_LINK;
+        $indAtt = $_ENV['ANGULAR_MAIN_URL']."/attiva";
         $emailVerif = $this->user->getEmailVerif();
         $codIndAtt = $indAtt.'?emailVerif='.$emailVerif;
         $this->message = <<<HTML

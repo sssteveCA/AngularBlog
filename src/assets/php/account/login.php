@@ -25,9 +25,7 @@ use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\User;
 use AngularBlog\Classes\Login\LoginController;
 use AngularBlog\Classes\Login\LoginView;
-use AngularBlog\Classes\Token;
 use Dotenv\Dotenv;
-use MongoDB\Driver\Exception\BulkWriteException;
 
 $input = file_get_contents("php://input");
 $post = json_decode($input,true);

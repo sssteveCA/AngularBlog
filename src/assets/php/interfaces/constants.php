@@ -2,8 +2,6 @@
 
 namespace AngularBlog\Interfaces;
 
-use AngularBlog\Config as Cf;
-
 //Generic constants used by this app
 interface Constants{
 
@@ -65,7 +63,7 @@ interface Constants{
 
     //Registration
     const REG_ERROR = "Errore durante la registrazione dell' account. ".Constants::ADMIN_CONTACT;
-    const REG_SUBSCRIBE_LINK = Cf::ANGULAR_MAIN_URL.'/attiva';
+    //const REG_SUBSCRIBE_LINK = Cf::ANGULAR_MAIN_URL.'/attiva';
 
     //Search
     const SEARCH_ERROR = "Errore durante la ricerca degli articoli. ".Constants::ADMIN_CONTACT;

@@ -1,6 +1,7 @@
 <?php
 
 use AngularBlog\Config as Cf;
+use Dotenv\Dotenv;
 
 //database constants
 /* const HOSTNAME = 'localhost';
@@ -12,6 +13,9 @@ const TABLE_USERS = 'utentiBlog'; */
 
 //error messages
 const UNKNOWN_ERROR = 'Errore sconosciuto';
+
+$dotenv = Dotenv::createImmutable(__DIR__."/../../../");
+$dotenv->safeLoad();
 
 $angular_hostname = $_ENV['ANGULAR_HOSTNAME'];
 $angular_home_url = $_ENV['ANGULAR_MAIN_URL'];

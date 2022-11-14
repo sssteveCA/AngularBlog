@@ -2,13 +2,11 @@
 
 namespace AngularBlog\Classes\Article;
 
-use AngularBlog\Config as Cf;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\ModelsErrors as Me;
 use AngularBLog\Interfaces\Article\ArticleListErrors as Ale;
 use AngularBlog\Classes\Models;
 use AngularBlog\Classes\Article\Article;
-use MongoDB\Model\BSONArray;
 
 //This class is used to executed actions on multiple artciles at time
 class ArticleList extends Models implements Ale,C,Me{

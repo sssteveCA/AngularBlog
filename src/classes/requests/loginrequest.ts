@@ -37,6 +37,7 @@ export default class LoginRequest{
             response = { done: false };
             if(err instanceof HttpErrorResponse){
                 let errorString: string = err.error as string;
+                //console.log(errorString);
                 let errorBody: object = JSON.parse(errorString);
                 response['msg'] = errorBody['msg'];
             }//if(err instanceof HttpErrorResponse){

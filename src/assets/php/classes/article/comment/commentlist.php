@@ -2,7 +2,6 @@
 
 namespace AngularBlog\Classes\Comment;
 
-use AngularBlog\Config as Cf;
 use AngularBlog\Classes\Models;
 use AngularBlog\Interfaces\Constants as C;
 USE AngularBlog\Interfaces\ModelsErrors AS Me;
