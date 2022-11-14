@@ -6,7 +6,7 @@ import * as messages from '../../../messages/messages';
 import MessageDialog from '../../../classes/dialogs/messagedialog';
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import { Messages } from 'src/constants/messages';
-import SubscribeRequestInterface from 'src/interfaces/subscriberequest.interface';
+import SubscribeRequestInterface from 'src/interfaces/requests/subscriberequest.interface';
 import SubscribeRequest from 'src/classes/requests/subscriberequest';
 import { messageDialog } from 'src/functions/functions';
 

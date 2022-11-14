@@ -3,8 +3,8 @@
  * Mail contacts POST data
  */
 export type ContactsParams = {
-    body: string;
     email: string;
+    message: string;
     subject: string;
 }
 

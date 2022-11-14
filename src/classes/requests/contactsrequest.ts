@@ -6,20 +6,20 @@ import ContactsRequestInterface from '../../interfaces/requests/constactsrequest
 export default class ContactsRequest{
     private _email: string;
     private _http: HttpClient;
+    private _message: string;
     private _subject: string;
-    private _body: string;
     private _url: string;
 
     constructor(data: ContactsRequestInterface){
-        this._body = data.body;
         this._email = data.email;
         this._http = data.http;
+        this._message = data.message;
         this._subject = data.subject;
         this._url = data.url;
     }
 
-    get body(){ return this._body; }
     get email(){ return this._email; }
+    get message(){ return this._message; }
     get subject(){ return this._subject; }
     get url(){ return this._url; }
 
@@ -27,6 +27,7 @@ export default class ContactsRequest{
         let response: object = {};
         try{
             await this.contactsRequestPromise().then(res => {
+                console.log(res);
                 response = JSON.parse(res);
             }).catch(err => {
                 throw err;
@@ -48,12 +49,12 @@ export default class ContactsRequest{
     private async contactsRequestPromise(): Promise<string>{
         return await new Promise<string>((resolve,reject)=>{
             const postData: ContactsParams = {
-                body: this._body, email: this._email, subject: this._subject
+                message: this._message, email: this._email, subject: this._subject
             };
             const headers: HttpHeaders = new HttpHeaders({
                 'Accept': 'application/json', 'Content-Type': 'application/json'
             });
-            this._http.post(this._url, postData, { headers: headers, responseType: 'text'}).subscribe(res => {
+            this._http.post(this._url, JSON.stringify(postData), { headers: headers, responseType: 'text'}).subscribe(res => {
                 resolve(res);
             }, error => {
                 reject(error);

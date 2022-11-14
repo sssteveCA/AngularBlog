@@ -7,7 +7,7 @@ import MessageDialog from 'src/classes/dialogs/messagedialog';
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import { Messages } from 'src/constants/messages';
 import * as constants from '../../../constants/constants';
-import LoginRequestInterface from 'src/interfaces/loginrequest.interface';
+import LoginRequestInterface from 'src/interfaces/requests/loginrequest.interface';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import LoginRequest from 'src/classes/requests/loginrequest';
 import { messageDialog } from 'src/functions/functions';

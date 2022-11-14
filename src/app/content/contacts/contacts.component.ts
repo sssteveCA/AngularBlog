@@ -2,7 +2,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import MessageDialog from 'src/classes/dialogs/messagedialog';
+import ContactsRequest from 'src/classes/requests/contactsrequest';
+import { Messages } from 'src/constants/messages';
+import { messageDialog } from 'src/functions/functions';
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
+import ContactsRequestInterface from 'src/interfaces/requests/constactsrequest.interface';
 import * as constants from '../../../constants/constants';
 
 @Component({
@@ -31,43 +35,35 @@ export class ContactsComponent implements OnInit {
   //when user submit the contact form
   onSubmit():void{
     if(this.contactForm.valid){
-      let dati = {
+      let data: ContactsRequestInterface = {
         email : this.contactForm.controls['email'].value,
+        http: this.http,
+        message : this.contactForm.controls['message'].value,
         subject : this.contactForm.controls['subject'].value,
-        message : this.contactForm.controls['message'].value
+        url: constants.contactUrl  
       };
-      //console.log(dati);
-      this.showSpinner = true;
-      this.sendEmail(dati);
+      //console.log(data: ContactsRequestInterface);
+      this.sendEmail(data);
     }//if(this.contactForm.valid){
     else{
+      const mdData: MessageDialogInterface = {
+        title: 'Contatti', message: Messages.INVALIDDATA_ERROR
+      };
+      messageDialog(mdData);
     }
   }
 
-  sendEmail(data: any): void{
+  sendEmail(data: ContactsRequestInterface): void{
     //let params = new HttpParams({fromObject: data});
-    let params: string = JSON.stringify(data);
-    this.http.post(constants.contactUrl,params,{responseType: 'text'}).subscribe(res => {
+    let cr: ContactsRequest = new ContactsRequest(data);
+    this.showSpinner = true;
+    cr.contactsRequest().then(obj => {
       this.showSpinner = false;
-      //console.log(res);
-      try{
-        let rJson = JSON.parse(res);
-        //console.log(rJson);
-        const data: MessageDialogInterface = {
-          title: 'Contatti',
-          message: rJson['msg']
-        };
-        let md = new MessageDialog(data);
-        md.bt_ok.addEventListener('click',()=>{
-          md.instance.dispose();
-          md.div_dialog.remove();
-          document.body.style.overflow = 'auto';
-        });
-      }catch(e){
-        console.warn(e);
-      }
-      
+      const data: MessageDialogInterface = {
+        title: 'Contatti',
+        message: obj['msg']
+      };
+      messageDialog(data);
     });
   }
-
 }
