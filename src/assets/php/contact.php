@@ -22,6 +22,7 @@ if(isset($post['email'],$post['subject'],$post['message'])
         $subject = $post['subject'];
         $message = $post['message'];
         $htmlMail = htmlMailContact($message);
+        $headers = headers($post['email']);
         $send = @mail(ADMINEMAIL,$subject,$htmlMail,$headers);
         if($send){
             $response['done'] = true;

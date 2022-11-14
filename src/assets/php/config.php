@@ -34,7 +34,27 @@ Content-type: text/html
 MIME-Version: 1.0
 HEADER;
 
-//mail body
+/**
+ * Set the mail headers and the email sender
+ * @param string $from the email who sent the message
+ * @return string the mail headers string
+ */
+function headers($from = 'localhost'){
+    return <<<HEADER
+From: Admin <{$from}>
+Reply-to: <{$from}>
+Content-type: text/html
+MIME-Version: 1.0
+HEADER;
+}
+
+/**
+ * HTML account activation body
+ * @param string $emailCode the account activation code
+ * @param string $indAtt the URL for account activation without the code appended
+ * @param string $codIndAtt the URL fot account activation with the code appended
+ * @return string the HTML mail body
+ */
 function mailHtml($emailCode,$indAtt,$codIndAtt){
     $html = <<<HTML
 <!DOCTYPE html>
@@ -67,13 +87,17 @@ HTML;
     return $html;
 }
 
-//html for email contact
+/**
+ * HTML body for customer care messages
+ * @param string message the text of the message 
+ * @return string the HTML mail body
+ */
 function htmlMailContact($message){
     $html = <<<HTML
 <!DOCTYPE html>
 <html lang="it">
     <head>
-        <title>Attivazione account</title>
+        <title>Messaggio di assistenza</title>
         <meta charset="utf-8">
         <style>
             div{
