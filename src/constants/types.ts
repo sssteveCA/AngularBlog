@@ -1,5 +1,14 @@
 
 /**
+ * Mail contacts POST data
+ */
+export type ContactsParams = {
+    body: string;
+    email: string;
+    subject: string;
+}
+
+/**
  * Delete logged account params
  */
 export type DaParams = {

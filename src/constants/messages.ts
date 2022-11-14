@@ -9,6 +9,7 @@ export namespace Messages{
     export const COMMENTLIST_ERROR: string = "Errore durante la ricerca dei commenti. "+ADMIN_CONTACT;
     export const COMMENTNEW_ERROR: string = "Errore durante l'inserimento del commento. "+ADMIN_CONTACT;
     export const COMMENTUPDATE_ERROR: string = "Errore durante la modifica del commento. "+ADMIN_CONTACT;
+    export const CONTACTS_ERROR: string = "Errore durante l'invio della mail. "+ADMIN_CONTACT;
     export const INSERTCOMMENT_ERROR: string = "Inserisci un commento per continuare";
     export const CREATEARTICLE_CONFIRM: string = "Vuoi creare un nuovo articolo con le informazioni inserite?";
     export const DELETEACCOUNT_CONFIRM: string = "Sei sicuro di voler cancellare definitivamente il tuo account?";
