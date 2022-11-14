@@ -45,7 +45,8 @@ export class ContactsComponent implements OnInit {
   }
 
   sendEmail(data: any): void{
-    let params = new HttpParams({fromObject: data});
+    //let params = new HttpParams({fromObject: data});
+    let params: string = JSON.stringify(data);
     this.http.post(constants.contactUrl,params,{responseType: 'text'}).subscribe(res => {
       this.showSpinner = false;
       //console.log(res);
