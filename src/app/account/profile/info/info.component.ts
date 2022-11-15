@@ -32,11 +32,7 @@ import * as constants from '../../../../constants/constants';
 })
 export class InfoComponent implements OnInit {
 
-  
-
-  //userCookie: any = {};
- 
-
+  userCookie: any = {};
 
   constructor(public http: HttpClient, public api: ApiService, public router: Router, public fb: FormBuilder) {
     this.observeFromService();
@@ -67,10 +63,10 @@ export class InfoComponent implements OnInit {
     this.api.loginChanged.subscribe(logged => {
 
     });
-    /*this.api.userChanged.subscribe(userdata => {
+    this.api.userChanged.subscribe(userdata => {
       this.userCookie['token_key'] = userdata['token_key'];
       this.userCookie['username'] = userdata['username'];
-    });*/
+    });
   }
 
   

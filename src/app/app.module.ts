@@ -31,7 +31,6 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { UsernameComponent } from './account/profile/info/username/username.component';
 import { PasswordComponent } from './account/profile/info/password/password.component';
-import { DeleteaccountComponent } from './account/profile/info/deleteaccount/deleteaccount.component';
 import { DeleteAccountComponent } from './account/profile/info/delete-account/delete-account.component';
 
 
@@ -60,7 +59,6 @@ import { DeleteAccountComponent } from './account/profile/info/delete-account/de
     InfoComponent,
     UsernameComponent,
     PasswordComponent,
-    DeleteaccountComponent,
     DeleteAccountComponent
   ],
   imports: [
