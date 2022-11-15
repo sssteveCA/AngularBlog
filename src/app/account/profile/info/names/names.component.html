@@ -7,13 +7,13 @@
             <div class="row">
                 <mat-form-field appearance="fill">
                     <mat-label>Nome</mat-label>
-                    <input matInput type="text" formControlName="">
+                    <input matInput type="text" formControlName="name">
                 </mat-form-field>
             </div>
             <div class="row">
                 <mat-form-field appearance="fill">
                     <mat-label>Cognome</mat-label>
-                    <input matInput type="text" formControlName="">
+                    <input matInput type="text" formControlName="surname">
                 </mat-form-field>
             </div>
             <div class="row justify-content-center">
@@ -28,4 +28,7 @@
             <span class="visually-hidden">Loading...</span>
         </div>
     </div>
+    <ng-template [ngIf]="namesError">
+        <div class="alert alert-danger mt-5 text-center" role="alert">Impossibile rilevare il tuo nome e cognome</div>
+    </ng-template>
 </div>
