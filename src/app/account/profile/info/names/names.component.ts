@@ -3,6 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
+import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
+import { Messages } from 'src/constants/messages';
+import { messageDialog } from 'src/functions/functions';
+import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
+import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 
 @Component({
   selector: 'app-names',
@@ -22,6 +27,36 @@ export class NamesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  /**
+   * When user submit names form
+   */
+  namesSubmit(): void{
+    if(this.groupNames.valid){
+      let cdi: ConfirmDialogInterface = {
+        title: 'Modifica nome e cognome',
+        message: Messages.EDITNAMES_CONFIRM
+      };
+      let cd: ConfirmDialog = new ConfirmDialog(cdi);
+      cd.bt_yes.addEventListener('click',()=>{
+        cd.instance.dispose();
+        cd.div_dialog.remove();
+        document.body.style.overflow = 'auto';
+      });
+      cd.bt_no.addEventListener('click',()=>{
+        cd.instance.dispose();
+        cd.div_dialog.remove();
+        document.body.style.overflow = 'auto';
+      });
+    }//if(this.groupNames.valid){
+    else{
+      let mdi: MessageDialogInterface = {
+        title: 'Modifica nome e cognome',
+        message: Messages.INVALIDDATA_ERROR
+      };
+      messageDialog(mdi);
+    }
   }
 
   private observeFromService(): void{
