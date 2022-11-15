@@ -32,6 +32,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { UsernameComponent } from './account/profile/info/username/username.component';
 import { PasswordComponent } from './account/profile/info/password/password.component';
 import { DeleteAccountComponent } from './account/profile/info/delete-account/delete-account.component';
+import { NamesComponent } from './account/profile/info/names/names.component';
 
 
 
@@ -59,7 +60,8 @@ import { DeleteAccountComponent } from './account/profile/info/delete-account/de
     InfoComponent,
     UsernameComponent,
     PasswordComponent,
-    DeleteAccountComponent
+    DeleteAccountComponent,
+    NamesComponent
   ],
   imports: [
     BrowserModule,
