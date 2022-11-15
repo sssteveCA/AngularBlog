@@ -1,0 +1,19 @@
+<div class="delete-account info-section">
+    <div class="sub-header">
+        <h3 class="text-center">Elimina il tuo account</h3>
+    </div>
+    <form id="fDelAccount" method="post" (submit)="deleteAccountSubmit()">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-3 text-center">
+                    <button mat-raised-button type="submit" color="warn">ELIMINA</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="mt-2 text-center" [class.d-none]="!showDeleteProfileSpinner">
+        <div class="spinner-grow"  role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+</div>

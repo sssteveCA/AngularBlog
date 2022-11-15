@@ -34,77 +34,16 @@ export class InfoComponent implements OnInit {
 
   
 
-  userCookie: any = {};
-  
-  deleteProfileUrl: string = constants.profileDeleteUrl;
-  showDeleteProfileSpinner: boolean = false;
+  //userCookie: any = {};
+ 
 
 
   constructor(public http: HttpClient, public api: ApiService, public router: Router, public fb: FormBuilder) {
     this.observeFromService();
-    this.setFormsGroup();
    }
 
   ngOnInit(): void {
   }
-
-  private deleteAccountRequest(da_params: DaParams): void{
-    let da_data: DeleteProfileInterface = {
-      conf_password: da_params.conf_password,
-      http: this.http,
-      password: da_params.password,
-      token_key: this.userCookie['token_key'],
-      url: this.deleteProfileUrl
-    };
-    let da: DeleteProfile = new DeleteProfile(da_data);
-    da.deleteProfile().then(obj => {
-    }).catch(err => {
-
-    });
-  }
-
-  /**
-   * When user submit delete account form
-   */
-  deleteAccountSubmit(): void{
-    let cdi: ConfirmDialogInterface = {
-      title: 'Elimina account',
-      message: Messages.DELETEACCOUNT_CONFIRM
-    };
-    let cd: ConfirmDialog = new ConfirmDialog(cdi);
-    cd.bt_yes.addEventListener('click',()=>{
-      cd.instance.dispose();
-      cd.div_dialog.remove();
-      let pcdi: PasswordConfirmDialogInterface = {
-        title: 'Elimina account'
-      };
-      let pcd: PasswordConfirmDialog = new PasswordConfirmDialog(pcdi);
-      pcd.bt_ok.addEventListener('click',()=>{
-        let da_params: DaParams = {
-          conf_password: pcd.i_confpass.value,
-          password: pcd.i_pass.value
-        };
-        pcd.instance.dispose();
-        pcd.div_dialog.remove();
-        document.body.style.overflow = 'auto';
-        this.deleteAccountRequest(da_params);
-      });
-      pcd.bt_canc.addEventListener('click',()=>{
-        pcd.instance.dispose();
-        pcd.div_dialog.remove();
-        document.body.style.overflow = 'auto';
-      })
-    });
-    cd.bt_no.addEventListener('click', ()=>{
-      cd.instance.dispose();
-      cd.div_dialog.remove();
-      document.body.style.overflow = 'auto';
-    });
-  }
-
- 
-
-  
 
   observeFromService(): void{
     this.api.getLoginStatus().then(res => {
@@ -128,14 +67,10 @@ export class InfoComponent implements OnInit {
     this.api.loginChanged.subscribe(logged => {
 
     });
-    this.api.userChanged.subscribe(userdata => {
+    /*this.api.userChanged.subscribe(userdata => {
       this.userCookie['token_key'] = userdata['token_key'];
       this.userCookie['username'] = userdata['username'];
-    });
-  }
-
-  setFormsGroup(): void{
-    
+    });*/
   }
 
   
