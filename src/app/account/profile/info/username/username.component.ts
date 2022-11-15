@@ -1,0 +1,142 @@
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { MatFormField, MatFormFieldControl } from '@angular/material/form-field';
+import { MatInput, MatInputModule } from '@angular/material/input';
+import { getUsername } from 'src/classes/requests/profile/getusername';
+import GetUsernameInterface from 'src/interfaces/requests/profile/getusername.interface';
+import * as constants from '../../../../../constants/constants';
+import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
+import { Messages } from 'src/constants/messages';
+import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
+import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
+import { messageDialog } from 'src/functions/functions';
+import UpdateUsernameInterface from 'src/interfaces/requests/profile/updateusername.interface';
+import UpdateUsername from 'src/classes/requests/profile/updateusername';
+import { ApiService } from 'src/app/api.service';
+
+
+@Component({
+  selector: 'app-username',
+  templateUrl: './username.component.html',
+  styleUrls: ['./username.component.scss']
+})
+export class UsernameComponent implements OnInit {
+
+  userCookie: any = {};
+  groupEu: FormGroup; //Edit username form group
+  getUsernameUrl: string = constants.profileGetUsernameUrl;
+  updateUsernameUrl: string = constants.profileUpdateUsernameUrl;
+  showUsernameSpinner: boolean = false;
+  usernameError: boolean = false;
+
+  constructor(public http: HttpClient, public fb: FormBuilder, public api: ApiService) {
+    this.observeFromService();
+    this.setFormGroupUsername();
+    this.getUsername();
+   }
+
+  ngOnInit(): void {
+  }
+
+  private editUsernameRequest(new_username: string): void{
+    let uu_data: UpdateUsernameInterface = {
+      http: this.http,
+      token_key: this.userCookie['token_key'],
+      new_username: new_username,
+      url: this.updateUsernameUrl
+    };
+    let uu: UpdateUsername = new UpdateUsername(uu_data);
+    uu.updateUsername().then(obj => {
+      if(obj['done']){
+          localStorage.setItem('username', obj['new_username']);
+          this.userCookie['username'] = localStorage.getItem('username');
+          this.api.changeUserdata(this.userCookie);
+          let md_data: MessageDialogInterface = {
+            title: "Modifica nome utente",
+            message: obj['msg']
+          };
+          messageDialog(md_data);
+      }//if(obj['done']){
+      else{
+          let md_data: MessageDialogInterface = {
+            title: "Modifica nome utente",
+            message: obj['msg']
+          };
+          messageDialog(md_data);
+      }
+    }).catch(err => {
+      let md_data: MessageDialogInterface = {
+        title: "Modifica nome utente",
+        message: Messages.EDITUSERNAME_ERROR
+      };
+      messageDialog(md_data);
+    });
+  }
+
+   /**
+   * When user submit edit username form
+   */
+    editUsernameSubmit(): void{
+      if(this.groupEu.valid){
+        let cdi: ConfirmDialogInterface = {
+          title: 'Modifica nome utente',
+          message: Messages.EDITUSERNAME_CONFIRM
+        };
+        let cd: ConfirmDialog = new ConfirmDialog(cdi);
+        cd.bt_yes.addEventListener('click',()=>{
+          cd.instance.dispose();
+          cd.div_dialog.remove();
+          document.body.style.overflow = 'auto';
+          let new_username: string = this.groupEu.controls['username'].value;
+          this.editUsernameRequest(new_username);
+        });
+        cd.bt_no.addEventListener('click',()=>{
+          cd.instance.dispose();
+          cd.div_dialog.remove();
+          document.body.style.overflow = 'auto';
+        });
+      }//if(this.groupEu.valid){
+      else{
+        let mdi: MessageDialogInterface = {
+          title: 'Modifica nome utente',
+          message: 'Il nome utente inserito ha un formato non valido'
+        };
+        messageDialog(mdi);
+      }
+    }
+
+  private getUsername(): void{
+    let gu_data: GetUsernameInterface = {
+      http: this.http,
+      token_key: localStorage.getItem("token_key") as string,
+      url: this.getUsernameUrl
+    };
+    let gu: getUsername = new getUsername(gu_data);
+    gu.getUsername().then(obj => {
+      if(obj['done'] == true){
+        this.groupEu.controls['username'].setValue(obj['username']);
+      }//if(obj['done'] == true){
+      else{
+        this.usernameError = true;
+      }
+    }).catch(err => {
+      this.usernameError = true;
+    });
+  }
+
+  private observeFromService(): void{
+    this.api.userChanged.subscribe(userdata => {
+      this.userCookie['token_key'] = userdata['token_key'];
+      this.userCookie['username'] = userdata['username'];
+    });
+  }
+
+  private setFormGroupUsername(): void{
+    this.groupEu = this.fb.group({
+      'username': ['', Validators.compose([Validators.required, Validators.minLength(3)])]
+    });
+  }
+
+}

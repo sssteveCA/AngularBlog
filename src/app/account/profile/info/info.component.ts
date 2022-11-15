@@ -38,16 +38,12 @@ export class InfoComponent implements OnInit {
   @ViewChild('showPwd', {static: false}) cbShowPwd: MatCheckbox;
 
   userCookie: any = {};
-  groupEu: FormGroup; //Edit username form group
   groupEp: FormGroup; //Edit password form group
-  getUsernameUrl: string = constants.profileGetUsernameUrl;
-  updateUsernameUrl: string = constants.profileUpdateUsernameUrl;
+  
   updatePasswordUrl: string = constants.profileUpdatePasswordUrl;
   deleteProfileUrl: string = constants.profileDeleteUrl;
-  showUsernameSpinner: boolean = false;
   showPasswordSpinner: boolean = false;
   showDeleteProfileSpinner: boolean = false;
-  usernameError: boolean = false;
 
 
   constructor(public http: HttpClient, public api: ApiService, public router: Router, public fb: FormBuilder) {
@@ -175,105 +171,7 @@ export class InfoComponent implements OnInit {
     }
   }
 
-  private editUsernameRequest(new_username: string): void{
-    let uu_data: UpdateUsernameInterface = {
-      http: this.http,
-      token_key: this.userCookie['token_key'],
-      new_username: new_username,
-      url: this.updateUsernameUrl
-    };
-    let uu: UpdateUsername = new UpdateUsername(uu_data);
-    uu.updateUsername().then(obj => {
-      if(obj['done']){
-          localStorage.setItem('username', obj['new_username']);
-          this.userCookie['username'] = localStorage.getItem('username');
-          this.api.changeUserdata(this.userCookie);
-          let md_data: MessageDialogInterface = {
-            title: "Modifica nome utente",
-            message: obj['msg']
-          };
-          messageDialog(md_data);
-      }//if(obj['done']){
-      else{
-        if(obj['expired'] == true){
-          this.api.removeItems();
-          this.userCookie = {};
-          this.api.changeUserdata(this.userCookie);
-          this.router.navigateByUrl(constants.notLoggedRedirect);
-        }
-        else{
-          let md_data: MessageDialogInterface = {
-            title: "Modifica nome utente",
-            message: obj['msg']
-          };
-          messageDialog(md_data);
-        }
-      }
-    }).catch(err => {
-      let md_data: MessageDialogInterface = {
-        title: "Modifica nome utente",
-        message: Messages.EDITUSERNAME_ERROR
-      };
-      messageDialog(md_data);
-    });
-  }
-
-  /**
-   * When user submit edit username form
-   */
-  editUsernameSubmit(): void{
-    if(this.groupEu.valid){
-      let cdi: ConfirmDialogInterface = {
-        title: 'Modifica nome utente',
-        message: Messages.EDITUSERNAME_CONFIRM
-      };
-      let cd: ConfirmDialog = new ConfirmDialog(cdi);
-      cd.bt_yes.addEventListener('click',()=>{
-        cd.instance.dispose();
-        cd.div_dialog.remove();
-        document.body.style.overflow = 'auto';
-        let new_username: string = this.groupEu.controls['username'].value;
-        this.editUsernameRequest(new_username);
-      });
-      cd.bt_no.addEventListener('click',()=>{
-        cd.instance.dispose();
-        cd.div_dialog.remove();
-        document.body.style.overflow = 'auto';
-      });
-    }//if(this.groupEu.valid){
-    else{
-      let mdi: MessageDialogInterface = {
-        title: 'Modifica nome utente',
-        message: 'Il nome utente inserito ha un formato non valido'
-      };
-      messageDialog(mdi);
-    }
-  }
-
-  private getUsername(): void{
-    let gu_data: GetUsernameInterface = {
-      http: this.http,
-      token_key: localStorage.getItem("token_key") as string,
-      url: this.getUsernameUrl
-    };
-    let gu: getUsername = new getUsername(gu_data);
-    gu.getUsername().then(obj => {
-      if(obj['done'] == true){
-        this.groupEu.controls['username'].setValue(obj['username']);
-      }//if(obj['done'] == true){
-      else if(obj['done'] == false && obj['expired'] == true){
-        this.api.removeItems();
-        this.userCookie = {};
-        this.api.changeUserdata(this.userCookie);
-        this.router.navigateByUrl(constants.notLoggedRedirect);
-      }
-      else{
-        this.usernameError = true;
-      }
-    }).catch(err => {
-      this.usernameError = true;
-    });
-  }
+  
 
   observeFromService(): void{
     this.api.getLoginStatus().then(res => {

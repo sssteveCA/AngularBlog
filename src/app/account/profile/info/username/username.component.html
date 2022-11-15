@@ -1,0 +1,28 @@
+<div class="edit-username info-section">
+    <div class="sub-header">
+        <h3 class="text-center">Modifica nome utente</h3>
+    </div>
+    <form id="fEditUser" method="post" [formGroup]="groupEu" (submit)="editUsernameSubmit()">
+        <div class="container-fluid">
+            <div class="row">
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Username</mat-label>
+                    <input matInput type="text" formControlName="username">
+                </mat-form-field>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-3 text-center">
+                    <button mat-raised-button type="submit" color="primary">MODIFICA</button>
+                </div>  
+            </div>
+        </div>
+    </form>
+    <div class="mt-2 text-center" [class.d-none]="!showUsernameSpinner">
+        <div class="spinner-grow" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <ng-template [ngIf]="usernameError">
+        <div class="alert alert-danger mt-5 text-center" role="alert">Impossibile rilevare il tuo nome utente</div>
+    </ng-template>
+</div>

@@ -29,6 +29,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { UsernameComponent } from './account/profile/info/username/username.component';
 
 
 
@@ -53,7 +54,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     NewArticleComponent,
     EditArticleComponent,
     CommentsComponent,
-    InfoComponent
+    InfoComponent,
+    UsernameComponent
   ],
   imports: [
     BrowserModule,
