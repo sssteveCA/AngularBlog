@@ -31,7 +31,7 @@ export class UsernameComponent implements OnInit {
   showUsernameSpinner: boolean = false;
   usernameError: boolean = false;
 
-  constructor(public http: HttpClient, public fb: FormBuilder, public api: ApiService) {
+  constructor(public http: HttpClient, public fb: FormBuilder, public api: ApiService, public router: Router) {
     this.observeFromService();
     this.setFormGroupUsername();
     this.getUsername();
@@ -60,11 +60,19 @@ export class UsernameComponent implements OnInit {
           messageDialog(md_data);
       }//if(obj['done']){
       else{
+        if(obj['expired'] == true){
+          this.api.removeItems();
+          this.userCookie = {};
+          this.api.changeUserdata(this.userCookie);
+          this.router.navigateByUrl(constants.notLoggedRedirect);
+        }
+        else{
           let md_data: MessageDialogInterface = {
             title: "Modifica nome utente",
             message: obj['msg']
           };
           messageDialog(md_data);
+        }
       }
     }).catch(err => {
       let md_data: MessageDialogInterface = {

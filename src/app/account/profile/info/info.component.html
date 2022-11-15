@@ -6,48 +6,7 @@
         <a href="javascript:void(0)" [routerLink] = "['../']">Torna indietro</a>
     </div>
     <app-username></app-username>
-    <div class="edit-password info-section">
-        <div class="sub-header">
-            <h3 class="text-center">Modifica la password</h3>
-        </div>
-        <form id="fEditPwd" method="post" [formGroup]="groupEp" (submit)="editPasswordSubmit()">
-            <div class="container-fluid">
-                <div class="row">
-                    <mat-form-field class="example-full-width" appearance="fill">
-                        <mat-label>Password attuale</mat-label>
-                        <input matInput type="password" formControlName="currentPwd" #currentPwd>
-                      </mat-form-field>   
-                </div>
-                <div class="row">
-                    <mat-form-field class="example-full-width" appearance="fill">
-                        <mat-label>Nuova password</mat-label>
-                        <input matInput type="password" formControlName="newPwd" #newPwd>
-                      </mat-form-field>   
-                </div>
-                <div class="row">
-                    <mat-form-field class="example-full-width" appearance="fill">
-                        <mat-label>Conferma nuova password</mat-label>
-                        <input matInput type="password" formControlName="confNewPwd" #confNewPwd>
-                      </mat-form-field>   
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <mat-checkbox class="example-margin" #showPwd (change)="showPwdCbChange()">Mostra password</mat-checkbox>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-3 text-center">
-                        <button mat-raised-button type="submit" color="primary">MODIFICA</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-        <div class="mt-2 text-center" [class.d-none]="!showPasswordSpinner">
-            <div class="spinner-grow"  role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>
-    </div>
+    <app-password></app-password>
     <div class="delete-account info-section">
         <div class="sub-header">
             <h3 class="text-center">Elimina il tuo account</h3>

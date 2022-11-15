@@ -32,24 +32,17 @@ import * as constants from '../../../../constants/constants';
 })
 export class InfoComponent implements OnInit {
 
-  @ViewChild('currentPwd', {static: false}) iCurrPwd: ElementRef<HTMLInputElement>;
-  @ViewChild('newPwd', {static: false}) iNewPwd: ElementRef<HTMLInputElement>;
-  @ViewChild('confNewPwd', {static: false}) iConfNewPwd: ElementRef<HTMLInputElement>;
-  @ViewChild('showPwd', {static: false}) cbShowPwd: MatCheckbox;
+  
 
   userCookie: any = {};
-  groupEp: FormGroup; //Edit password form group
   
-  updatePasswordUrl: string = constants.profileUpdatePasswordUrl;
   deleteProfileUrl: string = constants.profileDeleteUrl;
-  showPasswordSpinner: boolean = false;
   showDeleteProfileSpinner: boolean = false;
 
 
   constructor(public http: HttpClient, public api: ApiService, public router: Router, public fb: FormBuilder) {
     this.observeFromService();
     this.setFormsGroup();
-    this.getUsername();
    }
 
   ngOnInit(): void {
@@ -109,67 +102,7 @@ export class InfoComponent implements OnInit {
     });
   }
 
-  private editPasswordRequest(ep_params: EpParams): void{
-    let ep_data: UpdatePasswordInterface = {
-      conf_new_password: ep_params.conf_new_password,
-      http: this.http,
-      new_password: ep_params.new_password,
-      old_password: ep_params.old_password,
-      token_key: this.userCookie['token_key'],
-      url: this.updatePasswordUrl
-    };
-    let ep: UpdatePassword = new UpdatePassword(ep_data);
-    this.showPasswordSpinner = true;
-    ep.updatePassword().then(obj => {
-      this.showPasswordSpinner = false;
-      let md_data: MessageDialogInterface = {
-        title: 'Modifica password', message: obj['msg']
-      };
-      messageDialog(md_data);
-    }).catch(err => {
-      this.showPasswordSpinner = false;
-      let md_data: MessageDialogInterface = {
-        title: 'Modifica password', message: Messages.EDITPASSWORD_ERROR
-      };
-      messageDialog(md_data);
-    });
-  }
-
-  /**
-   * When user submit edit password form
-   */
-  editPasswordSubmit(): void{
-    if(this.groupEp.valid){
-      let cdi: ConfirmDialogInterface = {
-        title: 'Modifica password',
-        message: Messages.EDITPASSWORD_CONFIRM
-      };
-      let cd: ConfirmDialog = new ConfirmDialog(cdi);
-      cd.bt_yes.addEventListener('click',()=>{
-        cd.instance.dispose();
-        cd.div_dialog.remove();
-        document.body.style.overflow = 'auto';
-        let ep_params: EpParams = {
-          conf_new_password: this.groupEp.controls['confNewPwd'].value,
-          new_password: this.groupEp.controls['newPwd'].value,
-          old_password: this.groupEp.controls['currentPwd'].value
-        };
-        this.editPasswordRequest(ep_params);
-      });
-      cd.bt_no.addEventListener('click',()=>{
-        cd.instance.dispose();
-        cd.div_dialog.remove();
-        document.body.style.overflow = 'auto';
-      });
-    }//if(this.groupEp.valid){
-    else{
-      let md_data: MessageDialogInterface = {
-        title: 'Modifica password',
-        message: 'Uno o più dati tra quelli richiesti hanno un formato non valido'
-      };
-      messageDialog(md_data);
-    }
-  }
+ 
 
   
 
@@ -202,29 +135,8 @@ export class InfoComponent implements OnInit {
   }
 
   setFormsGroup(): void{
-    this.groupEu = this.fb.group({
-      'username': ['', Validators.compose([Validators.required, Validators.minLength(3)])]
-    });
-    this.groupEp = this.fb.group({
-      'currentPwd': ['', Validators.compose([Validators.required, Validators.minLength(6)])],
-      'newPwd': ['', Validators.compose([Validators.required, Validators.minLength(6)])],
-      'confNewPwd': ['', Validators.compose([Validators.required, Validators.minLength(6)])],
-    });
+    
   }
 
-  /**
-   * When the value of 'show password' checkbox change
-   */
-  showPwdCbChange(): void{
-    if(this.cbShowPwd.checked){
-      this.iCurrPwd.nativeElement.setAttribute('type','text');
-      this.iNewPwd.nativeElement.setAttribute('type','text');
-      this.iConfNewPwd.nativeElement.setAttribute('type','text');
-    }
-    else{
-      this.iCurrPwd.nativeElement.setAttribute('type','password');
-      this.iNewPwd.nativeElement.setAttribute('type','password');
-      this.iConfNewPwd.nativeElement.setAttribute('type','password');
-    }
-  }
+  
 }

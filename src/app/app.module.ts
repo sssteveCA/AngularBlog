@@ -30,6 +30,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { UsernameComponent } from './account/profile/info/username/username.component';
+import { PasswordComponent } from './account/profile/info/password/password.component';
 
 
 
@@ -55,7 +56,8 @@ import { UsernameComponent } from './account/profile/info/username/username.comp
     EditArticleComponent,
     CommentsComponent,
     InfoComponent,
-    UsernameComponent
+    UsernameComponent,
+    PasswordComponent
   ],
   imports: [
     BrowserModule,
