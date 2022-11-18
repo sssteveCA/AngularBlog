@@ -23,4 +23,12 @@ export type EpParams = {
     conf_new_password: string;
     new_password: string;
     old_password: string;
-};
+}
+
+/**
+ * Edit logged username params
+ */
+export type EuParams = {
+    password: string;
+    username: string;
+}
