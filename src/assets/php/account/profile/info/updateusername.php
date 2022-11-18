@@ -70,16 +70,20 @@ if(isset($update["token_key"],$update["new_username"],$update["password"]) && $u
                     $response['msg'] = Te::TOKENEXPIRED_MSG;
                 }           
             }
+            http_response_code($uuView->getResponseCode());
         }catch(Exception $e){
-            echo "Exception message => ".$e->getMessage()."\r\n";
+            http_response_code(500);
+            //echo "Exception message => ".$e->getMessage()."\r\n";
             $response['msg'] = C::USERNAME_UPDATE_ERROR;
         }
     }//if(preg_match(User::$regex["username"],$update["new_username"])){
     else{
+        http_response_code(400);
         $response["msg"] = "Il formato del nome utente inserito non è corretto";
     }  
 }//if(isset($update["token_key"],$update["new_username"],$update["password"]) && $update["token_key"] != "" && $update["new_username"] != "" && $update['password'] != ""){
 else{
+    http_response_code(400);
     $response["msg"] = C::FILL_ALL_FIELDS;
 }
 

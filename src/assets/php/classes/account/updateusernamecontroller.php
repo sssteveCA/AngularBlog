@@ -135,6 +135,7 @@ class UpdateUsernameController implements Uuce{
                     case Uace::PASSWORD_WRONG:
                         $this->response_code = 401;
                         $this->response = Uace::PASSWORD_WRONG_MSG;
+                        break;
                     case Uace::TOKEN_NOTFOUND:
                     case Uace::USER_NOTFOUND:
                         $this->response_code = 500;
