@@ -153,6 +153,9 @@ class UserAuthorizedController implements Uace{
             case Uace::USER_NOTFOUND:
                 $this->response = Uace::USER_NOTFOUND_MSG;
                 break;
+            case Uace::PASSWORD_WRONG:
+                $this->response = Uace::PASSWORD_WRONG_MSG;
+                break;
             default:
                 $this->response = C::ERROR_UNKNOWN;
                 break;
