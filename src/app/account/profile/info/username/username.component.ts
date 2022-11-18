@@ -15,6 +15,8 @@ import { messageDialog } from 'src/functions/functions';
 import UpdateUsernameInterface from 'src/interfaces/requests/profile/updateusername.interface';
 import UpdateUsername from 'src/classes/requests/profile/updateusername';
 import { ApiService } from 'src/app/api.service';
+import PasswordDialogInterface from 'src/interfaces/dialogs/passworddialog.interface';
+import PasswordDialog from 'src/classes/dialogs/passworddialog';
 
 
 @Component({
@@ -97,8 +99,22 @@ export class UsernameComponent implements OnInit {
           cd.instance.dispose();
           cd.div_dialog.remove();
           document.body.style.overflow = 'auto';
-          let new_username: string = this.groupEu.controls['username'].value;
-          this.editUsernameRequest(new_username);
+          let pdi: PasswordDialogInterface = {
+            title: 'Inserisci la tua password'
+          };
+          let pd: PasswordDialog = new PasswordDialog(pdi);
+          pd.bt_ok.addEventListener('click',()=>{
+            pd.instance.dispose();
+            pd.div_dialog.remove();
+            document.body.style.overflow = 'auto';
+            let new_username: string = this.groupEu.controls['username'].value;
+            this.editUsernameRequest(new_username);
+          });
+          pd.bt_canc.addEventListener('click',()=>{
+            pd.instance.dispose();
+            pd.div_dialog.remove();
+            document.body.style.overflow = 'auto';
+          })
         });
         cd.bt_no.addEventListener('click',()=>{
           cd.instance.dispose();
