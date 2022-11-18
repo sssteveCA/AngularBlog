@@ -24,6 +24,10 @@ class UserAuthorizedController implements Uace{
 
     private ?Token $token;
     private ?User $user;
+    /**
+     * If is necessary compare the provided password with the $user password
+     */
+    private string $password;
 
     public function __construct(array $data)
     {
@@ -48,6 +52,9 @@ class UserAuthorizedController implements Uace{
             case Uace::FROM_TOKEN:
                 $this->error = Uace::FROM_TOKEN_MSG;
                 break;
+            case Uace::PASSWORD_WRONG:
+                $this->error = Uace::PASSWORD_WRONG_MSG;
+                break;
             default:
                 $this->error = null;
                 break;
@@ -65,6 +72,22 @@ class UserAuthorizedController implements Uace{
         if(!$data['user'] instanceof User)throw new UserTypeMismatchException(Uace::USERTYPEMISMATCH_EXC);
         $this->token = $data['token'];
         $this->user = $data['user'];
+        $this->password = isset($data['password']) ? $data['password'] : null;
+    }
+
+    /**
+     * Check if the provided password matches the hashed password of the obtained user
+     */
+    private function checkPassword(): bool{
+        $this->errno = 0;
+        if(isset($this->password)){
+            if(password_verify($this->password, $this->user->getPasswordHash())){
+                return true;
+            }
+            else $this->errno = Uace::PASSWORD_WRONG;
+        }//if(isset($this->password)){
+        else return true;
+        return false;
     }
 
     /**
@@ -97,7 +120,9 @@ class UserAuthorizedController implements Uace{
         //echo "UserAutorizedController user_id =>".var_export($user_id,true)."\r\n";
         $filter = ['_id' => new ObjectId($user_id)];
         $got = $this->user->user_get($filter);
-        if($got) return true;
+        if($got){
+            if($this->checkPassword()) return true;
+        } 
         else $this->errno = Uace::USER_NOTFOUND;
         return false;
     }

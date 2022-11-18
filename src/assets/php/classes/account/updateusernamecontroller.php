@@ -71,7 +71,8 @@ class UpdateUsernameController implements Uuce{
         $this->uac_user = clone $this->user;
         $this->uac = new UserAuthorizedController([
             'token' => $this->token,
-            'user' => $this->uac_user
+            'user' => $this->uac_user,
+            'password' => $this->user->getPassword()
         ]);
         $uacErrno = $this->uac->getErrno();
         if($uacErrno == 0) return true;

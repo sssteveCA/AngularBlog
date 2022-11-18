@@ -44,10 +44,10 @@ $response = [
 $input = file_get_contents("php://input");
 $update = json_decode($input,true);
 
-if(isset($update["token_key"],$update["new_username"]) && $update["token_key"] != "" && $update["new_username"] != ""){
+if(isset($update["token_key"],$update["new_username"],$update["password"]) && $update["token_key"] != "" && $update["new_username"] != "" && $update['password'] != ""){
     if(preg_match(User::$regex["username"],$update["new_username"])){
         $token_data = [ "token_key" => $update["token_key"] ];
-        $user_data = [ "username" => $update["new_username"]]; 
+        $user_data = [ "username" => $update["new_username"], "password" => $update["password"]]; 
         try{
             $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../../");
             $dotenv->safeLoad();
@@ -78,7 +78,7 @@ if(isset($update["token_key"],$update["new_username"]) && $update["token_key"] !
     else{
         $response["msg"] = "Il formato del nome utente inserito non è corretto";
     }  
-}//if(isset($update["token_key"],$update["new_username"]) && $update["token_key"] != "" && preg_match(User::$regex["username"],$update["new_username"])){
+}//if(isset($update["token_key"],$update["new_username"],$update["password"]) && $update["token_key"] != "" && $update["new_username"] != "" && $update['password'] != ""){
 else{
     $response["msg"] = C::FILL_ALL_FIELDS;
 }
