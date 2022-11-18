@@ -5,12 +5,14 @@ import UpdateUsernameInterface from "src/interfaces/requests/profile/updateusern
 export default class UpdateUsername{
     private _http: HttpClient;
     private _new_username: string;
+    private _password: string;
     private _token_key: string;
     private _url: string;
 
     constructor(data: UpdateUsernameInterface){
         this._http = data.http;
         this._new_username = data.new_username;
+        this._password = data.password;
         this._token_key = data.token_key;
         this._url = data.url;
     }
@@ -27,8 +29,7 @@ export default class UpdateUsername{
         let response: object = {};
         try{
             const updateusername_values: object = {
-                new_username: this._new_username,
-                token_key: this._token_key
+                new_username: this._new_username, password: this._password, token_key: this._token_key
             };
             await this.updateUsernamePromise(updateusername_values).then(res => {
                 //console.log(res);

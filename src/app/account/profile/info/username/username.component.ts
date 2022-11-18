@@ -17,6 +17,7 @@ import UpdateUsername from 'src/classes/requests/profile/updateusername';
 import { ApiService } from 'src/app/api.service';
 import PasswordDialogInterface from 'src/interfaces/dialogs/passworddialog.interface';
 import PasswordDialog from 'src/classes/dialogs/passworddialog';
+import { EuParams } from 'src/constants/types';
 
 
 @Component({
@@ -42,11 +43,12 @@ export class UsernameComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  private editUsernameRequest(new_username: string): void{
+  private editUsernameRequest(eu_params: EuParams): void{
     let uu_data: UpdateUsernameInterface = {
       http: this.http,
       token_key: this.userCookie['token_key'],
-      new_username: new_username,
+      new_username: eu_params.username,
+      password: eu_params.password,
       url: this.updateUsernameUrl
     };
     let uu: UpdateUsername = new UpdateUsername(uu_data);
@@ -107,8 +109,11 @@ export class UsernameComponent implements OnInit {
             pd.instance.dispose();
             pd.div_dialog.remove();
             document.body.style.overflow = 'auto';
-            let new_username: string = this.groupEu.controls['username'].value;
-            this.editUsernameRequest(new_username);
+            let eu_params: EuParams = {
+              password: pd.i_pass.value,
+              username: this.groupEu.controls['username'].value
+            };
+            this.editUsernameRequest(eu_params);
           });
           pd.bt_canc.addEventListener('click',()=>{
             pd.instance.dispose();
