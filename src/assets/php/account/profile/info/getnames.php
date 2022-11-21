@@ -1,5 +1,6 @@
 <?php
 
+use AngularBlog\Classes\Account\GetNamesController;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\User;
 use Dotenv\Dotenv;
@@ -11,9 +12,11 @@ require_once("../../../interfaces/from_errors.php");
 require_once("../../../interfaces/model_errors.php");
 require_once("../../../interfaces/token_errors.php");
 require_once("../../../interfaces/user_errors.php");
+require_once("../../../interfaces/account/getnamescontroller_errors.php");
 require_once("../../../traits/error.trait.php");
 require_once("../../../traits/message.trait.php");
 require_once("../../../traits/response.trait.php");
+require_once("../../../traits/responsemultiple.trait.php");
 require_once("../../../traits/error.trait.php");
 require_once("../../../../../../vendor/autoload.php");
 require_once("../../../classes/model.php");
@@ -31,6 +34,8 @@ if(isset($_GET["token_key"])){
     try{
         $token = new Token($token_data);
         $user = new User([]);
+        $gnc_data = [ 'token' => $token, 'user' => $user ];
+        $gnc = new GetNamesController($gnc_data);
     }catch(Exception $e){
         http_response_code(500);
     }
