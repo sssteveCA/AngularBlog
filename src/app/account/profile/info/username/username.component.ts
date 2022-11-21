@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatFormField, MatFormFieldControl } from '@angular/material/form-field';
 import { MatInput, MatInputModule } from '@angular/material/input';
-import { getUsername } from 'src/classes/requests/profile/getusername';
+import getUsername from 'src/classes/requests/profile/getusername';
 import GetUsernameInterface from 'src/interfaces/requests/profile/getusername.interface';
 import * as constants from '../../../../../constants/constants';
 import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';

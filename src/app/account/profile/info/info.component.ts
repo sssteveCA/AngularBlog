@@ -1,28 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatCheckbox } from '@angular/material/checkbox';
-import { MatFormField, MatFormFieldControl } from '@angular/material/form-field';
-import { MatInput, MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
-import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
-import MessageDialog from 'src/classes/dialogs/messagedialog';
-import PasswordConfirmDialog from 'src/classes/dialogs/passwordconfirmdialog';
-import DeleteProfile from 'src/classes/requests/profile/deleteprofile';
-import { getUsername } from 'src/classes/requests/profile/getusername';
-import UpdatePassword from 'src/classes/requests/profile/updatepassword';
-import UpdateUsername from 'src/classes/requests/profile/updateusername';
-import { Messages } from 'src/constants/messages';
-import { DaParams, EpParams } from 'src/constants/types';
-import { messageDialog } from 'src/functions/functions';
-import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
-import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
-import PasswordConfirmDialogInterface from 'src/interfaces/dialogs/passwordconfirmdialog.interface';
-import DeleteProfileInterface from 'src/interfaces/requests/profile/deleteprofile.interface';
-import GetUsernameInterface from 'src/interfaces/requests/profile/getusername.interface';
-import UpdatePasswordInterface from 'src/interfaces/requests/profile/updatepassword.interface';
-import UpdateUsernameInterface from 'src/interfaces/requests/profile/updateusername.interface';
+
 import * as constants from '../../../../constants/constants';
 
 @Component({

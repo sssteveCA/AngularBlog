@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import GetUsernameInterface from "src/interfaces/requests/profile/getusername.interface";
 
-export class getUsername{
+export default class getUsername{
     private _http: HttpClient;
     private _token_key: string;
     private _url: string;
