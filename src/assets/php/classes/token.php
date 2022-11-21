@@ -8,8 +8,9 @@ use MongoDB\BSON\ObjectId;
 use AngularBlog\Interfaces\ModelErrors as Me;
 use AngularBlog\Interfaces\TokenErrors as Te;
 
-//This class is used to store info about logged users
-
+/**
+ * This class is used to store info about logged users
+ */
 class Token extends Model implements Te{
     private ?string $id;
     private ?string $user_id; //Id of logged user
@@ -63,7 +64,9 @@ class Token extends Model implements Te{
         return $this->error;
     }
 
-    //Generate the unique key
+    /**
+     * Generate the unique key
+     */
     private function keyGen(){
         $time = str_replace('.','a',microtime());
         $time = str_replace(' ','b',$time);
@@ -79,7 +82,9 @@ class Token extends Model implements Te{
         $this->token_key = $time.$s;
     }
 
-    //Controls if the token is expired
+    /**
+     * Controls if the token is expired
+     */
     public function expireControl(){
         $this->expired = false;
         $this->errno = 0;
@@ -105,7 +110,9 @@ class Token extends Model implements Te{
         }
     }
 
-    //Insert a new Token(when an used sign in)
+    /**
+     * Insert a new Token document
+     */
     public function token_create(): bool{
         $inserted = false;
         $this->errno = 0;
@@ -121,7 +128,9 @@ class Token extends Model implements Te{
         return $inserted;
     }
 
-    //Delete a token(when an user logout)
+    /**
+     * Delete a token document
+     */
     public function token_delete(array $filter): bool{
         $deleted = false;
         $this->errno = 0;
@@ -130,7 +139,9 @@ class Token extends Model implements Te{
         return $deleted;
     }
 
-    //Get a token(to check if user is olgged or not)
+    /**
+     * Get a token document
+     */
     public function token_get(array $filter): bool{
         $got = false;
         $this->errno = 0;
@@ -147,7 +158,9 @@ class Token extends Model implements Te{
         return $got;
     }
 
-    //Update the token
+    /**
+     * Update a token document
+     */
     public function token_update(array $filter, array $data): bool{
         $updated = false;
         $this->errno = 0;
