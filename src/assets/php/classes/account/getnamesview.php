@@ -2,13 +2,19 @@
 
 namespace AngularBlog\Classes\Account;
 
-class GetNamesView{
+use AngularBlog\Interfaces\Account\GetNamesViewErrors as Gnve;
+use AngularBlog\Traits\MessageArrayTrait;
+
+class GetNamesView implements Gnve{
+
+    use MessageArrayTrait;
 
     private ?GetNamesController $gnc;
 
-    public function __construct(GetNamesController $guc)
+    public function __construct(GetNamesController $gnc)
     {
-        $this->guc = $guc;
+        $this->gnc = $gnc;
+        if($this->gnc->getErrno() == 0){}
     }
 }
 ?>

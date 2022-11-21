@@ -17,7 +17,7 @@ use MongoDB\BSON\ObjectId;
 /**
  * Used to get name and the surname of the logged user
  */
-class GetNamesController{
+class GetNamesController implements Gnce{
 
     use ErrorTrait, ResponseMultipleTrait; 
 
