@@ -28,6 +28,8 @@ class GetNamesController{
 
     public function __construct(array $data){
         $this->checkValues($data);
+        $this->getNames();
+        $this->setResponse();
     }
 
     public function getToken(){ return $this->token; }
