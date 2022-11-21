@@ -4,10 +4,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
+import GetNames from 'src/classes/requests/profile/getnames';
 import { Messages } from 'src/constants/messages';
 import { messageDialog } from 'src/functions/functions';
 import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
+import GetNamesInterface from 'src/interfaces/requests/profile/getnames.interface';
+import * as constants from '../../../../../constants/constants';
 
 @Component({
   selector: 'app-names',
@@ -17,16 +20,39 @@ import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interfa
 export class NamesComponent implements OnInit {
 
   userCookie: any = {};
+  getNamesUrl: string = constants.profileGetNamesUrl;
   groupNames: FormGroup;
   showNamesSpinner: boolean = false;
   namesError: boolean = false;
+  
 
   constructor(public http: HttpClient, public api: ApiService, public router: Router, public fb: FormBuilder) { 
     this.observeFromService();
     this.setFormGroupNames();
+    this.getNames();
   }
 
   ngOnInit(): void {
+  }
+
+  private getNames(): void{
+    let gn_data: GetNamesInterface = {
+      http: this.http,
+      token_key: localStorage.getItem("token_key") as string,
+      url: this.getNamesUrl
+    }
+    let gn: GetNames = new GetNames(gn_data);
+    gn.getNames().then(obj => {
+      if(obj["done"] == true){
+        this.groupNames.controls["name"].setValue(obj["data"]["name"]);
+        this.groupNames.controls["surname"].setValue(obj["data"]["surname"]);
+      }
+      else{
+        this.namesError = true;
+      }
+    }).catch(err => {
+      this.namesError= true;
+    });
   }
 
   /**
