@@ -1,5 +1,7 @@
 <?php
 
+namespace AngularBlog\Classes\Account;
+
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\User;
 use AngularBlog\Traits\ErrorTrait;
