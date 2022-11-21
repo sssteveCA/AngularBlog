@@ -98,7 +98,9 @@ class User extends Model implements Ue{
 
     public function isSubscribed(){return $this->subscribed;}
 
-    //create the account activation or password recovery code 
+    /**
+     * Generate the user activation code
+     */ 
     public function codAutGen($order): string{
         $codAut = str_replace('.','a',microtime());
         $codAut = str_replace(' ','b',$codAut);
@@ -116,6 +118,9 @@ class User extends Model implements Ue{
         else return $s.$codAut;
     }
 
+    /**
+     * Insert a new User document
+     */
     public function user_create(): bool{
         $inserted = false;
         $this->errno = 0;
@@ -145,6 +150,9 @@ class User extends Model implements Ue{
         return $inserted;
     }
 
+    /**
+     * Delete an User document
+     */
     public function user_delete(array $filter): bool{
         $deleted = false;
         $this->errno = 0;
@@ -153,6 +161,9 @@ class User extends Model implements Ue{
         return $deleted;
     }
 
+    /**
+     * Get a User document
+     */
     public function user_get(array $filter): bool{
         $got = false;
         $this->errno = 0;
@@ -175,6 +186,9 @@ class User extends Model implements Ue{
         return $got;
     }
 
+    /**
+     * Update a User document
+     */
     public function user_update(array $filter, array $data): bool{
         $updated = false;
         $this->errno = 0;
@@ -184,7 +198,9 @@ class User extends Model implements Ue{
         return $updated;
     }
     
-    //check if properties are all valid before insert
+    /**
+     * check if properties are all valid before insert
+     */
     private function validate(){
         $valid = true;
         if(isset($this->id) && !preg_match(User::$regex['id'],$this->id)){

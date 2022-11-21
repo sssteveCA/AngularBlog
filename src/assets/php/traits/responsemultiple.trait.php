@@ -14,7 +14,7 @@ trait ResponseMultipleTrait{
      */
     private array $response_array = [];
 
-    public function getResponseArray(){ return $this->response; }
+    public function getResponseArray(){ return $this->response_array; }
 
 }
 ?>
