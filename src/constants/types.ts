@@ -17,6 +17,14 @@ export type DaParams = {
 }
 
 /**
+ * Edit logged account name and surname params
+ */
+export type EnParams = {
+    name: string;
+    surname: string;
+}
+
+/**
  * Edit logged account password params
  */
 export type EpParams = {

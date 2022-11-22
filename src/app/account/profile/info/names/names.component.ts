@@ -55,6 +55,10 @@ export class NamesComponent implements OnInit {
     });
   }
 
+  private namesRequest(): void{
+    
+  }
+
   /**
    * When user submit names form
    */

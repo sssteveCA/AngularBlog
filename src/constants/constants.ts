@@ -133,6 +133,11 @@ export const profileGetNamesUrl: string = Config.PHP_SCRIPTS_URL+"/account/profi
 export const profileGetUsernameUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/info/getusername.php";
 
 /**
+ * URL to update the name and the surname of the logged user
+ */
+export const profileUpdateNamesUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/info/updatenames.php";
+
+/**
  * URL to update the account logged password
  */
  export const profileUpdatePasswordUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/info/updatepassword.php";
