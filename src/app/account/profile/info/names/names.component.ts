@@ -68,7 +68,9 @@ export class NamesComponent implements OnInit {
       url: this.updateNamesUrl
     }
     let un: UpdateNames = new UpdateNames(un_data);
+    this.showNamesSpinner = true;
     un.updateUsername().then(obj => {
+      this.showNamesSpinner = false;
       let mdi: MessageDialogInterface = {
         title: 'Modifica nome e cognome',
         message: obj["msg"]
@@ -91,6 +93,11 @@ export class NamesComponent implements OnInit {
         cd.instance.dispose();
         cd.div_dialog.remove();
         document.body.style.overflow = 'auto';
+        let en_params: EnParams = {
+          name: this.groupNames.controls["name"].value,
+          surname: this.groupNames.controls["surname"].value
+        }
+        this.editNamesRequest(en_params);
       });
       cd.bt_no.addEventListener('click',()=>{
         cd.instance.dispose();

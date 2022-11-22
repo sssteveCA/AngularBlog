@@ -34,7 +34,7 @@ export default class UpdateNames{
                 token_key: this._token_key
             }
             await this.updateNamesPromise(updatenames_values).then(res => {
-                console.log(res);
+                //console.log(res);
                 response = JSON.parse(res);
             }).catch(err => {
                 throw err;
