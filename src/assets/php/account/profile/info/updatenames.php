@@ -43,10 +43,10 @@ $response = [
 $input = file_get_contents("php://input");
 $update = json_decode($input,true);
 
-if(isset($update["token_key"],$update["name"],$update["surname"]) && $update["token_key"] != "" && $update["name"] != "" && $update["surname"] != ""){
-    if(preg_match(User::$regex["name"],$update["name"]) && preg_match(User::$regex["surname"],$update["surname"])){
+if(isset($update["token_key"],$update["new_name"],$update["new_surname"]) && $update["token_key"] != "" && $update["new_name"] != "" && $update["new_surname"] != ""){
+    if(preg_match(User::$regex["name"],$update["new_name"]) && preg_match(User::$regex["surname"],$update["new_surname"])){
         $token_data = [ "token_key" => $update["token_key"] ];
-        $user_data = ["name" => $update["name"], "surname" => $update["surname"]];
+        $user_data = ["name" => $update["new_name"], "surname" => $update["new_surname"]];
         try{
             $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../../");
             $dotenv->safeLoad();
