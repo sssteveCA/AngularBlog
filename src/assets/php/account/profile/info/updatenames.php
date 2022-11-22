@@ -9,6 +9,8 @@ require_once("../../../interfaces/user_errors.php");
 require_once("../../../interfaces/token_errors.php");
 require_once("../../../interfaces/account/userauthorizedcontroller_errors.php");
 require_once("../../../interfaces/account/userauthorizedview_errors.php");
+require_once("../../../interfaces/account/updatenamescontroller_errors.php");
+require_once("../../../interfaces/account/updatenamesview_errors.php");
 require_once("../../../exceptions/notokeninstanceexception.php");
 require_once("../../../exceptions/nouserinstanceexception.php");
 require_once("../../../exceptions/tokentypemismatchexception.php");
@@ -24,11 +26,14 @@ require_once("../../../classes/user.php");
 require_once("../../../classes/account/userauthorizedcontroller.php");
 require_once("../../../classes/account/userauthorizedview.php");
 require_once("../../../classes/account/updatenamescontroller.php");
+require_once("../../../classes/account/updatenamesview.php");
 
 use AngularBlog\Classes\Account\UpdateNamesController;
+use AngularBlog\Classes\Account\UpdateNamesView;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\User;
 use AngularBlog\Interfaces\Constants as C;
+use AngularBlog\Interfaces\TokenErrors as Te;
 use Dotenv\Dotenv;
 
 $response = [
@@ -51,6 +56,18 @@ if(isset($update["token_key"],$update["name"],$update["surname"]) && $update["to
                 "token" => $token, "user" => $user
             ];
             $unc = new UpdateNamesController($unc_data);
+            $unv = new UpdateNamesView($unc);
+            $response['msg'] = $unv->getMessage();
+            if($unv->isDone()) 
+                $response['done'] = true;
+            else{
+                $errnoT = $unc->getToken()->getErrno();
+                if($errnoT == Te::TOKENEXPIRED){
+                    $response['expired'] = true;
+                    $response['msg'] = Te::TOKENEXPIRED_MSG;
+                } 
+            }
+            http_response_code($unv->getResponseCode());
         }catch(Exception $e){
             http_response_code(500);
             //echo "Exception message => ".$e->getMessage()."\r\n";
