@@ -11,6 +11,7 @@ use AngularBlog\Exceptions\UserTypeMismatchException;
 use AngularBlog\Interfaces\Account\UpdateNamesControllerErrors as Unce;
 use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Traits\ResponseTrait;
+use MongoDB\BSON\ObjectId;
 
 class UpdateNamesController implements Unce{
     use ErrorTrait, ResponseTrait;
@@ -22,15 +23,13 @@ class UpdateNamesController implements Unce{
 
     public function __construct(array $data)
     {
-       $this->checkValues($data); 
+       $this->checkValues($data);
+       $auth = $this->checkAuthorization();
     }
 
     public function getToken(){return $this->token;}
     public function getError(){
         switch($this->errno){
-            case Unce::UPDATE_TOKEN:
-                $this->errno = Unce::UPDATE_TOKEN_MSG;
-                break;
             case Unce::UPDATE_USER:
                 $this->error = Unce::UPDATE_USER_MSG;
                 break;
@@ -51,6 +50,40 @@ class UpdateNamesController implements Unce{
         if(!$data['user'] instanceof User)throw new UserTypeMismatchException(Unce::USERTYPEMISMATCH_EXC);
         $this->token = $data['token'];
         $this->user = $data['user'];
+    }
+
+    /**
+     * Check if user is authorized to update the name and the surname
+     */
+    private function checkAuthorization(): bool{
+        $this->errno = 0;
+        $this->uac_user = clone $this->user;
+        $this->uac = new UserAuthorizedController([
+            'token' => $this->token,
+            'user' => $this->uac_user,
+        ]);
+        $uacErrno = $this->uac->getErrno();
+        if($uacErrno == 0) return true;
+        $this->errno = Unce::FROM_USERAUTHORIZEDCONTROLLER;
+        return false;
+    }
+
+    /**
+     * Update the name and the surname of the logged account
+     */
+    private function updateNames(): bool{
+        $this->errno = 0;
+        $user_id = $this->token->getUserId();
+        $new_name = $this->user->getName();
+        $new_surname = $this->user->getSurname();
+        $filter = ['_id' => new ObjectId($user_id)];
+        $values = ['$set' => [
+            'name' => $new_name, 'surname' => $new_surname
+        ]];
+        $user_update = $this->user->user_update($filter,$values);
+        if($user_update) return true;
+        $this->errno = Unce::UPDATE_USER;
+        return false;
     }
 
 
