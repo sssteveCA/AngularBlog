@@ -8,7 +8,10 @@ use AngularBlog\Exceptions\NoTokenInstanceException;
 use AngularBlog\Exceptions\NoUserInstanceException;
 use AngularBlog\Exceptions\TokenTypeMismatchException;
 use AngularBlog\Exceptions\UserTypeMismatchException;
+use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\Account\UpdateNamesControllerErrors as Unce;
+use AngularBlog\Interfaces\Account\UserAuthorizedControllerErrors as Uace;
+use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Traits\ResponseTrait;
 use MongoDB\BSON\ObjectId;
@@ -25,6 +28,9 @@ class UpdateNamesController implements Unce{
     {
        $this->checkValues($data);
        $auth = $this->checkAuthorization();
+       if($auth)
+            $this->updateNames();
+        $this->setResponse();
     }
 
     public function getToken(){return $this->token;}
@@ -84,6 +90,46 @@ class UpdateNamesController implements Unce{
         if($user_update) return true;
         $this->errno = Unce::UPDATE_USER;
         return false;
+    }
+
+    /**
+     * Set the response to send to the view
+     */
+    private function setResponse(){
+        switch($this->errno){
+            case 0:
+                $this->response_code = 200;
+                $this->response = C::NAMES_UPDATE_OK;
+                break;
+            case Unce::FROM_USERAUTHORIZEDCONTROLLER:
+                $errnoUac = $this->uac->getErrno();
+                switch($errnoUac){
+                    case Uace::FROM_TOKEN:
+                        $errnoT = $this->uac->getToken()->getErrno();
+                        switch($errnoT){
+                            case Te::TOKENEXPIRED:
+                                $this->response_code = 401;
+                                $this->response = Te::TOKENEXPIRED_MSG;
+                                break;
+                            default:
+                                $this->response_code = 500;
+                                $this->response = C::USERNAME_UPDATE_ERROR;
+                                break;
+                        }//switch($errnoT){
+                        break;
+                    case Uace::TOKEN_NOTFOUND:
+                    case Uace::USER_NOTFOUND:
+                        $this->response_code = 500;
+                        $this->response = C::PASSWORD_UPDATE_ERROR;
+                        break;
+                }//switch($errnoUac){
+                break;
+            case Unce::UPDATE_USER:
+            default:
+                $this->response_code = 500;
+                $this->response = C::USERNAME_UPDATE_ERROR;
+                break;
+        }//switch($this->errno){
     }
 
 
