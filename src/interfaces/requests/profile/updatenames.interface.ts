@@ -1,9 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 
-export default interface UpdateUsernameInterface{
+export default interface UpdateNamesInterface{
     http: HttpClient;
-    new_username: string;
-    password: string;
+    new_name: string;
+    new_surname: string;
     token_key: string;
     url: string;
 }

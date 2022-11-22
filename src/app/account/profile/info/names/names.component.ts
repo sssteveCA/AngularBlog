@@ -6,6 +6,7 @@ import { ApiService } from 'src/app/api.service';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
 import GetNames from 'src/classes/requests/profile/getnames';
 import { Messages } from 'src/constants/messages';
+import { EnParams } from 'src/constants/types';
 import { messageDialog } from 'src/functions/functions';
 import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
@@ -20,6 +21,7 @@ import * as constants from '../../../../../constants/constants';
 export class NamesComponent implements OnInit {
 
   userCookie: any = {};
+  editNamesUrl: string = constants.profileUpdateNamesUrl;
   getNamesUrl: string = constants.profileGetNamesUrl;
   groupNames: FormGroup;
   showNamesSpinner: boolean = false;
@@ -55,14 +57,14 @@ export class NamesComponent implements OnInit {
     });
   }
 
-  private namesRequest(): void{
-    
+  private editNamesRequest(en_params: EnParams): void{
+
   }
 
   /**
    * When user submit names form
    */
-  namesSubmit(): void{
+  editNamesSubmit(): void{
     if(this.groupNames.valid){
       let cdi: ConfirmDialogInterface = {
         title: 'Modifica nome e cognome',
