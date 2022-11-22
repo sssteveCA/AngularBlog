@@ -49,6 +49,9 @@ interface Constants{
     const LOGOUT_ERROR = "Errore durante il logout. ".Constants::ADMIN_CONTACT;
     const LOGOUT_ERROR_USERNOTFOUND = "Impossibile completare il logout perché la chiave passata non è valida";
 
+    //Name and surname
+    const NAMES_UPDATE_ERROR = "Errore durante la modifica del nome e del cognome. ".Constants::ADMIN_CONTACT;
+
     //Password
     const PASSWORD_UPDATE_OK = "La password è stata aggiornata";
     const PASSWORD_UPDATE_ERROR = "Errore durante la modifica della password. ".Constants::ADMIN_CONTACT;

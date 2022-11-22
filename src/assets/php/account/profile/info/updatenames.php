@@ -24,7 +24,10 @@ require_once("../../../classes/user.php");
 require_once("../../../classes/account/userauthorizedcontroller.php");
 require_once("../../../classes/account/userauthorizedview.php");
 
+use AngularBlog\Classes\Token;
+use AngularBlog\Classes\User;
 use AngularBlog\Interfaces\Constants as C;
+use Dotenv\Dotenv;
 
 $response = [
     "done" => false, "expired" => false, "msg" => ""
@@ -34,7 +37,27 @@ $input = file_get_contents("php://input");
 $update = json_decode($input,true);
 
 if(isset($update["token_key"],$update["name"],$update["surname"]) && $update["token_key"] != "" && $update["name"] != "" && $update["surname"] != ""){
-
+    if(preg_match(User::$regex["name"],$update["name"]) && preg_match(User::$regex["surname"],$update["surname"])){
+        $token_data = [ "token_key" => $update["token_key"] ];
+        $user_data = ["name" => $update["name"], "surname" => $update["surname"]];
+        try{
+            $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../../");
+            $dotenv->safeLoad();
+            $token = new Token($token_data);
+            $user = new User($user_data);
+            $enc_data = [
+                "token" => $token, "user" => $user
+            ];
+        }catch(Exception $e){
+            http_response_code(500);
+            //echo "Exception message => ".$e->getMessage()."\r\n";
+            $response["msg"] = C::NAMES_UPDATE_ERROR;
+        }
+    }//if(preg_match(User::$regex["name"],$update["name"]) && preg_match(User::$regex["surname"],$update["surname"])){
+    else{
+        http_response_code(400);
+        $response["msg"] = "Il formato del nome o del cognome non è corretto";
+    }
 }//if(isset($update["token_key"],$update["name"],$update["surname"]) && $update["token_key"] != "" && $update["name"] != "" && $update["surname"] != ""){
 else{
     http_response_code(400);
