@@ -27,7 +27,7 @@ class UserAuthorizedController implements Uace{
     /**
      * If is necessary compare the provided password with the $user password
      */
-    private string $password;
+    private ?string $password;
 
     public function __construct(array $data)
     {
