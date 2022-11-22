@@ -15,6 +15,7 @@ This blog has/will have the following features:
       Profile managing
       <ul>
         <li>Username update</li>
+        <li>Name and surname update</li>
         <li>Password update</li>
         <li>*Account delete</li>
       </ul>
