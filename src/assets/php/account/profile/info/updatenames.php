@@ -23,7 +23,9 @@ require_once("../../../classes/token.php");
 require_once("../../../classes/user.php");
 require_once("../../../classes/account/userauthorizedcontroller.php");
 require_once("../../../classes/account/userauthorizedview.php");
+require_once("../../../classes/account/updatenamescontroller.php");
 
+use AngularBlog\Classes\Account\UpdateNamesController;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\User;
 use AngularBlog\Interfaces\Constants as C;
@@ -48,6 +50,7 @@ if(isset($update["token_key"],$update["name"],$update["surname"]) && $update["to
             $unc_data = [
                 "token" => $token, "user" => $user
             ];
+            $unc = new UpdateNamesController($unc_data);
         }catch(Exception $e){
             http_response_code(500);
             //echo "Exception message => ".$e->getMessage()."\r\n";
