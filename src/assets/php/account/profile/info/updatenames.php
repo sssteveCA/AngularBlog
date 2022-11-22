@@ -45,7 +45,7 @@ if(isset($update["token_key"],$update["name"],$update["surname"]) && $update["to
             $dotenv->safeLoad();
             $token = new Token($token_data);
             $user = new User($user_data);
-            $enc_data = [
+            $unc_data = [
                 "token" => $token, "user" => $user
             ];
         }catch(Exception $e){
