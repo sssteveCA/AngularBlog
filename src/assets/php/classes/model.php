@@ -13,7 +13,9 @@ use MongoDB\Model\BSONDocument;
 use MongoDB\UpdateResult;
 use AngularBlog\Traits\ErrorTrait;
 
-//Base class that interfaces with MongoDB database
+/**
+ * Base class that interfaces with MongoDB database
+ */
 abstract class Model implements Me{
 
     use ErrorTrait;
@@ -66,7 +68,9 @@ abstract class Model implements Me{
     }
 
 
-    //Get one document with given array filter
+    /**
+     * Get one document with given array filter
+     */
     public function get(array $filter): ?BSONDocument{
         $this->errno = 0;
         $findOne = $this->collection->findOne($filter);
@@ -74,7 +78,9 @@ abstract class Model implements Me{
         return $findOne;
     }
 
-    //Create one document and insert it
+    /**
+     * Create one document and insert it
+     */
     public function create(array $data): InsertOneResult{
         $this->errno = 0;
         $insertOne = $this->collection->insertOne($data);
@@ -83,7 +89,9 @@ abstract class Model implements Me{
         return $insertOne;
     }
 
-    //Update one document that match a filter with data
+    /**
+     * Update one document that match a filter with data
+     */
     public function update(array $filter, array $data,array $options = []): UpdateResult{
         $this->errno = 0;
         $updateOne = $this->collection->updateOne($filter,$data,$options);
@@ -101,7 +109,9 @@ abstract class Model implements Me{
         return $updateOne;
     }
 
-    //Delete one document that match with a filter
+    /**
+     * Delete one document that match with a filter
+     */
     public function delete(array $filter): DeleteResult{
         $this->errno = 0;
         $deleteOne = $this->collection->deleteOne($filter);

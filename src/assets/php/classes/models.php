@@ -14,7 +14,9 @@ use MongoDB\UpdateResult;
 use MongoDB\DeleteResult;
 use AngularBlog\Traits\ErrorTrait;
 
-//This class execute operation on multiple document in the collection
+/**
+ * This class execute operation on multiple document in the collection
+ */
 abstract class Models implements Me{
 
     use ErrorTrait;
@@ -67,7 +69,9 @@ abstract class Models implements Me{
         return $this->error;
     }
 
-    //Get one or more documents
+    /**
+     * Get one or more documents
+     */
     public function get(array $filter):Cursor{
         file_put_contents(Models::$logFile,"Models get => \r\n",FILE_APPEND);
         $this->errno = 0;
@@ -81,7 +85,9 @@ abstract class Models implements Me{
         return $find;
     }
 
-    //Create one or more documents
+    /**
+     * Create one or more documents
+     */
     public function create(array $filter): InsertManyResult{
         $this->errno = 0;
         $insertMany = $this->collection->insertMany($filter);
@@ -90,7 +96,9 @@ abstract class Models implements Me{
         return $insertMany;
     }
 
-    //Update one or more documents
+    /**
+     * Update one or more documents
+     */
     public function update(array $filter,array $data,array $options = []): UpdateResult{
         $this->errno = 0;
         $updateMany = $this->collection->updateMany($filter,$data,$options);
@@ -100,7 +108,9 @@ abstract class Models implements Me{
         return $updateMany;
     }
 
-    //Delete one or more documents
+    /**
+     * Delete one or more documents
+     */
     public function delete(array $filter): DeleteResult{
         $this->errno = 0;
         $deleteMany = $this->collection->deleteMany($filter);
