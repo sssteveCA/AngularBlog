@@ -66,7 +66,7 @@ if(isset($delete["token_key"],$delete["password"],$delete["conf_password"])){
             }
             http_response_code($dacView->getResponseCode());
         }catch(Exception $e){
-            echo "deleteprofile.php exception => ".var_export($e->getMessage(),true)."\r\n";
+            //echo "deleteprofile.php exception => ".var_export($e->getMessage(),true)."\r\n";
             http_response_code(500);
             $response['msg'] = C::ACCOUNTDELETE_ERROR;
         }

@@ -1,13 +1,17 @@
+import { CdkAriaLive } from '@angular/cdk/a11y';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ApiService } from 'src/app/api.service';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
+import MessageDialog from 'src/classes/dialogs/messagedialog';
 import PasswordConfirmDialog from 'src/classes/dialogs/passwordconfirmdialog';
 import DeleteProfile from 'src/classes/requests/profile/deleteprofile';
 import { Messages } from 'src/constants/messages';
 import { DaParams } from 'src/constants/types';
+import { messageDialog } from 'src/functions/functions';
 import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
+import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import PasswordConfirmDialogInterface from 'src/interfaces/dialogs/passwordconfirmdialog.interface';
 import DeleteProfileInterface from 'src/interfaces/requests/profile/deleteprofile.interface';
 import * as constants from '../../../../../constants/constants';
@@ -41,8 +45,24 @@ export class DeleteAccountComponent implements OnInit {
     };
     let da: DeleteProfile = new DeleteProfile(da_data);
     da.deleteProfile().then(obj => {
+      const mdData: MessageDialogInterface = {
+        title: 'Cancellazione account', message: obj["msg"]
+      }
+      let md: MessageDialog = new MessageDialog(mdData);
+      md.bt_ok.addEventListener('click',()=>{
+        md.instance.dispose();
+        md.div_dialog.remove();
+        document.body.style.overflow = 'auto';
+        if(obj["done"] == true){
+          
+        }
+      });
     }).catch(err => {
-
+      const mdData: MessageDialogInterface = {
+        title: 'Cancellazione account',
+        message: Messages.DELETEACCOUNT_ERROR
+      }
+      messageDialog(mdData);
     });
   }
 

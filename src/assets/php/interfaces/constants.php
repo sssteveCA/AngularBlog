@@ -6,7 +6,7 @@ namespace AngularBlog\Interfaces;
 interface Constants{
 
     //Account delete
-    const ACCOUNTDELETE_ERROR = "Impossibile eliminare il tuo account, riprova più tardi. ".Constants::ADMIN_CONTACT;
+    const ACCOUNTDELETE_ERROR = "Impossibile eliminare il tuo account. ".Constants::ADMIN_CONTACT;
     const ACCOUNTDELETE_OK = "Il tuo account è stato eliminato definitivamente";
 
     //Activation
