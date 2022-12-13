@@ -25,10 +25,22 @@ class DeleteAccountController implements Dace{
 
     public function __construct(array $data){
         $this->checkValues($data);
+        $auth = $this->checkAuthorization();
     }
    
     public function getToken(){return $this->token;}
     public function getUser(){return $this->user;}
+    public function getError(){
+        switch($this->errno){
+            case Dace::FROM_USERAUTHORIZEDCONTROLLER:
+                $this->error = Dace::FROM_USERAUTHORIZEDCONTROLLER_MSG;
+                break;
+            default:
+                $this->error = null;
+                break;
+        }
+        return $this->error;
+    }
 
     private function checkValues(array $data){
         if(!isset($data['conf_password'],$data['password']))throw new MissingValuesException(Dace::MISSINGVALUES_EXC);
@@ -40,6 +52,21 @@ class DeleteAccountController implements Dace{
         $this->password = $data['password'];
         $this->token = $data['token'];
         $this->user = $data['user'];
+    }
+
+    /**
+     * Check if the user is authorized to delete the account
+     */
+    private function checkAuthorization(): bool{
+        $this->errno = 0;
+        $this->uac_user = clone $this->user;
+        $this->uac = new UserAuthorizedController([
+            'token' => $this->token, 'user' => $this->uac_user
+        ]);
+        $uacErrno = $this->uac->getErrno();
+        if($uacErrno == 0) return true;
+        $this->errno = Dace::FROM_USERAUTHORIZEDCONTROLLER;
+        return false;
     }
 }
 ?>
