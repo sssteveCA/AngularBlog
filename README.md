@@ -17,7 +17,7 @@ This blog has/will have the following features:
         <li>Username update</li>
         <li>Name and surname update</li>
         <li>Password update</li>
-        <li>*Account delete</li>
+        <li>Account delete</li>
       </ul>
     </li>
   </ul>
@@ -47,7 +47,6 @@ This blog has/will have the following features:
 </ul>
 </div>
 <div>
-*These features are not added yet
 </div>
 <br>
 
