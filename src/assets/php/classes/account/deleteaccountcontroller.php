@@ -91,8 +91,9 @@ class DeleteAccountController implements Dace{
         if(password_verify($this->password,$user_password_hash)){
             $user_id = $this->token->getUserId();
             $filter = ['_id' => new ObjectId($user_id)];
-            $account_delete = $this->user->user_delete($filter);
-            if($account_delete) return true;
+            /* $account_delete = $this->user->user_delete($filter); */
+            $account_delete = true;
+            if($account_delete) return true; 
             else $this->errno = Dace::DELETE_USER;
         }//if(password_verify($this->password,$user_password_hash)){
         else $this->errno = Dace::CURRENT_PASSWORD_WRONG;
