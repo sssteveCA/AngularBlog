@@ -12,6 +12,7 @@ use AngularBlog\Exceptions\UserTypeMismatchException;
 use AngularBlog\Interfaces\Account\DeleteAccountControllerErrors as Dace;
 use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Traits\ResponseTrait;
+use MongoDB\BSON\ObjectId;
 
 class DeleteAccountController implements Dace{
     use ErrorTrait, ResponseTrait;
@@ -26,12 +27,20 @@ class DeleteAccountController implements Dace{
     public function __construct(array $data){
         $this->checkValues($data);
         $auth = $this->checkAuthorization();
+        if($auth)
+            $this->delete_account();
     }
    
     public function getToken(){return $this->token;}
     public function getUser(){return $this->user;}
     public function getError(){
         switch($this->errno){
+            case Dace::CURRENT_PASSWORD_WRONG:
+                $this->error = Dace::CURRENT_PASSWORD_WRONG_MSG;
+                break;
+            case Dace::DELETE_USER:
+                $this->error = Dace::DELETE_USER_MSG;
+                break;
             case Dace::FROM_USERAUTHORIZEDCONTROLLER:
                 $this->error = Dace::FROM_USERAUTHORIZEDCONTROLLER_MSG;
                 break;
@@ -66,6 +75,23 @@ class DeleteAccountController implements Dace{
         $uacErrno = $this->uac->getErrno();
         if($uacErrno == 0) return true;
         $this->errno = Dace::FROM_USERAUTHORIZEDCONTROLLER;
+        return false;
+    }
+
+    /**
+     * Delete the current logged account from database
+     */
+    private function delete_account(): bool{
+        $this->errno = 0;
+        $user_password_hash = $this->uac_user->getPasswordHash();
+        if(password_verify($this->password,$user_password_hash)){
+            $user_id = $this->token->getUserId();
+            $filter = ['_id' => new ObjectId($user_id)];
+            $account_delete = $this->user->user_delete($filter);
+            if($account_delete) return true;
+            else $this->errno = Dace::DELETE_USER;
+        }//if(password_verify($this->password,$user_password_hash)){
+        else $this->errno = Dace::CURRENT_PASSWORD_WRONG;
         return false;
     }
 }
