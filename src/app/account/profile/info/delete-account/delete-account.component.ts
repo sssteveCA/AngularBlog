@@ -2,6 +2,7 @@ import { CdkAriaLive } from '@angular/cdk/a11y';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
 import MessageDialog from 'src/classes/dialogs/messagedialog';
@@ -28,7 +29,7 @@ export class DeleteAccountComponent implements OnInit {
   deleteProfileUrl: string = constants.profileDeleteUrl;
   showDeleteProfileSpinner: boolean = false;
 
-  constructor(public http: HttpClient, public api: ApiService, public fb: FormBuilder) {
+  constructor(public http: HttpClient, public api: ApiService, public fb: FormBuilder, public router: Router) {
     this.observeFromService();
    }
 
@@ -54,7 +55,9 @@ export class DeleteAccountComponent implements OnInit {
         md.div_dialog.remove();
         document.body.style.overflow = 'auto';
         if(obj["done"] == true){
-          
+          this.api.removeItems();
+          this.api.changeUserdata({});
+          this.router.navigateByUrl(constants.deleteAccountRedirect);
         }
       });
     }).catch(err => {

@@ -65,6 +65,11 @@ export const contactUrl: string = Config.PHP_SCRIPTS_URL+"/contact.php";
 export const createComment: string = Config.PHP_SCRIPTS_URL+"/article/comment/create.php";
 
 /**
+ * Url redirect after successfully deleted the logged account
+ */
+export const deleteAccountRedirect: string = "/";
+
+/**
  * php script for delete comment
  */
 export const deleteComment: string = Config.PHP_SCRIPTS_URL+"/article/comment/delete.php";

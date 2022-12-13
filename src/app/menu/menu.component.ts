@@ -50,8 +50,7 @@ export class MenuComponent implements OnInit {
         //console.log(res);
         let rJson = JSON.parse(res);
         if(rJson['done'] == true){
-          localStorage.removeItem("token_key");
-          localStorage.removeItem("username");
+          this.api.removeItems();
           this.api.changeUserdata({});
           this.router.navigate([constants.logoutRedirect]);
         }//if(rJson['done'] == true){
