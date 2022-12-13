@@ -5,6 +5,9 @@ namespace AngularBlog\Interfaces;
 //Generic constants used by this app
 interface Constants{
 
+    //Account delete
+    const ACCOUNTDELETE_ERROR = "Impossibile eliminare il tuo account, riprova più tardi. ".Constants::ADMIN_CONTACT;
+
     //Activation
     const ACTIVATION_INVALID_CODE = "Codice non valido";
     const ACTIVATION_OK = "L' account è stato attivato con successo";
@@ -64,7 +67,7 @@ interface Constants{
     //Search
     const SEARCH_ERROR = "Errore durante la ricerca degli articoli. ".Constants::ADMIN_CONTACT;
 
-    //User
+    //Username update
     const USERNAME_UPDATE_OK = "Il nome utente è stato aggiornato";
     const USERNAME_UPDATE_ERROR = "Errore durante la modifica del nome utente. ".Constants::ADMIN_CONTACT;
 
