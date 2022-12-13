@@ -1,4 +1,5 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
+import { Messages } from "src/constants/messages";
 import DeleteProfileInterface from "src/interfaces/requests/profile/deleteprofile.interface";
 
 export default class DeleteProfile{
@@ -37,7 +38,14 @@ export default class DeleteProfile{
                 throw err;
             })
         }catch(err){
-
+            if(err instanceof HttpErrorResponse){
+                const errorString: string = err.error as string;
+                const errorBody: object = JSON.parse(errorString);
+                response['msg'] = errorBody['msg'];
+            }
+            else{
+                response['msg'] = Messages.DELETEACCOUNT_ERROR;
+            }
         }
         return response;
     }

@@ -45,7 +45,9 @@ export class DeleteAccountComponent implements OnInit {
       url: this.deleteProfileUrl
     };
     let da: DeleteProfile = new DeleteProfile(da_data);
+    this.showDeleteProfileSpinner = true;
     da.deleteProfile().then(obj => {
+      this.showDeleteProfileSpinner = false;
       const mdData: MessageDialogInterface = {
         title: 'Cancellazione account', message: obj["msg"]
       }
