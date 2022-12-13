@@ -7,6 +7,7 @@ interface Constants{
 
     //Account delete
     const ACCOUNTDELETE_ERROR = "Impossibile eliminare il tuo account, riprova più tardi. ".Constants::ADMIN_CONTACT;
+    const ACCOUNTDELETE_OK = "Il tuo account è stato eliminato definitivamente";
 
     //Activation
     const ACTIVATION_INVALID_CODE = "Codice non valido";

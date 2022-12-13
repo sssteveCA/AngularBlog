@@ -10,6 +10,9 @@ use AngularBlog\Exceptions\NoUserInstanceException;
 use AngularBlog\Exceptions\TokenTypeMismatchException;
 use AngularBlog\Exceptions\UserTypeMismatchException;
 use AngularBlog\Interfaces\Account\DeleteAccountControllerErrors as Dace;
+use AngularBlog\Interfaces\Account\UserAuthorizedControllerErrors as Uace;
+use AngularBlog\Interfaces\TokenErrors as Te;
+use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Traits\ResponseTrait;
 use MongoDB\BSON\ObjectId;
@@ -29,6 +32,7 @@ class DeleteAccountController implements Dace{
         $auth = $this->checkAuthorization();
         if($auth)
             $this->delete_account();
+        $this->setResponse();
     }
    
     public function getToken(){return $this->token;}
@@ -93,6 +97,50 @@ class DeleteAccountController implements Dace{
         }//if(password_verify($this->password,$user_password_hash)){
         else $this->errno = Dace::CURRENT_PASSWORD_WRONG;
         return false;
+    }
+
+    /**
+     * Set the response to send to the view
+     */
+    private function setResponse(){
+        switch($this->errno){
+            case 0:
+                $this->response_code = 200;
+                $this->response = C::ACCOUNTDELETE_OK;
+                break;
+            case Dace::CURRENT_PASSWORD_WRONG:
+                $this->response_code = 401;
+                $this->response = Dace::CURRENT_PASSWORD_WRONG_MSG;
+                break;
+            case Dace::FROM_USERAUTHORIZEDCONTROLLER:
+                $errnoUac = $this->uac->getErrno();
+                switch($errnoUac){
+                    case Uace::FROM_TOKEN;
+                        $errnoT = $this->token->getErrno();
+                        switch($errnoT){
+                            case Te::TOKENEXPIRED:
+                                $this->response_code = 401;
+                                $this->response = Te::TOKENEXPIRED_MSG;
+                                break;
+                            default:
+                                $this->response_code = 500;
+                                $this->response = C::ACCOUNTDELETE_ERROR;
+                                break;
+                        }//switch($errnoT){
+                        break;
+                    case Uace::TOKEN_NOTFOUND:
+                    case Uace::USER_NOTFOUND:
+                        $this->response_code = 500;
+                        $this->response = C::ACCOUNTDELETE_ERROR;
+                        break;
+                }//switch($errnoUac){
+                break;
+            case Dace::DELETE_USER:
+            default:
+                $this->response_code = 500;
+                $this->response = C::ACCOUNTDELETE_ERROR;
+                break;
+        }
     }
 }
 ?>
