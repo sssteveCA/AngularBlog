@@ -2,6 +2,7 @@
 
 namespace AngularBlog\Classes\Subscribe;
 
+use AngularBlog\Classes\Email\EmailManager;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\Subscribe\RegistrationControllerErrors as Rce;
 use AngularBlog\Interfaces\UserErrors as Ue;
@@ -9,6 +10,7 @@ use AngularBlog\Classes\User;
 use AngularBlog\Exceptions\NoUserInstanceException;
 use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Traits\ResponseTrait;
+use Exception;
 
 //This class add subscriber data to DB and send activation email to user
 class RegistrationController implements Rce,Ue,C{
@@ -66,9 +68,16 @@ class RegistrationController implements Rce,Ue,C{
         $email = $this->user->getEmail();
         $this->setHeaders();
         $this->setMessage();
-        $send = @mail($email,C::EMAIL_ACTIVATION_SUBJECT,$this->message,$this->headers);
-        if(!$send) $this->errno = Rce::MAILNOTSENT; //email non inviata
-        return $send;
+        $emData =  [
+            "from" => $_ENV["EMAIL_NICKNAME"],
+            "to" => $email, "subject" => C::EMAIL_ACTIVATION_SUBJECT, "body" => $this->message
+        ];
+        $em = new EmailManager($emData);
+        if($em->getErrno() != 0){
+            $this->error = Rce::MAILNOTSENT;
+            return false;
+        }
+        return true;
     }
 
     //Set the email headers
