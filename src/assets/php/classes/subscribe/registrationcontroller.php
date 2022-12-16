@@ -66,7 +66,7 @@ class RegistrationController implements Rce,Ue,C{
     private function sendEmail(): bool{
         $this->errno = 0;
         $email = $this->user->getEmail();
-        $this->setHeaders();
+        //$this->setHeaders();
         $this->setMessage();
         $emData =  [C::ADMINMAIL, $_ENV["MAIL_USERNAME"],
             "to" => $email, "subject" => C::EMAIL_ACTIVATION_SUBJECT, "body" => $this->message
