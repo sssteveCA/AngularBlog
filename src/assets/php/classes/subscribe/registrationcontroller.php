@@ -68,8 +68,7 @@ class RegistrationController implements Rce,Ue,C{
         $email = $this->user->getEmail();
         $this->setHeaders();
         $this->setMessage();
-        $emData =  [
-            "from" => $_ENV["MAIL_USERNAME"],
+        $emData =  [C::ADMINMAIL, $_ENV["MAIL_USERNAME"],
             "to" => $email, "subject" => C::EMAIL_ACTIVATION_SUBJECT, "body" => $this->message
         ];
         $em = new EmailManager($emData);

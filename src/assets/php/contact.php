@@ -36,7 +36,7 @@ if(isset($post['email'],$post['subject'],$post['message'])
         $message = $post['message'];
         try{
             $ccData = [
-                'fromEmail' => $post['email'], 'toEmail' => $_ENV['MAIL_USERNAME'], 
+                'fromEmail' => $post['email'], 'toEmail' => C::ADMINMAIL, 
                 'subject' => $post['subject'], 'message' => $post['message']
             ];
             $cc = new ContactController($ccData);

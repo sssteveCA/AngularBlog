@@ -5,6 +5,8 @@ namespace AngularBlog\Interfaces;
 //Generic constants used by this app
 interface Constants{
 
+    const ADMINMAIL = "admin@AngularBlog.com";
+
     //Account delete
     const ACCOUNTDELETE_ERROR = "Impossibile eliminare il tuo account. ".Constants::ADMIN_CONTACT;
     const ACCOUNTDELETE_OK = "Il tuo account è stato eliminato definitivamente";
@@ -32,7 +34,7 @@ interface Constants{
 
     //Contact section
     const CONTACT_ERROR = "C'è stato un'errore durante l'invio del messaggio. ".Constants::ADMIN_CONTACT;
-    const CONTACT_OK = "Il messaggio è stato inviato. Sarai ricontattato il prima possibile. s";
+    const CONTACT_OK = "Il messaggio è stato inviato. Sarai ricontattato il prima possibile.";
 
     //Cookie
     const COOKIE_ID = 'id';

@@ -32,8 +32,8 @@ trait EmailManagerTrait{
     }
 
     private function setServerSettings(array $data){
-        $this->SMTPDebug = SMTP::DEBUG_SERVER;
-        //$this->SMTPDebug = SMTP::DEBUG_OFF;
+        //$this->SMTPDebug = SMTP::DEBUG_SERVER;
+        $this->SMTPDebug = SMTP::DEBUG_OFF;
         $this->isSMTP();
         $this->Host = isset($data['MAIL_HOST']) ? $data['MAIL_HOST'] : $_ENV['MAIL_HOST'];
         $this->SMTPAuth = true;
