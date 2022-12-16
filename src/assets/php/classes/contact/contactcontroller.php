@@ -6,6 +6,7 @@ use AngularBlog\Classes\Email\EmailManager;
 use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Traits\ResponseTrait;
 use AngularBlog\Interfaces\Contact\ContactControllerErrors as Cce;
+use AngularBlog\Interfaces\Constants as C;
 
 class ContactController implements Cce{
 
@@ -75,12 +76,12 @@ class ContactController implements Cce{
         switch($this->errno){
             case 0:
                 $this->response_code = 200;
-                $this->response = "Il messaggio è stato inviato. Sarai ricontattato il prima possibile";
+                $this->response = C::CONTACT_OK;
                 break;
             case Cce::MAILNOTSENT:
             default:
                 $this->response_code = 500;
-                $this->response = "C'è stato un'errore durante l'invio del messaggio";
+                $this->response = C::CONTACT_ERROR;
                 break;
         }
     }

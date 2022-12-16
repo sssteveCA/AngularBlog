@@ -30,6 +30,10 @@ interface Constants{
     const INSERTCOMMENT_ERROR = "Inserisci un commento per continuare";
     const COMMENTLIST_EMPTY = "Questo articolo non contiene alcun commento";
 
+    //Contact section
+    const CONTACT_ERROR = "C'è stato un'errore durante l'invio del messaggio. ".Constants::ADMIN_CONTACT;
+    const CONTACT_OK = "Il messaggio è stato inviato. Sarai ricontattato il prima possibile. s";
+
     //Cookie
     const COOKIE_ID = 'id';
     const COOKIE_NAME = 'username';
