@@ -2,9 +2,14 @@
 
 namespace AngularBlog\Classes\Email;
 
+use AngularBlog\Traits\EmailManagerTrait;
+use AngularBlog\Traits\ErrorTrait;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class EmailManager extends PHPMailer{
+
+    use EmailManagerTrait, ErrorTrait;
+    
     /**
      * Sender email
      */
