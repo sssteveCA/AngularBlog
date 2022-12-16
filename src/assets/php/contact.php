@@ -1,6 +1,7 @@
 <?php
 
 require_once("cors.php");
+require_once("interfaces/constants.php");
 require_once("interfaces/email/emailmanager_errors.php");
 require_once("interfaces/contact/contactview_errors.php");
 require_once("interfaces/contact/contactcontroller_errors.php");
@@ -35,7 +36,7 @@ if(isset($post['email'],$post['subject'],$post['message'])
         $message = $post['message'];
         try{
             $ccData = [
-                'fromEmail' => $post['email'], 'toEmail' => $_ENV['EMAIL_USERNAME'], 
+                'fromEmail' => $post['email'], 'toEmail' => $_ENV['MAIL_USERNAME'], 
                 'subject' => $post['subject'], 'message' => $post['message']
             ];
             $cc = new ContactController($ccData);
