@@ -32,6 +32,7 @@ class ContactController implements Cce{
     {
         $this->setValues($data);
         $this->sendMessage();
+        $this->setResponse();
     }
 
     public function getFromEmail(){ return $this->fromEmail; }
@@ -67,6 +68,20 @@ class ContactController implements Cce{
         $em = new EmailManager($emData);
         if($em->getErrno() != 0){
             $this->errno = Cce::MAILNOTSENT;
+        }
+    }
+
+    private function setResponse(){
+        switch($this->errno){
+            case 0:
+                $this->response_code = 200;
+                $this->response = "Il messaggio è stato inviato. Sarai ricontattato il prima possibile";
+                break;
+            case Cce::MAILNOTSENT:
+            default:
+                $this->response_code = 500;
+                $this->response = "C'è stato un'errore durante l'invio del messaggio";
+                break;
         }
     }
 }
