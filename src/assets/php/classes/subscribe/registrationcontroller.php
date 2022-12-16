@@ -9,13 +9,14 @@ use AngularBlog\Interfaces\UserErrors as Ue;
 use AngularBlog\Classes\User;
 use AngularBlog\Exceptions\NoUserInstanceException;
 use AngularBlog\Traits\ErrorTrait;
+use AngularBlog\Traits\RegistrationControllerTrait;
 use AngularBlog\Traits\ResponseTrait;
 use Exception;
 
 //This class add subscriber data to DB and send activation email to user
 class RegistrationController implements Rce,Ue,C{
 
-    use ErrorTrait, ResponseTrait;
+    use ErrorTrait, ResponseTrait, RegistrationControllerTrait;
 
     private ?User $user; //User object with data to store in DB
     private ?string $headers = null; //Email activation headers
@@ -49,7 +50,9 @@ class RegistrationController implements Rce,Ue,C{
         return $this->error;
     }
 
-    //store account registration values in DB
+    /**
+     * store account registration values in DB
+     */
     private function registration(): bool{
         $this->errno = 0;
         $registration = false;
@@ -62,70 +65,9 @@ class RegistrationController implements Rce,Ue,C{
         return $registration;
     }
 
-    //Send activation email to user
-    private function sendEmail(): bool{
-        $this->errno = 0;
-        $email = $this->user->getEmail();
-        //$this->setHeaders();
-        $this->setMessage();
-        $emData =  [C::ADMINMAIL, $_ENV["MAIL_USERNAME"],
-            "to" => $email, "subject" => C::EMAIL_ACTIVATION_SUBJECT, "body" => $this->message
-        ];
-        $em = new EmailManager($emData);
-        if($em->getErrno() != 0){
-            $this->error = Rce::MAILNOTSENT;
-            return false;
-        }
-        return true;
-    }
-
-    //Set the email headers
-    private function setHeaders(){
-        //mail headers
-$this->headers = <<<HEADER
-From: Admin <noreply@localhost.lan>
-Reply-to: <noreply@localhost.lan>
-Content-type: text/html
-MIME-Version: 1.0
-HEADER;
-    }
-
-    //Set email message
-    private function setMessage(){
-        $indAtt = $_ENV['ANGULAR_MAIN_URL']."/attiva";
-        $emailVerif = $this->user->getEmailVerif();
-        $codIndAtt = $indAtt.'?emailVerif='.$emailVerif;
-        $this->message = <<<HTML
-<!DOCTYPE html>
-<html lang="it">
-    <head>
-        <title>Attivazione account</title>
-        <meta charset="utf-8">
-        <style>
-            body{
-                display: flex;
-                justify-content: center;
-            }
-            div#linkAtt{
-                padding: 10px;
-                background-color: orange;
-                font-size: 20px;
-            }
-        </style>
-    <head>
-    <body>
-        <div id="linkAtt">
-Completa la registrazione facendo click sul link sottostante:
-<p><a href="{$codIndAtt}">{$codIndAtt}</a></p>
-oppure vai all'indirizzo <p><a href="{$indAtt}">{$indAtt}</a></p> e incolla il seguente codice: 
-<p>{$emailVerif}</p>
-        </div>
-    </body>
-</html>
-HTML;
-    }
-
-    //Set the response to send to the view
+    /**
+     * Set the response to send to the view
+     */
     private function setResponse(){
         switch($this->errno){
             case 0:
@@ -155,7 +97,5 @@ HTML;
                 break;
         }
     }
-
-
 }
 ?>

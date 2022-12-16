@@ -13,6 +13,7 @@ require_once("../traits/error.trait.php");
 require_once("../traits/message.trait.php");
 require_once("../traits/response.trait.php");
 require_once("../traits/emailmanager.trait.php");
+require_once("../traits/registrationcontroller.trait.php");
 require_once("../classes/email/emailmanager.php");
 require_once('../classes/model.php');
 require_once('../classes/user.php');
