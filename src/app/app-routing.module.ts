@@ -19,6 +19,7 @@ import { EditArticleComponent } from './account/profile/edit-article/edit-articl
 import { InfoComponent } from './account/profile/info/info.component';
 import { PrivacyPolicyComponent } from './content/privacy-policy/privacy-policy.component';
 import { CookiePolicyComponent } from './content/cookie-policy/cookie-policy.component';
+import { TermsComponent } from './content/terms/terms.component';
 
 const routes: Routes = [
   {path : "", component : IndexComponent},
@@ -29,6 +30,7 @@ const routes: Routes = [
   {path: "blog/:article", component: ArticleComponent},
   {path: "privacy_policy", component: PrivacyPolicyComponent},
   {path: "cookie_policy", component: CookiePolicyComponent},
+  {path: "terms", component: TermsComponent},
   {path: "login", component: LoginComponent,canActivate:[NotAuthGuard]},
   {path: "register", component: RegisterComponent,canActivate:[NotAuthGuard]},
   {path: "attiva", component: AttivaComponent,canActivate:[NotAuthGuard]},

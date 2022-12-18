@@ -36,6 +36,7 @@ import { NamesComponent } from './account/profile/info/names/names.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { PrivacyPolicyComponent } from './content/privacy-policy/privacy-policy.component';
 import { CookiePolicyComponent } from './content/cookie-policy/cookie-policy.component';
+import { TermsComponent } from './content/terms/terms.component';
 
 
 
@@ -67,7 +68,8 @@ import { CookiePolicyComponent } from './content/cookie-policy/cookie-policy.com
     NamesComponent,
     PrivacyComponent,
     PrivacyPolicyComponent,
-    CookiePolicyComponent
+    CookiePolicyComponent,
+    TermsComponent
   ],
   imports: [
     BrowserModule,
