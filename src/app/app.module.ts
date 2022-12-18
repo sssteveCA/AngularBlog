@@ -34,6 +34,7 @@ import { PasswordComponent } from './account/profile/info/password/password.comp
 import { DeleteAccountComponent } from './account/profile/info/delete-account/delete-account.component';
 import { NamesComponent } from './account/profile/info/names/names.component';
 import { PrivacyComponent } from './privacy/privacy.component';
+import { PrivacyPolicyComponent } from './content/privacy-policy/privacy-policy.component';
 
 
 
@@ -63,7 +64,8 @@ import { PrivacyComponent } from './privacy/privacy.component';
     PasswordComponent,
     DeleteAccountComponent,
     NamesComponent,
-    PrivacyComponent
+    PrivacyComponent,
+    PrivacyPolicyComponent
   ],
   imports: [
     BrowserModule,
