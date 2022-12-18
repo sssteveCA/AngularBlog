@@ -1,0 +1,13 @@
+@use "sass:selector";
+
+@mixin dropdown-li-style(){
+    .dropdown-menu{
+        $li-link: selector.nest("li","a");
+        $li-link-hover: selector.append($li-link,":hover");
+        #{$li-link-hover}{
+            background-color: orange;
+        }
+    }
+}
+
+@include dropdown-li-style();
