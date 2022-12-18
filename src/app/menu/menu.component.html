@@ -1,4 +1,4 @@
-<nav id="menu" class="navbar navbar-expand-sm navbar-dark bg-dark">
+<nav id="menu" class="navbar navbar-expand-sm navbar-dark" [ngClass]="[menuColor]">
     <div class="container-fluid">
       <div id="navbarSupportedContent" class="row w-100 flex-column flex-sm-row">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex justify-content-between col col-sm-8">
@@ -17,7 +17,7 @@
           <li class="nav-item">
             <a class="nav-link" href="javascript:void(0)" [routerLink]="['/contatti']">Contatti</a>
           </li>
-          <app-policy-item></app-policy-item>
+          <app-policy-item [menuColor]="menuColor"></app-policy-item>
         </ul>
         <div *ngIf="userCookie['username'] != null; then logged else notlogged" ></div>
         <!-- User logged-->

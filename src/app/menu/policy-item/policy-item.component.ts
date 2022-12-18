@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { HasElementRef } from '@angular/material/core/common-behaviors/color';
 
 @Component({
@@ -7,6 +7,8 @@ import { HasElementRef } from '@angular/material/core/common-behaviors/color';
   styleUrls: ['./policy-item.component.scss']
 })
 export class PolicyItemComponent implements OnInit {
+
+  @Input() menuColor: string;
 
   @ViewChild('policyItem',{static: false})policyItemEl: ElementRef<HTMLLIElement>;
 

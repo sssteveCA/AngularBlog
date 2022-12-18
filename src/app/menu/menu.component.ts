@@ -17,6 +17,7 @@ import { ApiService } from '../api.service';
 export class MenuComponent implements OnInit {
 
   userCookie : any = {};
+  menuColor: string = 'bg-dark';
 
   constructor(private http:HttpClient, private router:Router, private api: ApiService) {
     this.userCookie["token_key"] = localStorage.getItem("token_key");
