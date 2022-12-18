@@ -14,7 +14,7 @@ export namespace Config{
     export const PHP_MAIN_URL: string = PHP_SCHEME+'://'+PHP_HOST+':'+PHP_PORT;
 
     //Angular project relative path
-    export const SITE_PATH: string = "/angular/AngularBlog";
+    export const SITE_PATH: string = "/repo/AngularBlog";
 
     //main directory of php files
     export const PHP_FOLDER: string = "/src/assets/php";

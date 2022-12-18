@@ -40,6 +40,9 @@ class RegistrationController implements Rce,Ue,C{
             case Rce::MAILNOTSENT:
                 $this->error = Rce::MAILNOTSENT_MSG;
                 break;
+            case Rce::DUPLICATEVALUE:
+                $this->error = Rce::DUPLICATEVALUE_MSG;
+                break;
             case Rce::FROM_USER:
                 $this->error = Rce::FROM_USER_MSG;
                 break;
@@ -48,6 +51,22 @@ class RegistrationController implements Rce,Ue,C{
                 break;
         }
         return $this->error;
+    }
+
+    /**
+     * Check if the provided email or username exist in database
+     */
+    private function checkDuplicate(): bool{
+        $this->errno = 0;
+        $user_cloned = clone $this->user;
+        $exist = $user_cloned->user_get(['$or' => [
+            'username' => $user_cloned->getUsername(), 'email' => $user_cloned->getEmail()
+        ]]);
+        if($exist){
+            $this->errno = Rce::DUPLICATEVALUE;
+            return true;
+        }
+        return false;
     }
 
     /**
