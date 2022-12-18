@@ -33,6 +33,7 @@ import { UsernameComponent } from './account/profile/info/username/username.comp
 import { PasswordComponent } from './account/profile/info/password/password.component';
 import { DeleteAccountComponent } from './account/profile/info/delete-account/delete-account.component';
 import { NamesComponent } from './account/profile/info/names/names.component';
+import { PrivacyComponent } from './privacy/privacy.component';
 
 
 
@@ -61,7 +62,8 @@ import { NamesComponent } from './account/profile/info/names/names.component';
     UsernameComponent,
     PasswordComponent,
     DeleteAccountComponent,
-    NamesComponent
+    NamesComponent,
+    PrivacyComponent
   ],
   imports: [
     BrowserModule,
