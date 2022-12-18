@@ -37,6 +37,7 @@ import { PrivacyComponent } from './privacy/privacy.component';
 import { PrivacyPolicyComponent } from './content/privacy-policy/privacy-policy.component';
 import { CookiePolicyComponent } from './content/cookie-policy/cookie-policy.component';
 import { TermsComponent } from './content/terms/terms.component';
+import { PolicyItemComponent } from './menu/policy-item/policy-item.component';
 
 
 
@@ -69,7 +70,8 @@ import { TermsComponent } from './content/terms/terms.component';
     PrivacyComponent,
     PrivacyPolicyComponent,
     CookiePolicyComponent,
-    TermsComponent
+    TermsComponent,
+    PolicyItemComponent
   ],
   imports: [
     BrowserModule,

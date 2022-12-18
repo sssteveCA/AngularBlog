@@ -17,6 +17,7 @@
           <li class="nav-item">
             <a class="nav-link" href="javascript:void(0)" [routerLink]="['/contatti']">Contatti</a>
           </li>
+          <app-policy-item></app-policy-item>
         </ul>
         <div *ngIf="userCookie['username'] != null; then logged else notlogged" ></div>
         <!-- User logged-->
