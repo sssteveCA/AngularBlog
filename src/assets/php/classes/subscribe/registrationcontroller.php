@@ -5,6 +5,7 @@ namespace AngularBlog\Classes\Subscribe;
 use AngularBlog\Classes\Email\EmailManager;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\Subscribe\RegistrationControllerErrors as Rce;
+use AngularBlog\Interfaces\ModelErrors as Me;
 use AngularBlog\Interfaces\UserErrors as Ue;
 use AngularBlog\Classes\User;
 use AngularBlog\Exceptions\NoUserInstanceException;
@@ -26,10 +27,13 @@ class RegistrationController implements Rce,Ue,C{
     {
         if(!$user)throw new NoUserInstanceException(Rce::NOUSERINSTANCE_EXC);
         $this->user = $user;
-        $reg = $this->registration();
-        if($reg){
-            //Send email if data are added to DB
-            $this->sendEmail();
+        $duplicate = $this->checkDuplicate();
+        if($duplicate === false){
+            $reg = $this->registration();
+            if($reg){
+                //Send email if data are added to DB
+                $this->sendEmail();
+            }
         }
         $this->setResponse();
     }
@@ -56,12 +60,18 @@ class RegistrationController implements Rce,Ue,C{
     /**
      * Check if the provided email or username exist in database
      */
-    private function checkDuplicate(): bool{
+    private function checkDuplicate(): ?bool{
         $this->errno = 0;
         $user_cloned = clone $this->user;
         $exist = $user_cloned->user_get(['$or' => [
-            'username' => $user_cloned->getUsername(), 'email' => $user_cloned->getEmail()
+            ['username' => $user_cloned->getUsername()], 
+            ['email' => $user_cloned->getEmail()]
         ]]);
+        $errnoUc = $user_cloned->getErrno();
+        if($errnoUc != 0 && $errnoUc != Me::NORESULT){
+            $this->errno = Rce::FROM_USER;
+            return null;
+        }
         if($exist){
             $this->errno = Rce::DUPLICATEVALUE;
             return true;
@@ -96,6 +106,10 @@ class RegistrationController implements Rce,Ue,C{
             case Rce::MAILNOTSENT:
                 $this->response_code = 500;
                 $this->response = C::EMAIL_ERROR;
+                break;
+            case Rce::DUPLICATEVALUE:
+                $this->response_code = 400;
+                $this->response = Rce::DUPLICATEVALUE_MSG;
                 break;
             case Rce::FROM_USER:
                 $errnoU = $this->user->getErrno();
