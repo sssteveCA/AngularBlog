@@ -18,6 +18,7 @@ import { NotAuthGuard } from './guard/not-auth.guard';
 import { EditArticleComponent } from './account/profile/edit-article/edit-article.component';
 import { InfoComponent } from './account/profile/info/info.component';
 import { PrivacyPolicyComponent } from './content/privacy-policy/privacy-policy.component';
+import { CookiePolicyComponent } from './content/cookie-policy/cookie-policy.component';
 
 const routes: Routes = [
   {path : "", component : IndexComponent},
@@ -27,6 +28,7 @@ const routes: Routes = [
   {path: "contatti", component: ContactsComponent},
   {path: "blog/:article", component: ArticleComponent},
   {path: "privacy_policy", component: PrivacyPolicyComponent},
+  {path: "cookie_policy", component: CookiePolicyComponent},
   {path: "login", component: LoginComponent,canActivate:[NotAuthGuard]},
   {path: "register", component: RegisterComponent,canActivate:[NotAuthGuard]},
   {path: "attiva", component: AttivaComponent,canActivate:[NotAuthGuard]},
