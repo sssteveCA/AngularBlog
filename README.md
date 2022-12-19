@@ -1,3 +1,8 @@
+
+<div>
+    Application deployed at <a href="http://ec2-3-15-164-14.us-east-2.compute.amazonaws.com">http://ec2-3-15-164-14.us-east-2.compute.amazonaws.com<a>
+</div>
+<br>
 <div>This is a blog app that allows to view and manage the articles created by registered users</div>
 <br>
 <div>
