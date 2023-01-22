@@ -47,7 +47,7 @@ if(isset($_GET["token_key"]) && $_GET["token_key"] != ""){
         $guic = new GetUserInfoController($guic_data);
         $guiv = new GetUserInfoView($guic);
         if($guiv->isDone()){
-            $response["done"] = true;
+            $response[C::KEY_DONE] = true;
             $data = $guiv->getMessageArray();
             $response[C::KEY_DATA]["email"] = $data["email"];
             $response[C::KEY_DATA]["name"] = $data["name"];

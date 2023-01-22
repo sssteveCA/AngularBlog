@@ -15,7 +15,7 @@ export default class GetUserInfo{
     get token_key(){return this._token_key;}
     get url(){return this._url;}
 
-    public async getNames(): Promise<object>{
+    public async getUserInfo(): Promise<object>{
         let response: object = {};
         try{
             await this.getUserInfoPromise().then(res => {

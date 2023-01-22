@@ -3,6 +3,9 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
+import GetUserInfo from 'src/classes/requests/profile/getuserinfo';
+import { Keys } from 'src/constants/keys';
+import GetUserInfoInterface from 'src/interfaces/requests/profile/getuserinfo.interface';
 import * as constants from '../../../../constants/constants';
 
 @Component({
@@ -12,14 +15,46 @@ import * as constants from '../../../../constants/constants';
 })
 export class InfoComponent implements OnInit {
 
+  email: string = "";
+  emailObject: object = {};
+  name: string = "";
+  surname: string = "";
+  username: string = "";
   urlUserInfo: string = constants.profileGetUserInfoUrl;
   userCookie: any = {};
 
   constructor(public http: HttpClient, public api: ApiService, public router: Router, public fb: FormBuilder) {
     this.observeFromService();
+    this.getUserInfo();
    }
 
   ngOnInit(): void {
+  }
+
+  private getUserInfo(): void{
+    let gui_data: GetUserInfoInterface = {
+      http: this.http,
+      token_key: localStorage.getItem("token_key") as string,
+      url: this.urlUserInfo
+    }
+    let gui: GetUserInfo = new GetUserInfo(gui_data);
+    gui.getUserInfo().then(obj => {
+      this.emailObject = { 'done': obj[Keys.DONE] }
+      if(obj[Keys.DONE] == true){
+        this.emailObject['email'] = obj[Keys.DATA]["email"];
+        this.name = obj[Keys.DATA]["name"];
+        this.surname = obj[Keys.DATA]["surname"];
+        this.username = obj[Keys.DATA]["username"];
+      }
+      else{
+        this.emailObject = {
+          'done': obj[Keys.DONE],
+          
+        }
+      }
+    }).catch(err => {
+      this.emailObject = { 'done': false }
+    })
   }
 
   observeFromService(): void{
