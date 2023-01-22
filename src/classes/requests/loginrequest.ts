@@ -29,7 +29,7 @@ export default class LoginRequest{
                 password: this._password
             };
             await this.loginPromise(login_values).then(res => {
-                console.log(res);
+                //console.log(res);
                 response = JSON.parse(res);
             }).catch(err => {
                 console.warn(err);

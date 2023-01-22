@@ -15,13 +15,9 @@ import * as constants from '../../../../constants/constants';
 })
 export class InfoComponent implements OnInit {
 
-  email: string = "";
   emailObject: object = {};
   namesObject: object = {};
   usernameObject: object = {};
-  name: string = "";
-  surname: string = "";
-  username: string = "";
   urlUserInfo: string = constants.profileGetUserInfoUrl;
   userCookie: any = {};
 

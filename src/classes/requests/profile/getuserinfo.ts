@@ -19,7 +19,7 @@ export default class GetUserInfo{
         let response: object = {};
         try{
             await this.getUserInfoPromise().then(res => {
-                console.log(res);
+                //console.log(res);
                 response = JSON.parse(res);
             })
         }catch(err){

@@ -7,7 +7,6 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class EmailComponent implements OnInit {
 
-  email: string|null = "";
   @Input() emailObject: object;
 
   constructor() { }
