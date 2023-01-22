@@ -133,6 +133,11 @@ export const notFoundUrl: string = '/404';
 export const profileGetNamesUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/info/getnames.php"
 
 /**
+ * URL to get the information of the logged user
+ */
+export const profileGetUserInfoUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/info/getuserinfo.php";
+
+/**
  * URL to get the logged username
  */
 export const profileGetUsernameUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/info/getusername.php";

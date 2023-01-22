@@ -3,7 +3,6 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
-
 import * as constants from '../../../../constants/constants';
 
 @Component({
@@ -13,6 +12,7 @@ import * as constants from '../../../../constants/constants';
 })
 export class InfoComponent implements OnInit {
 
+  urlUserInfo: string = constants.profileGetUserInfoUrl;
   userCookie: any = {};
 
   constructor(public http: HttpClient, public api: ApiService, public router: Router, public fb: FormBuilder) {
