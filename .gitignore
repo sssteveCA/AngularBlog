@@ -50,4 +50,9 @@ Thumbs.db
 .env
 *.txt
 
+#components excluded
+src/app/content/privacy-policy/*
+src/app/content/cookie-policy/*
+src/app/content/terms/*
+
 

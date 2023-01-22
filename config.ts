@@ -17,7 +17,7 @@ export namespace Config{
     export const SITE_PATH: string = "/repo/AngularBlog";
 
     //main directory of php files
-    export const PHP_FOLDER: string = "/src/assets/php";
+    export const PHP_FOLDER: string = "/assets/php";
 
     //Main path for php scripts
     export const PHP_SCRIPTS_URL: string = PHP_MAIN_URL+SITE_PATH+PHP_FOLDER;
