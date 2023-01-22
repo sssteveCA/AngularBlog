@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatFormField, MatFormFieldControl } from '@angular/material/form-field';
@@ -26,7 +26,7 @@ import { Keys } from 'src/constants/keys';
   templateUrl: './username.component.html',
   styleUrls: ['./username.component.scss']
 })
-export class UsernameComponent implements OnInit {
+export class UsernameComponent implements OnInit, OnChanges {
 
   userCookie: any = {};
   groupEu: FormGroup; //Edit username form group
@@ -34,15 +34,27 @@ export class UsernameComponent implements OnInit {
   updateUsernameUrl: string = constants.profileUpdateUsernameUrl;
   showUsernameSpinner: boolean = false;
   usernameError: boolean = false;
+  @Input() usernameObject: object;
 
   constructor(public http: HttpClient, public fb: FormBuilder, public api: ApiService, public router: Router) {
     this.observeFromService();
     this.setFormGroupUsername();
-    this.getUsername();
+   }
+
+   ngOnChanges(changes: SimpleChanges){
+    console.log("username component ngOnChanges changes => ");
+    console.log(changes);
+    if('usernameObject' in changes){
+      this.usernameError = changes['usernameObject']['currentValue'][Keys.DONE] == false ? true : false;
+      if(changes['usernameObject']['currentValue']['username']){
+        this.groupEu.controls['username'].setValue(changes['usernameObject']['currentValue']['username']);
+      }
+    }
    }
 
   ngOnInit(): void {
   }
+
 
   private editUsernameRequest(eu_params: EuParams): void{
     let uu_data: UpdateUsernameInterface = {
@@ -136,25 +148,6 @@ export class UsernameComponent implements OnInit {
         messageDialog(mdi);
       }
     }
-
-  private getUsername(): void{
-    let gu_data: GetUsernameInterface = {
-      http: this.http,
-      token_key: localStorage.getItem("token_key") as string,
-      url: this.getUsernameUrl
-    };
-    let gu: getUsername = new getUsername(gu_data);
-    gu.getUsername().then(obj => {
-      if(obj[Keys.DONE] == true){
-        this.groupEu.controls['username'].setValue(obj['username']);
-      }//if(obj[Keys.DONE] == true){
-      else{
-        this.usernameError = true;
-      }
-    }).catch(err => {
-      this.usernameError = true;
-    });
-  }
 
   private observeFromService(): void{
     this.api.userChanged.subscribe(userdata => {
