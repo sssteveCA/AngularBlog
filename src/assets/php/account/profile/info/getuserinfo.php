@@ -7,6 +7,8 @@ require_once("../../../interfaces/from_errors.php");
 require_once("../../../interfaces/model_errors.php");
 require_once("../../../interfaces/token_errors.php");
 require_once("../../../interfaces/user_errors.php");
+require_once("../../../interfaces/account/getuserinfocontroller_errors.php");
+require_once("../../../interfaces/account/getuserinfoview_errors.php");
 require_once("../../../traits/error.trait.php");
 require_once("../../../traits/message.trait.php");
 require_once("../../../traits/messagearray.trait.php");
@@ -16,7 +18,13 @@ require_once("../../../../../../vendor/autoload.php");
 require_once("../../../classes/model.php");
 require_once("../../../classes/token.php");
 require_once("../../../classes/user.php");
+require_once("../../../classes/account/getuserinfocontroller.php");
+require_once("../../../classes/account/getuserinfoview.php");
 
+use AngularBlog\Interfaces\Account\GetUserInfoControllerErrors as Guice;
+use AngularBlog\Classes\Account\GetUserInfoController;
+use AngularBlog\Classes\Account\GetUserInfoView;
+use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\User;
 use Dotenv\Dotenv;
@@ -33,12 +41,31 @@ if(isset($_GET["token_key"]) && $_GET["token_key"] != ""){
     try{
         $token = new Token($token_data);
         $user = new User([]);
+        $guic_data = [
+            'token' => $token, 'user' => $user
+        ];
+        $guic = new GetUserInfoController($guic_data);
+        $guiv = new GetUserInfoView($guic);
+        if($guiv->isDone()){
+            $response["done"] = true;
+            $data = $guiv->getMessageArray();
+            $response["data"]["email"] = $data["email"];
+            $response["data"]["name"] = $data["name"];
+            $response["data"]["surname"] = $data["surname"];
+            $response["data"]["username"] = $data["username"];
+        }
+        else{
+            if($guic->getErrno() == Guice::FROM_TOKEN){
+                if($guic->getToken()->getErrno() == Te::TOKENEXPIRED)
+                    $response["expired"] = true;
+            }
+        }
+        http_response_code($guiv->getResponseCode());
     }catch(Exception $e){
         http_response_code(500);
         $error = $e->getMessage();
         file_put_contents(C::FILE_LOG, "{$error}\r\n",FILE_APPEND);
     }
-
 }//if(isset($_GET["token_key"]) && $_GET["token_key"] != ""){
 else
     $response["msg"] = "Fornisci un token di autorizzazione per continuare";

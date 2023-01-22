@@ -29,7 +29,9 @@ class GetUserInfoController implements Guice{
     private string $username;
 
     public function __construct(array $data){
-
+        $this->checkValues($data);
+        $this->getUserInfo();
+        $this->setResponse();
     }
     
     public function getToken(){ return $this->token; }
