@@ -53,6 +53,12 @@ interface Constants{
     //File
     const FILE_LOG = "./log.txt";
 
+    //Keys
+    const KEY_DATA = "data";
+    const KEY_DONE = "done";
+    const KEY_EXPIRED = "expired";
+    const KEY_MESSAGE = "msg";
+
     //Login
     const LOGIN_ERROR = "Errore durante il login. ".Constants::ADMIN_CONTACT;
     const LOGIN_NOTLOGGED = "Devi effettuare l'accesso per eseguire questa operazione";
