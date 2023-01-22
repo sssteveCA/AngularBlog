@@ -1,0 +1,15 @@
+
+
+@mixin email-component-style(){
+    .email-show{
+        text-align: center;
+        font-size: 1.2em;
+        padding: 25px 0px;
+        span{
+            font-weight: bold;
+            font-style: italic;
+        }
+    }
+}
+
+@include email-component-style();
