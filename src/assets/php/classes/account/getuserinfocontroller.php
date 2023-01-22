@@ -9,6 +9,7 @@ use AngularBlog\Exceptions\NoUserInstanceException;
 use AngularBlog\Exceptions\TokenTypeMismatchException;
 use AngularBlog\Exceptions\UserTypeMismatchException;
 use AngularBlog\Interfaces\Account\GetUserInfoControllerErrors as Guice;
+use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Traits\ResponseMultipleTrait;
 use MongoDB\BSON\ObjectId;
@@ -36,6 +37,19 @@ class GetUserInfoController implements Guice{
     public function getName(){ return $this->name; }
     public function getSurname(){ return $this->surname; }
     public function getUsername(){ return $this->username; }
+    public function getError(){
+        switch($this->errno){
+            case Guice::FROM_TOKEN:
+                $this->error = Guice::FROM_TOKEN_MSG;
+                break;
+            case Guice::FROM_USER:
+                $this->error = Guice::FROM_USER_MSG;
+                break;
+            default:
+                $this->error = null;
+                break;
+        }
+    }
 
     private function checkValues(array $data){
         if(!isset($data['token'])) throw new NoTokenInstanceException(Guice::NOTOKENINSTANCE_EXC);
@@ -74,6 +88,37 @@ class GetUserInfoController implements Guice{
         $this->surname = $this->user->getSurname();
         $this->username = $this->user->getUsername();
         return true;
+    }
+
+    /**
+     * Set the response to send to the view
+     */
+    private function setResponse(){
+        switch($this->errno){
+            case 0:
+                $this->response_array = [
+                    'email' => $this->email,
+                    'name' => $this->name,
+                    'surname' => $this->surname,
+                    'username' => $this->username
+                ];
+                $this->response_code = 200;
+                break;
+            case Guice::FROM_TOKEN:
+                $errnoT = $this->token->getErrno();
+                switch($errnoT){
+                    case Te::TOKENEXPIRED:
+                        $this->response_code = 401;
+                        break;
+                    default:
+                        $this->response_code = 500;
+                        break;
+                }
+                break;
+            default:
+                $this->response_code = 500;
+                break;
+        }
     }
 
 }
