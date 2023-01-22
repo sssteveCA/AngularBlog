@@ -17,6 +17,8 @@ export class InfoComponent implements OnInit {
 
   email: string = "";
   emailObject: object = {};
+  namesObject: object = {};
+  usernameObject: object = {};
   name: string = "";
   surname: string = "";
   username: string = "";
@@ -40,20 +42,18 @@ export class InfoComponent implements OnInit {
     let gui: GetUserInfo = new GetUserInfo(gui_data);
     gui.getUserInfo().then(obj => {
       this.emailObject = { 'done': obj[Keys.DONE] }
+      this.namesObject = { 'done': obj[Keys.DONE] }
+      this.usernameObject = { 'done': obj[Keys.DONE] }
       if(obj[Keys.DONE] == true){
-        this.emailObject['email'] = obj[Keys.DATA]["email"];
-        this.name = obj[Keys.DATA]["name"];
-        this.surname = obj[Keys.DATA]["surname"];
-        this.username = obj[Keys.DATA]["username"];
-      }
-      else{
-        this.emailObject = {
-          'done': obj[Keys.DONE],
-          
-        }
+        this.emailObject['email'] = obj[Keys.DATA]['email'];
+        this.namesObject['name'] = obj[Keys.DATA]['name'];
+        this.namesObject['surname'] = obj[Keys.DATA]['surname'];
+        this.usernameObject['username'] = obj[Keys.DATA]['username'];
       }
     }).catch(err => {
       this.emailObject = { 'done': false }
+      this.namesObject = { 'done': false }
+      this.usernameObject = { 'done': false }
     })
   }
 
