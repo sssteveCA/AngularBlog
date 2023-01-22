@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
@@ -21,7 +21,7 @@ import * as constants from '../../../../../constants/constants';
   templateUrl: './names.component.html',
   styleUrls: ['./names.component.scss']
 })
-export class NamesComponent implements OnInit {
+export class NamesComponent implements OnInit, OnChanges {
 
   userCookie: any = {};
   updateNamesUrl: string = constants.profileUpdateNamesUrl;
@@ -29,35 +29,27 @@ export class NamesComponent implements OnInit {
   groupNames: FormGroup;
   showNamesSpinner: boolean = false;
   namesError: boolean = false;
+  @Input() namesObject: object;
   
 
   constructor(public http: HttpClient, public api: ApiService, public router: Router, public fb: FormBuilder) { 
     this.observeFromService();
     this.setFormGroupNames();
-    this.getNames();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+      console.log("Names component ngOnChanges changes => ");
+      console.log(changes);
+      if('namesObject' in changes){
+        this.namesError = changes['namesObject']['currentValue'][Keys.DONE] == false ? true : false;
+        if(changes['namesObject']['currentValue']['name'] && changes['namesObject']['currentValue']['surname']){
+          this.groupNames.controls['name'].setValue(changes['namesObject']['currentValue']['name']);
+          this.groupNames.controls['surname'].setValue(changes['namesObject']['currentValue']['surname']);
+        }
+      }
   }
 
   ngOnInit(): void {
-  }
-
-  private getNames(): void{
-    let gn_data: GetNamesInterface = {
-      http: this.http,
-      token_key: localStorage.getItem("token_key") as string,
-      url: this.getNamesUrl
-    }
-    let gn: GetNames = new GetNames(gn_data);
-    gn.getNames().then(obj => {
-      if(obj[Keys.DONE] == true){
-        this.groupNames.controls["name"].setValue(obj[Keys.DATA]["name"]);
-        this.groupNames.controls["surname"].setValue(obj[Keys.DATA]["surname"]);
-      }
-      else{
-        this.namesError = true;
-      }
-    }).catch(err => {
-      this.namesError= true;
-    });
   }
 
   private editNamesRequest(en_params: EnParams): void{
