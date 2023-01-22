@@ -24,9 +24,9 @@ use AngularBlog\Classes\Subscribe\VerifyController;
 use AngularBlog\Classes\Subscribe\VerifyView;
 use Dotenv\Dotenv;
 
-$response = array();
-$response['msg'] = '';
-$response['done'] = false;
+$response = [
+    C::KEY_DONE => false, C::KEY_MESSAGE => ''
+];
 
 if(isset($_REQUEST['emailVerif']) && $_REQUEST['emailVerif'] != ''){
     if(preg_match(User::$regex['emailVerif'],$_REQUEST['emailVerif'])){  
@@ -38,10 +38,10 @@ if(isset($_REQUEST['emailVerif']) && $_REQUEST['emailVerif'] != ''){
             $user = new User($data);
             $vc = new VerifyController($user);
             $vv = new VerifyView($vc);
-            $response['msg'] = $vv->getMessage();
+            $response[C::KEY_MESSAGE] = $vv->getMessage();
             file_put_contents(C::FILE_LOG,"Msg => \r\n",FILE_APPEND);
-            file_put_contents(C::FILE_LOG,$response['msg']."\r\n",FILE_APPEND);
-            switch($response['msg']){
+            file_put_contents(C::FILE_LOG,$response[C::KEY_MESSAGE]."\r\n",FILE_APPEND);
+            switch($response[C::KEY_MESSAGE]){
                 case C::ACTIVATION_OK:
                     http_response_code(200);
                     $response['status'] = 1;

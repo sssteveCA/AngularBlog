@@ -37,9 +37,9 @@ $input = file_get_contents('php://input');
 $delete = json_decode($input,true);
 
 $response = [
-    'done' => false,
-    'expired' => false,
-    'msg' => ''
+    C::KEY_DONE => false,
+    C::KEY_EXPIRED => false,
+    C::KEY_MESSAGE => ''
     //'delete' => $delete
 ];
 
@@ -57,25 +57,25 @@ if(isset($delete['article_id'],$delete['token_key']) && $delete['article_id'] !=
         ];
         $deleteController = new DeleteController($dc_data);
         $deleteView = new DeleteView($deleteController);
-        $response['msg'] = $deleteView->getMessage();
+        $response[C::KEY_MESSAGE] = $deleteView->getMessage();
         if($deleteView->isDone())
-            $response['done'] = true;
+            $response[C::KEY_DONE] = true;
         else{
             $errnoT = $deleteController->getToken()->getErrno();
             if($errnoT == Te::TOKENEXPIRED){
-                $response['expired'] = true;
+                $response[C::KEY_EXPIRED] = true;
             }
         }
         http_response_code($deleteView->getResponseCode());
     }catch(Exception $e){
         http_response_code(500);
         file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
-        $response['msg'] = C::ARTICLEDELETE_ERROR;
+        $response[C::KEY_MESSAGE] = C::ARTICLEDELETE_ERROR;
     }
 }//if(isset($delete['article_id'],$delete['token_key']) && $delete['article_id'] != '' && $delete['token_key'] != '' ){
 else{
     http_response_code(400);
-    $response['msg'] = C::ARTICLEDELETE_ERROR;
+    $response[C::KEY_MESSAGE] = C::ARTICLEDELETE_ERROR;
 }
 
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);

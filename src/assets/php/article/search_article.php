@@ -19,9 +19,9 @@ use AngularBlog\Classes\User;
 use Dotenv\Dotenv;
 use MongoDB\BSON\ObjectId;
 
-$response = array();
-$response['msg'] = '';
-$response['done'] = false; 
+$response = [
+    C::KEY_DONE => false, C::KEY_MESSAGE => ''
+];
 $params = array();
 
 if(isset($_GET['permalink']) && $_GET['permalink'] != ''){
@@ -56,19 +56,19 @@ if(isset($_GET['permalink']) && $_GET['permalink'] != ''){
                     'username' => $user->getUsername()
                 ];
             }
-            $response['done'] = true;
+            $response[C::KEY_DONE] = true;
         }//if($got){
         else{
-            $response['msg'] = "Impossibile trovare l'articolo con permalink {$permalink}";
+            $response[C::KEY_MESSAGE] = "Impossibile trovare l'articolo con permalink {$permalink}";
             $response['notfound'] = true;
         }
             
     }catch(Exception $e){
-        $response['msg'] = C::ERROR_UNKNOWN;
+        $response[C::KEY_MESSAGE] = C::ERROR_UNKNOWN;
     }
 }//if(isset($_GET['permalink']) && $_GET['permalink'] != ''){
 else
-    $response['msg'] = C::FILL_ALL_FIELDS;
+    $response[C::KEY_MESSAGE] = C::FILL_ALL_FIELDS;
 
 echo json_encode($response,JSON_UNESCAPED_UNICODE);
 ?>

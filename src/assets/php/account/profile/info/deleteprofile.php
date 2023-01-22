@@ -32,7 +32,7 @@ use AngularBlog\Interfaces\TokenErrors as Te;
 use Dotenv\Dotenv;
 
 $response = [
-    "done" => false, "expired" => false, "msg" => ""
+    C::KEY_DONE => false, C::KEY_EXPIRED => false, C::KEY_MESSAGE => ""
 ];
 
 $input = file_get_contents("php://input");
@@ -53,32 +53,32 @@ if(isset($delete["token_key"],$delete["password"],$delete["conf_password"])){
             ];
             $dacController = new DeleteAccountController($dac_data);
             $dacView = new DeleteAccountView($dacController);
-            $response['msg'] = $dacView->getMessage();
+            $response[C::KEY_MESSAGE] = $dacView->getMessage();
             if($dacView->isDone()){
-                $response['done'] = true;
+                $response[C::KEY_DONE] = true;
             }
             else{
                 $errnoT = $dacController->getToken()->getErrno();
                 if($errnoT == Te::TOKENEXPIRED){
-                    $response['expired'] = true;
-                    $response['msg'] = Te::TOKENEXPIRED_MSG;
+                    $response[C::KEY_EXPIRED] = true;
+                    $response[C::KEY_MESSAGE] = Te::TOKENEXPIRED_MSG;
                 }
             }
             http_response_code($dacView->getResponseCode());
         }catch(Exception $e){
             //echo "deleteprofile.php exception => ".var_export($e->getMessage(),true)."\r\n";
             http_response_code(500);
-            $response['msg'] = C::ACCOUNTDELETE_ERROR;
+            $response[C::KEY_MESSAGE] = C::ACCOUNTDELETE_ERROR;
         }
     }//if($delete["password"] == $delete["conf_password"]){
     else{
         http_response_code(400);
-        $response['msg'] = C::ERROR_CONFIRM_PASSWORD_DIFFERENT;
+        $response[C::KEY_MESSAGE] = C::ERROR_CONFIRM_PASSWORD_DIFFERENT;
     }
 }//if(isset($delete["token_key"],$delete["password"],$delete["conf_password"])){
 else{
     http_response_code(400);
-    $response['msg'] = C::FILL_ALL_FIELDS;
+    $response[C::KEY_MESSAGE] = C::FILL_ALL_FIELDS;
 }
 
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);

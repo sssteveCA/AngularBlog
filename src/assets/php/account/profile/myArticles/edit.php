@@ -36,9 +36,9 @@ $input = file_get_contents('php://input');
 $post = json_decode($input,true);
 
 $response = array(
-    'done' => false,
-    'expired' => false,
-    'msg' => ''
+    C::KEY_DONE => false,
+    C::KEY_EXPIRED => false,
+    C::KEY_MESSAGE => ''
 );
 
 if(isset($post['article'],$post['token_key']) && $post['token_key'] != ''){
@@ -68,30 +68,30 @@ if(isset($post['article'],$post['token_key']) && $post['token_key'] != ''){
             ];
             $editController = new EditContoller($ec_data);
             $editView = new EditView($editController);
-            $response['msg'] = $editView->getMessage();
+            $response[C::KEY_MESSAGE] = $editView->getMessage();
             if($editView->isDone())
-                $response['done'] = true;
+                $response[C::KEY_DONE] = true;
             else{
                 $errnoT = $editController->getToken()->getErrno();
                 if($errnoT == Te::TOKENEXPIRED){
-                    $response['expired'] = true;
+                    $response[C::KEY_EXPIRED] = true;
                 }
             }
             http_response_code($editView->getResponseCode());
         }catch(Exception $e){
             http_response_code(500);
             file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
-            $response['msg'] = C::ARTICLEEDITING_ERROR;
+            $response[C::KEY_MESSAGE] = C::ARTICLEEDITING_ERROR;
         }
     }//if(isset($post['article']['id'],$post['article']['title'],$post['article']['introtext'],$post['article']['content'],$post['article']['permalink'],$post['article']['categories'],$post['article']['tags']) && $post['article']['id'] != '' && $post['article']['title'] != '' && $post['article']['introtext'] != '' && $post['article']['content'] != '' && $post['article']['permalink'] != ''){
     else{
         http_response_code(400);
-        $response['msg'] = C::FILL_ALL_FIELDS;
+        $response[C::KEY_MESSAGE] = C::FILL_ALL_FIELDS;
     }
 }//if(isset($post['article'],$post['token_key']) && $post['token_key'] != ''){
 else{
     http_response_code(400);
-    $response['msg'] = C::ARTICLEEDITING_ERROR;
+    $response[C::KEY_MESSAGE] = C::ARTICLEEDITING_ERROR;
 }
     
 

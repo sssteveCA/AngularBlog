@@ -32,7 +32,7 @@ use Dotenv\Dotenv;
 
 
 $response = [
-    "done" => false, "expired" => false, "msg" => "", "data" => []
+    C::KEY_DONE => false, C::KEY_EXPIRED => false, C::KEY_MESSAGE => "", "data" => []
 ];
 
 if(isset($_GET["token_key"])){
@@ -54,7 +54,7 @@ if(isset($_GET["token_key"])){
         else{
             if($guc->getErrno() == Gnce::FROM_TOKEN){
                 if($guc->getToken()->getErrno() == Te::TOKENEXPIRED)
-                    $response["expired"] = true;
+                    $response[C::KEY_EXPIRED] = true;
             }
         }//else di if($gnv->isDone()){
         http_response_code($gnv->getResponseCode());
@@ -65,7 +65,7 @@ if(isset($_GET["token_key"])){
     }
 }//if(isset($_GET["token_key"])){
 else
-    $response["msg"] = "Fornisci un token di autorizzazione per continuare";
+    $response[C::KEY_MESSAGE] = "Fornisci un token di autorizzazione per continuare";
 
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_SLASHES);
 ?>

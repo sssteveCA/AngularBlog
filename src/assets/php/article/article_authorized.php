@@ -32,7 +32,7 @@ use Dotenv\Dotenv;
 $response = array(
     'authorized' => false,
     'article' => [],
-    'msg' => ''
+    C::KEY_MESSAGE => ''
 );
 
 $input = file_get_contents("php://input");
@@ -53,8 +53,8 @@ if(isset($post['token_key'],$post['username'],$post['article_id']) && $post['tok
         ];
         $aac = new ArticleAuthorizedController($data);
         $aav = new ArticleAuthorizedView($aac);
-        $response['msg'] = $aav->getMessage();
-        if($response['msg'] != Aace::ARTICLE_NOTFOUND_MSG)
+        $response[C::KEY_MESSAGE] = $aav->getMessage();
+        if($response[C::KEY_MESSAGE] != Aace::ARTICLE_NOTFOUND_MSG)
             //Article found with passed id
         if($aav->isDone()){
             $response['authorized'] = true;
@@ -73,12 +73,12 @@ if(isset($post['token_key'],$post['username'],$post['article_id']) && $post['tok
     }catch(Exception $e){
         http_response_code(500);
         file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
-        $response['msg'] = C::ERROR_UNKNOWN;
+        $response[C::KEY_MESSAGE] = C::ERROR_UNKNOWN;
     }
 }//if(isset($post['token_key'],$post['username'],$post['article_id']) && $post['token_key'] != '' && $post['username'] != '' && $post['article_id'] != ''){
 else{
     http_response_code(400);
-    $response['msg'] = C::FILL_ALL_FIELDS;
+    $response[C::KEY_MESSAGE] = C::FILL_ALL_FIELDS;
 }
     
 

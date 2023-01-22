@@ -31,7 +31,7 @@ use Dotenv\Dotenv;
 use AngularBlog\Interfaces\Constants as C;
 
 $response = [
-    "done" => false, "expired" => false, "msg" => "","data" => []
+    C::KEY_DONE => false, C::KEY_EXPIRED => false, C::KEY_MESSAGE => "", C::KEY_DATA => []
 ];
 
 if(isset($_GET["token_key"]) && $_GET["token_key"] != ""){
@@ -49,15 +49,15 @@ if(isset($_GET["token_key"]) && $_GET["token_key"] != ""){
         if($guiv->isDone()){
             $response["done"] = true;
             $data = $guiv->getMessageArray();
-            $response["data"]["email"] = $data["email"];
-            $response["data"]["name"] = $data["name"];
-            $response["data"]["surname"] = $data["surname"];
-            $response["data"]["username"] = $data["username"];
+            $response[C::KEY_DATA]["email"] = $data["email"];
+            $response[C::KEY_DATA]["name"] = $data["name"];
+            $response[C::KEY_DATA]["surname"] = $data["surname"];
+            $response[C::KEY_DATA]["username"] = $data["username"];
         }
         else{
             if($guic->getErrno() == Guice::FROM_TOKEN){
                 if($guic->getToken()->getErrno() == Te::TOKENEXPIRED)
-                    $response["expired"] = true;
+                    $response[C::KEY_EXPIRED] = true;
             }
         }
         http_response_code($guiv->getResponseCode());
@@ -68,7 +68,7 @@ if(isset($_GET["token_key"]) && $_GET["token_key"] != ""){
     }
 }//if(isset($_GET["token_key"]) && $_GET["token_key"] != ""){
 else
-    $response["msg"] = "Fornisci un token di autorizzazione per continuare";
+    $response[c::KEY_MESSAGE] = "Fornisci un token di autorizzazione per continuare";
 
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
 ?>

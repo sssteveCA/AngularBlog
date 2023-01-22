@@ -16,10 +16,7 @@ use AngularBlog\Classes\Token;
 use Dotenv\Dotenv;
 
 //This script check if user is still logged
-$response = array(
-    'msg' => '',
-    'logged' => false
-);
+$response = array( C::KEY_MESSAGE => '', 'logged' => false );
 
 $post = file_get_contents('php://input');
 $postDecode = json_decode($post,true);
@@ -41,7 +38,7 @@ if(isset($postDecode['token_key'],$postDecode['username'])){
             if(!$token->isExpired())
                 $response['logged'] = true;
             else{
-                $response['msg'] = $token->getError();
+                $response[C::KEY_MESSAGE] = $token->getError();
                 //$token->token_delete(['token_key' => $token->getTokenKey(), 'username' => $token->getUsername()]);
             }
                 

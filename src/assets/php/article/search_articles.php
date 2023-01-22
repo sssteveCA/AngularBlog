@@ -20,8 +20,8 @@ use Dotenv\Dotenv;
 use MongoDB\BSON\Regex;
 
 $response = [
-    'msg' => '',
-    'done' => false
+    C::KEY_MESSAGE => '',
+    C::KEY_DONE => false
 ];
 $field = 'title';
 
@@ -54,17 +54,17 @@ if(isset($_POST['query']) && $_POST['query'] != ''){
                     'last_modified' => $article->getLastMod()
                 );
             }//foreach($articles as $article){
-            $response['done'] = true;
+            $response[C::KEY_DONE] = true;
         }//if($found){
         else
-            $response['msg'] = 'La ricerca di '.$query.' non ha fornito alcun risultato';
+            $response[C::KEY_MESSAGE] = 'La ricerca di '.$query.' non ha fornito alcun risultato';
     }catch(Exception $e){
         file_put_contents(C::FILE_LOG,"Search articles Exception => ".var_export($e,true)."\r\n",FILE_APPEND);
-        $response['msg'] = C::SEARCH_ERROR;
+        $response[C::KEY_MESSAGE] = C::SEARCH_ERROR;
     }
 }//if(isset($_POST['query']) && $_POST['query'] != ''){
 else 
-    $response['msg'] = C::FILL_ALL_FIELDS;
+    $response[C::KEY_MESSAGE] = C::FILL_ALL_FIELDS;
 
 echo json_encode($response);
 ?>

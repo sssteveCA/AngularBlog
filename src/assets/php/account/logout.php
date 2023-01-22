@@ -24,8 +24,8 @@ use AngularBlog\Classes\Logout\LogoutController;
 use Dotenv\Dotenv;
 
 $response = array(
-    'msg' => '',
-    'done' => false
+    C::KEY_MESSAGE => '',
+    C::KEY_DONE => false
 );
 
 if(isset($_GET['token_key']) && $_GET['token_key'] != ''){
@@ -43,25 +43,25 @@ if(isset($_GET['token_key']) && $_GET['token_key'] != ''){
             $logout = $logoutView->isLogout();
             if($logout){
                 //Server side logout done
-                $response['done'] = true;
+                $response[C::KEY_DONE] = true;
             }
             else
-                $response['msg'] = $logoutView->getMessage();
+                $response[C::KEY_MESSAGE] = $logoutView->getMessage();
             http_response_code($logoutView->getResponseCode());
         }//if($get){
         else{
             http_response_code(404);
-            $response['msg'] = C::LOGOUT_ERROR_USERNOTFOUND;
+            $response[C::KEY_MESSAGE] = C::LOGOUT_ERROR_USERNOTFOUND;
         }          
     }catch(Exception $e){
         http_response_code(500);
         file_put_contents(C::FILE_LOG,$e->getMessage()."\r\n",FILE_APPEND);
-        $response['msg'] = C::LOGOUT_ERROR;
+        $response[C::KEY_MESSAGE] = C::LOGOUT_ERROR;
     }
 }//if(isset($_GET['token_key']) && $_GET['token_key'] != ''){
 else{
     http_response_code(400);
-    $response['msg'] = C::FILL_ALL_FIELDS;
+    $response[C::KEY_MESSAGE] = C::FILL_ALL_FIELDS;
 }
     
 

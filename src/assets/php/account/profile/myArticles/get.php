@@ -28,9 +28,9 @@ use AngularBlog\Classes\Myarticles\GetController;
 use AngularBlog\Classes\Myarticles\GetView;
 use Dotenv\Dotenv;
 
-$response = array();
-$response['done'] = false;
-$response['msg'] = '';
+$response = [
+    C::KEY_DONE => false, C::KEY_MESSAGE => ''
+];
 
 if(isset($_GET['token_key']) && $_GET['token_key'] != ''){
     $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../../");
@@ -58,20 +58,20 @@ if(isset($_GET['token_key']) && $_GET['token_key'] != ''){
                     'last_modified' => $article->getLastMod()
                 );
             }//foreach($articles as $article){
-            $response['done'] = true;
+            $response[C::KEY_DONE] = true;
         }
         else
-            $response['msg'] = $getView->getMessage();
+            $response[C::KEY_MESSAGE] = $getView->getMessage();
         http_response_code($getView->getResponseCode());
     }catch(Exception $e){
         http_response_code(500);
-        $response['msg'] = C::SEARCH_ERROR;
+        $response[C::KEY_MESSAGE] = C::SEARCH_ERROR;
         file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
     }  
 }//if(isset($_GET['token_key']) && $_GET['token_key'] != ''){
 else{
     http_response_code(400);
-    $response['msg'] = C::FILL_ALL_FIELDS;
+    $response[C::KEY_MESSAGE] = C::FILL_ALL_FIELDS;
 }
     
 

@@ -36,9 +36,9 @@ $input = file_get_contents("php://input");
 $patch = json_decode($input, true);
 
 $response = [
-    'done' => false,
-    'expired' => false,
-    'msg' => ''
+    C::KEY_DONE => false,
+    C::KEY_EXPIRED => false,
+    C::KEY_MESSAGE => ''
     //'patch' => $patch
 ];
 
@@ -59,27 +59,27 @@ if(isset($patch['comment_id'],$patch['new_comment'],$patch['old_comment'],$patch
         ];
         $editController = new EditController($ec_data);
         $editView = new EditView($editController);
-        $response['msg'] = $editView->getMessage();
+        $response[C::KEY_MESSAGE] = $editView->getMessage();
         if($editView->isDone()){
-            $response['done'] = true;
+            $response[C::KEY_DONE] = true;
             $response['comment'] = $comment->getComment();
         } 
         else{
             $errnoT = $editController->getToken()->getErrno();
             if($errnoT == Te::TOKENEXPIRED){
-                $response['expired'] = true;
+                $response[C::KEY_EXPIRED] = true;
             }
         }
         http_response_code($editView->getResponseCode());
     }catch(Exception $e){
         http_response_code(500);
         //file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
-        $response['msg'] = C::COMMENTUPDATE_ERROR;
+        $response[C::KEY_MESSAGE] = C::COMMENTUPDATE_ERROR;
     }
 }//if(isset($patch['comment_id'],$patch['new_comment'],$patch['old_comment'],$patch['token_key']) && $patch['comment_id'] != '' && $patch['new_comment'] != '' && $patch['old_comment'] != '' && $patch['token_key'] != ''){
 else{
     http_response_code(400);
-    $response['msg'] = C::COMMENTUPDATE_ERROR;
+    $response[C::KEY_MESSAGE] = C::COMMENTUPDATE_ERROR;
 }
 
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);

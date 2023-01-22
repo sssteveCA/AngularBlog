@@ -37,7 +37,7 @@ use AngularBlog\Interfaces\TokenErrors as Te;
 use Dotenv\Dotenv;
 
 $response = [
-    "done" => false, "expired" => false, "msg" => ""
+    C::KEY_DONE => false, C::KEY_EXPIRED => false, C::KEY_MESSAGE => ""
 ];
 
 $input = file_get_contents("php://input");
@@ -57,31 +57,31 @@ if(isset($update["token_key"],$update["new_name"],$update["new_surname"]) && $up
             ];
             $unc = new UpdateNamesController($unc_data);
             $unv = new UpdateNamesView($unc);
-            $response['msg'] = $unv->getMessage();
+            $response[C::KEY_MESSAGE] = $unv->getMessage();
             if($unv->isDone()) 
-                $response['done'] = true;
+                $response[C::KEY_DONE] = true;
             else{
                 $errnoT = $unc->getToken()->getErrno();
                 if($errnoT == Te::TOKENEXPIRED){
-                    $response['expired'] = true;
-                    $response['msg'] = Te::TOKENEXPIRED_MSG;
+                    $response[C::KEY_EXPIRED] = true;
+                    $response[C::KEY_MESSAGE] = Te::TOKENEXPIRED_MSG;
                 } 
             }
             http_response_code($unv->getResponseCode());
         }catch(Exception $e){
             http_response_code(500);
             echo "Exception message => ".$e->getMessage()."\r\n";
-            $response["msg"] = C::NAMES_UPDATE_ERROR;
+            $response[C::KEY_MESSAGE] = C::NAMES_UPDATE_ERROR;
         }
     }//if(preg_match(User::$regex["name"],$update["name"]) && preg_match(User::$regex["surname"],$update["surname"])){
     else{
         http_response_code(400);
-        $response["msg"] = "Il formato del nome o del cognome non è corretto";
+        $response[C::KEY_MESSAGE] = "Il formato del nome o del cognome non è corretto";
     }
 }//if(isset($update["token_key"],$update["name"],$update["surname"]) && $update["token_key"] != "" && $update["name"] != "" && $update["surname"] != ""){
 else{
     http_response_code(400);
-    $response["msg"] = C::FILL_ALL_FIELDS;
+    $response[C::KEY_MESSAGE] = C::FILL_ALL_FIELDS;
 }
 
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);

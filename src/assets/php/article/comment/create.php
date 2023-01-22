@@ -32,9 +32,9 @@ $input = file_get_contents("php://input");
 $post = json_decode($input,true);
 
 $response = array(
-    'done' => false,
-    'expired' => false,
-    'msg' => ''
+    C::KEY_DONE => false,
+    C::KEY_EXPIRED => false,
+    C::KEY_MESSAGE => ''
 );
 
 if(isset($post['permalink'],$post['token_key'],$post['comment_text']) && $post['permalink'] != '' && $post['token_key'] != '' && $post['comment_text'] != ''){
@@ -50,7 +50,7 @@ if(isset($post['permalink'],$post['token_key'],$post['comment_text']) && $post['
         $addController = new AddController($data);
         $addCommentView = new AddView($addController);
         if($addCommentView->isDone())
-            $response['done'] = true;
+            $response[C::KEY_DONE] = true;
         else{
             $msg = $addCommentView->getMessage();
         }
@@ -65,14 +65,14 @@ if(isset($post['permalink'],$post['token_key'],$post['comment_text']) && $post['
             case Ace::NOTOKENKEY_EXC:
             case Ave::NOADDCOMMENTCONTROLLERINSTANCE_EXC:
             default:     
-                $response['msg'] = C::COMMENTCREATION_ERROR;
+                $response[C::KEY_MESSAGE] = C::COMMENTCREATION_ERROR;
                 break;
         }
     }
 }//if(isset($post['permalink'],$post['token_key'],$post['comment'])){
 else{
     http_response_code(400);
-    $response['msg'] = C::INSERTCOMMENT_ERROR;
+    $response[C::KEY_MESSAGE] = C::INSERTCOMMENT_ERROR;
 }
 
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);

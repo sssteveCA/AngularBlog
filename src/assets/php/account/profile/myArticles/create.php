@@ -28,9 +28,9 @@ use AngularBlog\Classes\Myarticles\CreateView;
 use Dotenv\Dotenv;
 
 $response = array(
-    'done' => false,
-    'expired' => false,
-    'msg' => ''
+    C::KEY_DONE => false,
+    C::KEY_EXPIRED => false,
+    C::KEY_MESSAGE => ''
 );
 
 $input = file_get_contents('php://input');
@@ -47,13 +47,13 @@ if(isset($post['token_key'],$post['article']) && $post['token_key'] != ''){
     try{
         $createController = new CreateController($data);
         $createView = new CreateView($createController);
-        $response['msg'] = $createView->getMessage();
+        $response[C::KEY_MESSAGE] = $createView->getMessage();
         if($createView->isDone())
-            $response['done'] = true;
+            $response[C::KEY_DONE] = true;
         else{
             $errnoT = $createController->getToken()->getErrno();
             if($errnoT == Te::TOKENEXPIRED){
-                $response['expired'] = true;
+                $response[C::KEY_EXPIRED] = true;
             }
         }
         http_response_code($createView->getResponseCode());
@@ -62,20 +62,20 @@ if(isset($post['token_key'],$post['article']) && $post['token_key'] != ''){
         switch($msg){
             case Cce::NOARTICLEDATA_EXC:
                 http_response_code(400);
-                $response['msg'] = $msg;
+                $response[C::KEY_MESSAGE] = $msg;
                 break;
             case Cce::NOTOKENKEY_EXC:
             case Cve::NOCREATECONTROLLERINSTANCE_EXC:
             default:
                 http_response_code(500);
-                $response['msg'] = C::ARTICLECREATION_ERROR;
+                $response[C::KEY_MESSAGE] = C::ARTICLECREATION_ERROR;
                 break;
         }
     }
 }//if(isset($post['token_key']) && $post['token_key'] != ''){
 else{
     http_response_code(400);
-    $response['msg'] = C::FILL_ALL_FIELDS;
+    $response[C::KEY_MESSAGE] = C::FILL_ALL_FIELDS;
 }
     
 

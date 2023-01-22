@@ -36,7 +36,7 @@ use AngularBlog\Interfaces\TokenErrors as Te;
 use Dotenv\Dotenv;
 
 $response = [
-    "done" => false, "expired" => false, "msg" => ""
+    C::KEY_DONE => false, C::KEY_EXPIRED => false, C::KEY_MESSAGE => ""
 ];
 
 $input = file_get_contents("php://input");
@@ -56,37 +56,37 @@ if(isset($update["token_key"],$update["conf_new_password"],$update["new_password
                 ];
                 $upController = new UpdatePasswordController($upc_data);
                 $upView = new UpdatePasswordView($upController);
-                $response['msg'] = $upView->getMessage();
+                $response[C::KEY_MESSAGE] = $upView->getMessage();
                 if($upView->isDone()){
-                    $response['done'] = true;
+                    $response[C::KEY_DONE] = true;
                 }// if($upView->isDone()){
                 else{
                     $errnoT = $upController->getToken()->getErrno();
                     if($errnoT == Te::TOKENEXPIRED){
-                        $response['expired'] = true;
-                        $response['msg'] = Te::TOKENEXPIRED_MSG;
+                        $response[C::KEY_EXPIRED] = true;
+                        $response[C::KEY_MESSAGE] = Te::TOKENEXPIRED_MSG;
                     }
                 }//else di if($upView->isDone()){
                 http_response_code($upView->getResponseCode());
             }catch(Exception $e){
                 http_response_code(500);
                 //echo "updatepassword.php exception =>".var_export($e->getMessage(),true)."\r\n";
-                $response['msg'] = C::PASSWORD_UPDATE_ERROR;
+                $response[C::KEY_MESSAGE] = C::PASSWORD_UPDATE_ERROR;
             }
         }//if($update["new_password"] == $update["conf_new_password"]){
         else{
             http_response_code(400);
-            $response['msg'] = C::ERROR_CONFIRM_PASSWORD_DIFFERENT;
+            $response[C::KEY_MESSAGE] = C::ERROR_CONFIRM_PASSWORD_DIFFERENT;
         } 
     }//if(preg_match(User::$regex["new_password"],$update["new_password"])){
     else{
         http_response_code(400);
-        $response['msg'] = 'La nuova password inserita ha un formato non valido';
+        $response[C::KEY_MESSAGE] = 'La nuova password inserita ha un formato non valido';
     }
 }//if(isset($update["token_key"],$update["conf_new_password"],$update["new_password"],$update["old_password"])){
 else{
     http_response_code(400);
-    $response['msg'] = C::FILL_ALL_FIELDS;
+    $response[C::KEY_MESSAGE] = C::FILL_ALL_FIELDS;
 }
 
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);

@@ -33,10 +33,10 @@ use Dotenv\Dotenv;
 use MongoDB\BSON\ObjectId;
 
 $response = [
-    'msg' => '',
-    'done' => false,
+    C::KEY_MESSAGE => '',
+    C::KEY_DONE => false,
     'comments' => [],
-    'empty' => false,
+    C::KEY_EMPTY => false,
     'error' => false
 ];
 
@@ -68,28 +68,28 @@ if(isset($_GET['permalink']) && $_GET['permalink'] != '' && $_GET['permalink'] !
                 comments_loop($token,$comments,$response);
             }//if($comments_found){
             else{
-                $response['empty'] = true;
-                $response['msg'] = C::COMMENTLIST_EMPTY;
+                $response[C::KEY_EMPTY] = true;
+                $response[C::KEY_MESSAGE] = C::COMMENTLIST_EMPTY;
             }
-            $response['done'] = true;
+            $response[C::KEY_DONE] = true;
             http_response_code(200);
         }//if($article_found){
         else{
             http_response_code(500);
             $response['error'] = true;
-            $response['msg'] = C::COMMENTLIST_ERROR;
+            $response[C::KEY_MESSAGE] = C::COMMENTLIST_ERROR;
         }  
     }catch(Exception $e){
         http_response_code(500);
         $message = $e->getMessage();
         file_put_contents(C::FILE_LOG,"Exception message => ".var_export($message,true)."\r\n",FILE_APPEND);
         $response['error'] = true;
-        $response['msg'] = C::COMMENTLIST_ERROR;
+        $response[C::KEY_MESSAGE] = C::COMMENTLIST_ERROR;
     }
 }//if(isset($_GET['permalink']) && $_GET['permalink'] != ''){
 else{
     http_response_code(400);
-    $response['msg'] = C::FILL_ALL_FIELDS;
+    $response[C::KEY_MESSAGE] = C::FILL_ALL_FIELDS;
 }
     
 

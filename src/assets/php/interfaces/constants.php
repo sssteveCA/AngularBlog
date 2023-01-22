@@ -56,6 +56,7 @@ interface Constants{
     //Keys
     const KEY_DATA = "data";
     const KEY_DONE = "done";
+    const KEY_EMPTY = "empty";
     const KEY_EXPIRED = "expired";
     const KEY_MESSAGE = "msg";
 
