@@ -1,4 +1,5 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
+import { Keys } from "src/constants/keys";
 import { Messages } from "src/constants/messages";
 import UpdatePasswordInterface from "src/interfaces/requests/profile/updatepassword.interface";
 
@@ -46,10 +47,10 @@ export default class UpdatePassword{
             if(err instanceof HttpErrorResponse){
                 let errorString: string = err.error as string;
                 let errorBody: object = JSON.parse(errorString);
-                response['msg'] = errorBody['msg'];
+                response[Keys.MESSAGE] = errorBody[Keys.MESSAGE];
             }//if(err instanceof HttpErrorResponse){
             else{
-                response['msg'] = Messages.EDITPASSWORD_ERROR;
+                response[Keys.MESSAGE] = Messages.EDITPASSWORD_ERROR;
             }
         }
         return response;

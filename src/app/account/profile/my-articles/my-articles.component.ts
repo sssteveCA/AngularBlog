@@ -18,6 +18,7 @@ import GetArticlesInterface from 'src/interfaces/requests/article/getarticles.in
 import GetArticles from 'src/classes/requests/article/getarticles';
 import { Config } from 'config';
 import { messageDialog } from 'src/functions/functions';
+import { Keys } from 'src/constants/keys';
 
 @Component({
   selector: 'app-my-articles',
@@ -102,7 +103,7 @@ export class MyArticlesComponent implements OnInit {
       this.spinnerShow = article_pos;
       da.deleteArticle().then(obj => {
         this.spinnerShow = -1;
-        if(obj['expired'] == true){
+        if(obj[Keys.EXPIRED] == true){
           //Session expired
           this.api.removeItems();
           this.userCookie = {};
@@ -110,14 +111,14 @@ export class MyArticlesComponent implements OnInit {
         }
         let md_data: MessageDialogInterface = {
           title: 'Rimuovi articolo',
-          message: obj['msg']
+          message: obj[Keys.MESSAGE]
         };
         let md: MessageDialog = new MessageDialog(md_data);
         md.bt_ok.addEventListener('click',()=>{
           md.instance.dispose();
           md.div_dialog.remove();
           document.body.style.overflow = 'auto';
-          if(obj['done'] == true)
+          if(obj[Keys.DONE] == true)
             this.getArticles(); 
         });
       }).catch(err => {
@@ -148,15 +149,15 @@ export class MyArticlesComponent implements OnInit {
     let ga: GetArticles = new GetArticles(ga_data);
     ga.getArticles().then(obj => {
       //console.log(obj);
-      if(obj['done'] == true){
+      if(obj[Keys.DONE] == true){
         this.done = true;
         this.message = null;
         this.articles = obj['articles'] as Array<Article>;
         //this.insertArticles(this.router);
-      }//if(obj['done'] == true){
+      }//if(obj[Keys.DONE] == true){
       else{
         this.done = false;
-        this.message = obj['msg'];
+        this.message = obj[Keys.MESSAGE];
       }        
     }).catch(err => {
       //console.warn(err);

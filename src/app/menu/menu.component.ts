@@ -8,6 +8,7 @@ import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interfa
 import * as constants from '../../constants/constants';
 import * as messages from '../../messages/messages';
 import { ApiService } from '../api.service';
+import { Keys } from 'src/constants/keys';
 
 @Component({
   selector: 'app-menu',
@@ -50,15 +51,15 @@ export class MenuComponent implements OnInit {
       this.http.get(constants.logoutUrl+'?token_key='+token_key,{responseType: 'text'}).subscribe(res => {
         //console.log(res);
         let rJson = JSON.parse(res);
-        if(rJson['done'] == true){
+        if(rJson[Keys.DONE] == true){
           this.api.removeItems();
           this.api.changeUserdata({});
           this.router.navigate([constants.logoutRedirect]);
-        }//if(rJson['done'] == true){
+        }//if(rJson[Keys.DONE] == true){
         else{
           const data: MessageDialogInterface = {
             title: 'Logout',
-            message: rJson['msg']
+            message: rJson[Keys.MESSAGE]
           };
           let md = new MessageDialog(data);
           md.bt_ok.addEventListener('click',()=>{

@@ -6,6 +6,7 @@ import { ApiService } from 'src/app/api.service';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
 import GetNames from 'src/classes/requests/profile/getnames';
 import UpdateNames from 'src/classes/requests/profile/updatenames';
+import { Keys } from 'src/constants/keys';
 import { Messages } from 'src/constants/messages';
 import { EnParams } from 'src/constants/types';
 import { messageDialog } from 'src/functions/functions';
@@ -47,9 +48,9 @@ export class NamesComponent implements OnInit {
     }
     let gn: GetNames = new GetNames(gn_data);
     gn.getNames().then(obj => {
-      if(obj["done"] == true){
-        this.groupNames.controls["name"].setValue(obj["data"]["name"]);
-        this.groupNames.controls["surname"].setValue(obj["data"]["surname"]);
+      if(obj[Keys.DONE] == true){
+        this.groupNames.controls["name"].setValue(obj[Keys.DATA]["name"]);
+        this.groupNames.controls["surname"].setValue(obj[Keys.DATA]["surname"]);
       }
       else{
         this.namesError = true;
@@ -73,7 +74,7 @@ export class NamesComponent implements OnInit {
       this.showNamesSpinner = false;
       let mdi: MessageDialogInterface = {
         title: 'Modifica nome e cognome',
-        message: obj["msg"]
+        message: obj[Keys.MESSAGE]
       }
       messageDialog(mdi);
     });

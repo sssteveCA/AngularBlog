@@ -8,6 +8,7 @@ import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
 import MessageDialog from 'src/classes/dialogs/messagedialog';
 import PasswordConfirmDialog from 'src/classes/dialogs/passwordconfirmdialog';
 import DeleteProfile from 'src/classes/requests/profile/deleteprofile';
+import { Keys } from 'src/constants/keys';
 import { Messages } from 'src/constants/messages';
 import { DaParams } from 'src/constants/types';
 import { messageDialog } from 'src/functions/functions';
@@ -49,14 +50,14 @@ export class DeleteAccountComponent implements OnInit {
     da.deleteProfile().then(obj => {
       this.showDeleteProfileSpinner = false;
       const mdData: MessageDialogInterface = {
-        title: 'Cancellazione account', message: obj["msg"]
+        title: 'Cancellazione account', message: obj[Keys.MESSAGE]
       }
       let md: MessageDialog = new MessageDialog(mdData);
       md.bt_ok.addEventListener('click',()=>{
         md.instance.dispose();
         md.div_dialog.remove();
         document.body.style.overflow = 'auto';
-        if(obj["done"] == true){
+        if(obj[Keys.DONE] == true){
           this.api.removeItems();
           this.api.changeUserdata({});
           this.router.navigateByUrl(constants.deleteAccountRedirect);

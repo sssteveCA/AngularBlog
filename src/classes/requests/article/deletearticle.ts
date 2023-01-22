@@ -1,4 +1,5 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
+import { Keys } from "src/constants/keys";
 import { Messages } from "src/constants/messages";
 import DeleteArticleInterface from "src/interfaces/requests/article/deletearticle.interface";
 
@@ -38,10 +39,10 @@ export default class DeleteArticle{
             if(err instanceof HttpErrorResponse){
                 let errorString: string = err.error as string;
                 let errorBody: object = JSON.parse(errorString);
-                response['msg'] = errorBody['msg'];
+                response[Keys.MESSAGE] = errorBody[Keys.MESSAGE];
             }//if(err instanceof HttpErrorResponse){
             else{
-                response['msg'] = Messages.DELETEARTICLE_ERROR;
+                response[Keys.MESSAGE] = Messages.DELETEARTICLE_ERROR;
             }
         }
         return response;

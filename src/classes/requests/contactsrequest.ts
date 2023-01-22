@@ -1,4 +1,5 @@
 import { HttpClient, HttpErrorResponse, HttpHandler, HttpHeaders } from '@angular/common/http';
+import { Keys } from 'src/constants/keys';
 import { Messages } from 'src/constants/messages';
 import { ContactsParams } from 'src/constants/types';
 import ContactsRequestInterface from '../../interfaces/requests/constactsrequest.interface'
@@ -37,10 +38,10 @@ export default class ContactsRequest{
             if(e instanceof HttpErrorResponse){
                 let errorString: string = e.error as string;
                 let errorBody: object = JSON.parse(errorString);
-                response['msg'] = errorBody['msg'];
+                response[Keys.MESSAGE] = errorBody[Keys.MESSAGE];
             }
             else{
-                response['msg'] = Messages.CONTACTS_ERROR;
+                response[Keys.MESSAGE] = Messages.CONTACTS_ERROR;
             }
         }
         return response;

@@ -14,6 +14,7 @@ import MessageDialog from 'src/classes/dialogs/messagedialog';
 import UpdateArticleInterface from 'src/interfaces/requests/article/updatearticle.interface';
 import UpdateArticle from 'src/classes/requests/article/updatearticle';
 import { Messages } from 'src/constants/messages';
+import { Keys } from 'src/constants/keys';
 
 @Component({
   selector: 'app-edit-article',
@@ -88,7 +89,7 @@ export class EditArticleComponent implements OnInit {
       console.log(res); */
       //Check if user is authorized to edit this article
       this.authorized = res['authorized'];
-      this.message = res['msg'];
+      this.message = res[Keys.MESSAGE];
       if(this.authorized == true){
         this.article.title = res['article']['title'];
         this.article.introtext = res['article']['introtext'];
@@ -129,7 +130,7 @@ export class EditArticleComponent implements OnInit {
       };
       let ua: UpdateArticle = new UpdateArticle(ua_data);
       ua.updateArticle().then(obj => {
-        if(obj['expired'] == true){
+        if(obj[Keys.EXPIRED] == true){
           //Session expired
           this.api.removeItems();
           this.userCookie = {};
@@ -137,7 +138,7 @@ export class EditArticleComponent implements OnInit {
         }
         const data: MessageDialogInterface = {
           title: 'Modifica articolo',
-          message: obj['msg']
+          message: obj[Keys.MESSAGE]
         };
         let cd = new MessageDialog(data);
         cd.bt_ok.addEventListener('click', ()=>{

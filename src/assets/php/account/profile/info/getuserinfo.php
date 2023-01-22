@@ -68,7 +68,7 @@ if(isset($_GET["token_key"]) && $_GET["token_key"] != ""){
     }
 }//if(isset($_GET["token_key"]) && $_GET["token_key"] != ""){
 else
-    $response[c::KEY_MESSAGE] = "Fornisci un token di autorizzazione per continuare";
+    $response[C::KEY_MESSAGE] = "Fornisci un token di autorizzazione per continuare";
 
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
 ?>

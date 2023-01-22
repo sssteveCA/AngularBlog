@@ -1,4 +1,5 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
+import { Keys } from "src/constants/keys";
 import { Messages } from "src/constants/messages";
 import SubscribeRequestInterface from "src/interfaces/requests/subscriberequest.interface";
 
@@ -56,10 +57,10 @@ export default class SubscribeRequest{
             if(err instanceof HttpErrorResponse){
                 let errorString: string = err.error as string;
                 let errorBody: object = JSON.parse(errorString);
-                response['msg'] = errorBody['msg'];
+                response[Keys.MESSAGE] = errorBody[Keys.MESSAGE];
             }//if(err instanceof HttpErrorResponse){
             else{
-                response['msg'] = Messages.SUBSCRIBE_ERROR;
+                response[Keys.MESSAGE] = Messages.SUBSCRIBE_ERROR;
             }
         }
         return response;

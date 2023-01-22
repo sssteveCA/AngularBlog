@@ -18,6 +18,7 @@ import { ApiService } from 'src/app/api.service';
 import PasswordDialogInterface from 'src/interfaces/dialogs/passworddialog.interface';
 import PasswordDialog from 'src/classes/dialogs/passworddialog';
 import { EuParams } from 'src/constants/types';
+import { Keys } from 'src/constants/keys';
 
 
 @Component({
@@ -53,18 +54,18 @@ export class UsernameComponent implements OnInit {
     };
     let uu: UpdateUsername = new UpdateUsername(uu_data);
     uu.updateUsername().then(obj => {
-      if(obj['done']){
+      if(obj[Keys.DONE]){
           localStorage.setItem('username', obj['new_username']);
           this.userCookie['username'] = localStorage.getItem('username');
           this.api.changeUserdata(this.userCookie);
           let md_data: MessageDialogInterface = {
             title: "Modifica nome utente",
-            message: obj['msg']
+            message: obj[Keys.MESSAGE]
           };
           messageDialog(md_data);
-      }//if(obj['done']){
+      }//if(obj[Keys.DONE]){
       else{
-        if(obj['expired'] == true){
+        if(obj[Keys.EXPIRED] == true){
           this.api.removeItems();
           this.userCookie = {};
           this.api.changeUserdata(this.userCookie);
@@ -73,7 +74,7 @@ export class UsernameComponent implements OnInit {
         else{
           let md_data: MessageDialogInterface = {
             title: "Modifica nome utente",
-            message: obj['msg']
+            message: obj[Keys.MESSAGE]
           };
           messageDialog(md_data);
         }
@@ -144,9 +145,9 @@ export class UsernameComponent implements OnInit {
     };
     let gu: getUsername = new getUsername(gu_data);
     gu.getUsername().then(obj => {
-      if(obj['done'] == true){
+      if(obj[Keys.DONE] == true){
         this.groupEu.controls['username'].setValue(obj['username']);
-      }//if(obj['done'] == true){
+      }//if(obj[Keys.DONE] == true){
       else{
         this.usernameError = true;
       }

@@ -5,6 +5,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { ApiService } from 'src/app/api.service';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
 import UpdatePassword from 'src/classes/requests/profile/updatepassword';
+import { Keys } from 'src/constants/keys';
 import { Messages } from 'src/constants/messages';
 import { EpParams } from 'src/constants/types';
 import { messageDialog } from 'src/functions/functions';
@@ -53,7 +54,7 @@ export class PasswordComponent implements OnInit {
     ep.updatePassword().then(obj => {
       this.showPasswordSpinner = false;
       let md_data: MessageDialogInterface = {
-        title: 'Modifica password', message: obj['msg']
+        title: 'Modifica password', message: obj[Keys.MESSAGE]
       };
       messageDialog(md_data);
     }).catch(err => {

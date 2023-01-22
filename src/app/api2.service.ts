@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { Keys } from 'src/constants/keys';
 import * as constants from '../constants/constants';
 import * as messages from '../messages/messages';
 
@@ -39,10 +40,10 @@ export class Api2Service {
         authStatus['article'] = rJson['article']
       }
       else{
-        authStatus['msg'] = rJson['msg'];
+        authStatus[Keys.MESSAGE] = rJson[Keys.MESSAGE];
       }
     }).catch(err => {
-      authStatus['msg'] = messages.articleAuthorizedError;
+      authStatus[Keys.MESSAGE] = messages.articleAuthorizedError;
     });
     return authStatus;
   }

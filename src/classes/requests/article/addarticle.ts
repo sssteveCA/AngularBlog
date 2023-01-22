@@ -1,5 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { Article } from "src/app/models/article.model";
+import { Keys } from "src/constants/keys";
 import { Messages } from "src/constants/messages";
 import AddArticleInterface from "src/interfaces/requests/article/addarticle.interface";
 
@@ -39,10 +40,10 @@ export default class AddArticle{
             if(err instanceof HttpErrorResponse){
                 let errorString: string = err.error as string;
                 let errorBody: object = JSON.parse(errorString);
-                response['msg'] = errorBody['msg'];
+                response[Keys.MESSAGE] = errorBody[Keys.MESSAGE];
             }//if(err instanceof HttpErrorResponse){
             else{
-                response['msg'] = Messages.ARTICLENEW_ERROR;
+                response[Keys.MESSAGE] = Messages.ARTICLENEW_ERROR;
             }
         }
         return response;

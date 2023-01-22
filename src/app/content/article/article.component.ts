@@ -4,6 +4,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Article } from 'src/app/models/article.model';
 import { GetArticle } from 'src/classes/requests/article/getarticle';
 import * as constants from 'src/constants/constants';
+import { Keys } from 'src/constants/keys';
 import GetArticleInterface from 'src/interfaces/requests/article/getarticle.interface';
 
 @Component({
@@ -39,7 +40,7 @@ export class ArticleComponent implements OnInit {
     };
     let ga: GetArticle = new GetArticle(ga_data);
     ga.getArticle().then(obj => {
-      if(obj['done'] == true)
+      if(obj[Keys.DONE] == true)
         this.showArticle(obj['article']);
       else{
           //this.router.navigateByUrl(constants.notFoundUrl); 

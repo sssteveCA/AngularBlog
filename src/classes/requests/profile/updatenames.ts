@@ -1,4 +1,5 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
+import { Keys } from "src/constants/keys";
 import { Messages } from "src/constants/messages";
 import UpdateNamesInterface from "src/interfaces/requests/profile/updatenames.interface";
 
@@ -44,10 +45,10 @@ export default class UpdateNames{
             if(err instanceof HttpErrorResponse){
                 let errorString: string = err.error as string;
                 let errorObject: object = JSON.parse(errorString);
-                response['msg'] = errorObject['msg'];
+                response[Keys.MESSAGE] = errorObject[Keys.MESSAGE];
             }
             else{
-                response['msg'] = Messages.EDITUSERNAME_ERROR;
+                response[Keys.MESSAGE] = Messages.EDITUSERNAME_ERROR;
             }
         }
         return response;

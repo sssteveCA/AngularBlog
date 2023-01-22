@@ -9,6 +9,7 @@ import { Messages } from 'src/constants/messages';
 import SubscribeRequestInterface from 'src/interfaces/requests/subscriberequest.interface';
 import SubscribeRequest from 'src/classes/requests/subscriberequest';
 import { messageDialog } from 'src/functions/functions';
+import { Keys } from 'src/constants/keys';
 
 @Component({
   selector: 'app-register',
@@ -110,7 +111,7 @@ export class RegisterComponent implements OnInit {
       this.showSpinner = false;
       const md_data: MessageDialogInterface = {
         title: 'Registrazione',
-        message: obj['msg']
+        message: obj[Keys.MESSAGE]
       };
       messageDialog(md_data);
     }).catch(err => {

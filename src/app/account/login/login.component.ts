@@ -11,6 +11,7 @@ import LoginRequestInterface from 'src/interfaces/requests/loginrequest.interfac
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import LoginRequest from 'src/classes/requests/loginrequest';
 import { messageDialog } from 'src/functions/functions';
+import { Keys } from 'src/constants/keys';
 
 @Component({
   selector: 'app-login',
@@ -56,7 +57,7 @@ export class LoginComponent implements OnInit {
     login.login().then(obj => {
       this.showSpinner = false;
       //console.log(obj);
-      if(obj['done'] && typeof obj['username'] !== 'undefined'){
+      if(obj[Keys.DONE] && typeof obj['username'] !== 'undefined'){
         localStorage.setItem("token_key",obj["token_key"]);
         localStorage.setItem("username",obj["username"]);
         this.userCookie["token_key"] = localStorage.getItem("token_key");
@@ -68,7 +69,7 @@ export class LoginComponent implements OnInit {
         //console.log(rJson);
         const md_data: MessageDialogInterface = {
           title: 'Login',
-          message: obj['msg']
+          message: obj[Keys.MESSAGE]
         };
         messageDialog(md_data);
       }

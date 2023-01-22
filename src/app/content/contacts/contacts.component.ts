@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import MessageDialog from 'src/classes/dialogs/messagedialog';
 import ContactsRequest from 'src/classes/requests/contactsrequest';
+import { Keys } from 'src/constants/keys';
 import { Messages } from 'src/constants/messages';
 import { messageDialog } from 'src/functions/functions';
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
@@ -61,7 +62,7 @@ export class ContactsComponent implements OnInit {
       this.showSpinner = false;
       const data: MessageDialogInterface = {
         title: 'Contatti',
-        message: obj['msg']
+        message: obj[Keys.MESSAGE]
       };
       messageDialog(data);
     });

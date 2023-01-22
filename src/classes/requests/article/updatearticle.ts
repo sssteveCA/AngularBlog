@@ -1,5 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { Article } from "src/app/models/article.model";
+import { Keys } from "src/constants/keys";
 import { Messages } from "src/constants/messages";
 import UpdateArticleInterface from "src/interfaces/requests/article/updatearticle.interface";
 
@@ -39,10 +40,10 @@ export default class UpdateArticle{
             if(err instanceof HttpErrorResponse){
                 let errorString: string = err.error as string;
                 let errorBody: object = JSON.parse(errorString);
-                response['msg'] = errorBody['msg'];
+                response[Keys.MESSAGE] = errorBody[Keys.MESSAGE];
             }//if(err instanceof HttpErrorResponse){
             else{
-                response['msg'] = Messages.ARTICLEUPDATE_ERROR;
+                response[Keys.MESSAGE] = Messages.ARTICLEUPDATE_ERROR;
             }
         }
         return response;

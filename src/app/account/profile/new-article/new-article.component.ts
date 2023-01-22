@@ -14,6 +14,7 @@ import AddArticle from 'src/classes/requests/article/addarticle';
 import { Messages } from 'src/constants/messages';
 import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
+import { Keys } from 'src/constants/keys';
 
 @Component({
   selector: 'app-new-article',
@@ -110,7 +111,7 @@ export class NewArticleComponent implements OnInit {
     };
     let aa: AddArticle = new AddArticle(aa_data);
     aa.createArticle().then(obj => {
-      if(obj['expired'] == true){
+      if(obj[Keys.EXPIRED] == true){
         //session expired
         this.api.removeItems();
         this.userCookie = {};
@@ -119,7 +120,7 @@ export class NewArticleComponent implements OnInit {
       }
       const md_data: MessageDialogInterface = {
         title: 'Creazione articolo',
-        message: obj['msg']
+        message: obj[Keys.MESSAGE]
       };
       let md = new MessageDialog(md_data);
       md.bt_ok.addEventListener('click',()=>{

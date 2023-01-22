@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {Article} from '../../models/article.model';
 import * as constants from '../../../constants/constants';
+import { Keys } from 'src/constants/keys';
 
 @Component({
   selector: 'app-blog',
@@ -27,7 +28,7 @@ export class BlogComponent implements OnInit {
       //console.log(res);
       let rJson = JSON.parse(res);
       //console.log(rJson);
-      if(rJson['done'] == true){
+      if(rJson[Keys.DONE] == true){
         this.articles = rJson['articles'];
         //console.log(this.articles);
         this.printResult(this.articles);
@@ -38,7 +39,7 @@ export class BlogComponent implements OnInit {
         divAlert.addClass("alert alert-danger");
         divAlert.attr('role','alert');
         divAlert.css('text-align','center');
-        divAlert.text(rJson['msg']);
+        divAlert.text(rJson[Keys.MESSAGE]);
         $('#articlesList').append(divAlert);
       }
     });

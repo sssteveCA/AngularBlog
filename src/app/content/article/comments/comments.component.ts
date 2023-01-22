@@ -18,6 +18,7 @@ import GetComments from 'src/classes/requests/article/comment/getcomments';
 import UpdateCommentInterface from 'src/interfaces/requests/article/comment/updatecomment.interface';
 import UpdateComment from 'src/classes/requests/article/comment/updatecomment';
 import { messageDialog } from 'src/functions/functions';
+import { Keys } from 'src/constants/keys';
 
 @Component({
   selector: 'app-comments',
@@ -68,15 +69,15 @@ export class CommentsComponent implements OnInit,AfterViewInit {
       };
       let ac: AddComment = new AddComment(ac_data);
       ac.addComment().then(obj => {
-        if(obj['done'] === true){
+        if(obj[Keys.DONE] === true){
           setTimeout(()=>{
             this.getCommnents();
           },500);
-        }//if(obj['done'] === true){
+        }//if(obj[Keys.DONE] === true){
         else{
           let md_data: MessageDialogInterface = {
             title: 'Nuovo commento',
-            message: obj['msg']
+            message: obj[Keys.MESSAGE]
           };
           messageDialog(md_data);
         }
@@ -122,17 +123,17 @@ export class CommentsComponent implements OnInit,AfterViewInit {
       };
       let dd: DeleteComment = new DeleteComment(dd_data);
       dd.deleteComment().then(obj => {
-        if(obj['done'] === true){
+        if(obj[Keys.DONE] === true){
           //delete operation executed
           setTimeout(()=>{
             this.getCommnents();
           },500);
-        }//if(obj['done'] === true){
+        }//if(obj[Keys.DONE] === true){
         else{
           //Error during comment delete
           let md_data: MessageDialogInterface = {
             title: 'Elimina commento',
-            message: obj['msg']
+            message: obj[Keys.MESSAGE]
           };
           messageDialog(md_data);
         }
@@ -162,10 +163,10 @@ export class CommentsComponent implements OnInit,AfterViewInit {
     };
     let gc: GetComments = new GetComments(gc_data);
     gc.getComments().then(obj => {
-      this.done = obj['done'] as boolean;
-      this.empty = obj['empty'] as boolean;
+      this.done = obj[Keys.DONE] as boolean;
+      this.empty = obj[Keys.EMPTY] as boolean;
       this.error = obj['error'] as boolean;
-      this.message = obj['msg'] as string;
+      this.message = obj[Keys.MESSAGE] as string;
       if(!this.empty)
         this.comments = obj['comments'] as Comment[];
     }).catch(err => {
@@ -238,13 +239,13 @@ export class CommentsComponent implements OnInit,AfterViewInit {
       //console.log(uc_data);
       let ec: UpdateComment = new UpdateComment(uc_data);
       ec.updateComment().then(obj => {
-        if(obj['done'] == true){
+        if(obj[Keys.DONE] == true){
           text_div.html('<div>'+obj['comment']+'</div>');
         }
         else{
           let md_data: MessageDialogInterface = {
             title: 'Modifica commento',
-            message: obj['msg']
+            message: obj[Keys.MESSAGE]
           }
           let md: MessageDialog = new MessageDialog(md_data);
           md.bt_ok.addEventListener('click', ()=>{

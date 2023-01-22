@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http
 import { Messages } from "src/constants/messages";
 import LoginRequestInterface from "src/interfaces/requests/loginrequest.interface";
 import { Config } from "config";
+import { Keys } from "src/constants/keys";
 
 export default class LoginRequest{
     private _http: HttpClient;
@@ -40,10 +41,10 @@ export default class LoginRequest{
                 let errorString: string = err.error as string;
                 //console.log(errorString);
                 let errorBody: object = JSON.parse(errorString);
-                response['msg'] = errorBody['msg'];
+                response[Keys.MESSAGE] = errorBody[Keys.MESSAGE];
             }//if(err instanceof HttpErrorResponse){
             else{
-                response['msg'] = Messages.LOGIN_ERROR;
+                response[Keys.MESSAGE] = Messages.LOGIN_ERROR;
             }
         }
         return response;
