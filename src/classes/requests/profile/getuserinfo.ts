@@ -15,4 +15,30 @@ export default class GetUserInfo{
     get token_key(){return this._token_key;}
     get url(){return this._url;}
 
+    public async getNames(): Promise<object>{
+        let response: object = {};
+        try{
+            await this.getUserInfoPromise().then(res => {
+                console.log(res);
+                response = JSON.parse(res);
+            })
+        }catch(err){
+
+        }
+        return response;
+    }
+
+    private async getUserInfoPromise(): Promise<string>{
+        let promise = await new Promise<string>((resolve,reject)=>{
+            this._http.get(`${this._url}?token_key=${this._token_key}`,{
+                responseType: 'text'
+            }).subscribe(res => {
+                resolve(res);
+            },error => {
+                reject(error);
+            })
+        });
+        return promise;
+    }
+
 }
