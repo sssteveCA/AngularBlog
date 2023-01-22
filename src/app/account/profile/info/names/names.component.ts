@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
-import GetNames from 'src/classes/requests/profile/getnames';
 import UpdateNames from 'src/classes/requests/profile/updatenames';
 import { Keys } from 'src/constants/keys';
 import { Messages } from 'src/constants/messages';
@@ -12,7 +11,6 @@ import { EnParams } from 'src/constants/types';
 import { messageDialog } from 'src/functions/functions';
 import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
-import GetNamesInterface from 'src/interfaces/requests/profile/getnames.interface';
 import UpdateNamesInterface from 'src/interfaces/requests/profile/updatenames.interface';
 import * as constants from '../../../../../constants/constants';
 
