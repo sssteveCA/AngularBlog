@@ -48,6 +48,7 @@ interface Constants{
     //Generic errors
     const ERROR_UNKNOWN = 'Errore sconosciuto';
     const ERROR_CONFIRM_PASSWORD_DIFFERENT = 'Le due password non coincidono';
+    const ERROR_TOKEN_MISSED = 'Fornisci un token di autorizzazione per continuare';
     const FILL_ALL_FIELDS = 'Inserisci tutti i dati richiesti per continuare';
 
     //File

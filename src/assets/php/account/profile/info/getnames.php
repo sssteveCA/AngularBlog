@@ -65,7 +65,7 @@ if(isset($_GET["token_key"])){
     }
 }//if(isset($_GET["token_key"])){
 else
-    $response[C::KEY_MESSAGE] = "Fornisci un token di autorizzazione per continuare";
+    $response[C::KEY_MESSAGE] = C::ERROR_TOKEN_MISSED;
 
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_SLASHES);
 ?>
