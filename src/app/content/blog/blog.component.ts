@@ -5,6 +5,7 @@ import * as constants from '../../../constants/constants';
 import { Keys } from 'src/constants/keys';
 import SearchedArticlesInterface from 'src/interfaces/requests/article/searchedarticles.interface';
 import SearchedArticles from 'src/classes/requests/article/searchedarticles';
+import { Messages } from 'src/constants/messages';
 
 @Component({
   selector: 'app-blog',
@@ -13,6 +14,11 @@ import SearchedArticles from 'src/classes/requests/article/searchedarticles';
 })
 export class BlogComponent implements OnInit {
 
+  requestFailed: boolean = false;
+  searchSpinner: boolean = false;
+  done: boolean = false;
+  empty: boolean = false;
+  message: string|null = null;
   url: string = constants.searchArticles;
   articles: Article[] = new Array();
 
@@ -29,27 +35,25 @@ export class BlogComponent implements OnInit {
       url: this.url
     }
     let sa: SearchedArticles = new SearchedArticles(saData);
+    this.searchSpinner = true;
     sa.searchedArticles().then(res => {
-      if(res[Keys.DONE] == true){
+      this.searchSpinner = false;
+      this.done = res[Keys.DONE];
+      this.empty = res[Keys.EMPTY];
+      if(this.done){
+        this.requestFailed = false;
         this.articles = res[Keys.DATA];
         this.printResult(this.articles);
       }
       else{
-        if(res[Keys.EMPTY] == true){
-
-        }
-        else{
-          $('#articlesList').html('');
-          let divAlert = $('<div>');
-          divAlert.addClass("alert alert-danger");
-          divAlert.attr('role','alert');
-          divAlert.css('text-align','center');
-          divAlert.text(res[Keys.MESSAGE]);
-          $('#articlesList').append(divAlert);
-          }
-      }
+        this.requestFailed = true;
+        this.message = res[Keys.MESSAGE];
+      } 
     }).catch(err => {
-
+      this.searchSpinner = false;
+      this.done = false;
+      this.message = Messages.ARTICLESEARCH_ERROR;
+      this.requestFailed = true;
     });
   }
 

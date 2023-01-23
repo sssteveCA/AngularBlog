@@ -4,10 +4,25 @@
     </div>
 </div>
 <div id="divSearch" class="nav-item d-flex flex-column flex-sm-row">
-  <input id="pageQuery" name="pageQuery" type="search" placeholder="Cerca articolo" #query>
+  <input id="pageQuery" name="pageQuery" type="search" placeholder="Cerca articolo" (click)="requestFailed = false;" #query>
   <button class="btn btn-outline-success" type="button" (click)="onSearchClick(query)">Cerca</button>
 </div>
-<div id="articlesList">
-
+<div class="row mt-5 justify-content-center" [ngClass]="{'d-none':!searchSpinner}">
+  <div id="news-spinner" class="spinner-grow"  style="width: 3rem; height: 3rem;" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+<div id="articlesList" *ngIf="!searchSpinner && requestFailed">
+  <ng-template [ngIf]="done && !empty"></ng-template>
+  <div *ngIf="message">
+    <ng-template [ngIf]="!done && empty">
+      <div [ngStyle]="{'padding': '25px 0px', 'text-align': 'center', 'font-size': '20px','font-weight': 'bold'}">
+        {{message}}
+      </div>
+    </ng-template>
+    <ng-template [ngIf]="!done && !empty">
+      <div class="alert alert-danger text-center" role="alert">{{message}}</div>
+    </ng-template>
+  </div>
 </div>
 

@@ -46,9 +46,9 @@ export class NewsComponent implements OnInit, AfterViewInit {
         //console.log(this.lastPosts);
       }
     }).catch(err => {
+	  this.showSpinner = false;
       this.done = false;
       this.message = Messages.NEWS_ERROR;
-      this.showSpinner = false;
     });
   }
 
