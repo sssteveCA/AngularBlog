@@ -29,7 +29,7 @@ export class BlogComponent implements OnInit {
       let rJson = JSON.parse(res);
       //console.log(rJson);
       if(rJson[Keys.DONE] == true){
-        this.articles = rJson['articles'];
+        this.articles = rJson[Keys.DATA];
         //console.log(this.articles);
         this.printResult(this.articles);
       }

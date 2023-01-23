@@ -20,8 +20,7 @@ use Dotenv\Dotenv;
 use MongoDB\BSON\Regex;
 
 $response = [
-    C::KEY_MESSAGE => '',
-    C::KEY_DONE => false
+    C::KEY_DONE => false, C::KEY_EMPTY => false, C::KEY_MESSAGE => '',
 ];
 $field = 'title';
 
@@ -41,30 +40,27 @@ if(isset($_POST['query']) && $_POST['query'] != ''){
             //At least one article found
             $articles = $al->getResults();
             foreach($articles as $article){
-                $response['articles'][] = array(
-                    'id' => $article->getId(),
+                $response[C::KEY_DATA][] = array(
                     'title' => $article->getTitle(),
                     'author' => $article->getAuthor(),
                     'permalink' => $article->getPermalink(),
-                    'content' => $article->getContent(),
                     'introtext' => $article->getIntrotext(),
-                    'categories' => implode(",",$article->getCategories()),
-                    'tags' => implode(",",$article->getTags()),
-                    'creation_time' => $article->getCrTime(),
-                    'last_modified' => $article->getLastMod()
                 );
             }//foreach($articles as $article){
             $response[C::KEY_DONE] = true;
         }//if($found){
-        else
+        else{
+            $response[C::KEY_EMPTY] = true;
             $response[C::KEY_MESSAGE] = 'La ricerca di '.$query.' non ha fornito alcun risultato';
+        }
+            
     }catch(Exception $e){
-        file_put_contents(C::FILE_LOG,"Search articles Exception => ".var_export($e,true)."\r\n",FILE_APPEND);
+        //file_put_contents(C::FILE_LOG,"Search articles Exception => ".var_export($e,true)."\r\n",FILE_APPEND);
         $response[C::KEY_MESSAGE] = C::SEARCH_ERROR;
     }
 }//if(isset($_POST['query']) && $_POST['query'] != ''){
 else 
     $response[C::KEY_MESSAGE] = C::FILL_ALL_FIELDS;
 
-echo json_encode($response);
+echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
 ?>
