@@ -58,7 +58,7 @@ try{
         $response[C::KEY_MESSAGE] = C::NEWS_EMPTY;
     }
 }catch(Exception $e){
-    echo "last_posts.php exception => ".$e->getMessage()."\r\n";
+    //echo "last_posts.php exception => ".$e->getMessage()."\r\n";
     $response[C::KEY_MESSAGE] = C::NEWS_ERROR;
     http_response_code(500);
 }

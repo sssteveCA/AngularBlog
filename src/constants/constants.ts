@@ -83,6 +83,11 @@ export const deleteComment: string = Config.PHP_SCRIPTS_URL+"/article/comment/de
 export const imgUrl : string = Config.ANGULAR_MAIN_URL+"/assets/img/background.jfif"; 
 
 /**
+ * url to get the last updated articles
+ */
+export const lastPostsUrl: string = Config.PHP_SCRIPTS_URL+"/article/last_posts.php";
+
+/**
  * url redirect after login success
  */
 export const loginRedirect: string = "/";

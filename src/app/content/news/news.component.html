@@ -1,7 +1,11 @@
 <div class="p-5 mb-4 bg-light rounded-3">
     <div class="container-fluid py-5">
       <h1 class="display-5 fw-bold headerPage">News</h1>
-      <p class="col-md-8 fs-4"></p>
+      <div class="row mt-5 justify-content-center" [ngClass]="{'d-none':!showSpinner}">
+        <div id="news-spinner" class="spinner-grow"  style="width: 3rem; height: 3rem;" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
     </div>
   </div>
 
