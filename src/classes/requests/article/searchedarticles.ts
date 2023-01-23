@@ -1,4 +1,6 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpParams } from "@angular/common/http";
+import { Keys } from "src/constants/keys";
+import { Messages } from "src/constants/messages";
 import SearchedArticlesInterface from "src/interfaces/requests/article/searchedarticles.interface";
 
 export default class SearchedArticles{
@@ -31,6 +33,45 @@ export default class SearchedArticles{
                 break;
         }
         return this._error = null;
+    }
+
+    public async searchedArticles(): Promise<object>{
+        this._errno = 0;
+        let response: object = {};
+        try{
+            await this.searchedArticlesPromise().then(res => {
+                console.log(res);
+                response = JSON.parse(res);
+            }).catch(err => {
+                throw err;
+            });
+        }catch(err){
+            response = { done: false };
+            if(err instanceof HttpErrorResponse){
+                let errorString: string = err.error as string;
+                let errorBody: object = JSON.parse(errorString);
+                response = errorBody[Keys.MESSAGE];
+            }
+            else{
+                this._errno = SearchedArticles.ERR_FETCH;
+                response[Keys.MESSAGE] = Messages.ARTICLESEARCH_ERROR;
+            }
+        }
+        return response;
+    }
+
+    private async searchedArticlesPromise(): Promise<string>{
+        return await new Promise<string>((resolve,reject)=>{
+            let params = new HttpParams().append('query',this._query);
+            this._http.post(this._url,params,{
+                responseType: 'text',
+            }).subscribe(res => {
+                resolve(res);
+            },error => {
+                reject(error);
+            });
+        });
+        
     }
 
 }

@@ -2,6 +2,7 @@ export namespace Messages{
     const ADMIN_CONTACT: string = "Se il problema persiste, contattare l'amministratore";
     export const ARTICLEAUTHORIZED_ERROR: string = "C'è stato un errore durante la verifica dell'autorizzazione a modificare l'articolo. "+ADMIN_CONTACT;
     export const ARTICLENEW_ERROR: string = "Errore durante la creazione dell'articolo. "+ADMIN_CONTACT;
+    export const ARTICLESEARCH_ERROR: string = "Errore durante la ricerca degli articoli. "+ADMIN_CONTACT;
     export const ARTICLEUPDATE_ERROR: string = "Errore durante la modifica dell'articolo. "+ADMIN_CONTACT;
     export const ARTICLESVIEW_ERROR = "Errore durante la ricerca degli articoli. "+ADMIN_CONTACT;
     export const ACTIVATIONCODEMISSING: string = "Inserisci un codice di attivazione";
