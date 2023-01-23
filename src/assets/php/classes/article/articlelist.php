@@ -37,11 +37,11 @@ class ArticleList extends Models implements Ale,C,Me{
         return $this->error;
     }
 
-    public function articlelist_get(array $filter): bool{
+    public function articlelist_get(array $filter, array $options = []): bool{
         file_put_contents(ArticleList::$logFile,"ArticleList get \r\n",FILE_APPEND);
         $got = false;
         $this->errno = 0;
-        $cursor = parent::get($filter);
+        $cursor = parent::get($filter,$options);
         //file_put_contents(ArticleList::$logFile,"ArticleList get => ".var_export($cursor,true)."\r\n",FILE_APPEND);
         if($this->errno == 0){
             $results = $cursor->toArray();

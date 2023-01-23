@@ -24,13 +24,11 @@ try{
     $dotenv = Dotenv::createImmutable(__DIR__."/../../../../");
     $dotenv->safeLoad();
     $al = new ArticleList();
-    $filter = [
-        [
-            '$limit' => 10,
-            '$orderby' => [ 'last_modified' => 1]
-        ],  
+    $options = [
+        'limit' => 10,
+        'sort' => ['last_modified' => -1]
     ];
-    $found = $al->articlelist_get($filter);
+    $found = $al->articlelist_get([],$options);
     if($found){
         $articles = $al->getResults();
         foreach($articles as $article){
@@ -50,6 +48,7 @@ try{
         $response[C::KEY_MESSAGE] = C::NEWS_EMPTY;
     }
 }catch(Exception $e){
+    echo "last_posts.php exception => ".$e->getMessage()."\r\n";
     $response[C::KEY_MESSAGE] = C::NEWS_ERROR;
     http_response_code(500);
 }

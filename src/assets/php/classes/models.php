@@ -72,7 +72,7 @@ abstract class Models implements Me{
     /**
      * Get one or more documents
      */
-    public function get(array $filter):Cursor{
+    public function get(array $filter, array $options = []):Cursor{
         file_put_contents(Models::$logFile,"Models get => \r\n",FILE_APPEND);
         $this->errno = 0;
         $find = $this->collection->find($filter);
