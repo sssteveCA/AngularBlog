@@ -3,6 +3,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Article } from 'src/app/models/article.model';
 import GetLastPosts from 'src/classes/requests/article/getlastposts';
 import { Keys } from 'src/constants/keys';
+import { Messages } from 'src/constants/messages';
 import GetLastPostsInterface from 'src/interfaces/requests/article/getlastposts.interface';
 import * as constants from "../../../constants/constants";
 
@@ -23,6 +24,13 @@ export class NewsComponent implements OnInit, AfterViewInit {
   constructor(public http: HttpClient) { }
 
   ngAfterViewInit(): void {
+    this.getLastPosts();
+  }
+
+  ngOnInit(): void {
+  }
+
+  getLastPosts(): void{
     let glpData: GetLastPostsInterface = {
       http: this.http,
       url: this.url
@@ -37,10 +45,12 @@ export class NewsComponent implements OnInit, AfterViewInit {
         this.lastPosts = res[Keys.DATA];
         console.log(this.lastPosts);
       }
+    }).catch(err => {
+      console.log("catch");
+      this.done = false;
+      this.message = Messages.NEWS_ERROR;
+      this.showSpinner = false;
     });
-  }
-
-  ngOnInit(): void {
   }
 
 }
