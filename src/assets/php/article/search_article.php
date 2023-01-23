@@ -58,12 +58,14 @@ if(isset($_GET['permalink']) && $_GET['permalink'] != ''){
             $response[C::KEY_DONE] = true;
         }//if($got){
         else{
+            http_response_code(404);
             $response[C::KEY_MESSAGE] = "Impossibile trovare l'articolo con permalink {$permalink}";
             $response['notfound'] = true;
         }
             
     }catch(Exception $e){
-        $response[C::KEY_MESSAGE] = C::ERROR_UNKNOWN;
+        http_response_code(500);
+        $response[C::KEY_MESSAGE] = C::ARTICLEVIEW_ERROR;
     }
 }//if(isset($_GET['permalink']) && $_GET['permalink'] != ''){
 else

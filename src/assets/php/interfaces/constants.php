@@ -22,6 +22,7 @@ interface Constants{
     const ARTICLEDELETE_OK = "L'articolo è stato rimosso con successo";
     const ARTICLEEDITING_ERROR = "Errore durante la modifica dell'articolo. ".Constants::ADMIN_CONTACT;
     const ARTICLEEDITING_OK = "L'articolo è stato modificato con successo";
+    const ARTICLEVIEW_ERROR = "Errore durante la visualizzazione dell'articolo. ".Constants::ADMIN_CONTACT;
     const ARTICLESVIEW_ERROR = "Errore durante la ricerca degli articoli. ".Constants::ADMIN_CONTACT;
 
     //Comment
