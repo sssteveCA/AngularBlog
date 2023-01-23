@@ -71,6 +71,10 @@ interface Constants{
     const NAMES_UPDATE_OK = "Il nome e il cognome sono stati aggiornati";
     const NAMES_UPDATE_ERROR = "Errore durante la modifica del nome e del cognome. ".Constants::ADMIN_CONTACT;
 
+    //News
+    const NEWS_ERROR = "Errore durante la lettura degli ultimi articoli. ".Constants::ADMIN_CONTACT;
+    const NEWS_EMPTY = "Nessun articolo da mostrare";
+
     //Password
     const PASSWORD_UPDATE_OK = "La password è stata aggiornata";
     const PASSWORD_UPDATE_ERROR = "Errore durante la modifica della password. ".Constants::ADMIN_CONTACT;
