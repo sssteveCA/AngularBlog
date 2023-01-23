@@ -19,10 +19,26 @@ $response = [
 ];
 try{
     $al = new ArticleList();
-    $filter = [];
+    $filter = [
+        [
+            '$limit' => 10,
+            '$orderby' => [ 'last_modified' => 1]
+        ],  
+    ];
     $found = $al->articlelist_get($filter);
     if($found){
-
+        $articles = $al->getResults();
+        foreach($articles as $article){
+            $response[C::KEY_DATA][] = array(
+                'author' => $article->getAuthor(),
+                'categories' => implode(",", $article->getCategories()),
+                'introtext' => $article->getIntrotext(),
+                'last_modified' => $article->getLastMod(),
+                'tags' => implode(",", $article->getTags()),
+                'title' => $article->getTitle(),
+            );
+        }//foreach($articles as $article){
+        $response[C::KEY_DONE] = true;
     }//if($found){
     else{
         $response[C::KEY_EMPTY] = true;
