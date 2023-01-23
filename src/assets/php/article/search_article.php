@@ -35,7 +35,7 @@ if(isset($_GET['permalink']) && $_GET['permalink'] != ''){
         if($got){
             //Article with given permalink found
             $authorId = $article->getAuthor();
-            $response['article'] = [
+            $response[C::KEY_DATA] = [
                 'id' => $article->getId(),
                 'title' => $article->getTitle(),
                 'authorId' => $authorId,
@@ -48,14 +48,13 @@ if(isset($_GET['permalink']) && $_GET['permalink'] != ''){
                 'last_modified' => $article->getLastMod()
             ];
             $user = new User([]);
-            $filter = ['_id' => new ObjectId("{$authorId}")];
+            $filter = ['_id' => new ObjectId($authorId)];
             $userGot = $user->user_get($filter);
             if($userGot){
                 //User getted by author id field of article collection
-                $response['article']['author'] = [
-                    'username' => $user->getUsername()
-                ];
+                $response[C::KEY_DATA]['author'] =  $user->getUsername();
             }
+            else $response[C::KEY_DATA]['author'] = 'Sconosciuto';
             $response[C::KEY_DONE] = true;
         }//if($got){
         else{
