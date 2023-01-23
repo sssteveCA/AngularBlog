@@ -41,6 +41,7 @@ try{
                 'categories' => implode(",", $article->getCategories()),
                 'introtext' => $article->getIntrotext(),
                 'last_modified' => $article->getLastMod(),
+                'permalink' => $article->getPermalink(),
                 'tags' => implode(",", $article->getTags()),
                 'title' => $article->getTitle(),
             );

@@ -8,7 +8,7 @@
       </div>
       <!-- Show the last posts list -->
       <div *ngIf="!showSpinner && done && !empty">
-
+        <app-article-list-item *ngFor="let post of lastPosts" [article]="post"></app-article-list-item>
       </div>
     </div>
   </div>
