@@ -69,36 +69,4 @@ export class ArticleComponent implements OnInit {
       //this.router.navigateByUrl(constants.notFoundUrl);
     });
    }
-
-  
-
-  //create HTML content from articles data
-  showArticle(data: Article){
-    let html = `
-<div class="container">
-    <div class="row">
-      <div class="col col-md-8 offset-md-2">
-        <h1 class="title text-center">${data.title}</h1>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col col-md-8 offset-md-2 my-5">
-        <div>${data.content}</div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12 col-md-5 my-3">
-        <p>Categorie: <span class="fw-bold">${data.categories}</span></p>
-        <p>Tag: <span class="fw-bold">${data.tags}</span></p>
-      </div>
-      <div class="col-12 col-md-5 offset-md-2 my-3">
-        <p>Autore: <span class="fw-bold">${data.author}</span></p>
-        <p>Creato il: <span class="fw-bold">${data.creation_time}</span></p>
-        <p>Ultima modifica: <span class="fw-bold">${data.last_modified}</span></p>
-      </div>
-    </div>
-</div> 
-`;
-    $('#article').html(html);
-  }
 }
