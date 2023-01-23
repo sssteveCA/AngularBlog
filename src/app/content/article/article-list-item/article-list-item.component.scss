@@ -1,0 +1,32 @@
+@use "sass:meta";
+
+$single-selectors-map: (
+    '.row-article': (
+        '.col': (
+            '.title': (
+                text-align: center
+            ),
+        ),
+        margin: '20px 0px'
+    )
+);
+
+@mixin article-list-item-style($ss-map-map,$cs-map){
+
+}
+
+
+@mixin single-selector-loop($map){
+    @each $key, $value in $map{
+        @if meta.type-of($value){
+            #{$key}{
+                @include single-selector-loop($properties);
+            }
+        }//@if meta.type-of($properties){
+        @else{
+            #{$key}: #{$value}
+        }
+    }//@each $selector, $properties in $map{
+}
+
+@include article-list-item-style($single-selectors-map,$compound-selectors-map);
