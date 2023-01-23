@@ -29,6 +29,7 @@ export class BlogComponent implements OnInit {
 
   //When user click Search button
   onSearchClick(search: HTMLInputElement): void{
+    this.requestFailed = false;
     let saData: SearchedArticlesInterface = {
       http: this.http,
       query: search.value,

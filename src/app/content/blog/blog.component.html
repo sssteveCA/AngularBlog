@@ -3,6 +3,9 @@
       <h1 class="display-5 fw-bold headerPage">Blog</h1>
     </div>
 </div>
+<div id="link-back" class="h4">
+  <a href="javascript:void(0)" [routerLink] = "['../']">Torna indietro</a>
+</div>
 <div id="divSearch" class="nav-item d-flex flex-column flex-sm-row">
   <input id="pageQuery" name="pageQuery" type="search" placeholder="Cerca articolo" (click)="requestFailed = false;" #query>
   <button class="btn btn-outline-success" type="button" (click)="onSearchClick(query)">Cerca</button>
