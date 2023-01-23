@@ -1,51 +1,53 @@
-<div class="form-container p-5 mb-4 rounded-3">
+<div class="p-5 mb-4 rounded-3">
   <div class="container-fluid py-5">
     <h1 class="display-5 fw-bold headerPage">Contatti</h1>
-    <div id="link-back" class="h4">
-      <a href="javascript:void(0)" [routerLink] = "['/']">Torna indietro</a>
-    </div>
-    <form method="post" [formGroup]="contactForm" (submit)="onSubmit()">
-      <fieldset>
-        <div class="mb-3">
-          <mat-form-field class="w-100" appearence="fill">
-            <mat-label for="email">Il tuo indirizzo email</mat-label>
-            <input matInput type="email" id="email" name="email" formControlName="email">
-          </mat-form-field>
-          <div>
-            <small class="text-danger" *ngIf="contactForm.get('email')?.hasError('required')">Campo obbligatorio</small>
-            <small class="text-danger" *ngIf="contactForm.get('email')?.hasError('email')">Deve essere un indirizzo email valido</small>
-          </div>
-        </div>
-        <div class="mb-3">
-          <mat-form-field class="w-100" appearence="fill">
-            <mat-label for="subject">Oggetto</mat-label>
-            <input matInput type="text" id="subject" name="subject" formControlName="subject">
-          </mat-form-field>
-          <div>
-            <small class="text-danger" *ngIf="contactForm.get('subject')?.hasError('required')">Campo obbligatorio</small>
-          </div>
-        </div>
-        <div class="mb-3">
-          <mat-form-field class="w-100" appearence="fill">
-            <mat-label for="message">Messaggio</mat-label>
-            <textarea matInput id="message" name="message" rows="6" formControlName="message"></textarea>
-          </mat-form-field>
-          <div>
-            <small class="text-danger" *ngIf="contactForm.get('message')?.hasError('required')">Campo obbligatorio</small>
-          </div>
-        </div>
-        <div class="mb-3 d-flex flex-column flex-sm-row justify-content-center justify-content-sm-evenly">
-          <div class="d-flex justify-content-center">
-            <button mat-raised-button color="primary" type="submit">INVIA</button>
-            <div id="contacts-spinner" class="spinner-grow ms-4" [ngClass]="{'d-none':!showSpinner}" style="width: 3rem; height: 3rem;" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-          </div>
-          <div class="d-flex justify-content-center">
-            <button mat-raised-button color="warn" type="reset" class="me-5 me-sm-0">ANNULLA</button>
-          </div>
-        </div>
-      </fieldset>
-    </form>
   </div>
+</div>
+<div id="link-back" class="h4">
+  <a href="javascript:void(0)" [routerLink] = "['../']">Torna indietro</a>
+</div>
+<div class="form-container p-5 mb-4 rounded-3">
+  <form method="post" [formGroup]="contactForm" (submit)="onSubmit()">
+    <fieldset>
+      <div class="mb-3">
+        <mat-form-field class="w-100" appearence="fill">
+          <mat-label for="email">Il tuo indirizzo email</mat-label>
+          <input matInput type="email" id="email" name="email" formControlName="email">
+        </mat-form-field>
+        <div>
+          <small class="text-danger" *ngIf="contactForm.get('email')?.hasError('required')">Campo obbligatorio</small>
+          <small class="text-danger" *ngIf="contactForm.get('email')?.hasError('email')">Deve essere un indirizzo email valido</small>
+        </div>
+      </div>
+      <div class="mb-3">
+        <mat-form-field class="w-100" appearence="fill">
+          <mat-label for="subject">Oggetto</mat-label>
+          <input matInput type="text" id="subject" name="subject" formControlName="subject">
+        </mat-form-field>
+        <div>
+          <small class="text-danger" *ngIf="contactForm.get('subject')?.hasError('required')">Campo obbligatorio</small>
+        </div>
+      </div>
+      <div class="mb-3">
+        <mat-form-field class="w-100" appearence="fill">
+          <mat-label for="message">Messaggio</mat-label>
+          <textarea matInput id="message" name="message" rows="6" formControlName="message"></textarea>
+        </mat-form-field>
+        <div>
+          <small class="text-danger" *ngIf="contactForm.get('message')?.hasError('required')">Campo obbligatorio</small>
+        </div>
+      </div>
+      <div class="mb-3 d-flex flex-column flex-sm-row justify-content-center justify-content-sm-evenly">
+        <div class="d-flex justify-content-center">
+          <button mat-raised-button color="primary" type="submit">INVIA</button>
+          <div id="contacts-spinner" class="spinner-grow ms-4" [ngClass]="{'d-none':!showSpinner}" style="width: 3rem; height: 3rem;" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center">
+          <button mat-raised-button color="warn" type="reset" class="me-5 me-sm-0">ANNULLA</button>
+        </div>
+      </div>
+    </fieldset>
+  </form>
 </div>
