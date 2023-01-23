@@ -59,7 +59,7 @@ export class BlogComponent implements OnInit {
       /*console.log(index);
       console.log(elem);*/
         divR = $('<div>');
-        divR.addClass('row');
+        divR.addClass('row row-article');
           divC = $('<div>');
           divC.addClass('col col-md-8 offset-md-2');
             title = $('<h3>');
@@ -82,23 +82,24 @@ export class BlogComponent implements OnInit {
           let link = '/blog/'+elem.permalink;
           window.open(link, '_blank');
         });
-        divR.on('mouseenter',(e)=>{
-          $(e.target).css({
-            cursor : 'pointer',
-            'background-color': 'rgba(255,215,0,0.3)', //gold
-            opacity : '0.9'
-          });
-        });
-        divR.on('mouseleave',(e)=>{
-          $(e.target).css({
-            cursor : 'auto',
-            'background-color' : 'transparent',
-            opacity : '1'
-          });
-        });
       divCont.append(divR);
     });
     $('#articlesList').append(divCont);
+    let rows = $('.row-article');
+    rows.on('mouseenter',(e)=>{
+      $(e.currentTarget).css({
+        cursor : 'pointer',
+        'background-color': 'rgba(255,215,0,0.3)', //gold
+        opacity : '0.9'
+      });
+    });
+    rows.on('mouseleave',(e)=>{
+      $(e.currentTarget).css({
+        cursor : 'auto',
+        'background-color' : 'transparent',
+        opacity : '1'
+      });
+    });
   }
 
 }

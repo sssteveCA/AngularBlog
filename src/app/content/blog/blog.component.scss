@@ -1,3 +1,18 @@
 @import 'scss_partials/variables';
 @import 'scss_partials/mixins';
 @import 'scss_partials/base';
+
+@mixin blog-style(){
+    #articlesList{
+        .container{
+            .row-article{
+                &:hover{
+                    background-color: rgba(255,215,0,0.3);
+                    opacity: 0.9;
+                }
+            }
+        }
+    }
+}
+
+//@include blog-style();
