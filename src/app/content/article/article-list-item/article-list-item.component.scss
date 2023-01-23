@@ -2,11 +2,13 @@
 
 $single-selectors-map: (
     '.row-article': (
-        '.col': (
-            '.title': (
-                text-align: center
+        'a': (
+            '.col': (
+                '.title': (
+                    text-align: center
+                ),
             ),
-        ),
+        )
         margin: '20px 0px'
     )
 );
