@@ -1,4 +1,5 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
+import { Keys } from "src/constants/keys";
 import { Messages } from "src/constants/messages";
 import GetArticleInterface from "src/interfaces/requests/article/getarticle.interface";
 
@@ -30,9 +31,15 @@ export class GetArticle{
                 throw err;
             });
         }catch(err){
-            response = {
-              done: false
-            };
+            response = { done: false };
+            if(err instanceof HttpErrorResponse){
+                let errorString: string = err.error as string;
+                let errorBody: object = JSON.parse(errorString);
+                response[Keys.MESSAGE] = errorBody[Keys.MESSAGE];
+            }//if(err instanceof HttpErrorResponse){
+            else{
+                response[Keys.MESSAGE] = Messages.GETARTICLE_ERROR;
+            }
         }
         return response;
     }

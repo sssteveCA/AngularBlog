@@ -48,10 +48,12 @@ export class ArticleComponent implements OnInit {
     };
     let ga: GetArticle = new GetArticle(ga_data);
     ga.getArticle().then(obj => {
+      console.log("then");
+      this.showSpinner = false;
       this.done = obj[Keys.DONE];
       if(obj[Keys.DONE] == true){
         this.articleObj = obj[Keys.DATA];
-        this.showArticle(obj[Keys.DATA]);
+        //this.showArticle(obj[Keys.DATA]);
       }
       else{
         if(obj['notfound'] == true)
@@ -60,6 +62,8 @@ export class ArticleComponent implements OnInit {
           this.message = obj[Keys.MESSAGE];
       }//else{
     }).catch(err => {
+      console.log("catch");
+      this.showSpinner = false;
       this.done = false;
       this.message = Messages.GETARTICLE_ERROR;
       //this.router.navigateByUrl(constants.notFoundUrl);
