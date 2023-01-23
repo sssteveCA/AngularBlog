@@ -11,12 +11,34 @@ $single-selectors-map: (
     )
 );
 
-@mixin article-list-item-style($ss-map-map,$cs-map){
+$compound-selectors-map: (
+    'row-article:hover': (
+        background-color: 'rgba(255,215,0,0.3)'
+        cursor: pointer,
+        opacity: 0.9
+    ),
+    '.row-article:not(:last-child)': (
+        border-bottom: '1px solid black'
+    )
+);
 
+@mixin article-list-item-style($ss-map-map,$cs-map){
+    @include single-selectors-loop($ss-map);
+    @include compound-selectors-loop($cs-map);
+}
+
+@mixin compound-selectors-loop($map){
+    @each $selector, $properties in $map{
+        #{$selector}{
+            @each $prop,$val in $properties{
+                #{$prop}: #{$val};
+            }
+        }
+    }
 }
 
 
-@mixin single-selector-loop($map){
+@mixin single-selectors-loop($map){
     @each $key, $value in $map{
         @if meta.type-of($value){
             #{$key}{
