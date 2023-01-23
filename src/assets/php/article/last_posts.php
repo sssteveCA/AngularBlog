@@ -8,16 +8,21 @@ require_once("../interfaces/article/article_errors.php");
 require_once("../interfaces/article/articlelist_errors.php");
 require_once("../../../../vendor/autoload.php");
 require_once("../traits/error.trait.php");
+require_once("../classes/model.php");
+require_once("../classes/models.php");
 require_once("../classes/article/article.php");
 require_once("../classes/article/articlelist.php");
 
 use AngularBlog\Classes\Article\ArticleList;
 use AngularBlog\Interfaces\Constants as C;
+use Dotenv\Dotenv;
 
 $response = [
     C::KEY_DATA => [], C::KEY_DONE => false, C::KEY_EMPTY => [], C::KEY_MESSAGE => ""
 ];
 try{
+    $dotenv = Dotenv::createImmutable(__DIR__."/../../../../");
+    $dotenv->safeLoad();
     $al = new ArticleList();
     $filter = [
         [

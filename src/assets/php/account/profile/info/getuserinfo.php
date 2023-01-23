@@ -36,7 +36,7 @@ $response = [
 
 if(isset($_GET["token_key"]) && $_GET["token_key"] != ""){
     $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../../");
-    $dotenv->load();
+    $dotenv->safeLoad();
     $token_data = ["token_key" => $_GET["token_key"]];
     try{
         $token = new Token($token_data);
