@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import {Article} from '../../models/article.model';
 import * as constants from '../../../constants/constants';
 import { Keys } from 'src/constants/keys';
+import SearchedArticlesInterface from 'src/interfaces/requests/article/searchedarticles.interface';
+import SearchedArticles from 'src/classes/requests/article/searchedarticles';
 
 @Component({
   selector: 'app-blog',
@@ -21,27 +23,33 @@ export class BlogComponent implements OnInit {
 
   //When user click Search button
   onSearchClick(search: HTMLInputElement): void{
-    let val = search.value;
-    //console.log(val);
-    let params = new HttpParams().append('query',val);
-    this.http.post(this.url,params,{responseType: 'text'}).subscribe(res => {
-      //console.log(res);
-      let rJson = JSON.parse(res);
-      //console.log(rJson);
-      if(rJson[Keys.DONE] == true){
-        this.articles = rJson[Keys.DATA];
-        //console.log(this.articles);
+    let saData: SearchedArticlesInterface = {
+      http: this.http,
+      query: search.value,
+      url: this.url
+    }
+    let sa: SearchedArticles = new SearchedArticles(saData);
+    sa.searchedArticles().then(res => {
+      if(res[Keys.DONE] == true){
+        this.articles = res[Keys.DATA];
         this.printResult(this.articles);
       }
       else{
-        $('#articlesList').html('');
-        let divAlert = $('<div>');
-        divAlert.addClass("alert alert-danger");
-        divAlert.attr('role','alert');
-        divAlert.css('text-align','center');
-        divAlert.text(rJson[Keys.MESSAGE]);
-        $('#articlesList').append(divAlert);
+        if(res[Keys.EMPTY] == true){
+
+        }
+        else{
+          $('#articlesList').html('');
+          let divAlert = $('<div>');
+          divAlert.addClass("alert alert-danger");
+          divAlert.attr('role','alert');
+          divAlert.css('text-align','center');
+          divAlert.text(res[Keys.MESSAGE]);
+          $('#articlesList').append(divAlert);
+          }
       }
+    }).catch(err => {
+
     });
   }
 
