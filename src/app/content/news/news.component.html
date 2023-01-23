@@ -6,6 +6,22 @@
           <span class="visually-hidden">Loading...</span>
         </div>
       </div>
+      <!-- Show the last posts list -->
+      <div *ngIf="showSpinner == false && done && empty == false; else message">
+
+      </div>
     </div>
   </div>
+  <ng-template [ngIf]="showSpinner == false && message" #message>
+    <!-- Inform the user that there aren't post to show -->
+    <ng-template [ngIf]="done && empty" [ngIfElse]="error">
+      <div [ngStyle]="{'padding': '25px 0px', 'text-align': 'center', 'font-size': '20px','font-weight': 'bold'}">
+        {{message}}
+      </div>
+    </ng-template>
+    <!-- Error during the loading of the last posts -->
+    <ng-template #error>
+      <div class="alert alert-danger" role="alert">{{message}}</div>
+    </ng-template>
+  </ng-template>
 

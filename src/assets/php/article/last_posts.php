@@ -22,7 +22,7 @@ use Dotenv\Dotenv;
 use MongoDB\BSON\ObjectId;
 
 $response = [
-    C::KEY_DATA => [], C::KEY_DONE => false, C::KEY_EMPTY => [], C::KEY_MESSAGE => ""
+    C::KEY_DATA => [], C::KEY_DONE => false, C::KEY_EMPTY => false, C::KEY_MESSAGE => ""
 ];
 try{
     $dotenv = Dotenv::createImmutable(__DIR__."/../../../../");
@@ -51,12 +51,12 @@ try{
             $response[C::KEY_DATA][$i]['author'] = $author;
             $i++;
         }//foreach($articles as $article){
-        $response[C::KEY_DONE] = true;
     }//if($found){
     else{
         $response[C::KEY_EMPTY] = true;
         $response[C::KEY_MESSAGE] = C::NEWS_EMPTY;
     }
+    $response[C::KEY_DONE] = true;
 }catch(Exception $e){
     //echo "last_posts.php exception => ".$e->getMessage()."\r\n";
     $response[C::KEY_MESSAGE] = C::NEWS_ERROR;
