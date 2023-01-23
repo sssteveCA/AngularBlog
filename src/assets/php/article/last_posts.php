@@ -4,18 +4,22 @@ require_once("../cors.php");
 require_once("../interfaces/constants.php");
 require_once("../interfaces/models_errors.php");
 require_once("../interfaces/model_errors.php");
+require_once("../interfaces/user_errors.php");
 require_once("../interfaces/article/article_errors.php");
 require_once("../interfaces/article/articlelist_errors.php");
 require_once("../../../../vendor/autoload.php");
 require_once("../traits/error.trait.php");
 require_once("../classes/model.php");
 require_once("../classes/models.php");
+require_once("../classes/user.php");
 require_once("../classes/article/article.php");
 require_once("../classes/article/articlelist.php");
 
 use AngularBlog\Classes\Article\ArticleList;
+use AngularBlog\Classes\User;
 use AngularBlog\Interfaces\Constants as C;
 use Dotenv\Dotenv;
+use MongoDB\BSON\ObjectId;
 
 $response = [
     C::KEY_DATA => [], C::KEY_DONE => false, C::KEY_EMPTY => [], C::KEY_MESSAGE => ""
@@ -31,15 +35,21 @@ try{
     $found = $al->articlelist_get([],$options);
     if($found){
         $articles = $al->getResults();
+        $i = 0;
         foreach($articles as $article){
-            $response[C::KEY_DATA][] = array(
-                'author' => $article->getAuthor(),
+            $response[C::KEY_DATA][$i] = array(
                 'categories' => implode(",", $article->getCategories()),
                 'introtext' => $article->getIntrotext(),
                 'last_modified' => $article->getLastMod(),
                 'tags' => implode(",", $article->getTags()),
                 'title' => $article->getTitle(),
             );
+            $user = new User([]);
+            $got = $user->user_get(['_id' => new ObjectId($article->getAuthor())]);
+            if($got) $author = $user->getUsername();
+            else $author = "Autore sconosciuto";
+            $response[C::KEY_DATA][$i]['author'] = $author;
+            $i++;
         }//foreach($articles as $article){
         $response[C::KEY_DONE] = true;
     }//if($found){
