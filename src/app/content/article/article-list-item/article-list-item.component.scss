@@ -2,11 +2,9 @@
 
 $single-selectors-map: (
     '.row-article': (
-        'a': (
-            '.col': (
-                '.title': (
-                    text-align: center
-                ),
+        '.col': (
+            '.title': (
+                text-align: center
             ),
         ),
         margin: '20px 0px'
@@ -14,7 +12,7 @@ $single-selectors-map: (
 );
 
 $compound-selectors-map: (
-    'row-article:hover': (
+    '.row-article:hover': (
         background-color: 'rgba(255,215,0,0.3)',
         cursor: pointer,
         opacity: 0.9

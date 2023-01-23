@@ -1,8 +1,6 @@
-<div class="row row-article">
-    <a [routerLink]="['/blog',article.permalink]" target="_blank">
-       <div class="col col-md-8 offset-md-2">
-            <h3 class="title">{{article.title}}</h3>
-            <div class="intro">{{article.introtext}}</div>
-        </div> 
-    </a>
+<div class="row row-article" (click)="onClickItem(article.permalink)">
+    <div class="col col-md-8 offset-md-2">
+        <h3 class="title">{{article.title}}</h3>
+        <div class="intro">{{article.introtext}}</div>
+    </div> 
 </div>

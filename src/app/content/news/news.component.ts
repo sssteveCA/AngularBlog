@@ -43,7 +43,7 @@ export class NewsComponent implements OnInit, AfterViewInit {
       this.message = res[Keys.MESSAGE];
       if(this.done && this.empty == false){
         this.lastPosts = res[Keys.DATA];
-        console.log(this.lastPosts);
+        //console.log(this.lastPosts);
       }
     }).catch(err => {
       this.done = false;

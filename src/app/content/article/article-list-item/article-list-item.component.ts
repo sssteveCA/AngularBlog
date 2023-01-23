@@ -15,4 +15,14 @@ export class ArticleListItemComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * Open the clicked post from posts list in a new window
+   * @param permalink the permalink of the post
+   */
+  onClickItem(permalink: string): void{
+    //console.log(permalink);
+    let url: string = `blog/${permalink}`;
+    window.open(url);
+  }
+
 }
