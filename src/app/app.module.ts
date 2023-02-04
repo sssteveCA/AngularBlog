@@ -91,6 +91,6 @@ import { CookieBannerComponent } from './cookie-banner/cookie-banner.component';
     MatCheckboxModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, CookieBannerComponent]
 })
 export class AppModule { }
