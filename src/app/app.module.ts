@@ -40,6 +40,7 @@ import { TermsComponent } from './content/terms/terms.component';
 import { PolicyItemComponent } from './menu/policy-item/policy-item.component';
 import { EmailComponent } from './account/profile/info/email/email.component';
 import { ArticleListItemComponent } from './content/article/article-list-item/article-list-item.component';
+import { CookieBannerComponent } from './cookie-banner/cookie-banner.component';
 
 
 
@@ -75,7 +76,8 @@ import { ArticleListItemComponent } from './content/article/article-list-item/ar
     TermsComponent,
     PolicyItemComponent,
     EmailComponent,
-    ArticleListItemComponent
+    ArticleListItemComponent,
+    CookieBannerComponent
   ],
   imports: [
     BrowserModule,
