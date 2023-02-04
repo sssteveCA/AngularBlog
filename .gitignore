@@ -55,5 +55,6 @@ src/app/content/privacy-policy/privacy-policy.component.html
 src/app/content/cookie-policy/cookie-policy.component.html
 src/app/content/terms/terms.component.html
 src/app/cookie-banner/cookie-banner.component.html
+src/index.html
 
 
