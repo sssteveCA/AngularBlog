@@ -40,6 +40,7 @@ interface Constants{
     //Cookie
     const COOKIE_ID = 'id';
     const COOKIE_NAME = 'username';
+    const COOKIE_PREFERENCE_TIME = 3600;
 
     //Email
     const EMAIL_ACCOUNT_CREATED = 'Account creato con successo. Per completare la registrazione accedi alla tua casella di posta';
