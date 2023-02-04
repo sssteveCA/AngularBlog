@@ -51,8 +51,8 @@ Thumbs.db
 *.txt
 
 #components excluded
-src/app/content/privacy-policy/*
-src/app/content/cookie-policy/*
-src/app/content/terms/*
+src/app/content/privacy-policy/privacy-policy.component.html
+src/app/content/cookie-policy/cookie-policy.component.html
+src/app/content/terms/terms.component.html
 
 
