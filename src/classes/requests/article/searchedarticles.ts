@@ -62,7 +62,7 @@ export default class SearchedArticles{
 
     private async searchedArticlesPromise(): Promise<string>{
         return await new Promise<string>((resolve,reject)=>{
-            let params = new HttpParams().append('query',this._query);
+            let params: object = {query: this._query};
             this._http.post(this._url,params,{
                 responseType: 'text',
             }).subscribe(res => {

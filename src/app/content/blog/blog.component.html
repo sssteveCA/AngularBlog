@@ -11,7 +11,7 @@
     <mat-label>Cerca articolo</mat-label>
     <input matInput id="pageQuery" name="pageQuery" type="search" (click)="requestFailed = false;" #query>
   </mat-form-field>
-  <button mat-raised-button color="primary" [ngStyle]="{'padding': '0px 10px'}">Cerca</button>
+  <button mat-raised-button color="primary" [ngStyle]="{'padding': '0px 10px'}" (click)="onSearchClick(query)">Cerca</button>
   
 </div>
 <div class="row mt-5 justify-content-center" [ngClass]="{'d-none':!searchSpinner}">

@@ -24,10 +24,13 @@ $response = [
 ];
 $field = 'title';
 
-if(isset($_POST['query']) && $_POST['query'] != ''){
+$input = file_get_contents("php://input");
+$post = json_decode($input,true);
+
+if(isset($post['query']) && $post['query'] != ''){
     $dotenv = Dotenv::createImmutable(__DIR__."/../../../../");
     $dotenv->safeLoad();
-    $query = $_POST['query'];
+    $query = $post['query'];
     try{
         $al = new ArticleList();
         $regex = new Regex($query,'i');
@@ -58,7 +61,7 @@ if(isset($_POST['query']) && $_POST['query'] != ''){
         //file_put_contents(C::FILE_LOG,"Search articles Exception => ".var_export($e,true)."\r\n",FILE_APPEND);
         $response[C::KEY_MESSAGE] = C::SEARCH_ERROR;
     }
-}//if(isset($_POST['query']) && $_POST['query'] != ''){
+}//if(isset($post['query']) && $post['query'] != ''){
 else 
     $response[C::KEY_MESSAGE] = C::FILL_ALL_FIELDS;
 
