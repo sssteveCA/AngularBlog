@@ -1,3 +1,49 @@
+@use "sass:meta";
 @import 'scss_partials/variables';
 @import 'scss_partials/mixins';
 @import '../../../scss/partials/backlink';
+
+$single-selectors-map: (
+    '#article': (
+        '.container': (
+            '.row-details': (
+                border-bottom: 1px solid black
+            ),
+        ),
+        min-width: 350px
+    )
+);
+
+$compound-selectors-map: (
+    '.row-title, .row-content, .row-details': (
+        border-left: 1px solid black,
+        border-right: 1px solid black,
+        border-top: 1px solid black
+    )
+);
+
+@mixin single-selectors-loop($ss-map){
+    @each $key, $val in $ss-map{
+        @if meta.type-of($val) == map{
+            #{$key}{
+                @include single-selectors-loop($val);
+            }
+        }
+        @else{
+            #{$key}: #{$val}
+        }
+    }
+}
+
+@mixin compound-selectors-loop($cs-map){
+    @each $selector,$props in $cs-map{
+        #{$selector}{
+            @each $prop,$val in $props{
+                #{$prop}: #{$val};
+            }
+        }
+    }
+}
+
+@include single-selectors-loop($single-selectors-map);
+@include compound-selectors-loop($compound-selectors-map);

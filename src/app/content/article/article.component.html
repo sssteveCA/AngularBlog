@@ -9,17 +9,17 @@
 <div id="article">
     <div *ngIf="!showSpinner && done">
         <div class="container">
-            <div class="row">
+            <div class="row row-title">
               <div class="col col-md-8 offset-md-2">
                 <h1 class="title text-center">{{articleObj.title}}</h1>
               </div>
             </div>
-            <div class="row">
+            <div class="row row-content">
               <div class="col col-md-8 offset-md-2 my-5">
                 <div>{{articleObj.content}}</div>
               </div>
             </div>
-            <div class="row">
+            <div class="row row-details">
               <div class="col-12 col-md-5 my-3">
                 <p>Categorie: <span class="fw-bold">{{articleObj.categories}}</span></p>
                 <p>Tag: <span class="fw-bold">{{articleObj.tags}}</span></p>
