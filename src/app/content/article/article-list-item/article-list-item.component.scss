@@ -7,15 +7,21 @@ $single-selectors-map: (
                 text-align: center
             ),
         ),
-        margin: '20px 0px'
+        margin: '20px 0px',
+        border-top: 1px solid black,
+        border-left: 1px solid black,
+        border-right: 1px solid black
     )
 );
 
 $compound-selectors-map: (
+    '.row-article:last-child': (
+        border-bottom: 1px solid black
+    ),
     '.row-article:hover': (
         background-color: 'rgba(255,215,0,0.3)',
         cursor: pointer,
-        opacity: 0.9
+        opacity: 0.9,
     ),
     '.row-article:not(:last-child)': (
         border-bottom: '1px solid black'
