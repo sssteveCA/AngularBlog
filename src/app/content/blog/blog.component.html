@@ -7,8 +7,12 @@
   <a href="javascript:void(0)" [routerLink] = "['../']">Torna indietro</a>
 </div>
 <div id="divSearch" class="nav-item d-flex flex-column flex-sm-row">
-  <input id="pageQuery" name="pageQuery" type="search" placeholder="Cerca articolo" (click)="requestFailed = false;" #query>
-  <button class="btn btn-outline-success" type="button" (click)="onSearchClick(query)">Cerca</button>
+  <mat-form-field [ngStyle]="{'width' : '100%' , 'margin-left' : '10px' , 'margin-right' : '10px'}">
+    <mat-label>Cerca articolo</mat-label>
+    <input matInput id="pageQuery" name="pageQuery" type="search" (click)="requestFailed = false;" #query>
+  </mat-form-field>
+  <button mat-raised-button color="primary" [ngStyle]="{'padding': '0px 10px'}">Cerca</button>
+  
 </div>
 <div class="row mt-5 justify-content-center" [ngClass]="{'d-none':!searchSpinner}">
   <div id="news-spinner" class="spinner-grow"  style="width: 3rem; height: 3rem;" role="status">
