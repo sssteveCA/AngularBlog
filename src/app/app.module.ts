@@ -44,6 +44,7 @@ import { CookieBannerComponent } from './cookie-banner/cookie-banner.component';
 import { HistoryComponent } from './account/profile/history/history.component';
 import { TitleComponent } from './partials/title/title.component';
 import { BackComponent } from './partials/back/back.component';
+import { ProfileItemComponent } from './account/profile/profile-item/profile-item.component';
 
 
 
@@ -83,7 +84,8 @@ import { BackComponent } from './partials/back/back.component';
     CookieBannerComponent,
     HistoryComponent,
     TitleComponent,
-    BackComponent
+    BackComponent,
+    ProfileItemComponent
   ],
   imports: [
     BrowserModule,
