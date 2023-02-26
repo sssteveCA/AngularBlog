@@ -19,40 +19,41 @@ export class ProfileComponent implements OnInit {
     {title: "Cronologia azioni effettuate", text: "Visualizza o rimuovi tutte le azioni effettuate con questo account", link: "history"}
   ]
 
-  constructor(public http:HttpClient, public api: ApiService, public router: Router) {
+  constructor(private http:HttpClient, private api: ApiService, private router: Router) {
+    this.loginStatus(); 
     this.observeFromService();
-    this.api.getLoginStatus().then(res => {
-        if(res == true){
-          this.userCookie['token_key'] = localStorage.getItem("token_key");
-          this.userCookie['username'] = localStorage.getItem("username");
-          this.api.changeUserdata(this.userCookie);
-          this.http.get(constants.profileUrl,{responseType: 'text'}).subscribe(res => {
-            /* console.log("Profile component profileUrl request");
-            console.log(res); */
-            let rJson = JSON.parse(res);
-          });
-        }
-        else{
-          this.api.removeItems();
-          this.userCookie = {};
-          this.api.changeUserdata(this.userCookie);
-          this.router.navigate([constants.notLoggedRedirect]);
-        }
-        
-        
-    }).catch(err => {
-      this.api.removeItems();
-      this.userCookie = {};
-      this.api.changeUserdata(this.userCookie);
-      this.router.navigate([constants.notLoggedRedirect]);
-    });
-    
    }
 
   ngOnInit(): void {
   }
 
-
+  loginStatus(): void{
+    this.api.getLoginStatus().then(res => {
+      if(res == true){
+        this.userCookie['token_key'] = localStorage.getItem("token_key");
+        this.userCookie['username'] = localStorage.getItem("username");
+        this.api.changeUserdata(this.userCookie);
+        this.http.get(constants.profileUrl,{responseType: 'text'}).subscribe(res => {
+          /* console.log("Profile component profileUrl request");
+          console.log(res); */
+          let rJson = JSON.parse(res);
+        });
+      }
+      else{
+        this.api.removeItems();
+        this.userCookie = {};
+        this.api.changeUserdata(this.userCookie);
+        this.router.navigate([constants.notLoggedRedirect]);
+      }
+      
+      
+  }).catch(err => {
+    this.api.removeItems();
+    this.userCookie = {};
+    this.api.changeUserdata(this.userCookie);
+    this.router.navigate([constants.notLoggedRedirect]);
+  });
+  }
 
   observeFromService(): void{
     this.api.loginChanged.subscribe(logged => {
