@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-profile-item',
@@ -6,6 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile-item.component.scss']
 })
 export class ProfileItemComponent implements OnInit {
+
+  @Input() title: string;
+  @Input() text: string;
+  @Input() link: string;
 
   constructor() { }
 

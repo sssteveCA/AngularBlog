@@ -12,6 +12,12 @@ import * as constants from '../../../constants/constants';
 export class ProfileComponent implements OnInit {
 
   userCookie: any = {};
+  menuItems: object[] = [
+    {title: "Il mio account", text: "Personalizza le informazioni del tuo profilo", link: "info" },
+    {title: "I miei articoli", text: "Gestisci gli articoli che hai postato", link: "myArticles"},
+    {title: "Crea un nuovo articolo", text: "Crea e pubblica un nuovo articolo", link: "myArticles/create"},
+    {title: "Cronologia azioni effettuate", text: "Visualizza o rimuovi tutte le azioni effettuate con questo account", link: "history"}
+  ]
 
   constructor(public http:HttpClient, public api: ApiService, public router: Router) {
     this.observeFromService();
