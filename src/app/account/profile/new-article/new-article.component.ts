@@ -32,6 +32,25 @@ export class NewArticleComponent implements OnInit {
 
   constructor(public http: HttpClient, public fb: FormBuilder, public api: ApiService, private router: Router) {
     this.observeFromService();
+    this.loginStatus();
+    this.formBuild();
+   }
+
+  ngOnInit(): void {
+  }
+
+  formBuild(): void{
+    this.form = this.fb.group({
+      'title': ['',Validators.required],
+      'introtext': ['',Validators.required],
+      'content': ['',Validators.required],
+      'permalink': ['',Validators.required],
+      'categories': ['',Validators.pattern('^[a-zA-Z0-9,]*$')],
+      'tags': ['',Validators.pattern('^[a-zA-Z0-9,]*$')]
+    });
+  }
+
+  loginStatus(): void{
     this.api.getLoginStatus().then(res => {
       //Check if user is logged
       if(res == true){
@@ -51,17 +70,6 @@ export class NewArticleComponent implements OnInit {
         this.api.changeUserdata(this.userCookie);
         this.router.navigate([constants.notLoggedRedirect]);
     });
-    this.form = fb.group({
-      'title': ['',Validators.required],
-      'introtext': ['',Validators.required],
-      'content': ['',Validators.required],
-      'permalink': ['',Validators.required],
-      'categories': ['',Validators.pattern('^[a-zA-Z0-9,]*$')],
-      'tags': ['',Validators.pattern('^[a-zA-Z0-9,]*$')]
-    });
-   }
-
-  ngOnInit(): void {
   }
 
   create(): void{
