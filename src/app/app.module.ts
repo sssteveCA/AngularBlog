@@ -41,6 +41,7 @@ import { PolicyItemComponent } from './menu/policy-item/policy-item.component';
 import { EmailComponent } from './account/profile/info/email/email.component';
 import { ArticleListItemComponent } from './content/article/article-list-item/article-list-item.component';
 import { CookieBannerComponent } from './cookie-banner/cookie-banner.component';
+import { HistoryComponent } from './account/profile/history/history.component';
 
 
 
@@ -77,7 +78,8 @@ import { CookieBannerComponent } from './cookie-banner/cookie-banner.component';
     PolicyItemComponent,
     EmailComponent,
     ArticleListItemComponent,
-    CookieBannerComponent
+    CookieBannerComponent,
+    HistoryComponent
   ],
   imports: [
     BrowserModule,
