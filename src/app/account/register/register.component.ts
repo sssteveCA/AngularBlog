@@ -21,6 +21,7 @@ export class RegisterComponent implements OnInit {
   @ViewChild('password',{static: false}) iPass: ElementRef;
   @ViewChild('confPwd',{static: false}) iConfPwd: ElementRef;
 
+  backlink: string = "/";
   subscribeForm: FormGroup;
   showPassword: boolean = false;
   showConf: boolean = false;

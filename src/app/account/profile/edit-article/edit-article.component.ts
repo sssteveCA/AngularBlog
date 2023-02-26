@@ -24,9 +24,11 @@ import { Keys } from 'src/constants/keys';
 export class EditArticleComponent implements OnInit {
 
   article: Article = new Article();
+  backlink: string = "../../";
   form: FormGroup;
   authorized: boolean = false; //true if user can edit the founded article
   message: string = "";
+  title: string = "Modifica articolo";
   updateArticle_url: string = constants.articleEditScriptUrl;
   userCookie: any = {};
 

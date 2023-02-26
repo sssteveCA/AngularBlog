@@ -20,6 +20,7 @@ import { Keys } from 'src/constants/keys';
 })
 export class LoginComponent implements OnInit {
 
+  backlink: string = "/";
   loginForm: FormGroup;
   login_url: string = constants.loginUrl;
   showPassword: boolean = false;

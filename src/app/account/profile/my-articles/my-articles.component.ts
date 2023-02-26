@@ -27,6 +27,7 @@ import { Keys } from 'src/constants/keys';
 })
 export class MyArticlesComponent implements OnInit {
 
+  backlink: string = "../";
   userCookie: any = {};
   articles: Article[] = new Array();
   deleteArticle_url: string = constants.articleDeleteUrl;

@@ -24,6 +24,7 @@ import { Keys } from 'src/constants/keys';
 export class NewArticleComponent implements OnInit {
 
   addArticle_url: string = constants.articleCreateUrl;
+  backlink: string = "../../";
   article: Article = new Article();
   form: FormGroup;
   userCookie: any = {};

@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NotFound404Component implements OnInit {
 
+  backlink: string = "/";
+
   constructor() { }
 
   ngOnInit(): void {

@@ -1,7 +1,5 @@
 <app-title [title]="title"></app-title>
-<div id="link-back" class="h4">
-    <a href="javascript:void(0)" [routerLink] = "['/profile']">Torna indietro</a>
-</div>
+<app-back [backlink]="backlink"></app-back>
 <!-- Articles getted from backend -->
 <div id="articles-list" *ngIf="done == true">
     <div class="article" *ngFor="let article of articles; index as i">

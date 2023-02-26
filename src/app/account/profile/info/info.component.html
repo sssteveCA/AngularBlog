@@ -1,8 +1,6 @@
 <app-title [title]="title"></app-title>
+<app-back [backlink]="backlink"></app-back>
 <div class="edit-username container">
-    <div id="link-back" class="h4">
-        <a href="javascript:void(0)" [routerLink] = "['../']">Torna indietro</a>
-    </div>
     <app-email [emailObject]="emailObject"></app-email>
     <app-username [usernameObject]="usernameObject"></app-username>
     <app-names [namesObject]="namesObject"></app-names>

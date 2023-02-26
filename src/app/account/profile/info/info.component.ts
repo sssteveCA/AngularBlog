@@ -15,6 +15,7 @@ import * as constants from '../../../../constants/constants';
 })
 export class InfoComponent implements OnInit {
 
+  backlink: string = "../";
   emailObject: object = {};
   namesObject: object = {};
   usernameObject: object = {};
