@@ -33,8 +33,37 @@ export class EditArticleComponent implements OnInit {
   userCookie: any = {};
 
   constructor(
-    public http: HttpClient, public fb: FormBuilder, public api: ApiService, private router: Router, public route: ActivatedRoute, api2: Api2Service) {
+    public http: HttpClient, public fb: FormBuilder, public api: ApiService, private router: Router, public route: ActivatedRoute, private api2: Api2Service) {
+    this.loginStatus();
     this.observeFromService();
+    this.formBuild();
+    this.editArticleParams();
+   }
+
+   editArticleParams(): void{
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      let id = params.get('articleId');
+      /* console.log("id => ");
+      console.log(id); */
+      if(typeof id !== 'undefined' && id != null){
+        this.article.id = id;
+        this.getArticleInfo(this.article.id,this.api2);
+      }
+    });
+   }
+
+   formBuild(): void{
+    this.form = this.fb.group({
+      'title': ['',Validators.required],
+      'introtext': ['',Validators.required],
+      'content': ['',Validators.required],
+      'permalink': ['',Validators.required],
+      'categories': ['',Validators.pattern('^[a-zA-Z0-9,]*$')],
+      'tags': ['',Validators.pattern('^[a-zA-Z0-9,]*$')]
+    });
+   }
+
+   loginStatus(): void{
     this.api.getLoginStatus().then(res => {
       //Check if user is logged
       if(res == true){
@@ -48,23 +77,11 @@ export class EditArticleComponent implements OnInit {
         this.api.changeUserdata(this.userCookie);
         this.router.navigateByUrl(constants.notLoggedRedirect)
       }
-    });
-    this.form = fb.group({
-      'title': ['',Validators.required],
-      'introtext': ['',Validators.required],
-      'content': ['',Validators.required],
-      'permalink': ['',Validators.required],
-      'categories': ['',Validators.pattern('^[a-zA-Z0-9,]*$')],
-      'tags': ['',Validators.pattern('^[a-zA-Z0-9,]*$')]
-    });
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      let id = params.get('articleId');
-      /* console.log("id => ");
-      console.log(id); */
-      if(typeof id !== 'undefined' && id != null){
-        this.article.id = id;
-        this.getArticleInfo(this.article.id,api2);
-      }
+    }).catch(err => {
+      this.api.removeItems();
+        this.userCookie = {};
+        this.api.changeUserdata(this.userCookie);
+        this.router.navigateByUrl(constants.notLoggedRedirect)
     });
    }
 
