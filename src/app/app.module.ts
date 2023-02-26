@@ -42,6 +42,7 @@ import { EmailComponent } from './account/profile/info/email/email.component';
 import { ArticleListItemComponent } from './content/article/article-list-item/article-list-item.component';
 import { CookieBannerComponent } from './cookie-banner/cookie-banner.component';
 import { HistoryComponent } from './account/profile/history/history.component';
+import { TitleComponent } from './partials/title/title.component';
 
 
 
@@ -79,7 +80,8 @@ import { HistoryComponent } from './account/profile/history/history.component';
     EmailComponent,
     ArticleListItemComponent,
     CookieBannerComponent,
-    HistoryComponent
+    HistoryComponent,
+    TitleComponent
   ],
   imports: [
     BrowserModule,
