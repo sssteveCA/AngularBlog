@@ -40,7 +40,14 @@ export class MyArticlesComponent implements OnInit {
   title: string = "I miei articoli";
 
   constructor(public http: HttpClient, public api: ApiService,private router: Router) {
+    this.loginStatus();
     this.observeFromService();
+   }
+
+  ngOnInit(): void {
+  }
+
+  loginStatus(): void{
     this.api.getLoginStatus().then(res => {
       //Check if user is logged
       if(res == true){
@@ -62,9 +69,6 @@ export class MyArticlesComponent implements OnInit {
     this.api.changeUserdata(this.userCookie);
     this.router.navigate([constants.notLoggedRedirect]);
   });
-   }
-
-  ngOnInit(): void {
   }
 
   observeFromService(): void{
