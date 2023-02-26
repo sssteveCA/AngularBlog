@@ -44,9 +44,7 @@ export class ProfileComponent implements OnInit {
         this.userCookie = {};
         this.api.changeUserdata(this.userCookie);
         this.router.navigate([constants.notLoggedRedirect]);
-      }
-      
-      
+      }   
   }).catch(err => {
     this.api.removeItems();
     this.userCookie = {};

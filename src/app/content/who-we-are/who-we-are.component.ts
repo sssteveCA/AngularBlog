@@ -8,6 +8,7 @@ import { PassvariablesService } from 'src/app/services/passvariables.service';
 })
 export class WhoWeAreComponent implements OnInit {
 
+  backlink: string = "/";
   text_container: string = "";
 
   constructor(private pvs: PassvariablesService) { 

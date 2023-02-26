@@ -24,14 +24,18 @@ export class ContactsComponent implements OnInit {
   title: string = "Contatti";
 
   constructor(public fb: FormBuilder, public http: HttpClient) {
-    this.contactForm = fb.group({
+    this.formBuild();
+   }
+
+  ngOnInit(): void {
+  }
+
+  formBuild(): void{
+    this.contactForm = this.fb.group({
       'email' : ['',Validators.compose([Validators.required,Validators.email])],
       'subject' : ['',Validators.required],
       'message' : ['',Validators.required]
     });
-   }
-
-  ngOnInit(): void {
   }
 
   //when user submit the contact form

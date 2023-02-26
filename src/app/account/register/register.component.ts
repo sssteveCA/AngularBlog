@@ -31,7 +31,14 @@ export class RegisterComponent implements OnInit {
   title:string = "Registrati";
   
   constructor(public fb: FormBuilder, public http: HttpClient) {
-    this.subscribeForm = fb.group({
+    this.formBuild();
+   }
+
+  ngOnInit(): void {
+  }
+
+  formBuild(): void{
+    this.subscribeForm = this.fb.group({
       'name' : ['',Validators.compose([Validators.required,Validators.minLength(3)])],
       'surname' : ['',Validators.compose([Validators.required,Validators.minLength(2)])],
       'username' : ['',Validators.compose([Validators.required,Validators.minLength(5)])],
@@ -39,9 +46,6 @@ export class RegisterComponent implements OnInit {
       'password' : ['',Validators.compose([Validators.required,Validators.minLength(6)])],
       'confPwd' : ['',Validators.compose([Validators.required,Validators.minLength(6)])],
     });
-   }
-
-  ngOnInit(): void {
   }
 
   //when user submit registration form

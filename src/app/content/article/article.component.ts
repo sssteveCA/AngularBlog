@@ -24,15 +24,19 @@ export class ArticleComponent implements OnInit {
   getArticle_url: string = constants.articleView;
 
   constructor(public route: ActivatedRoute, public http: HttpClient, private router: Router) {
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      this.article = params.get('article');
-      //console.log("Articolo: "+this.article);
-      let permalink = (typeof this.article === "string")? this.article : "";
-      this.getArticle(permalink);
-    });
+    this.articleParams();
    }
 
   ngOnInit(): void {
+    }
+
+    articleParams(): void{
+      this.route.paramMap.subscribe((params: ParamMap) => {
+        this.article = params.get('article');
+        //console.log("Articolo: "+this.article);
+        let permalink = (typeof this.article === "string")? this.article : "";
+        this.getArticle(permalink);
+      });
     }
 
 
