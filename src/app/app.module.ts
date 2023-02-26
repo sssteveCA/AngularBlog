@@ -43,6 +43,7 @@ import { ArticleListItemComponent } from './content/article/article-list-item/ar
 import { CookieBannerComponent } from './cookie-banner/cookie-banner.component';
 import { HistoryComponent } from './account/profile/history/history.component';
 import { TitleComponent } from './partials/title/title.component';
+import { BackComponent } from './partials/back/back.component';
 
 
 
@@ -81,7 +82,8 @@ import { TitleComponent } from './partials/title/title.component';
     ArticleListItemComponent,
     CookieBannerComponent,
     HistoryComponent,
-    TitleComponent
+    TitleComponent,
+    BackComponent
   ],
   imports: [
     BrowserModule,
