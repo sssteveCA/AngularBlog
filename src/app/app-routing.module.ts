@@ -20,6 +20,7 @@ import { InfoComponent } from './account/profile/info/info.component';
 import { PrivacyPolicyComponent } from './content/privacy-policy/privacy-policy.component';
 import { CookiePolicyComponent } from './content/cookie-policy/cookie-policy.component';
 import { TermsComponent } from './content/terms/terms.component';
+import { HistoryComponent } from './account/profile/history/history.component';
 
 const routes: Routes = [
   {path : "", component : IndexComponent},
@@ -35,6 +36,7 @@ const routes: Routes = [
   {path: "register", component: RegisterComponent,canActivate:[NotAuthGuard]},
   {path: "attiva", component: AttivaComponent,canActivate:[NotAuthGuard]},
   {path: "profile", component:ProfileComponent, canActivate:[AuthGuard]},
+  {path: "profile/history", component: HistoryComponent, canActivate:[AuthGuard]},
   {path: "profile/info", component: InfoComponent, canActivate:[AuthGuard]},
   {path: "profile/myArticles", component:MyArticlesComponent, canActivate:[AuthGuard]},
   {path: "profile/myArticles/create", component:NewArticleComponent, canActivate:[AuthGuard]},
