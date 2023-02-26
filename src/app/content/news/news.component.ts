@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { Article } from 'src/app/models/article.model';
 import GetLastPosts from 'src/classes/requests/article/getlastposts';
 import { Keys } from 'src/constants/keys';
@@ -20,6 +20,7 @@ export class NewsComponent implements OnInit, AfterViewInit {
   message: string|null = null;
   showSpinner: boolean = true;
   url: string = constants.lastPostsUrl;
+  title: string = "News";
 
   constructor(public http: HttpClient) { }
 

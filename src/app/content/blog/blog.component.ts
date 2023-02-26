@@ -21,6 +21,7 @@ export class BlogComponent implements OnInit {
   message: string|null = null;
   url: string = constants.searchArticles;
   articles: Article[] = new Array();
+  backlink: string = "/";
   title: string = "Blog";
 
   constructor(public http: HttpClient) { }

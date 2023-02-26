@@ -36,6 +36,7 @@ export class MyArticlesComponent implements OnInit {
   message: string|null = null;
   done: boolean = false; //True if request has returned article list
   spinnerShow: number = -1; //Spinner to show specifying the position whe delete button click occurs
+  title: string = "I miei articoli";
 
   constructor(public http: HttpClient, public api: ApiService,private router: Router) {
     this.observeFromService();

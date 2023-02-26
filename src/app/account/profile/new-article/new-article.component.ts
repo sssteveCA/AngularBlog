@@ -27,6 +27,7 @@ export class NewArticleComponent implements OnInit {
   article: Article = new Article();
   form: FormGroup;
   userCookie: any = {};
+  title: string = "Crea un nuovo articolo";
 
   constructor(public http: HttpClient, public fb: FormBuilder, public api: ApiService, private router: Router) {
     this.observeFromService();

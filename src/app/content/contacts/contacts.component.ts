@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import MessageDialog from 'src/classes/dialogs/messagedialog';
 import ContactsRequest from 'src/classes/requests/contactsrequest';
@@ -21,6 +21,7 @@ export class ContactsComponent implements OnInit {
 
   contactForm: FormGroup;
   showSpinner: boolean = false;
+  title: string = "Contatti";
 
   constructor(public fb: FormBuilder, public http: HttpClient) {
     this.contactForm = fb.group({

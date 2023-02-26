@@ -27,6 +27,7 @@ export class RegisterComponent implements OnInit {
   subscribe_url: string = constants.registerUrl;
   showSpinner: boolean = false;
   confPwdValidatorsTrue: boolean = true;
+  title:string = "Registrati";
   
   constructor(public fb: FormBuilder, public http: HttpClient) {
     this.subscribeForm = fb.group({

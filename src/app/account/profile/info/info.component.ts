@@ -20,6 +20,7 @@ export class InfoComponent implements OnInit {
   usernameObject: object = {};
   urlUserInfo: string = constants.profileGetUserInfoUrl;
   userCookie: any = {};
+  title: string = "Modifica il tuo account";
 
   constructor(public http: HttpClient, public api: ApiService, public router: Router, public fb: FormBuilder) {
     this.observeFromService();
