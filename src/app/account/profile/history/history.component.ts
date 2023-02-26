@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
+import History from 'src/classes/requests/profile/history';
+import HistoryInterface from 'src/interfaces/requests/profile/history.interface';
 import * as constants from '../../../../constants/constants';
 
 @Component({
@@ -13,14 +15,28 @@ export class HistoryComponent implements OnInit {
 
   backlink: string = "../";
   title: string = "Cronologia azioni effettuate";
+  urlHistory: string = constants.profileGetHistoryUrl;
   userCookie: any = {};
 
   constructor(private api: ApiService, private http: HttpClient, private router: Router) {
     this.loginStatus(); 
     this.observeFromService();
+    this.getHistory();
    }
 
   ngOnInit(): void {
+  }
+
+  getHistory(): void{
+    let historyData: HistoryInterface = {
+      http: this.http,
+      token_key: localStorage.getItem('token_key') as string,
+      url: this.urlHistory
+    }
+    let history: History = new History(historyData);
+    history.history().then(res => {
+
+    });
   }
 
   loginStatus(): void{
