@@ -45,6 +45,7 @@ import { HistoryComponent } from './account/profile/history/history.component';
 import { TitleComponent } from './partials/title/title.component';
 import { BackComponent } from './partials/back/back.component';
 import { ProfileItemComponent } from './account/profile/profile-item/profile-item.component';
+import { HistoryItemComponent } from './account/profile/history/history-item/history-item.component';
 
 
 
@@ -85,7 +86,8 @@ import { ProfileItemComponent } from './account/profile/profile-item/profile-ite
     HistoryComponent,
     TitleComponent,
     BackComponent,
-    ProfileItemComponent
+    ProfileItemComponent,
+    HistoryItemComponent
   ],
   imports: [
     BrowserModule,
