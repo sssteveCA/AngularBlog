@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-history-item',
@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HistoryItemComponent implements OnInit {
 
+  @Input() date: Date;
+  @Input() description: string;
+  @Input() title: string;
+  dateString: string;
+
   constructor() { }
 
   ngOnInit(): void {
+    this.dateString = this.date.toLocaleString('it-It',{timeZone: 'UTC'});
   }
 
 }
