@@ -79,6 +79,24 @@ class Action extends Model implements Ae{
     }
 
     /**
+     * Get an Action document
+     */
+    public function action_get(array $filter): bool{
+        $this->errno = 0;
+        $action = parent::get($filter);
+        if($this->errno == 0){
+            $this->id = $action["_id"];
+            $this->user_id = $action["user_id"];
+            $this->action_date = $action["action_date"];
+            $this->title = $action["title"];
+            $this->description = $action["description"];
+            return true;
+        }//if($this->errno == 0){
+        return false;
+
+    }
+
+    /**
      * Update an Action document
      */
     public function action_update(array $filter,array $data): bool{
