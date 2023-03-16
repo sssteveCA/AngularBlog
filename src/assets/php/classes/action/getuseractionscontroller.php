@@ -13,6 +13,7 @@ use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Traits\ResponseMultipleTrait;
 use AngularBlog\Interfaces\Action\GetUserActionControllerErrors as Guace;
 use MongoDB\BSON\ObjectId;
+use AngularBlog\Interfaces\Constants as C;
 
 class GetUserActionsController implements Guace{
 
@@ -28,7 +29,7 @@ class GetUserActionsController implements Guace{
         $this->token_key = $data['token_key'];
         $this->actionList = new ActionList();
         if($this->setToken()){
-
+            $this->setUserActions();
         }
     }
 
@@ -71,6 +72,29 @@ class GetUserActionsController implements Guace{
         if($actionsGet) return true;
         $this->errno = Guace::NOACTIONFOUND;
         return false;
+    }
+
+    /**
+     * Set the response to send to the view
+     */
+    private function setResponse(){
+        switch($this->errno){
+            case 0:
+                $this->response_code = 200;
+                $this->response_array = [];
+                break;
+            case Guace::NOACTIONFOUND:
+                $this->response_code = 200;
+                $this->response_array = [ C::KEY_MESSAGE => Guace::NOACTIONFOUND_MSG ];
+                break;
+            case Guace::NOUSERIDFOUND:
+            default:
+                $this->response_code = 500;
+                $this->response_array = [
+                    C::KEY_MESSAGE => ""
+                ];
+                break;
+        }
     }
 }
 ?>
