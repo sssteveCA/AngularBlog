@@ -74,7 +74,9 @@ class ArticleAuthorizedController implements Aace{
         if(!$data['token'] instanceof Token)throw new TokenTypeMismatchException(Aace::TOKENTYPEMISMATCH_EXC);
     }
 
-    //Get token by token key
+    /**
+     * Get token by token key
+     */
     private function getTokenByKey(): bool{
         $got = false;
         $this->errno = 0;
@@ -95,7 +97,9 @@ class ArticleAuthorizedController implements Aace{
         return $got;
     }
 
-    //Get article info by id
+    /**
+     * Get article info by id
+     */
     private function getArticleById(): bool{
         $got = false;
         $this->errno = 0;
@@ -111,7 +115,9 @@ class ArticleAuthorizedController implements Aace{
         return $got;
     }
 
-    //Check if user is authorized to edit this article
+    /**
+     * Check if user is authorized to edit this article
+     */
     private function isUserAuthorizedCheck(): bool{
         $this->authorized = false;
         $this->errno = 0;
@@ -126,7 +132,9 @@ class ArticleAuthorizedController implements Aace{
         return $this->authorized;
     }
 
-    //Set the response to send to the view
+    /**
+     * Set the response to send to the view
+     */
     private function setResponse(){
         switch($this->errno){
             case 0:
