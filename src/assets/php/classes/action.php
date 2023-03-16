@@ -47,6 +47,9 @@ class Action extends Model implements Ae{
         return $this->error;
     }
 
+    /**
+     * Insert a new Action document
+     */
     public function action_create(): bool{
         $this->errno = 0;
         $this->action_date = date('Y-m-d H:i:s');
@@ -66,7 +69,27 @@ class Action extends Model implements Ae{
     }
 
     /**
-     * check if properties are all valid before insert
+     * Delete an Action document
+     */
+    public function action_delete(array $filter): bool{
+        $this->errno = 0;
+        parent::delete($filter);
+        if($this->errno == 0) return true;
+        return false;
+    }
+
+    /**
+     * Update an Action document
+     */
+    public function action_update(array $filter,array $data): bool{
+        $this->errno = 0;
+        parent::update($filter,$data);
+        if($this->errno == 0) return true;
+        return false;
+    }
+
+    /**
+     * Check if properties are all valid before insert
      */
     private function validate(): bool{
         if(isset($this->action_date) && !preg_match(Action::$regex["action_date"],$this->action_date))
