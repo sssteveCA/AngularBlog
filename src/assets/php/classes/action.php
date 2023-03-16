@@ -2,7 +2,10 @@
 
 namespace AngularBlog\Classes;
 
-class Action extends Model{
+use AngularBlog\Interfaces\ActionErrors as Ae;
+use AngularBlog\Interfaces\ModelErrors as Me;
+
+class Action extends Model implements Ae{
     private ?string $id;
     private ?string $user_id;
     private ?string $action_date;
@@ -30,6 +33,19 @@ class Action extends Model{
     public function getActionDate(){return $this->action_date;}
     public function getTitle(){return $this->title;}
     public function getDescription(){return $this->description;}
+    public function getError(){
+        if($this->errno <= Me::MODEL_RANGE_MAX)
+            return parent::getError();
+        switch($this->errno){
+            case Ae::INVALIDDATAFORMAT:
+                $this->error = Ae::INVALIDDATAFORMAT_MSG;
+                break;
+            default:
+                $this->error = null;
+                break;
+        }
+        return $this->error;
+    }
 
     public function action_create(): bool{
         $this->errno = 0;
@@ -45,6 +61,7 @@ class Action extends Model{
             if($this->errno == 0) return true;
             return false;
         }//if($this->validate()){
+        $this->errno = Ae::INVALIDDATAFORMAT;
         return false;
     }
 
