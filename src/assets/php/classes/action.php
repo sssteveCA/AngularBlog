@@ -30,5 +30,31 @@ class Action extends Model{
     public function getActionDate(){return $this->action_date;}
     public function getTitle(){return $this->title;}
     public function getDescription(){return $this->description;}
+
+    public function action_create(): bool{
+        $this->errno = 0;
+        $this->action_date = date('Y-m-d H:i:s');
+        if($this->validate()){
+            $values = [
+                'user_id' => $this->user_id,
+                'action_date' => $this->action_date,
+                'title' => $this->title,
+                'description' => $this->description
+            ];
+            parent::create($values);
+            if($this->errno == 0) return true;
+            return false;
+        }//if($this->validate()){
+        return false;
+    }
+
+    /**
+     * check if properties are all valid before insert
+     */
+    private function validate(): bool{
+        if(isset($this->action_date) && !preg_match(Action::$regex["action_date"],$this->action_date))
+            return false;
+        return true;
+    }
 }
 ?>
