@@ -1,8 +1,9 @@
 <?php
 
-namespace AngularBlog\Classes;
+namespace AngularBlog\Classes\Action;
 
-use AngularBlog\Interfaces\ActionErrors as Ae;
+use AngularBlog\Classes\Model;
+use AngularBlog\Interfaces\Action\ActionErrors as Ae;
 use AngularBlog\Interfaces\ModelErrors as Me;
 
 class Action extends Model implements Ae{

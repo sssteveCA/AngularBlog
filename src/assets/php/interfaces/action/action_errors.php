@@ -1,6 +1,6 @@
 <?php
 
-namespace AngularBlog\Interfaces;
+namespace AngularBlog\Interfaces\Action;
 
 interface ActionErrors{
     //number
