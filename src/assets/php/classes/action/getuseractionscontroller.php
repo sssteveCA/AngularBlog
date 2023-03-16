@@ -4,11 +4,6 @@ namespace AngularBlog\Classes\Action;
 
 use AngularBlog\Classes\ActionList;
 use AngularBlog\Classes\Token;
-use AngularBlog\Classes\User;
-use AngularBlog\Exceptions\NoTokenInstanceException;
-use AngularBlog\Exceptions\NoUserInstanceException;
-use AngularBlog\Exceptions\TokenTypeMismatchException;
-use AngularBlog\Exceptions\UserTypeMismatchException;
 use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Traits\ResponseMultipleTrait;
 use AngularBlog\Interfaces\Action\GetUserActionControllerErrors as Guace;
