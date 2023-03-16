@@ -2,6 +2,7 @@
 
 namespace AngularBlog\Classes;
 
+use AngularBlog\Classes\Action\Action;
 use AngularBlog\Interfaces\ModelsErrors as Me;
 
 class ActionList extends Models implements Me{
@@ -29,6 +30,26 @@ class ActionList extends Models implements Me{
             }
         }
         return $this->error;
+    }
+
+    public function actionlist_get(array $filter, array $options = []): bool{
+        $this->errno = 0;
+        $cursor = parent::get($filter,$options);
+        if($this->errno == 0){
+            $results = $cursor->toArray();
+            foreach($results as $action){
+                $data = [
+                    'id' => $action['_id'],
+                    'user_id' => $action['user_ud'],
+                    'action_date' => $action['action_date'],
+                    'title' => $action['title'],
+                    'description' => $action['description']
+                ];
+                $this->results[] = new Action($data);
+            }//foreach($results as $action){
+            return true;
+        }//if($this->errno == 0){
+        return false;
     }
 }
 ?>
