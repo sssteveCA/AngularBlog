@@ -1,5 +1,6 @@
 <?php
 //Create a cookie with the expressed privacy user preferences
+require_once("../cors.php");
 require_once("../interfaces/constants.php");
 
 use AngularBlog\Interfaces\Constants as C;

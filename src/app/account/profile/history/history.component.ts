@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
+import { HistoryItem } from 'src/app/models/historyitem.model';
 import History from 'src/classes/requests/profile/history';
 import HistoryInterface from 'src/interfaces/requests/profile/history.interface';
 import * as constants from '../../../../constants/constants';
@@ -17,6 +18,8 @@ export class HistoryComponent implements OnInit {
   title: string = "Cronologia azioni effettuate";
   urlHistory: string = constants.profileGetHistoryUrl;
   userCookie: any = {};
+  historyItems: HistoryItem[] = [];
+  error: boolean = false;
 
   constructor(private api: ApiService, private http: HttpClient, private router: Router) {
     this.loginStatus(); 

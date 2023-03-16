@@ -1,2 +1,16 @@
 <app-title [title]="title"></app-title>
 <app-back [backlink]="backlink"></app-back>
+<div class="history-container pt-5">
+    <div *ngIf="historyItems.length > 0; then historyItemsList; else historyItemsVoid"></div>
+    <ng-template #historyItemsList>
+        <app-history-item *ngFor="let item of historyItems" [date]="item.action_date" [description]="item.description" [title]="item.title"></app-history-item>
+    </ng-template>
+    <ng-template #historyItemsVoid>
+        <ng-template #noItems [ngIf]="!error" [ngIfElse]="errorMessage">
+            <div class="alert alert-secondary" role="alert">Nessun azione effettuata</div>
+        </ng-template>
+        <ng-template #errorMessage>
+            <div class="alert alert-danger" role="alert">Errore durante la lettura delle azioni effettuate</div>
+        </ng-template>
+    </ng-template>
+</div>
