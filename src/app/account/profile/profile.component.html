@@ -4,7 +4,7 @@
     <div class="container marketing my-5">
 
         <!-- Three columns of text below the carousel -->
-        <div class="row">
+        <div class="row row-cols-1 row-cols-lg-3">
           <app-profile-item *ngFor="let item of menuItems" [title]="item['title']" [text]="item['text']" [link]="item['link']"></app-profile-item>
         </div><!-- /.row -->
       </div>
