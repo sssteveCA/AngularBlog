@@ -26,6 +26,7 @@ class GetUserActionsController implements Guace{
         if($this->setToken()){
             $this->setUserActions();
         }
+        $this->setResponse();
     }
 
     public function getTokenKey(){ return $this->token_key; }
@@ -76,7 +77,8 @@ class GetUserActionsController implements Guace{
         switch($this->errno){
             case 0:
                 $this->response_code = 200;
-                $this->response_array = [];
+                $this->response_array = [
+                    'actions' => $this->actionList->getResults()                ];
                 break;
             case Guace::NOACTIONFOUND:
                 $this->response_code = 200;

@@ -67,8 +67,10 @@ if(isset($_GET["token_key"]) && $_GET["token_key"] != ""){
         file_put_contents(C::FILE_LOG, "{$error}\r\n",FILE_APPEND);
     }
 }//if(isset($_GET["token_key"]) && $_GET["token_key"] != ""){
-else
+else{
+    http_response_code(400);
     $response[C::KEY_MESSAGE] = C::ERROR_TOKEN_MISSED;
+}
 
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
 ?>
