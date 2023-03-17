@@ -2,9 +2,7 @@
 
 namespace AngularBlog\Classes\Action;
 
-use AngularBlog\Traits\MessageTrait;
 use AngularBlog\Interfaces\Action\GetUserActionsViewErrors as Guave;
-use AngularBlog\Interfaces\Action\GetUserActionControllerErrors as Guace;
 use AngularBlog\Traits\MessageArrayTrait;
 
 class GetUserActionsView implements Guave{

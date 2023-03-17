@@ -77,8 +77,7 @@ class GetUserActionsController implements Guace{
         switch($this->errno){
             case 0:
                 $this->response_code = 200;
-                $this->response_array = [
-                    'actions' => $this->actionList->getResults()                ];
+                $this->response_array = ['actions' => $this->actionList->getResults()];
                 break;
             case Guace::NOACTIONFOUND:
                 $this->response_code = 200;
@@ -87,9 +86,7 @@ class GetUserActionsController implements Guace{
             case Guace::NOUSERIDFOUND:
             default:
                 $this->response_code = 500;
-                $this->response_array = [
-                    C::KEY_MESSAGE => ""
-                ];
+                $this->response_array = [ C::KEY_MESSAGE => "" ];
                 break;
         }
     }
