@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
 import { HistoryItem } from 'src/app/models/historyitem.model';
 import History from 'src/classes/requests/profile/history';
+import { Keys } from 'src/constants/keys';
 import HistoryInterface from 'src/interfaces/requests/profile/history.interface';
 import * as constants from '../../../../constants/constants';
 
@@ -38,7 +39,10 @@ export class HistoryComponent implements OnInit {
     }
     let history: History = new History(historyData);
     history.history().then(res => {
-
+      if(res[Keys.DONE]){
+        this.historyItems = res[Keys.DATA]['actions'];
+      }
+      else this.error = true;
     });
   }
 

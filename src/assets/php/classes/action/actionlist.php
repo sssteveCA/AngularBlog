@@ -40,7 +40,7 @@ class ActionList extends Models implements Me{
             foreach($results as $action){
                 $data = [
                     'id' => $action['_id'],
-                    'user_id' => $action['user_ud'],
+                    'user_id' => $action['user_id'],
                     'action_date' => $action['action_date'],
                     'title' => $action['title'],
                     'description' => $action['description']
