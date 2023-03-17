@@ -50,7 +50,7 @@ class GetUserActionsController implements Guace{
      * Set the Token object
      */
     private function setToken(): bool{
-        $this->token_key = new Token();
+        $this->token = new Token();
         $filter = ['token_key' => $this->token_key];
         $get = $this->token->token_get($filter);
         if($get) return true;

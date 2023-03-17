@@ -18,15 +18,31 @@ class GetUserActionsView implements Guave{
         if(!$guac) throw new \Exception(Guave::NOGETUSERACTIONSCONTROLLERINSTANCE_EXC);
         $this->guac = $guac;
         $this->response_code = $this->guac->getResponseCode();
-        if($this->response_code == 200)
+        if($this->response_code == 200){
             $this->done = true;
-        if($this->guac->getErrno() == 0)
-            $this->foundActions = true;
-        else
             $this->message_array = $this->guac->getResponseArray();
-            
+        }   
+        if($this->guac->getErrno() == 0){
+            $this->foundActions = true;
+            $this->message_array['actions'] = $this->setActionsList($this->message_array['actions']);
+        }     
     }
 
     public function areActionsFound(){ return $this->foundActions; }
+
+    /**
+     * Convert the array of objects into array of arrays
+     */
+    private function setActionsList($actionslist): array{
+        $al = [];
+        foreach($actionslist as $action){
+            $al[] = [
+                'action_date' => $action->getActionDate(),
+                'description' => $action->getDescription(),
+                'title' => $action->getTitle()
+            ];
+        }
+        return $al;
+    }
 }
 ?>
