@@ -2,6 +2,7 @@
 
 namespace AngularBlog\Classes\Account;
 
+use AngularBlog\Classes\Action\Action;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\User;
 use AngularBlog\Exceptions\MissingValuesException;
@@ -25,14 +26,17 @@ class UpdatePasswordController implements Upce{
     private ?Token $token;
     private ?User $user;
     private ?User $uac_user;
+    private ?Action $action;
     private ?UserAuthorizedController $uac;
 
     public function __construct(array $data)
     {
         $this->checkValues($data);
         $auth = $this->checkAuthorization();
-        if($auth)
-            $this->update_password();
+        if($auth){
+            if($this->update_password())
+                $this->addAction();
+        }
         $this->setResponse();
     }
 
@@ -45,6 +49,9 @@ class UpdatePasswordController implements Upce{
                 break;
             case Upce::UPDATE_USER:
                 $this->error = Upce::UPDATE_USER_MSG;
+                break;
+            case Upce::FROM_ACTION:
+                $this->error = Upce::FROM_ACTION_MSG;
                 break;
             case Upce::FROM_USERAUTHORIZEDCONTROLLER:
                 $this->error = Upce::FROM_USERAUTHORIZEDCONTROLLER_MSG;
@@ -66,6 +73,20 @@ class UpdatePasswordController implements Upce{
         $this->current_password = $data['old_password'];
         $this->token = $data['token'];
         $this->user = $data['user'];
+    }
+
+    /**
+     * Add an action to rememeber the done operation
+     */
+    private function addAction(): bool{
+        $this->action = new Action([
+            'user_id' => $this->uac_user->getId(),
+            'title' => 'Modifica password',
+            'description' => 'Hai modificato la tua password'
+        ]);
+        $insert = $this->action->action_create();
+        if(!$insert) $this->errno = Upce::FROM_ACTION;
+        return true;
     }
 
     /**
@@ -113,6 +134,7 @@ class UpdatePasswordController implements Upce{
         //echo "UpdatePasswordController setResponse errno => ".var_export($this->errno,true)."\r\n";
         switch($this->errno){
             case 0:
+            case Upce::FROM_ACTION:
                 $this->response_code = 200;
                 $this->response = C::PASSWORD_UPDATE_OK;
                 break;

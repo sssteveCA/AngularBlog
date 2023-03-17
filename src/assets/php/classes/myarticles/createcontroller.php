@@ -2,6 +2,7 @@
 
 namespace AngularBlog\Classes\Myarticles;
 
+use AngularBlog\Classes\Action\Action;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Interfaces\MyArticles\CreateControllerErrors as Cce;
@@ -18,6 +19,7 @@ class CreateController implements Cce{
     private array $article_data = array();
     private ?Token $token;
     private ?Article $article;
+    private ?Action $action;
     private static string $logFile = C::FILE_LOG;
 
     public function __construct(array $data)
@@ -29,8 +31,11 @@ class CreateController implements Cce{
         //Check if user is logged
         if($this->setToken()){
             if($this->createArticle()){
-                if($this->uniquePermalinkVal())
-                    $this->insertArticle();
+                if($this->uniquePermalinkVal()){
+                    if($this->insertArticle())
+                        $this->addAction();
+                }
+                    
             }
         }
         $this->setResponse();
@@ -56,11 +61,30 @@ class CreateController implements Cce{
             case Cce::FROM_TOKEN:
                 $this->error = Cce::FROM_TOKEN_MSG;
                 break;
+            case Cce::FROM_ACTION:
+                $this->error = Cce::FROM_ACTION_MSG;
+                break;
             default:
                 $this->error = null;
                 break;
         }
         return $this->error;
+    }
+
+    /**
+     * Add an action to rememeber the done operation
+     */
+    private function addAction(): bool{
+        $this->action = new Action([
+            'user_id' => $this->token->getUserId(),
+            'title' => 'Creazione articolo',
+            'description' => <<<HTML
+Hai creato un articolo di nome '{$this->article->getTitle()}'
+HTML
+        ]);
+        $insert = $this->action->action_create();
+        if(!$insert) $this->errno = Cce::FROM_ACTION;
+        return true;
     }
 
     private function createArticle(): bool{
@@ -80,7 +104,9 @@ class CreateController implements Cce{
         return $created;
     }
 
-    //Insert Article in DB
+    /**
+     * Insert Article in DB
+     **/
     private function insertArticle(): bool{
         $inserted = false;
         $this->errno = 0;
@@ -122,6 +148,7 @@ class CreateController implements Cce{
     private function setResponse(){
         switch($this->errno){
             case 0:
+            case Cce::FROM_ACTION:
                 $this->response_code = 200;
                 $this->response = "L'articolo è stato inserito con successo";
                 break;

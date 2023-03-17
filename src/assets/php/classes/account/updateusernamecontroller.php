@@ -2,6 +2,7 @@
 
 namespace AngularBlog\Classes\Account;
 
+use AngularBlog\Classes\Action\Action;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Token;
 use AngularBlog\Interfaces\TokenErrors as Te;
@@ -23,6 +24,7 @@ class UpdateUsernameController implements Uuce{
     private ?Token $token;
     private ?User $user;
     private ?User $uac_user;
+    private ?Action $action;
     private ?UserAuthorizedController $uac;
 
     public function __construct(array $data)
@@ -30,7 +32,8 @@ class UpdateUsernameController implements Uuce{
         $this->checkValues($data);
         $auth = $this->checkAuthorization();
         if($auth){
-            $this->update_username();
+            if($this->update_username())
+                $this->addAction();
         }
         $this->setResponse();
     }
@@ -43,6 +46,9 @@ class UpdateUsernameController implements Uuce{
                 break;
             case Uuce::UPDATE_USER:
                 $this->error = Uuce::UPDATE_USER_MSG;
+                break;
+            case Uuce::FROM_ACTION:
+                $this->error = Uuce::FROM_ACTION_MSG;
                 break;
             case Uuce::FROM_USERAUTHORIZEDCONTROLLER:
                 $this->error = Uuce::FROM_USERAUTHORIZEDCONTROLLER_MSG;
@@ -61,6 +67,22 @@ class UpdateUsernameController implements Uuce{
         if(!$data['user'] instanceof User)throw new UserTypeMismatchException(Uuce::USERTYPEMISMATCH_EXC);
         $this->token = $data['token'];
         $this->user = $data['user'];
+    }
+
+    /**
+     * Add an action to rememeber the done operation
+     */
+    private function addAction(): bool{
+        $this->action = new Action([
+            'user_id' => $this->uac_user->getId(),
+            'title' => 'Modifica username',
+            'description' => <<<HTML
+Hai modificato il tuo nome utente in {$this->user->getUsername()}
+HTML
+        ]);
+        $insert = $this->action->action_create();
+        if(!$insert) $this->errno = Uuce::FROM_ACTION;
+        return true;
     }
 
     /**
@@ -113,6 +135,7 @@ class UpdateUsernameController implements Uuce{
     private function setResponse(){
         switch($this->errno){
             case 0:
+            case Uuce::FROM_ACTION:
                 $this->response_code = 200;
                 $this->response = C::USERNAME_UPDATE_OK;
                 break;

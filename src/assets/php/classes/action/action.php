@@ -111,7 +111,7 @@ class Action extends Model implements Ae{
      * Check if properties are all valid before insert
      */
     private function validate(): bool{
-        if(isset($this->action_date) && !preg_match(Action::$regex["action_date"],$this->action_date))
+        if(isset($this->action_date) && !preg_match(Action::$regex["time"],$this->action_date))
             return false;
         return true;
     }

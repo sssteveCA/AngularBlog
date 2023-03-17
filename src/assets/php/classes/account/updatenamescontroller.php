@@ -2,6 +2,7 @@
 
 namespace AngularBlog\Classes\Account;
 
+use AngularBlog\Classes\Action\Action;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\User;
 use AngularBlog\Exceptions\NoTokenInstanceException;
@@ -23,14 +24,18 @@ class UpdateNamesController implements Unce{
     private ?User $user;
     private ?User $uac_user;
     private ?UserAuthorizedController $uac;
+    private ?Action $action;
 
     public function __construct(array $data)
     {
        $this->checkValues($data);
        $auth = $this->checkAuthorization();
-       if($auth)
-            $this->updateNames();
-        $this->setResponse();
+       if($auth){
+            $update = $this->updateNames();
+            if($update)
+                $this->addAction();
+       } 
+       $this->setResponse();
     }
 
     public function getToken(){return $this->token;}
@@ -38,6 +43,9 @@ class UpdateNamesController implements Unce{
         switch($this->errno){
             case Unce::UPDATE_USER:
                 $this->error = Unce::UPDATE_USER_MSG;
+                break;
+            case Unce::FROM_ACTION:
+                $this->error = Unce::FROM_ACTION_MSG;
                 break;
             case Unce::FROM_USERAUTHORIZEDCONTROLLER:
                 $this->error = Unce::FROM_USERAUTHORIZEDCONTROLLER_MSG;
@@ -62,7 +70,6 @@ class UpdateNamesController implements Unce{
      * Check if user is authorized to update the name and the surname
      */
     private function checkAuthorization(): bool{
-        $this->errno = 0;
         $this->uac_user = clone $this->user;
         $this->uac = new UserAuthorizedController([
             'token' => $this->token,
@@ -75,10 +82,25 @@ class UpdateNamesController implements Unce{
     }
 
     /**
+     * Add an action to rememeber the done operation
+     */
+    private function addAction(): bool{
+        $this->action = new Action([
+            'user_id' => $this->uac_user->getId(),
+            'title' => 'Modifica nome e cognome',
+            'description' => <<<HTML
+Hai modificato il tuo nome e cognome in {$this->user->getName()} {$this->user->getSurname()}
+HTML
+        ]);
+        $insert = $this->action->action_create();
+        if(!$insert) $this->errno = Unce::FROM_ACTION;
+        return true;
+    }
+
+    /**
      * Update the name and the surname of the logged account
      */
     private function updateNames(): bool{
-        $this->errno = 0;
         $user_id = $this->token->getUserId();
         $new_name = $this->user->getName();
         $new_surname = $this->user->getSurname();
@@ -98,6 +120,7 @@ class UpdateNamesController implements Unce{
     private function setResponse(){
         switch($this->errno){
             case 0:
+            case Unce::FROM_ACTION:
                 $this->response_code = 200;
                 $this->response = C::NAMES_UPDATE_OK;
                 break;
