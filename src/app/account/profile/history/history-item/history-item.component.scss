@@ -7,6 +7,9 @@ $history-elem: ('title','description','date');
         @each $div in $he-list{
             .history-#{$div}{
                 padding: 10px;
+                .col:first-child{
+                    font-weight: bold;
+                }
             }
         }
     }
