@@ -39,6 +39,7 @@ $response = [
     C::KEY_EMPTY => false,
     'error' => false
 ];
+$headers = getallheaders();
 
 if(isset($_GET['permalink']) && $_GET['permalink'] != '' && $_GET['permalink'] != 'undefined'){
     //file_put_contents(C::FILE_LOG,"article comments GET => ".var_export($_GET,true)."\r\n",FILE_APPEND);
@@ -46,7 +47,7 @@ if(isset($_GET['permalink']) && $_GET['permalink'] != '' && $_GET['permalink'] !
     $dotenv->safeLoad();
     $permalink = $_GET['permalink'];
     try{
-        $token = token_exists($_GET);
+        $token = token_exists($headers);
         $article = new Article();
         $filter = [
             'permalink' => $permalink
@@ -92,17 +93,16 @@ else{
     $response[C::KEY_MESSAGE] = C::FILL_ALL_FIELDS;
 }
     
-
 echo json_encode($response);
 
 //Check if user is logged
-function token_exists(array $get): ?Token{
+function token_exists(array $headers): ?Token{
     $token = null;
-    $token_exists = (isset($get['token_key']) && $get['token_key'] != '' && $get['token_key'] != 'undefined');
+    $token_exists = (isset($headers[C::KEY_AUTH]) && $headers[C::KEY_AUTH] != '' && $headers[C::KEY_AUTH] != 'undefined');
     if($token_exists){
         //Used to set the editable comments (only logged user comments)
         $token = new Token();
-        $filter = ['token_key' => $get['token_key']];
+        $filter = ['token_key' => $headers[C::KEY_AUTH]];
         $got_token = $token->token_get($filter);
         if($got_token === false)
             $token = null;

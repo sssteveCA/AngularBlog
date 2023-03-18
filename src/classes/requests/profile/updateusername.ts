@@ -30,7 +30,7 @@ export default class UpdateUsername{
         let response: object = {};
         try{
             const updateusername_values: object = {
-                new_username: this._new_username, password: this._password, token_key: this._token_key
+                new_username: this._new_username, password: this._password
             };
             await this.updateUsernamePromise(updateusername_values).then(res => {
                 //console.log(res);
@@ -54,7 +54,10 @@ export default class UpdateUsername{
 
     private async updateUsernamePromise(uu: object):Promise<string>{
         let promise = await new Promise<string>((resolve,reject)=>{
-            const headers = new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json');
+            const headers = new HttpHeaders()
+                .set('Content-Type', 'application/json')
+                .set('Accept', 'application/json')
+                .set(Keys.AUTH, this._token_key);
             this._http.put(this._url, uu, {headers: headers, responseType: 'text'}).subscribe(res => {
                 resolve(res);
             }, error => {

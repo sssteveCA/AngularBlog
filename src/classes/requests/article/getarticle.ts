@@ -46,8 +46,7 @@ export class GetArticle{
 
     private async getArticlePromise(): Promise<string>{
         return await new Promise<string>((resolve,reject)=>{
-            const headers = new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json');
-            this._http.get(this._full_url,{headers: headers, responseType: 'text'}).subscribe(res => {
+            this._http.get(this._full_url,{responseType: 'text'}).subscribe(res => {
                 resolve(res);
             },error => {
                 reject(error);

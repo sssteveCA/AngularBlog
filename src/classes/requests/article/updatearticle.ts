@@ -26,7 +26,6 @@ export default class UpdateArticle{
         try{
             const updatearticle_values: object = {
                 article: this._article,
-                token_key: this._token_key
             };
             await this.updateArticlePromise(updatearticle_values).then(res => {
                 //console.log(res);
@@ -51,7 +50,10 @@ export default class UpdateArticle{
 
     private async updateArticlePromise(updateData: object): Promise<string>{
         return await new Promise<string>((resolve,reject)=>{
-            const headers = new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json');
+            const headers = new HttpHeaders()
+                .set('Content-Type', 'application/json')
+                .set('Accept', 'application/json')
+                .set(Keys.AUTH,this._token_key);
             this._http.put(this._url,updateData,{headers: headers, responseType: 'text'}).subscribe(res => {
                 resolve(res);
             },error => {

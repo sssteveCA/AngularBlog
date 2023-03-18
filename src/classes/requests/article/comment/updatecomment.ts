@@ -32,8 +32,7 @@ export default class UpdateComment{
             const commentupdate_values: object = {
                 comment_id: this._comment_id,
                 new_comment: this._new_comment,
-                old_comment: this._old_comment,
-                token_key: this._token_key
+                old_comment: this._old_comment
             };
             //console.log(commentupdate_values);
             await this.updateCommentPromise(commentupdate_values).then(res => {
@@ -56,7 +55,8 @@ export default class UpdateComment{
         return await new Promise<string>((resolve,reject)=>{
             const headers = new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'AngularBlogAuth': this._token_key
             });
             this._http.patch(this._url,updateData,{headers: headers, responseType: 'text'}).subscribe(res => {
                 resolve(res);

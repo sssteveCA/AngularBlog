@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import HistoryInterface from "src/interfaces/requests/profile/history.interface";
 
 export default class History{
@@ -51,7 +51,10 @@ export default class History{
 
     private async historyPromise(): Promise<string>{
         return await new Promise<string>((resolve,reject)=>{
-            this._http.get(`${this._url}?token_key=${this._token_key}`,{
+            this._http.get(`${this._url}`,{
+                headers: new HttpHeaders({
+                    'AngularBlogAuth': this._token_key
+                }),
                 responseType: 'text'
             }).subscribe(res => {
                 resolve(res);

@@ -28,8 +28,7 @@ export default class DeleteProfile{
         try{
             let deleteProfile_values: object = {
                 conf_password: this._conf_password,
-                password: this._password,
-                token_key: this._token_key
+                password: this._password
             };
             await this.deleteProfilePromise(deleteProfile_values).then(res => {
                 //console.log(res);
@@ -53,7 +52,10 @@ export default class DeleteProfile{
 
     private async deleteProfilePromise(dp: object): Promise<string>{
         return await new Promise<string>((resolve, reject) => {
-            const headers = new HttpHeaders().set('Content-Type','application/json').set('Accept','application/json');
+            const headers = new HttpHeaders()
+                .set('Content-Type','application/json')
+                .set('Accept','application/json')
+                .set(Keys.AUTH,this._token_key);
             this._http.post(this._url,dp,{headers: headers, responseType: 'text'}).subscribe(res => {
                 resolve(res);
             }, error => {

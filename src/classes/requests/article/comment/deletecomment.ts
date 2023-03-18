@@ -24,7 +24,6 @@ export default class DeleteComment{
         try{
             const deletecomment_values: object = {
                 'comment_id': this._comment_id,
-                'token_key': this._token_key,
             }
             await this.deleteCommentPromise(deletecomment_values).then(res => {
                 //console.log(res);
@@ -46,7 +45,8 @@ export default class DeleteComment{
         return await new Promise<string>((resolve,reject)=> {
             const headers: HttpHeaders = new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'AngularBlogAuth': this._token_key
               });
               this._http.post(this._url,deleteData,{headers: headers, responseType: 'text'}).subscribe(res => {
                 resolve(res);

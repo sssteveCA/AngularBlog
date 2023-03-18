@@ -33,7 +33,6 @@ export default class UpdatePassword{
                 conf_new_password: this._conf_new_password,
                 new_password: this._new_password,
                 old_password: this._old_password,
-                token_key: this._token_key
             };
             await this.updatePasswordPromise(passwordUpdate_values).then(res => {
                 //console.log(res);
@@ -58,7 +57,10 @@ export default class UpdatePassword{
 
     private async updatePasswordPromise(up: object):Promise<string>{
         return await new Promise<string>((resolve,reject)=>{
-            const headers = new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json');
+            const headers = new HttpHeaders()
+                .set('Content-Type', 'application/json')
+                .set('Accept', 'application/json')
+                .set(Keys.AUTH, this._token_key);
             this._http.put(this._url,up,{headers: headers, responseType: 'text'}).subscribe(res => {
                 resolve(res);
             }, error => {

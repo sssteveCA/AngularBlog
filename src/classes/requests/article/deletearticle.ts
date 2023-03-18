@@ -25,7 +25,6 @@ export default class DeleteArticle{
         try{
             let deletearticle_values: object = {
                 article_id: this._article_id,
-                token_key: this._token_key
             };
             await this.deleteArticlePromise(deletearticle_values).then(res => {
                 //console.log(res);
@@ -50,7 +49,10 @@ export default class DeleteArticle{
 
     private async deleteArticlePromise(deleteData: object): Promise<string>{
         return await new Promise<string>((resolve,reject)=>{
-            const headers = new HttpHeaders().set('Content-Type','application/json').set('Accept','application/json');
+            const headers = new HttpHeaders()
+                .set('Content-Type','application/json')
+                .set('Accept','application/json')
+                .set(Keys.AUTH,this._token_key);
             this._http.post(this._url,deleteData,{headers: headers, responseType: 'text'}).subscribe(res => {
                 resolve(res);
             },error => {

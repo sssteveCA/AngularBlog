@@ -1,4 +1,5 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Keys } from "src/constants/keys";
 import { Messages } from "src/constants/messages";
 import GetCommentsInterface from "src/interfaces/requests/article/comment/getcomments.interface";
 
@@ -27,8 +28,6 @@ export default class GetComments{
 
     private setFullUrl(): void{
         this._full_url = this._url+"?permalink="+this._permalink;
-        if(this._token_key)
-            this._full_url += "&token_key="+this._token_key;
     }
 
     public async getComments(): Promise<object>{
@@ -53,7 +52,10 @@ export default class GetComments{
 
     private async getCommentsPromise(): Promise<string>{
         return await new Promise<string>((resolve,reject)=>{
-            this._http.get(this._full_url,{responseType: 'text'}).subscribe(res =>{
+            const headers: HttpHeaders = new HttpHeaders().set(Keys.AUTH, this._token_key as string);
+            this._http.get(this._full_url,{
+                headers: headers, responseType: 'text'
+            }).subscribe(res =>{
                 resolve(res);
             },error => {
                 reject(error);

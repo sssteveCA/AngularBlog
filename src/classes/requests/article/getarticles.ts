@@ -5,7 +5,6 @@ import GetArticlesInterface from "src/interfaces/requests/article/getarticles.in
 
 
 export default class GetArticles{
-    private _full_url: string;
     private _http: HttpClient;
     private _token_key: string;
     private _url: string;
@@ -14,10 +13,8 @@ export default class GetArticles{
         this._http = data.http;
         this._token_key = data.token_key;
         this._url = data.url;
-        this._full_url = this._url+'?token_key='+this._token_key;
     }
 
-    get full_url(){return this._full_url;}
     get token_key(){return this._token_key;}
     get url(){return this._url;}
 
@@ -48,8 +45,11 @@ export default class GetArticles{
 
     private async getArticlesPromise(): Promise<string>{
         return await new Promise<string>((resolve,reject)=>{
-            const headers = new HttpHeaders().set('Content-Type','application/json').set('Accept','application/json');
-            this._http.get(this._full_url,{headers: headers, responseType: 'text'}).subscribe(res => {
+            const headers = new HttpHeaders()
+                .set('Content-Type','application/json')
+                .set('Accept','application/json')
+                .set(Keys.AUTH,this._token_key);
+            this._http.get(this._url,{headers: headers, responseType: 'text'}).subscribe(res => {
                 resolve(res);
             },error => {
                 reject(error);

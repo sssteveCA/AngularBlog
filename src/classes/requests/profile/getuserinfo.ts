@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import GetUserInfoInterface from "src/interfaces/requests/profile/getuserinfo.interface";
 
 export default class GetUserInfo{
@@ -51,7 +51,10 @@ export default class GetUserInfo{
 
     private async getUserInfoPromise(): Promise<string>{
         let promise = await new Promise<string>((resolve,reject)=>{
-            this._http.get(`${this._url}?token_key=${this._token_key}`,{
+            this._http.get(`${this._url}`,{
+                headers: new HttpHeaders({
+                    'AngularBlogAuth': this._token_key
+                }),
                 responseType: 'text'
             }).subscribe(res => {
                 resolve(res);

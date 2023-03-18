@@ -28,7 +28,6 @@ export default class AddComment{
             const addcomment_values: object = {
                 'comment_text': this._comment_text,
                 'permalink': this._permalink,
-                'token_key': this._token_key
             };
             await this.addCommentPromise(addcomment_values).then(res => {
                 //console.log(res);
@@ -50,7 +49,8 @@ export default class AddComment{
         return await new Promise<string>((resolve,reject)=>{
             const headers: HttpHeaders = new HttpHeaders({
               'Content-Type': 'application/json',
-              'Accept': 'application/json'
+              'Accept': 'application/json',
+              'AngularBlogAuth': this._token_key
             });
             this._http.post(this.url,createData,{headers: headers, responseType: 'text'}).subscribe(res => {
               resolve(res);

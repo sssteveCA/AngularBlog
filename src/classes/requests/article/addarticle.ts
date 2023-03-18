@@ -25,8 +25,7 @@ export default class AddArticle{
         let response: object = {};
         try{
             let addarticle_values: object = {
-                article: this._article,
-                token_key: this._token_key
+                article: this._article
             };
             await this.createArticlePromise(addarticle_values).then(res => {
                 //console.log(res);
@@ -51,7 +50,10 @@ export default class AddArticle{
 
     private async createArticlePromise(createData: object): Promise<string>{
         return await new Promise<string>((resolve,reject)=>{
-            const headers = new HttpHeaders().set('Content-Type','application/json').set('Accept','application/json');
+            const headers = new HttpHeaders()
+                .set('Content-Type','application/json')
+                .set('Accept','application/json')
+                .set(Keys.AUTH,this._token_key);
             this._http.post(this.url,createData,{headers: headers, responseType: 'text'}).subscribe(res => {
                 resolve(res);
             },error => {
