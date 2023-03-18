@@ -2,6 +2,7 @@
 
 namespace AngularBlog\Classes\Myarticles;
 
+use AngularBlog\Classes\Action\Action;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\Article\ArticleAuthorizedControllerErrors as Aace;
 use AngularBlog\Interfaces\MyArticles\DeleteControllerErrors as Dce;
@@ -25,6 +26,7 @@ class DeleteController implements Dce{
     private ?Article $aac_article; //Article used by ArticleAuthorizationController class
     private ?ArticleAuthorizedController $aac;
     private ?Token $token;
+    private ?Action $action;
     private static string $logFile = C::FILE_LOG;
 
     public function __construct(array $data)
@@ -32,9 +34,9 @@ class DeleteController implements Dce{
         $this->checkValues($data);
         $this->article = $data['article'];
         $this->token = $data['token'];
-        $auth = $this->checkAuthorization();
-        if($auth){
-            $del = $this->delete_article();
+        if($this->checkAuthorization()){
+            if($this->delete_article())
+                $this->addAction();
         }
         $this->setResponse();
     }
@@ -44,6 +46,9 @@ class DeleteController implements Dce{
         switch($this->errno){
             case Dce::FROM_ARTICLEAUTHORIZEDCONTROLLER:
                 $this->error = Dce::FROM_ARTICLEAUTHORIZEDCONTROLLER_MSG;
+                break;
+            case Dce::FROM_ACTION:
+                $this->error = Dce::FROM_ACTION_MSG;
                 break;
             case Dce::ARTICLENOTDELETED:
                 $this->error = Dce::ARTICLENOTDELETED_MSG;
@@ -61,6 +66,22 @@ class DeleteController implements Dce{
         if(!isset($data['token']))throw new NoTokenInstanceException(Dce::NOTOKENINSTANCE_EXC);
         if(!$data['article'] instanceof Article)throw new ArticleTypeMismatchException(Dce::INVALIDARTICLETYPE_EXC);
         if(!$data['token'] instanceof Token)throw new TokenTypeMismatchException(Dce::INVALIDTOKENTYPE_EXC);
+    }
+
+    /**
+     * Add an action to rememeber the done operation
+     */
+    private function addAction(): bool{
+        $this->action = new Action([
+            'user_id' => $this->token->getUserId(),
+            'title' => 'Cancellazione articolo',
+            'description' => <<<HTML
+Hai eliminato l'articolo {$this->aac_article->getTitle()}
+HTML
+        ]);
+        $insert = $this->action->action_create();
+        if(!$insert) $this->errno = Dce::FROM_ACTION;
+        return true;
     }
 
     //Check if user is authorized to edit the article
@@ -102,6 +123,7 @@ class DeleteController implements Dce{
         //file_put_contents(DeleteController::$logFile,"DeleteController setResponse errno => {$this->errno}\r\n",FILE_APPEND);
         switch($this->errno){
             case 0:
+            case Dce::FROM_ACTION:
                 $this->response_code = 200;
                 $this->response = C::ARTICLEDELETE_OK;
                 break;
