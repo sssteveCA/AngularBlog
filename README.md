@@ -49,11 +49,17 @@ This blog has/will have the following features:
       </ul>
     </li>
   </ul>
+  <li>Actions</li>
+  <ul>
+    <li>Display the history of the actions done by the user</li>
+    <li>*Delete actions from history</li>
+  </ul>
 </ul>
 </div>
 <div>
 </div>
 <br>
+<div>*Not available yet</div>
 
 
 
