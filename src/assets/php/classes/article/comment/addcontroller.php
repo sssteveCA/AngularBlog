@@ -35,7 +35,8 @@ class AddController implements Ace{
         $this->token_key = $data['token_key'];   
         if($this->setToken()){
             if($this->getArticleInfo()){
-                $this->insertComment();     
+                if($this->insertComment())
+                    $this->addAction();     
             }//if($this->getArticleInfo()){
         }//if($this->setToken()){
         $this->setResponse(); 

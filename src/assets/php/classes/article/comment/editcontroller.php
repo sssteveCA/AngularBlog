@@ -2,6 +2,7 @@
 
 namespace AngularBlog\Classes\Article\Comment;
 
+use AngularBlog\Classes\Action\Action;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Comment\Comment;
 use AngularBlog\Classes\Token;
@@ -23,8 +24,9 @@ class EditController implements Ece{
 
     private ?Comment $comment;
     private ?Comment $cac_comment; //Comment used by CommentAuthorizationController class
-    private ?CommentAuthorizedController $aac;
+    private ?CommentAuthorizedController $cac;
     private ?Token $token;
+    private ?Action $action;
     private static string $logFile = C::FILE_LOG;
 
     public function __construct(array $data)
@@ -32,9 +34,9 @@ class EditController implements Ece{
         $this->checkValues($data);
         $this->comment = $data['comment'];
         $this->token = $data['token'];
-        $auth = $this->checkAuthorization();
-        if($auth){
-            $this->edit_comment();
+        if($this->checkAuthorization()){
+            if($this->edit_comment())
+                $this->addAction();
         }
         $this->setResponse();
 
@@ -47,6 +49,9 @@ class EditController implements Ece{
             case Ece::FROM_COMMENTAUTHORIZEDCONTROLLER:
                 $this->error = Ece::FROM_COMMENTAUTHORIZEDCONTROLLER_MSG;
                 break;
+            case Ece::FROM_ACTION:
+                $this->error = Ece::FROM_ACTION_MSG;
+                break;
             case Ece::COMMENTNOTUPDATED:
                 $this->error = Ece::COMMENTNOTUPDATED_MSG;
                 break;
@@ -57,7 +62,9 @@ class EditController implements Ece{
         return $this->error;
     }
 
-    //Check if array provided has valid values
+    /**
+     * Check if array provided has valid values
+     **/
     private function checkValues(array $data){
         if(!isset($data['comment']))throw new NoCommentInstanceException(Ece::NOCOMMENTINSTANCE_EXC);
         if(!isset($data['token']))throw new NoTokenInstanceException(Ece::NOTOKENINSTANCE_EXC);
@@ -65,7 +72,25 @@ class EditController implements Ece{
         if(!$data['token'] instanceof Token)throw new TokenTypeMismatchException(Ece::INVALIDTOKENTYPE_EXC);
     }
 
-    //Check if user is authorized to edit the comment
+     /**
+     * Add an action to rememeber the done operation
+     */
+    private function addAction(): bool{
+        $this->action = new Action([
+            'user_id' => $this->token->getUserId(),
+            'title' => 'Modifica commento',
+            'description' => <<<HTML
+Hai modificato il commento "{$this->cac_comment->getComment()}" in "{$this->comment->getComment()}"
+HTML
+        ]);
+        $insert = $this->action->action_create();
+        if(!$insert) $this->errno = Ece::FROM_ACTION;
+        return true;
+    }
+
+    /**
+     * Check if user is authorized to edit the comment
+     **/
     private function checkAuthorization(): bool{
         $authorized = false;
         $this->errno = 0;
@@ -83,7 +108,9 @@ class EditController implements Ece{
         return $authorized;
     }
 
-    //Update comment information
+    /**
+     * Update comment information
+     **/
     private function edit_comment(): bool{
         $edited = false;
         $this->errno = 0;
@@ -100,10 +127,13 @@ class EditController implements Ece{
         return $edited;
     }
 
-    //Set the response to send to the view
+    /**
+     * Set the response to send to the view
+     **/
     private function setResponse(){
         switch($this->errno){
             case 0:
+            case Ece::FROM_ACTION:
                 $this->response_code = 200;
                 $this->response = "OK";
                 break;
