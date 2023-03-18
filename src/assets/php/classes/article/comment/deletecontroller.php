@@ -2,6 +2,7 @@
 
 namespace AngularBlog\Classes\Article\Comment;
 
+use AngularBlog\Classes\Action\Action;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Comment\Comment;
 use AngularBlog\Classes\Token;
@@ -23,6 +24,7 @@ class DeleteController implements Dce{
     private ?Comment $comment;
     private ?Comment $cac_comment;
     private ?Token $token;
+    private ?Action $action;
     private ?CommentAuthorizedController $cac;
     private static $logFile = C::FILE_LOG;
 
@@ -31,10 +33,9 @@ class DeleteController implements Dce{
         $this->checkValues($data);
         $this->comment = $data['comment'];
         $this->token = $data['token'];
-        $auth = $this->checkAuthorization();
-        if($auth){
-            //User is authorized to delete this comment
-            $del = $this->delete_comment();
+        if($this->checkAuthorization()){
+            if($this->delete_comment())
+                $this->addAction();
         }
         $this->setResponse();
     }
@@ -46,6 +47,9 @@ class DeleteController implements Dce{
             case Dce::FROM_COMMENTAUTHORIZEDCONTROLLER:
                 $this->error = Dce::FROM_COMMENTAUTHORIZEDCONTROLLER_MSG;
                 break;
+            case Dce::FROM_ACTION:
+                $this->error = Dce::FROM_ACTION_MSG;
+                break;
             case Dce::COMMENTNOTDELETED:
                 $this->error = Dce::COMMENTNOTDELETED_MSG;
                 break;
@@ -56,7 +60,25 @@ class DeleteController implements Dce{
         return $this->error;
     }
 
-    //Check if user is authorized to edit the article
+    /**
+     * Add an action to rememeber the done operation
+     */
+    private function addAction(): bool{
+        $this->action = new Action([
+            'user_id' => $this->token->getUserId(),
+            'title' => 'Cancellazione commento',
+            'description' => <<<HTML
+Hai cancellato il commento "{$this->cac_comment->getComment()}"
+HTML
+        ]);
+        $insert = $this->action->action_create();
+        if(!$insert) $this->errno = Dce::FROM_ACTION;
+        return true;
+    }
+
+    /**
+     * Check if user is authorized to edit the article
+     **/
     private function checkAuthorization(): bool{
         $authorized = false;
         $this->errno = 0;
@@ -74,7 +96,9 @@ class DeleteController implements Dce{
         return $authorized;
     }
 
-    //Check if array provided has valid values
+    /**
+     * Check if array provided has valid values
+     **/
     private function checkValues(array $data){
         if(!isset($data['comment']))throw new NoCommentInstanceException(Dce::NOCOMMENTINSTANCE_EXC);
         if(!isset($data['token']))throw new NoTokenInstanceException(Dce::NOTOKENINSTANCE_EXC);
@@ -82,7 +106,9 @@ class DeleteController implements Dce{
         if(!$data['token'] instanceof Token)throw new TokenTypeMismatchException(Dce::INVALIDTOKENTYPE_EXC);
     }
 
-    //Delete the comment
+    /**
+     * Delete the comment
+     **/
     private function delete_comment(): bool{
         $del = false;
         $this->errno = 0;
@@ -97,11 +123,14 @@ class DeleteController implements Dce{
         return $del;
     }
 
-    //Set the response to send to the view
+    /**
+     * Set the response to send to the view
+     **/
     private function setResponse(){
         file_put_contents(DeleteController::$logFile,"DeleteController setResponse errno => {$this->errno}\r\n",FILE_APPEND);
         switch($this->errno){
             case 0:
+            case Dce::FROM_ACTION:
                 $this->response_code = 200;
                 $this->response = "";
                 break;

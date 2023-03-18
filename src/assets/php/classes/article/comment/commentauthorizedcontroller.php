@@ -113,8 +113,8 @@ class CommentAuthorizedController implements Cace{
         $this->authorized = false;
         $this->errno = 0;
         $user_id = $this->token->getUserId();
-        $article_author = $this->comment->getAuthor();
-        if($user_id == $article_author){
+        $comment_author = $this->comment->getAuthor();
+        if($user_id == $comment_author){
             //User is the owner of the article
             $this->authorized = true;
         }
