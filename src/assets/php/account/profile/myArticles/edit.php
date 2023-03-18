@@ -42,16 +42,17 @@ $response = array(
     C::KEY_EXPIRED => false,
     C::KEY_MESSAGE => ''
 );
+$headers = getallheaders();
 
-if(isset($post['article'],$post['token_key']) && $post['token_key'] != ''){
+if(isset($post['article'],$headers[C::KEY_AUTH]) && $headers[C::KEY_AUTH] != ''){
     if(isset($post['article']['id'],$post['article']['title'],$post['article']['introtext'],$post['article']['content'],$post['article']['permalink'],$post['article']['categories'],$post['article']['tags']) && $post['article']['id'] != '' && $post['article']['title'] != '' && $post['article']['introtext'] != '' && $post['article']['content'] != '' && $post['article']['permalink'] != ''){
         $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../../");
         $dotenv->safeLoad();
         $data = [
-            'token_key' => $post['token_key'],
+            'token_key' => $headers[C::KEY_AUTH],
             'article_id' => $post['article']['id']
         ];
-        $token_data = ['token_key' => $post['token_key']];
+        $token_data = ['token_key' => $headers[C::KEY_AUTH]];
         $article_data = [
             'id' => $post['article']['id'],
             'title' => $post['article']['title'],
@@ -90,7 +91,7 @@ if(isset($post['article'],$post['token_key']) && $post['token_key'] != ''){
         http_response_code(400);
         $response[C::KEY_MESSAGE] = C::FILL_ALL_FIELDS;
     }
-}//if(isset($post['article'],$post['token_key']) && $post['token_key'] != ''){
+}//if(isset($post['article'],$headers[C::KEY_AUTH]) && $headers[C::KEY_AUTH] != ''){
 else{
     http_response_code(400);
     $response[C::KEY_MESSAGE] = C::ARTICLEEDITING_ERROR;

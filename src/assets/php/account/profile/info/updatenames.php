@@ -44,10 +44,11 @@ $response = [
 
 $input = file_get_contents("php://input");
 $update = json_decode($input,true);
+$headers = getallheaders();
 
-if(isset($update["token_key"],$update["new_name"],$update["new_surname"]) && $update["token_key"] != "" && $update["new_name"] != "" && $update["new_surname"] != ""){
+if(isset($headers[C::KEY_AUTH],$update["new_name"],$update["new_surname"]) && $headers[C::KEY_AUTH] != "" && $update["new_name"] != "" && $update["new_surname"] != ""){
     if(preg_match(User::$regex["name"],$update["new_name"]) && preg_match(User::$regex["surname"],$update["new_surname"])){
-        $token_data = [ "token_key" => $update["token_key"] ];
+        $token_data = [ "token_key" => $headers[C::KEY_AUTH] ];
         $user_data = ["name" => $update["new_name"], "surname" => $update["new_surname"]];
         try{
             $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../../");
@@ -80,7 +81,7 @@ if(isset($update["token_key"],$update["new_name"],$update["new_surname"]) && $up
         http_response_code(400);
         $response[C::KEY_MESSAGE] = "Il formato del nome o del cognome non è corretto";
     }
-}//if(isset($update["token_key"],$update["name"],$update["surname"]) && $update["token_key"] != "" && $update["name"] != "" && $update["surname"] != ""){
+}//if(isset($headers[C::KEY_AUTH],$update["name"],$update["surname"]) && $headers[C::KEY_AUTH] != "" && $update["name"] != "" && $update["surname"] != ""){
 else{
     http_response_code(400);
     $response[C::KEY_MESSAGE] = C::FILL_ALL_FIELDS;

@@ -34,16 +34,17 @@ $response = array(
     C::KEY_EXPIRED => false,
     C::KEY_MESSAGE => ''
 );
+$headers = getallheaders();
 
 $input = file_get_contents('php://input');
 $post = json_decode($input,true);
 //$response['post'] = $post;
 
-if(isset($post['token_key'],$post['article']) && $post['token_key'] != ''){
+if(isset($headers[C::KEY_AUTH],$post['article']) && $headers[C::KEY_AUTH] != ''){
     $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../../");
     $dotenv->safeLoad();
     $data = [
-        'token_key' => $post['token_key'],
+        'token_key' => $headers[C::KEY_AUTH],
         'article' => $post['article']
     ];
     try{
@@ -74,7 +75,7 @@ if(isset($post['token_key'],$post['article']) && $post['token_key'] != ''){
                 break;
         }
     }
-}//if(isset($post['token_key']) && $post['token_key'] != ''){
+}//if(isset($headers[C::KEY_AUTH]) && $headers[C::KEY_AUTH] != ''){
 else{
     http_response_code(400);
     $response[C::KEY_MESSAGE] = C::FILL_ALL_FIELDS;

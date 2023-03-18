@@ -34,13 +34,14 @@ use Dotenv\Dotenv;
 $response = [
     C::KEY_DONE => false, C::KEY_EXPIRED => false, C::KEY_MESSAGE => ""
 ];
+$headers = getallheaders();
 
 $input = file_get_contents("php://input");
 $delete = json_decode($input,true);
 
-if(isset($delete["token_key"],$delete["password"],$delete["conf_password"])){
+if(isset($headers[C::KEY_AUTH],$delete["password"],$delete["conf_password"])){
     if($delete["password"] == $delete["conf_password"]){
-        $token_data = [ "token_key" => $delete["token_key"]];
+        $token_data = [ "token_key" => $headers[C::KEY_AUTH]];
         try{
             $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../../");
             $dotenv->safeLoad();
@@ -75,7 +76,7 @@ if(isset($delete["token_key"],$delete["password"],$delete["conf_password"])){
         http_response_code(400);
         $response[C::KEY_MESSAGE] = C::ERROR_CONFIRM_PASSWORD_DIFFERENT;
     }
-}//if(isset($delete["token_key"],$delete["password"],$delete["conf_password"])){
+}//if(isset($headers[C::KEY_AUTH],$delete["password"],$delete["conf_password"])){
 else{
     http_response_code(400);
     $response[C::KEY_MESSAGE] = C::FILL_ALL_FIELDS;

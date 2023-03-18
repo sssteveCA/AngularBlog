@@ -31,12 +31,13 @@ use Dotenv\Dotenv;
 $response = [
     C::KEY_DONE => false, C::KEY_MESSAGE => ''
 ];
+$headers = getallheaders();
 
-if(isset($_GET['token_key']) && $_GET['token_key'] != ''){
+if(isset($headers[C::KEY_AUTH]) && $headers[C::KEY_AUTH] != ''){
     $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../../");
     $dotenv->safeLoad();
     $data = [
-        'token_key' => $_GET['token_key']
+        'token_key' => $headers[C::KEY_AUTH]
     ];
     try{
         $getController = new GetController($data);
@@ -68,7 +69,7 @@ if(isset($_GET['token_key']) && $_GET['token_key'] != ''){
         $response[C::KEY_MESSAGE] = C::SEARCH_ERROR;
         file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
     }  
-}//if(isset($_GET['token_key']) && $_GET['token_key'] != ''){
+}//if(isset($headers[C::KEY_AUTH]) && $headers[C::KEY_AUTH] != ''){
 else{
     http_response_code(400);
     $response[C::KEY_MESSAGE] = C::FILL_ALL_FIELDS;

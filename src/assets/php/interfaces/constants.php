@@ -57,6 +57,7 @@ interface Constants{
     const FILE_LOG = "./log.txt";
 
     //Keys
+    const KEY_AUTH = "AngularBlogAuth";
     const KEY_DATA = "data";
     const KEY_DONE = "done";
     const KEY_EMPTY = "empty";

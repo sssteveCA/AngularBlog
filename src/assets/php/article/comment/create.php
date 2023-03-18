@@ -34,17 +34,17 @@ $input = file_get_contents("php://input");
 $post = json_decode($input,true);
 
 $response = array(
-    C::KEY_DONE => false,
-    C::KEY_EXPIRED => false,
-    C::KEY_MESSAGE => ''
+    C::KEY_DONE => false, C::KEY_EXPIRED => false, C::KEY_MESSAGE => ''
 );
+$headers = getallheaders();
 
-if(isset($post['permalink'],$post['token_key'],$post['comment_text']) && $post['permalink'] != '' && $post['token_key'] != '' && $post['comment_text'] != ''){
+
+if(isset($post['permalink'],$headers[C::KEY_AUTH],$post['comment_text']) && $post['permalink'] != '' && $headers[C::KEY_AUTH] != '' && $post['comment_text'] != ''){
     $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../");
     $dotenv->safeLoad();
     try{
         $data = [
-            'token_key' => $post['token_key'],
+            'token_key' => $headers[C::KEY_AUTH],
             'comment_text' => $post['comment_text'],
             'permalink' => $post['permalink']
         ];
@@ -71,7 +71,7 @@ if(isset($post['permalink'],$post['token_key'],$post['comment_text']) && $post['
                 break;
         }
     }
-}//if(isset($post['permalink'],$post['token_key'],$post['comment'])){
+}//if(isset($post['permalink'],$headers[C::KEY_AUTH],$post['comment'])){
 else{
     http_response_code(400);
     $response[C::KEY_MESSAGE] = C::INSERTCOMMENT_ERROR;

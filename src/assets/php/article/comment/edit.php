@@ -38,16 +38,14 @@ $input = file_get_contents("php://input");
 $patch = json_decode($input, true);
 
 $response = [
-    C::KEY_DONE => false,
-    C::KEY_EXPIRED => false,
-    C::KEY_MESSAGE => ''
-    //'patch' => $patch
+    C::KEY_DONE => false, C::KEY_EXPIRED => false, C::KEY_MESSAGE => '' //'patch' => $patch
 ];
+$headers = getallheaders();
 
-if(isset($patch['comment_id'],$patch['new_comment'],$patch['old_comment'],$patch['token_key']) && $patch['comment_id'] != '' && $patch['new_comment'] != '' && $patch['old_comment'] != '' && $patch['token_key'] != ''){
+if(isset($patch['comment_id'],$patch['new_comment'],$patch['old_comment'],$headers[C::KEY_AUTH]) && $patch['comment_id'] != '' && $patch['new_comment'] != '' && $patch['old_comment'] != '' && $headers[C::KEY_AUTH] != ''){
     $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../");
     $dotenv->safeLoad();
-    $token_data = ['token_key' => $patch['token_key']];
+    $token_data = ['token_key' => $headers[C::KEY_AUTH]];
     $comment_data = [
         'id' => $patch['comment_id'],
         'comment' => $patch['new_comment']
@@ -78,7 +76,7 @@ if(isset($patch['comment_id'],$patch['new_comment'],$patch['old_comment'],$patch
         //file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
         $response[C::KEY_MESSAGE] = C::COMMENTUPDATE_ERROR;
     }
-}//if(isset($patch['comment_id'],$patch['new_comment'],$patch['old_comment'],$patch['token_key']) && $patch['comment_id'] != '' && $patch['new_comment'] != '' && $patch['old_comment'] != '' && $patch['token_key'] != ''){
+}//if(isset($patch['comment_id'],$patch['new_comment'],$patch['old_comment'],$headers[C::KEY_AUTH]) && $patch['comment_id'] != '' && $patch['new_comment'] != '' && $patch['old_comment'] != '' && $headers[C::KEY_AUTH] != ''){
 else{
     http_response_code(400);
     $response[C::KEY_MESSAGE] = C::COMMENTUPDATE_ERROR;

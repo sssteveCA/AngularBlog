@@ -40,14 +40,15 @@ use Dotenv\Dotenv;
 $response = [
     C::KEY_DONE => false, C::KEY_EXPIRED => false, C::KEY_MESSAGE => ""
 ];
+$headers = getallheaders();
 
 $input = file_get_contents("php://input");
 $update = json_decode($input,true);
 
-if(isset($update["token_key"],$update["conf_new_password"],$update["new_password"],$update["old_password"])){
+if(isset($headers[C::KEY_AUTH],$update["conf_new_password"],$update["new_password"],$update["old_password"])){
     if(preg_match(User::$regex["password"],$update["new_password"])){
         if($update["new_password"] == $update["conf_new_password"]){
-            $token_data = [ "token_key" => $update["token_key"]];
+            $token_data = [ "token_key" => $headers[C::KEY_AUTH]];
             try{
                 $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../../");
                 $dotenv->safeLoad();
@@ -85,7 +86,7 @@ if(isset($update["token_key"],$update["conf_new_password"],$update["new_password
         http_response_code(400);
         $response[C::KEY_MESSAGE] = 'La nuova password inserita ha un formato non valido';
     }
-}//if(isset($update["token_key"],$update["conf_new_password"],$update["new_password"],$update["old_password"])){
+}//if(isset($headers[C::KEY_AUTH],$update["conf_new_password"],$update["new_password"],$update["old_password"])){
 else{
     http_response_code(400);
     $response[C::KEY_MESSAGE] = C::FILL_ALL_FIELDS;
