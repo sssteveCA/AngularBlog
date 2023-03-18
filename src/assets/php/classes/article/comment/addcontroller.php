@@ -2,6 +2,7 @@
 
 namespace AngularBlog\Classes\Article\Comment;
 
+use AngularBlog\Classes\Action\Action;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Classes\Article\Article;
@@ -23,6 +24,7 @@ class AddController implements Ace{
     private ?Article $article;
     private ?Comment $comment;
     private ?Token $token;
+    private ?Action $action;
     private static $logFile = C::FILE_LOG;
 
     public function __construct(array $data)
@@ -46,7 +48,6 @@ class AddController implements Ace{
     public function getPermalink(){return $this->permalink;}
     public function getToken(){return $this->token;}
     public function getTokenKey(){return $this->token_key;}
-    public function getUser(){return $this->user;}
     public function getError(){
         switch($this->errno){
             case Ace::FROM_ARTICLE:
@@ -57,6 +58,9 @@ class AddController implements Ace{
                 break;
             case Ace::FROM_COMMENT:
                 $this->error = Ace::FROM_COMMENT_MSG;
+                break;
+            case Ace::FROM_ACTION:
+                $this->error = Ace::FROM_ACTION_MSG;
                 break;
             default:
                 $this->error = null;
@@ -72,6 +76,22 @@ class AddController implements Ace{
         if(!isset($data['token_key']))throw new \Exception(Ace::NOTOKENKEY_EXC);
     }
 
+    /**
+     * Add an action to rememeber the done operation
+     */
+    private function addAction(): bool{
+        $this->action = new Action([
+            'user_id' => $this->token->getUserId(),
+            'title' => 'Creazione commento',
+            'description' => <<<HTML
+Hai creato un nuovo commento nell'articolo "{$this->article->getTitle()}" con testo "{$this->comment_text}"
+HTML
+        ]);
+        $insert = $this->action->action_create();
+        if(!$insert) $this->errno = Ace::FROM_ACTION;
+        return true;
+    }
+
     private function insertComment(): bool{
         $created = false;
         $this->errno = 0;
@@ -80,7 +100,7 @@ class AddController implements Ace{
         $data = [
             'article' => new ObjectId($article_id),
             'author' => new ObjectId($author_id),
-            'comment' => $this->getCommentText()
+            'comment' => $this->comment_text
         ];
         //file_put_contents(AddCommentController::$logFile,"insertComment data => ".var_export($data,true)."\r\n",FILE_APPEND);
         $this->comment = new Comment($data);
@@ -94,7 +114,9 @@ class AddController implements Ace{
         return $created;
     }
 
-    //Get article info from permalink
+    /**
+     * Get article info from permalink
+     **/
     private function getArticleInfo(): bool{
         $got = false;
         $this->errno = 0;
@@ -113,6 +135,7 @@ class AddController implements Ace{
     private function setResponse(){
         switch($this->errno){
             case 0:
+            case Ace::FROM_ACTION:
                 $this->response_code = 200;
                 $this->response = "";
                 break;
@@ -158,8 +181,7 @@ class AddController implements Ace{
             else{
                 $this->author_name = $this->token->getUsername();
                 $set = true;
-            }
-                
+            }         
         }
         else
             $this->errno = Ace::NOUSERIDFOUND;
