@@ -2,6 +2,7 @@
 
 namespace AngularBlog\Classes\Myarticles;
 
+use AngularBlog\Classes\Action\Action;
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\MyArticles\EditControllerErrors as Ece;
 use AngularBlog\Interfaces\TokenErrors as Te;
@@ -25,6 +26,7 @@ class EditContoller implements Ece{
     private ?Article $aac_article; //Article used by ArticleAuthorizationController class
     private ?ArticleAuthorizedController $aac;
     private ?Token $token;
+    private ?Action $action;
     private static string $logFile = C::FILE_LOG;
 
     public function __construct(array $data)
@@ -32,11 +34,11 @@ class EditContoller implements Ece{
         $this->checkValues($data);
         $this->article = $data['article'];
         $this->token = $data['token'];
-        $auth = $this->checkAuthorization();
-        if($auth){
-            $edit = $this->edit_article();
+        if($this->checkAuthorization()){
+            if($this->edit_article())
+                $this->addAction();
         }
-        file_put_contents(EditContoller::$logFile,"Edit Controller => ".var_export($this->getError(),true)."\r\n",FILE_APPEND);
+        //file_put_contents(EditContoller::$logFile,"Edit Controller => ".var_export($this->getError(),true)."\r\n",FILE_APPEND);
         $this->setResponse();
     }
 
@@ -45,6 +47,9 @@ class EditContoller implements Ece{
         switch($this->errno){
             case Ece::FROM_ARTICLEAUTHORIZEDCONTROLLER:
                 $this->error = Ece::FROM_ARTICLEAUTHORIZEDCONTROLLER_MSG;
+                break;
+            case Ece::FROM_ACTION:
+                $this->error = Ece::FROM_ACTION_MSG;
                 break;
             case Ece::ARTICLENOTUPDATED:
                 $this->error = Ece::ARTICLENOTUPDATED_MSG;
@@ -68,7 +73,25 @@ class EditContoller implements Ece{
 
     }
 
-    //Check if user is authorized to edit the article
+    /**
+     * Add an action to rememeber the done operation
+     */
+    private function addAction(): bool{
+        $this->action = new Action([
+            'user_id' => $this->token->getUserId(),
+            'title' => 'Modifica articolo',
+            'description' => <<<HTML
+Hai modificato l'articolo "{$this->aac_article->getTitle()}""
+HTML
+        ]);
+        $insert = $this->action->action_create();
+        if(!$insert) $this->errno = Ece::FROM_ACTION;
+        return true;
+    }
+
+    /**
+     * Check if user is authorized to edit the article
+     **/
     private function checkAuthorization(): bool{
         $authorized = false;
         $this->errno = 0;
@@ -86,7 +109,9 @@ class EditContoller implements Ece{
         return $authorized;
     }
 
-    //Update article information
+    /**
+     * Update article information
+     **/
     private function edit_article(): bool{
         file_put_contents(EditContoller::$logFile,"Edit Controller edit Article\r\n",FILE_APPEND);
         $edited = false;
@@ -110,10 +135,13 @@ class EditContoller implements Ece{
         return $edited;
     }
 
-    //Set the response to send to the view
+    /**
+     * Set the response to send to the view
+     **/
     private function setResponse(){
         switch($this->errno){
             case 0:
+            case Ece::FROM_ACTION:
                 $this->response_code = 200;
                 $this->response = C::ARTICLEEDITING_OK;
                 break;
