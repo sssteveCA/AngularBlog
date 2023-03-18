@@ -5,6 +5,7 @@ namespace AngularBlog\Classes\Action;
 use AngularBlog\Classes\Model;
 use AngularBlog\Interfaces\Action\ActionErrors as Ae;
 use AngularBlog\Interfaces\ModelErrors as Me;
+use MongoDB\BSON\ObjectId;
 
 class Action extends Model implements Ae{
     private ?string $id;
@@ -56,7 +57,7 @@ class Action extends Model implements Ae{
         $this->action_date = date('Y-m-d H:i:s');
         if($this->validate()){
             $values = [
-                'user_id' => $this->user_id,
+                'user_id' => new ObjectId($this->user_id),
                 'action_date' => $this->action_date,
                 'title' => $this->title,
                 'description' => $this->description
