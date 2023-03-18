@@ -1,12 +1,17 @@
 <app-title [title]="title"></app-title>
 <app-back [backlink]="backlink"></app-back>
 <div class="history-container pt-5">
+    <div>
+        <div class="spinner-grow" [ngClass]="{'d-none': notLoading}" style="width: 3rem; height: 3rem;" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
     <div *ngIf="historyItems.length > 0; then historyItemsList; else historyItemsVoid"></div>
     <ng-template #historyItemsList>
         <app-history-item *ngFor="let item of historyItems" [date]="item.action_date" [description]="item.description" [title]="item.title"></app-history-item>
     </ng-template>
     <ng-template #historyItemsVoid>
-        <ng-template #noItems [ngIf]="!error" [ngIfElse]="errorMessage">
+        <ng-template #noItems [ngIf]="empty && !error" [ngIfElse]="errorMessage">
             <div class="alert alert-secondary" role="alert">Nessun azione effettuata</div>
         </ng-template>
         <ng-template #errorMessage>

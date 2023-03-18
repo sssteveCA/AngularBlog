@@ -25,10 +25,9 @@ export class LoginComponent implements OnInit {
   login_url: string = constants.loginUrl;
   showPassword: boolean = false;
   @ViewChild('password',{static: false}) iPass: ElementRef;
-  public userCookie : any = {};
   showSpinner: boolean = false;
   title: string = "Accedi";
-
+  userCookie : any = {};
   constructor(private fb: FormBuilder,private router: Router, private http:HttpClient, private api: ApiService) {
     this.loginForm = fb.group({
       'username' : ['',Validators.compose([Validators.required,Validators.minLength(5)])],

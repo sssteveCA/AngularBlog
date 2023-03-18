@@ -20,7 +20,9 @@ export class HistoryComponent implements OnInit {
   urlHistory: string = constants.profileGetHistoryUrl;
   userCookie: any = {};
   historyItems: HistoryItem[] = [];
+  empty: boolean = false;
   error: boolean = false;
+  notLoading: boolean = false;
 
   constructor(private api: ApiService, private http: HttpClient, private router: Router) {
     this.loginStatus(); 
@@ -39,8 +41,10 @@ export class HistoryComponent implements OnInit {
     }
     let history: History = new History(historyData);
     history.history().then(res => {
+      this.notLoading = true;
       if(res[Keys.DONE]){
         this.historyItems = res[Keys.DATA]['actions'];
+        this.empty = res[Keys.EMPTY];
       }
       else this.error = true;
     });

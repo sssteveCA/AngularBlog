@@ -1,0 +1,11 @@
+
+@mixin history-component-style(){
+    div.history-container{
+        > div:first-child{
+            display: flex;
+            justify-content: center;
+        }
+    }
+}
+
+@include history-component-style();
