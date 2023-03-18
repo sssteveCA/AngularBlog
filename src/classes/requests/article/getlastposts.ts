@@ -61,11 +61,10 @@ export default class GetLastPosts{
         let promise = await new Promise<string>((resolve,reject)=>{
             this._http.get(this._url,{
                 responseType: 'text'
-            }).subscribe(res => {
-                resolve(res);
-            }, error => {
-                reject(error);
-            });
+            }).subscribe({
+                next: (res) => resolve(res),
+                error: (error) => reject(error) 
+            })
         });
         return promise;
     }

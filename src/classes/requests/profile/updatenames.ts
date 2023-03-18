@@ -61,11 +61,10 @@ export default class UpdateNames{
                 .set(Keys.AUTH,this._token_key);
             this._http.put(this._url, un, {
                 headers: headers, responseType: 'text'
-            }).subscribe(res => {
-                resolve(res);
-            },error => {
-                reject(error);
-            });
+            }).subscribe({
+                next: (res) => resolve(res),
+                error: (error) => reject(error) 
+            })
         });
         return promise;
     }

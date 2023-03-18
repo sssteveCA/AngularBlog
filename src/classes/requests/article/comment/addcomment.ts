@@ -52,11 +52,10 @@ export default class AddComment{
               'Accept': 'application/json',
               'AngularBlogAuth': this._token_key
             });
-            this._http.post(this.url,createData,{headers: headers, responseType: 'text'}).subscribe(res => {
-              resolve(res);
-            }, error => {
-              reject(error);
-            });
+            this._http.post(this.url,createData,{headers: headers, responseType: 'text'}).subscribe({
+                next: (res) => resolve(res),
+                error: (error) => reject(error) 
           });
+        });
     }
 }

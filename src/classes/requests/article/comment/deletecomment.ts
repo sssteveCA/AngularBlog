@@ -48,11 +48,10 @@ export default class DeleteComment{
                 'Accept': 'application/json',
                 'AngularBlogAuth': this._token_key
               });
-              this._http.post(this._url,deleteData,{headers: headers, responseType: 'text'}).subscribe(res => {
-                resolve(res);
-              },error => {
-                reject(error);
-              })
+              this._http.post(this._url,deleteData,{headers: headers, responseType: 'text'}).subscribe({
+                next: (res) => resolve(res),
+                error: (error) => reject(error) 
+              });
         });
     }
 }

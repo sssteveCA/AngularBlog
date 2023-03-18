@@ -55,10 +55,9 @@ export default class GetComments{
             const headers: HttpHeaders = new HttpHeaders().set(Keys.AUTH, this._token_key as string);
             this._http.get(this._full_url,{
                 headers: headers, responseType: 'text'
-            }).subscribe(res =>{
-                resolve(res);
-            },error => {
-                reject(error);
+            }).subscribe({
+                next: (res) => resolve(res),
+                error: (error) => reject(error) 
             });
         });
     }

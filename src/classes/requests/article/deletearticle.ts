@@ -53,11 +53,10 @@ export default class DeleteArticle{
                 .set('Content-Type','application/json')
                 .set('Accept','application/json')
                 .set(Keys.AUTH,this._token_key);
-            this._http.post(this._url,deleteData,{headers: headers, responseType: 'text'}).subscribe(res => {
-                resolve(res);
-            },error => {
-                reject(error);
-            });
+            this._http.post(this._url,deleteData,{headers: headers, responseType: 'text'}).subscribe({
+                next: (res) => resolve(res),
+                error: (error) => reject(error) 
+            })
         });
     }
 }

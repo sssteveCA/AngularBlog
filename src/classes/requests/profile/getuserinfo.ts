@@ -56,10 +56,9 @@ export default class GetUserInfo{
                     'AngularBlogAuth': this._token_key
                 }),
                 responseType: 'text'
-            }).subscribe(res => {
-                resolve(res);
-            },error => {
-                reject(error);
+            }).subscribe({
+                next: (res) => resolve(res),
+                error: (error) => reject(error) 
             })
         });
         return promise;

@@ -20,6 +20,7 @@ export class ApiService {
 
   //wait for HTTP post request response
   async loginStatusRequest(url: string, body: any, headers: any){
+    console.log("api service loginStatusRequest");
     let promise = await new Promise((resolve,reject) => {
       this.http.post(url,body,{headers: headers, responseType: 'text'}).subscribe(res => {
         //console.log("Login status request resolve => ");
@@ -37,7 +38,7 @@ export class ApiService {
 
   //change login status
   async getLoginStatus(): Promise<boolean>{
-    //console.log("api service getLoginStatus()");
+    console.log("api service getLoginStatus()");
     let logged = false;
     const token_key = localStorage.getItem('token_key');
     const username = localStorage.getItem('username');

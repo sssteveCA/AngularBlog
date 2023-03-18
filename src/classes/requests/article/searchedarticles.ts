@@ -65,11 +65,10 @@ export default class SearchedArticles{
             let params: object = {query: this._query};
             this._http.post(this._url,params,{
                 responseType: 'text',
-            }).subscribe(res => {
-                resolve(res);
-            },error => {
-                reject(error);
-            });
+            }).subscribe({
+                next: (res) => resolve(res),
+                error: (error) => reject(error) 
+            })
         });
         
     }

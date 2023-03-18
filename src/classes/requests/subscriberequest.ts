@@ -72,11 +72,10 @@ export default class SubscribeRequest{
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             });
-            this._http.post(this.url,subscribeData,{headers: headers, responseType: 'text'}).subscribe(res => {
-                resolve(res);
-            },error => {
-                reject(error);
-            });
+            this._http.post(this.url,subscribeData,{headers: headers, responseType: 'text'}).subscribe({
+                next: (res) => resolve(res),
+                error: (error) => reject(error) 
+            })
         });
     }
 }

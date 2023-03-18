@@ -46,10 +46,9 @@ export class GetArticle{
 
     private async getArticlePromise(): Promise<string>{
         return await new Promise<string>((resolve,reject)=>{
-            this._http.get(this._full_url,{responseType: 'text'}).subscribe(res => {
-                resolve(res);
-            },error => {
-                reject(error);
+            this._http.get(this._full_url,{responseType: 'text'}).subscribe({
+                next: (res) => resolve(res),
+                error: (error) => reject(error) 
             })
         });
     }
