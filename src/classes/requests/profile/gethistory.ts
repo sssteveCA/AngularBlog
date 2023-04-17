@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import HistoryInterface from "src/interfaces/requests/profile/history.interface";
+import HistoryInterface from "src/interfaces/requests/profile/gethistory.interface";
 
-export default class History{
+export default class GetHistory{
     private _http: HttpClient;
     private _token_key: string;
     private _url: string;
@@ -22,8 +22,8 @@ export default class History{
     get errno(){return this._errno;}
     get error(){
         switch(this._errno){
-            case History.ERR_REQUEST:
-                this._error = History.ERR_REQUEST_MSG;
+            case GetHistory.ERR_REQUEST:
+                this._error = GetHistory.ERR_REQUEST_MSG;
                 break;
             default:
                 this._error = null;
@@ -43,7 +43,7 @@ export default class History{
                 throw err;
             })
         }catch(e){
-            this._errno = History.ERR_REQUEST;
+            this._errno = GetHistory.ERR_REQUEST;
             response = {done: false}
         }
         return response;

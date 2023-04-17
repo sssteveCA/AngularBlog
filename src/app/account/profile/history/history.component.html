@@ -8,7 +8,14 @@
     </div>
     <div *ngIf="historyItems.length > 0; then historyItemsList; else historyItemsVoid"></div>
     <ng-template #historyItemsList>
-        <app-history-item *ngFor="let item of historyItems" [id]="item.id" [date]="item.action_date" [description]="item.description" [title]="item.title"></app-history-item>
+        <app-history-item 
+            *ngFor="let item of historyItems" 
+            [id]="item.id" 
+            [date]="item.action_date" 
+            [description]="item.description" 
+            [title]="item.title"
+            (sendActionId)="onActionIdReceived($event)"
+            ></app-history-item>
     </ng-template>
     <ng-template #historyItemsVoid>
         <ng-template #noItems [ngIf]="empty && !error" [ngIfElse]="errorMessage">

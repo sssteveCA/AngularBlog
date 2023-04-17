@@ -3,10 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
 import { HistoryItem } from 'src/app/models/historyitem.model';
-import History from 'src/classes/requests/profile/history';
+import History from 'src/classes/requests/profile/gethistory';
 import { Keys } from 'src/constants/keys';
-import HistoryInterface from 'src/interfaces/requests/profile/history.interface';
+import HistoryInterface from 'src/interfaces/requests/profile/gethistory.interface';
 import * as constants from '../../../../constants/constants';
+import GetHistory from 'src/classes/requests/profile/gethistory';
+import GetHistoryInterface from 'src/interfaces/requests/profile/gethistory.interface';
 
 @Component({
   selector: 'app-history',
@@ -34,12 +36,12 @@ export class HistoryComponent implements OnInit {
   }
 
   getHistory(): void{
-    let historyData: HistoryInterface = {
+    let historyData: GetHistoryInterface = {
       http: this.http,
       token_key: localStorage.getItem('token_key') as string,
       url: this.urlHistory
     }
-    let history: History = new History(historyData);
+    let history: GetHistory = new GetHistory(historyData);
     history.history().then(res => {
       this.notLoading = true;
       if(res[Keys.DONE]){
@@ -85,6 +87,10 @@ export class HistoryComponent implements OnInit {
       this.userCookie['token_key'] = userdata['token_key'];
       this.userCookie['username'] = userdata['username'];
     });
+  }
+
+  onActionIdReceived(action_id: string): void{
+    
   }
 
 }

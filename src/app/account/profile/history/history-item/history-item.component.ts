@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter} from '@angular/core';
 import { FormControl} from '@angular/forms';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
 import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
@@ -14,6 +14,7 @@ export class HistoryItemComponent implements OnInit, OnChanges{
   @Input() date: Date;
   @Input() description: string;
   @Input() title: string;
+  @Output() sendActionId = new EventEmitter<string>();
   dateString: string;
   actionId: FormControl = new FormControl();
 
@@ -21,7 +22,7 @@ export class HistoryItemComponent implements OnInit, OnChanges{
 
   
   ngOnChanges(changes: SimpleChanges): void{
-    console.log(changes)
+    //console.log(changes)
     this.actionId.setValue(changes['id'].currentValue)
   }
 
@@ -30,7 +31,6 @@ export class HistoryItemComponent implements OnInit, OnChanges{
   }
 
   removeButtonClick(): void{
-    const action_id_val: string = this.actionId.value;
     //console.log(action_id_val)
     const cdData: ConfirmDialogInterface = {
       title: 'Rimuovi azione',
@@ -40,10 +40,13 @@ export class HistoryItemComponent implements OnInit, OnChanges{
     cd.bt_yes.addEventListener('click',()=>{
       cd.instance.dispose();
       document.body.removeChild(cd.div_dialog);
+      document.body.style.overflow = 'auto';
+      this.sendActionId.emit(this.actionId.value)
     })
     cd.bt_no.addEventListener('click',()=>{
       cd.instance.dispose();
       document.body.removeChild(cd.div_dialog);
+      document.body.style.overflow = 'auto';
     })
   }
 
