@@ -1,34 +1,6 @@
 <?php
 
-require_once("../../../cors.php");
-require_once("../../../interfaces/constants.php");
-require_once("../../../interfaces/exception_messages.php");
-require_once("../../../interfaces/from_errors.php");
-require_once("../../../interfaces/model_errors.php");
-require_once("../../../interfaces/user_errors.php");
-require_once("../../../interfaces/token_errors.php");
-require_once("../../../interfaces/account/userauthorizedcontroller_errors.php");
-require_once("../../../interfaces/account/userauthorizedview_errors.php");
-require_once("../../../interfaces/account/updatenamescontroller_errors.php");
-require_once("../../../interfaces/account/updatenamesview_errors.php");
-require_once("../../../interfaces/action/action_errors.php");
-require_once("../../../exceptions/notokeninstanceexception.php");
-require_once("../../../exceptions/nouserinstanceexception.php");
-require_once("../../../exceptions/tokentypemismatchexception.php");
-require_once("../../../exceptions/usertypemismatchexception.php");
-require_once("../../../traits/authorized.trait.php");
-require_once("../../../traits/error.trait.php");
-require_once("../../../traits/message.trait.php");
-require_once("../../../traits/response.trait.php");
 require_once("../../../../../../vendor/autoload.php");
-require_once("../../../classes/model.php");
-require_once("../../../classes/token.php");
-require_once("../../../classes/user.php");
-require_once("../../../classes/action/action.php");
-require_once("../../../classes/account/userauthorizedcontroller.php");
-require_once("../../../classes/account/userauthorizedview.php");
-require_once("../../../classes/account/updatenamescontroller.php");
-require_once("../../../classes/account/updatenamesview.php");
 
 use AngularBlog\Classes\Account\UpdateNamesController;
 use AngularBlog\Classes\Account\UpdateNamesView;

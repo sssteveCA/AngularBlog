@@ -1,18 +1,7 @@
 <?php
 
-require_once("../cors.php");
-require_once("../../../../vendor/autoload.php");
-require_once("../config.php");
-require_once("../interfaces/constants.php");
-require_once("../interfaces/models_errors.php");
-require_once("../interfaces/model_errors.php");
-require_once("../interfaces/article/article_errors.php");
 require_once("../interfaces/article/articlelist_errors.php");
-require_once("../traits/error.trait.php");
-require_once("../classes/model.php");
-require_once("../classes/models.php");
-require_once("../classes/article/article.php");
-require_once("../classes/article/articlelist.php");
+require_once("../../../../vendor/autoload.php");
 
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Article\ArticleList;

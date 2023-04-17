@@ -1,30 +1,6 @@
 <?php
 
-require_once("../../../cors.php");
-require_once("../../../interfaces/constants.php");
-require_once("../../../interfaces/exception_messages.php");
-require_once("../../../interfaces/from_errors.php");
-require_once("../../../interfaces/model_errors.php");
-require_once("../../../interfaces/models_errors.php");
-require_once("../../../interfaces/token_errors.php");
-require_once("../../../interfaces/user_errors.php");
-require_once("../../../interfaces/action/action_errors.php");
-require_once("../../../interfaces/action/getuseractionscontroller_errors.php");
-require_once("../../../interfaces/action/getuseractionsview_errors.php");
-require_once("../../../traits/error.trait.php");
-require_once("../../../traits/message.trait.php");
-require_once("../../../traits/messagearray.trait.php");
-require_once("../../../traits/response.trait.php");
-require_once("../../../traits/responsemultiple.trait.php");
 require_once("../../../../../../vendor/autoload.php");
-require_once("../../../classes/model.php");
-require_once("../../../classes/models.php");
-require_once("../../../classes/token.php");
-require_once("../../../classes/user.php");
-require_once("../../../classes/action/action.php");
-require_once("../../../classes/action/actionlist.php");
-require_once("../../../classes/action/getuseractionscontroller.php");
-require_once("../../../classes/action/getuseractionsview.php");
 
 use AngularBlog\Classes\Action\GetUserActionsController;
 use AngularBlog\Classes\Action\GetUserActionsView;

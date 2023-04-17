@@ -1,20 +1,6 @@
 <?php
 
-require_once("cors.php");
-require_once("interfaces/constants.php");
-require_once("interfaces/email/emailmanager_errors.php");
-require_once("interfaces/contact/contactview_errors.php");
-require_once("interfaces/contact/contactcontroller_errors.php");
-require_once("interfaces/email/emailmanager_errors.php");
 require_once("../../../vendor/autoload.php");
-require_once("traits/emailmanager.trait.php");
-require_once("traits/error.trait.php");
-require_once("traits/message.trait.php");
-require_once("traits/response.trait.php");
-require_once("classes/email/emailmanager.php");
-require_once("classes/contact/contactcontroller.php");
-require_once("classes/contact/contactview.php");
-require_once("config.php");
 
 use AngularBlog\Classes\Contact\ContactController;
 use AngularBlog\Classes\Contact\ContactView;

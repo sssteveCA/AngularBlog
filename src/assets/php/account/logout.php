@@ -1,21 +1,7 @@
 <?php
 
-require_once("../cors.php");
+
 require_once('../../../../vendor/autoload.php');
-require_once("../config.php");
-require_once("../interfaces/constants.php");
-require_once("../interfaces/exception_messages.php");
-require_once("../interfaces/model_errors.php");
-require_once("../interfaces/token_errors.php");
-require_once("../interfaces/logout/logoutcontrollererrors.php");
-require_once("../interfaces/logout/logoutviewerrors.php");
-require_once("../traits/error.trait.php");
-require_once("../traits/message.trait.php");
-require_once("../traits/response.trait.php");
-require_once("../classes/model.php");
-require_once("../classes/token.php");
-require_once("../classes/logout/logoutcontroller.php");
-require_once("../classes/logout/logoutview.php");
 
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Token;

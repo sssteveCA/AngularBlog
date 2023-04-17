@@ -1,22 +1,6 @@
 <?php
 
-require_once("../cors.php");
 require_once('../../../../vendor/autoload.php');
-require_once("../config.php");
-require_once('../interfaces/constants.php');
-require_once('../interfaces/exception_messages.php');
-require_once('../interfaces/from_errors.php');
-require_once('../interfaces/model_errors.php');
-require_once('../interfaces/user_errors.php');
-require_once('../interfaces/subscribe/verifycontroller_errors.php');
-require_once('../interfaces/subscribe/verifyview_errors.php');
-require_once("../traits/error.trait.php");
-require_once("../traits/message.trait.php");
-require_once("../traits/response.trait.php");
-require_once('../classes/model.php');
-require_once('../classes/user.php');
-require_once('../classes/subscribe/verifycontroller.php');
-require_once('../classes/subscribe/verifyview.php');
 
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\User;

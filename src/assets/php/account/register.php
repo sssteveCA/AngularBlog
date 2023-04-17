@@ -1,24 +1,6 @@
 <?php
-require_once('../cors.php');
-require_once('../interfaces/constants.php');
-require_once("../interfaces/exception_messages.php");
-require_once("../interfaces/from_errors.php");
-require_once("../interfaces/email/emailmanager_errors.php");
-require_once('../interfaces/model_errors.php');
-require_once('../interfaces/user_errors.php');
-require_once('../interfaces/subscribe/registrationcontroller_errors.php');
-require_once('../interfaces/subscribe/registrationview_errors.php');
+
 require_once('../../../../vendor/autoload.php');
-require_once("../traits/error.trait.php");
-require_once("../traits/message.trait.php");
-require_once("../traits/response.trait.php");
-require_once("../traits/emailmanager.trait.php");
-require_once("../traits/registrationcontroller.trait.php");
-require_once("../classes/email/emailmanager.php");
-require_once('../classes/model.php');
-require_once('../classes/user.php');
-require_once('../classes/subscribe/registrationcontroller.php');
-require_once('../classes/subscribe/registrationview.php');
 
 use AngularBlog\Classes\Subscribe\RegistrationController;
 use AngularBlog\Classes\Subscribe\RegistrationView;
