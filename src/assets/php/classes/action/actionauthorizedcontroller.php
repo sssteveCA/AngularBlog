@@ -22,7 +22,7 @@ class ActionAuthorizedController implements Aace{
     private ?Action $action;
     private ?Token $token;
 
-    private function __construct(array $data){
+    public function __construct(array $data){
         $this->checkValues($data);
         $tokenOk = $this->getTokenByKey();
         if($tokenOk){
@@ -65,6 +65,8 @@ class ActionAuthorizedController implements Aace{
         if(!isset($data['token'])) throw new NoTokenInstanceException(Aace::NOTOKENINSTANCE_EXC);
         if(!$data['action'] instanceof Action)throw new ActionTypeMismatchException(Aace::ARTICLETYPEMISMATCH_EXC);
         if(!$data['token'] instanceof Token)throw new TokenTypeMismatchException(Aace::TOKENTYPEMISMATCH_EXC);
+        $this->action = $data['action'];
+        $this->token = $data['token'];
     }
 
     /**

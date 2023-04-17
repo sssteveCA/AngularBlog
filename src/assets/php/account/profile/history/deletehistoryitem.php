@@ -1,6 +1,4 @@
 <?php
-use AngularBlog\Classes\Action\DeleteUserActionController;
-use AngularBlog\Classes\Action\DeleteUserActionView;
 
 require_once("../../../../../../vendor/autoload.php");
 
@@ -9,6 +7,8 @@ use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Interfaces\TokenErrors as Te;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\Action\Action;
+use AngularBlog\Classes\Action\DeleteUserActionController;
+use AngularBlog\Classes\Action\DeleteUserActionView;
 
 $response = [
     C::KEY_DONE => false, C::KEY_EXPIRED => false, C::KEY_MESSAGE => ""
