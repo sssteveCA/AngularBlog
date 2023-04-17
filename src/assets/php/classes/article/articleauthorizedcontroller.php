@@ -27,7 +27,7 @@ class ArticleAuthorizedController implements Aace{
 
     public function __construct(array $data){
         //file_put_contents(ArticleAuthorizedController::$logFile,"ArticleAuthorizedController construct\r\n",FILE_APPEND);
-        $this->checkVariables($data);
+        $this->checkValues($data);
         $this->article = $data['article'];
         $this->token = $data['token'];
         $tokenOk = $this->getTokenByKey();
@@ -66,8 +66,10 @@ class ArticleAuthorizedController implements Aace{
         return $this->error;
     }
 
-    //Check if values inside array are Article,User,Token types
-    private function checkVariables(array $data){
+    /**
+     * Check if values inside array are Article,User,Token types
+     */
+    private function checkValues(array $data){
         if(!isset($data['article']))throw new NoArticleInstanceException(Aace::NOARTICLEINSTANCE_EXC);
         if(!isset($data['token']))throw new NoTokenInstanceException(Aace::NOTOKENINSTANCE_EXC);
         if(!$data['article'] instanceof Article)throw new ArticleTypeMismatchException(Aace::ARTICLETYPEMISMATCH_EXC);
