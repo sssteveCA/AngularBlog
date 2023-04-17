@@ -12,7 +12,7 @@ export const phpFolder: string = "/src/assets/php"; */
 /**
  * php script fro account activation
  */
-export const activationUrl: string = Config.PHP_SCRIPTS_URL+"/account/attiva.php";
+export const activationUrl: string = Config.PHP_SCRIPTS_URL+"/account/activate.php";
 
 /**
  * blog url

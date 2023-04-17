@@ -2,27 +2,7 @@
 
 //List of comments of single article
 
-require_once("../../cors.php");
 require_once("../../../../../vendor/autoload.php");
-require_once("../../config.php");
-require_once("../../interfaces/constants.php");
-require_once("../../interfaces/exception_messages.php");
-require_once("../../interfaces/from_errors.php");
-require_once("../../interfaces/models_errors.php");
-require_once("../../interfaces/model_errors.php");
-require_once("../../interfaces/token_errors.php");
-require_once("../../interfaces/user_errors.php");
-require_once("../../interfaces/article/article_errors.php");
-require_once("../../interfaces/article/comment/comment_errors.php");
-require_once("../../interfaces/article/comment/commentlist_errors.php");
-require_once("../../traits/error.trait.php");
-require_once("../../classes/model.php");
-require_once("../../classes/models.php");
-require_once("../../classes/token.php");
-require_once("../../classes/user.php");
-require_once("../../classes/article/article.php");
-require_once("../../classes/article/comment/comment.php");
-require_once("../../classes/article/comment/commentlist.php");
 
 use AngularBlog\Classes\Article\Article;
 use AngularBlog\Classes\Comment\CommentList;
