@@ -25,6 +25,9 @@ class ActionAuthorizedController implements Aace{
         $tokenOk = $this->getTokenByKey();
         if($tokenOk){
             $actionOk = $this->getActionById();
+            if($actionOk){
+                $this->isUserAuthorizedCheck();
+            }
         }
     }
 
@@ -91,6 +94,24 @@ class ActionAuthorizedController implements Aace{
         $this->errno = Aace::TOKEN_NOTFOUND;
         return false;
     }
+
+    /**
+     * Check if user is authorized to manage this action
+     */
+    private function isUserAuthorizedCheck(): bool{
+        $this->authorized = false;
+        $this->errno = 0;
+        $token_user_id = $this->token->getUserId();
+        $action_user_id = $this->action->getUserId();
+        if($token_user_id == $action_user_id){
+            $this->authorized = true;
+            return true;
+        }
+        $this->errno = Aace::FORBIDDEN;
+        return false;
+    }
+
+
 }
 
 ?>
