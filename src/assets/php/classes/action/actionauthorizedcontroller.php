@@ -21,6 +21,10 @@ class ActionAuthorizedController implements Aace{
 
     private function __construct(array $data){
         $this->checkValues($data);
+        $tokenOk = $this->getTokenByKey();
+        if($tokenOk){
+            
+        }
     }
 
     public function getAction(){return $this->action;}
@@ -54,6 +58,24 @@ class ActionAuthorizedController implements Aace{
         if(!isset($data['token'])) throw new NoTokenInstanceException(Aace::NOTOKENINSTANCE_EXC);
         if(!$data['action'] instanceof Action)throw new ActionTypeMismatchException(Aace::ARTICLETYPEMISMATCH_EXC);
         if(!$data['token'] instanceof Token)throw new TokenTypeMismatchException(Aace::TOKENTYPEMISMATCH_EXC);
+    }
+
+    /**
+     * Get token by token key
+     */
+    private function getTokenByKey(): bool{
+        $this->errno = 0;
+        $data = ['token_key' => $this->token->getTokenKey()];
+        $token_got = $this->token->token_get($data);
+        if($token_got){
+            $this->token->expireControl();
+            if(!$this->token->isExpired())
+                return true;
+            $this->errno = Aace::FROM_TOKEN;
+            return false;    
+        }
+        $this->errno = Aace::TOKEN_NOTFOUND;
+        return false;
     }
 }
 
