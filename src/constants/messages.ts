@@ -27,6 +27,7 @@ export namespace Messages{
     export const EDITUSERNAME_ERROR: string = "Errore durante la modifica del nome utente. "+ADMIN_CONTACT;
     export const GETARTICLE_ERROR: string = "Errore durante la visualizzazione dell'articolo. "+ADMIN_CONTACT;
     export const GETARTICLES_ERROR: string = "Errore durante la ricerca dei tuoi articoli. "+ADMIN_CONTACT;
+    export const HISTORYITEM_DELETE_ERROR: string = "Errore durante la rimozione dell'azione. "+ADMIN_CONTACT;
     export const INVALIDDATA_ERROR: string = "I dati inseriti non sono validi, riprova";
     export const LOGIN_ERROR:string = "Errore durante il login. "+ADMIN_CONTACT;
     export const LOGOUT_CONFIRM: string = "Sei sicuro di voler uscire dalla sessione corrente?";
