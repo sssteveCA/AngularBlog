@@ -13,8 +13,8 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-6 offset-3 col-md-4 offset-md-4">
-            <input type="hidden" class="action-id" name="action_id" value={{id}}>
-            <button mat-raised-button color="warn">RIMUOVI</button>
+            <input type="hidden" [formControl]="actionId">
+            <button (click)="removeButtonClick()" mat-raised-button color="warn">RIMUOVI</button>
         </div>
     </div>
 </div>

@@ -44,6 +44,7 @@ export class HistoryComponent implements OnInit {
       this.notLoading = true;
       if(res[Keys.DONE]){
         this.historyItems = res[Keys.DATA]['actions'];
+        //console.log(this.historyItems)
         this.empty = res[Keys.EMPTY];
       }
       else this.error = true;
