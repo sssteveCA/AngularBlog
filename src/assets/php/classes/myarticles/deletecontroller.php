@@ -24,7 +24,6 @@ class DeleteController implements Dce{
 
     private ?Article $article;
     private ?Article $aac_article; //Article used by ArticleAuthorizationController class
-    private ?ArticleAuthorizedController $aac;
     private ?Token $token;
     private ?Action $action;
     private static string $logFile = C::FILE_LOG;
@@ -89,11 +88,11 @@ HTML
         $authorized = false;
         $this->errno = 0;
         $this->aac_article = clone $this->article;
-        $this->aac = new ArticleAuthorizedController([
+        $aac = new ArticleAuthorizedController([
             'article' => $this->aac_article,
             'token' => $this->token
         ]);
-        $aacErrno = $this->aac->getErrno();
+        $aacErrno = $aac->getErrno();
         if($aacErrno == 0){
             $authorized = true;
         }

@@ -2,6 +2,7 @@
 
 
 use AngularBlog\Classes\Action\Action;
+use AngularBlog\Classes\Action\ActionAuthorizedController;
 use AngularBlog\Classes\Token;
 use AngularBlog\Exceptions\ActionTypeMismatchException;
 use AngularBlog\Exceptions\NoActionInstanceException;
@@ -21,11 +22,23 @@ class DeleteUserActionController implements Duace{
 
     public function __construct(array $data){
         $this->checkValues($data);
+        if($this->checkAuthorization()){
+            
+        }
     }
 
     public function getToken(){return $this->token;}
     public function getError(){
         switch($this->errno){
+            case Duace::FROM_ACTIONAUTHORIZEDCONTROLLER:
+                $this->error = Duace::FROM_ACTIONAUTHORIZEDCONTROLLER_MSG;
+                break;
+            case Duace::FROM_ACTION:
+                $this->error = Duace::FROM_ACTION_MSG;
+                break;
+            case Duace::ACTIONNOTDELETED:
+                $this->error = Duace::ACTIONNOTDELETED_MSG;
+                break;
             default:
                 $this->error = null;
                 break;
@@ -40,6 +53,25 @@ class DeleteUserActionController implements Duace{
         if(!isset($data['token']))throw new NoTokenInstanceException(Duace::NOTOKENINSTANCE_EXC);
         if(!$data['action'] instanceof Action) throw new ActionTypeMismatchException(Duace::INVALIDACTIONTYPE_EXC);
         if(!$data['token'] instanceof Token)throw new TokenTypeMismatchException(Duace::INVALIDTOKENTYPE_EXC);
+        $this->action = $data['action'];
+        $this->token = $data['token'];
+    }
+
+    /**
+     * Check if user is authorized to manage this action
+     */
+    private function checkAuthorization(): bool{
+        $this->errno = 0;
+        $this->aac_action = clone $this->action;
+        $aac = new ActionAuthorizedController([
+            'action' => $this->action,
+            'token' => $this->token
+        ]);
+        $aacErrno = $aac->getErrno();
+        if($aacErrno == 0)
+            return true;
+        $this->errno = Duace::FROM_ACTIONAUTHORIZEDCONTROLLER;
+        return false;
     }
 
 }
