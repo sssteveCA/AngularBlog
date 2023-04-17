@@ -37,6 +37,7 @@ class GetUserActionsView implements Guave{
         $al = [];
         foreach($actionslist as $action){
             $al[] = [
+                'id' => $action->getId(),
                 'action_date' => date('d-m-Y H:i:s',(int)$action->getActionDate()),
                 'description' => $action->getDescription(),
                 'title' => $action->getTitle()
