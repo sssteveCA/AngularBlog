@@ -1,5 +1,6 @@
 <?php
 
+namespace AngularBlog\Classes\Action;
 
 use AngularBlog\Classes\Action\Action;
 use AngularBlog\Classes\Action\ActionAuthorizedController;
