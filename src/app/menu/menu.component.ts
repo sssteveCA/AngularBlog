@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
@@ -48,30 +48,35 @@ export class MenuComponent implements OnInit {
       cd.div_dialog.remove();
       let token_key = localStorage.getItem("token_key");
       //console.log(token_key);
-      this.http.get(constants.logoutUrl+'?token_key='+token_key,{responseType: 'text'}).subscribe(res => {
-        //console.log(res);
-        let rJson = JSON.parse(res);
-        if(rJson[Keys.DONE] == true){
-          this.api.removeItems();
-          this.api.changeUserdata({});
-          this.router.navigate([constants.logoutRedirect]);
-        }//if(rJson[Keys.DONE] == true){
-        else{
-          const data: MessageDialogInterface = {
-            title: 'Logout',
-            message: rJson[Keys.MESSAGE]
-          };
-          let md = new MessageDialog(data);
-          md.bt_ok.addEventListener('click',()=>{
-            md.instance.dispose();
-            md.div_dialog.remove();
-            document.body.style.overflow = 'auto';
-          });
-        }
-        
-      },error => {
-        console.warn(error);
-      });
+      this.http.get(constants.logoutUrl,{
+        headers: new HttpHeaders().set(Keys.AUTH, token_key as string),
+        responseType: 'text'
+      }).subscribe({
+        next: (res) => {
+          //console.log(res);
+          let rJson = JSON.parse(res);
+          if(rJson[Keys.DONE] == true){
+            this.api.removeItems();
+            this.api.changeUserdata({});
+            this.router.navigate([constants.logoutRedirect]);
+          }//if(rJson[Keys.DONE] == true){
+          else{
+            const data: MessageDialogInterface = {
+              title: 'Logout',
+              message: rJson[Keys.MESSAGE]
+            };
+            let md = new MessageDialog(data);
+            md.bt_ok.addEventListener('click',()=>{
+              md.instance.dispose();
+              md.div_dialog.remove();
+              document.body.style.overflow = 'auto';
+            });
+          }     
+        },
+        error: (error) => {
+          console.warn(error);
+        } 
+      })
     });//cd.bt_yes.addEventListener('click', ()=>{
     cd.bt_no.addEventListener('click', ()=>{
       cd.instance.dispose();
