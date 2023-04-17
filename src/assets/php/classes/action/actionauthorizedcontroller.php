@@ -3,6 +3,10 @@
 namespace AngularBlog\Classes\Action;
 
 use AngularBlog\Classes\Token;
+use AngularBlog\Exceptions\ActionTypeMismatchException;
+use AngularBlog\Exceptions\NoActionInstanceException;
+use AngularBlog\Exceptions\NoTokenInstanceException;
+use AngularBlog\Exceptions\TokenTypeMismatchException;
 use AngularBlog\Interfaces\Action\ActionAuthorizedControllerErrors as Aace;
 use AngularBlog\Traits\AuthorizedTrait;
 use AngularBlog\Traits\ErrorTrait;
@@ -16,7 +20,7 @@ class ActionAuthorizedController implements Aace{
     private ?Token $token;
 
     private function __construct(array $data){
-
+        $this->checkValues($data);
     }
 
     public function getAction(){return $this->action;}
@@ -40,6 +44,16 @@ class ActionAuthorizedController implements Aace{
                 break;
         }
         return $this->error;
+    }
+
+    /**
+     * Check if values inside array are Action and Token types
+     */
+    private function checkValues(array $data){
+        if(!isset($data['action'])) throw new NoActionInstanceException(Aace::NOACTIONINSTANCE_EXC);
+        if(!isset($data['token'])) throw new NoTokenInstanceException(Aace::NOTOKENINSTANCE_EXC);
+        if(!$data['action'] instanceof Action)throw new ActionTypeMismatchException(Aace::ARTICLETYPEMISMATCH_EXC);
+        if(!$data['token'] instanceof Token)throw new TokenTypeMismatchException(Aace::TOKENTYPEMISMATCH_EXC);
     }
 }
 

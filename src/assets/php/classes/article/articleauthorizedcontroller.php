@@ -67,7 +67,7 @@ class ArticleAuthorizedController implements Aace{
     }
 
     /**
-     * Check if values inside array are Article,User,Token types
+     * Check if values inside array are Article and Token types
      */
     private function checkValues(array $data){
         if(!isset($data['article']))throw new NoArticleInstanceException(Aace::NOARTICLEINSTANCE_EXC);
