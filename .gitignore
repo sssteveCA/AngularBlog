@@ -50,6 +50,8 @@ Thumbs.db
 .env
 *.txt
 
+
+.vscode
 #components excluded
 src/app/content/privacy-policy/privacy-policy.component.html
 src/app/content/cookie-policy/cookie-policy.component.html
