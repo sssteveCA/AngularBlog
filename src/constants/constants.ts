@@ -148,6 +148,11 @@ export const profileGetUserInfoUrl: string = Config.PHP_SCRIPTS_URL+"/account/pr
 export const profileGetUsernameUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/info/getusername.php";
 
 /**
+ * URL to delete an history action 
+ */
+export const profileDeleteHistoryItemUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/history/deletehistoryitem.php";
+
+/**
  * URL to get the logged user actions history 
  */
 export const profileGetHistoryUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/history/gethistory.php";

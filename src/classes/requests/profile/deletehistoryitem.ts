@@ -25,7 +25,7 @@ export default class DeleteHistoryItem{
         let response: object = {}
         try{
             await this.deletePromise().then(res => {
-                console.log(res)
+                //console.log(res)
                 response = JSON.parse(res)
 
             }).catch(err => {
@@ -47,7 +47,7 @@ export default class DeleteHistoryItem{
 
     private async deletePromise(): Promise<string>{
         return await new Promise<string>((resolve,reject) => {
-            this._http.delete(this.url,{
+            this._http.delete(`${this.url}?action_id=${this._action_id}`,{
                 headers: {
                     'AngularBlogAuth': this._token_key
                 },
