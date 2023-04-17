@@ -154,7 +154,7 @@ export class MyArticlesComponent implements OnInit {
     console.log(ga_data); */
     let ga: GetArticles = new GetArticles(ga_data);
     ga.getArticles().then(obj => {
-      //console.log(obj);
+      console.log(obj);
       if(obj[Keys.DONE] == true){
         this.done = true;
         this.message = null;
