@@ -5,9 +5,9 @@ import ConfirmDialogInterface from "../../interfaces/dialogs/confirmdialog.inter
 
 export default class ConfirmDialog{
 
-    private _bt_yes: Element; //'Yes' button
-    private _bt_no: Element; //'No' button
-    private _div_dialog: HTMLElement; //Dialog container
+    private _bt_yes: HTMLButtonElement; //'Yes' button
+    private _bt_no: HTMLButtonElement; //'No' button
+    private _div_dialog: HTMLDivElement; //Dialog container
     private _instance: bootstrap.Modal; //Bootstrap dialog instance
     private _message: string; //Dialog message
     private _title: string; //Dialog title
@@ -66,7 +66,7 @@ export default class ConfirmDialog{
             focus: true
         });
         this._instance.show();
-        this._bt_yes = document.querySelector('.cd_yesbutton') as Element;
-        this._bt_no = document.querySelector('.cd_nobutton') as Element;
+        this._bt_yes = document.querySelector('.cd_yesbutton') as HTMLButtonElement;
+        this._bt_no = document.querySelector('.cd_nobutton') as HTMLButtonElement;
     }
 }

@@ -2,8 +2,8 @@ import * as bootstrap from "bootstrap";
 import MessageDialogInterface from "../../interfaces/dialogs/messagedialog.interface";
 
 export default class MessageDialog{
-    private _bt_ok: Element; //'OK' button
-    private _div_dialog: HTMLElement; //Dialog container
+    private _bt_ok: HTMLButtonElement; //'OK' button
+    private _div_dialog: HTMLDivElement; //Dialog container
     private _instance: bootstrap.Modal; //Bootstrap dialog instance
     private _message: string; //Dialog message
     private _title: string; //Dialog title
@@ -60,6 +60,6 @@ export default class MessageDialog{
             focus: true
         });
         this._instance.show();
-        this._bt_ok = document.querySelector('.md_okbutton') as Element;
+        this._bt_ok = document.querySelector('.md_okbutton') as HTMLButtonElement;
     }
 }
