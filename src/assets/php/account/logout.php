@@ -14,10 +14,12 @@ $response = array(
     C::KEY_DONE => false
 );
 
-if(isset($_GET['token_key']) && $_GET['token_key'] != ''){
+$headers = getallheaders();
+
+if(isset($headers[C::KEY_AUTH]) && $headers[C::KEY_AUTH] != ''){
     $dotenv = Dotenv::createImmutable(__DIR__."/../../../../");
     $dotenv->safeLoad();
-    $token_key = $_GET['token_key'];
+    $token_key = $headers[C::KEY_AUTH];
     $filter = ['token_key' => $token_key];
     try{
         $token = new Token();
