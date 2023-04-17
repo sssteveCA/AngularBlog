@@ -11,6 +11,7 @@ use AngularBlog\Exceptions\TokenTypeMismatchException;
 use AngularBlog\Interfaces\Action\DeleteUserActionControllerErrors as Duace;
 use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Traits\ResponseTrait;
+use MongoDB\BSON\ObjectId;
 
 class DeleteUserActionController implements Duace{
 
@@ -23,7 +24,7 @@ class DeleteUserActionController implements Duace{
     public function __construct(array $data){
         $this->checkValues($data);
         if($this->checkAuthorization()){
-            
+            $this->deleteAction();
         }
     }
 
@@ -71,6 +72,20 @@ class DeleteUserActionController implements Duace{
         if($aacErrno == 0)
             return true;
         $this->errno = Duace::FROM_ACTIONAUTHORIZEDCONTROLLER;
+        return false;
+    }
+
+    /**
+     * Delete this action
+     */
+    private function deleteAction(): bool{
+        $this->errno = 0;
+        $action_id = $this->action->getId();
+        $filter = ['_id' => new ObjectId($action_id)];
+        $action_delete = $this->action->action_delete($filter);
+        if($action_delete)
+            return true;
+        $this->errno = Duace::ACTIONNOTDELETED;
         return false;
     }
 
