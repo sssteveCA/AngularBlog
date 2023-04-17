@@ -58,6 +58,7 @@ interface Constants{
 
     //History
     const HISTORYITEM_DELETE_ERROR = "Errore durante la rimozione dell'azione. ".Constants::ADMIN_CONTACT;
+    const HISTORYITEM_DELETE_OK = "L'azione è stata rimossa con successo";
 
     //Keys
     const KEY_AUTH = "AngularBlogAuth";

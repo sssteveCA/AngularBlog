@@ -9,6 +9,9 @@ use AngularBlog\Exceptions\NoActionInstanceException;
 use AngularBlog\Exceptions\NoTokenInstanceException;
 use AngularBlog\Exceptions\TokenTypeMismatchException;
 use AngularBlog\Interfaces\Action\DeleteUserActionControllerErrors as Duace;
+use AngularBlog\Interfaces\Action\ActionAuthorizedControllerErrors as Aace;
+use AngularBlog\Interfaces\TokenErrors as Te;
+use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Traits\ResponseTrait;
 use MongoDB\BSON\ObjectId;
@@ -20,12 +23,14 @@ class DeleteUserActionController implements Duace{
     private ?Token $token;
     private ?Action $action;
     private ?Action $aac_action;
+    private ?ActionAuthorizedController $aac;
 
     public function __construct(array $data){
         $this->checkValues($data);
         if($this->checkAuthorization()){
             $this->deleteAction();
         }
+        $this->setResponse();
     }
 
     public function getToken(){return $this->token;}
@@ -64,11 +69,11 @@ class DeleteUserActionController implements Duace{
     private function checkAuthorization(): bool{
         $this->errno = 0;
         $this->aac_action = clone $this->action;
-        $aac = new ActionAuthorizedController([
+        $this->aac = new ActionAuthorizedController([
             'action' => $this->action,
             'token' => $this->token
         ]);
-        $aacErrno = $aac->getErrno();
+        $aacErrno = $this->aac->getErrno();
         if($aacErrno == 0)
             return true;
         $this->errno = Duace::FROM_ACTIONAUTHORIZEDCONTROLLER;
@@ -87,6 +92,52 @@ class DeleteUserActionController implements Duace{
             return true;
         $this->errno = Duace::ACTIONNOTDELETED;
         return false;
+    }
+
+    /**
+     * Set the response to send to the view
+     */
+    private function setResponse(){
+        switch($this->errno){
+           case 0:
+                $this->response_code = 200;
+                $this->response = C::HISTORYITEM_DELETE_OK;
+                break; 
+            case Duace::FROM_ACTIONAUTHORIZEDCONTROLLER:
+                $aacErrno = $this->aac->getErrno();
+                switch($aacErrno){
+                    case Aace::FROM_TOKEN:
+                        $errnoT = $this->token->getErrno();
+                        switch($errnoT){
+                            case Te::TOKENEXPIRED:
+                                $this->response_code = 401;
+                                $this->response = Te::TOKENEXPIRED_MSG;
+                                break;
+                            default:
+                                $this->response_code = 500;
+                                $this->response = C::HISTORYITEM_DELETE_ERROR;
+                                break;
+                        }
+                        break;
+                        case Aace::TOKEN_NOTFOUND:
+                        case Aace::FORBIDDEN:
+                            $this->response_code = 403;
+                            $this->response = Aace::FORBIDDEN_MSG;
+                            break;
+                        default:
+                            $this->response_code = 500;
+                            $this->response = C::HISTORYITEM_DELETE_ERROR;
+                            break;
+                }//switch($aacErrno){
+                break;
+            case Duace::ACTIONNOTDELETED:
+            default:
+                    $this->response_code = 500;
+                    $this->response = C::HISTORYITEM_DELETE_ERROR;
+                    break;
+        
+        }
+        
     }
 
 }
