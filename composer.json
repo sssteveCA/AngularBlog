@@ -2,6 +2,10 @@
     "autoload": {
         "classmap": [
             "src/assets/php"
+        ],
+        "files": [
+            "src/assets/php/config.php",
+            "src/assets/php/cors.php"
         ]
     },
     "require": {
