@@ -11,6 +11,7 @@ use AngularBlog\Interfaces\Action\ActionAuthorizedControllerErrors as Aace;
 use AngularBlog\Traits\AuthorizedTrait;
 use AngularBlog\Traits\ErrorTrait;
 use AngularBlog\Traits\ResponseTrait;
+use MongoDB\BSON\ObjectId;
 
 class ActionAuthorizedController implements Aace{
 
@@ -23,7 +24,7 @@ class ActionAuthorizedController implements Aace{
         $this->checkValues($data);
         $tokenOk = $this->getTokenByKey();
         if($tokenOk){
-            
+            $actionOk = $this->getActionById();
         }
     }
 
@@ -58,6 +59,19 @@ class ActionAuthorizedController implements Aace{
         if(!isset($data['token'])) throw new NoTokenInstanceException(Aace::NOTOKENINSTANCE_EXC);
         if(!$data['action'] instanceof Action)throw new ActionTypeMismatchException(Aace::ARTICLETYPEMISMATCH_EXC);
         if(!$data['token'] instanceof Token)throw new TokenTypeMismatchException(Aace::TOKENTYPEMISMATCH_EXC);
+    }
+
+    /**
+     * Get action info by id
+     */
+    private function getActionById(): bool{
+        $action_id = $this->action->getId();
+        $data = ['_id' => new ObjectId($action_id)];
+        $action_got = $this->action->action_get($data);
+        if($action_got)
+            return true;
+        $this->errno = Aace::ACTION_NOTFOUND;
+        return false;
     }
 
     /**
