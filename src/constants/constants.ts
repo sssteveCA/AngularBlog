@@ -150,7 +150,7 @@ export const profileGetUsernameUrl: string = Config.PHP_SCRIPTS_URL+"/account/pr
 /**
  * URL to get the logged user actions history 
  */
-export const profileGetHistoryUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/history/history.php";
+export const profileGetHistoryUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/history/gethistory.php";
 
 /**
  * URL to update the name and the surname of the logged user

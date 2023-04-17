@@ -56,6 +56,9 @@ interface Constants{
     //File
     const FILE_LOG = "./log.txt";
 
+    //History
+    const HISTORYITEM_DELETE_ERROR = "Errore durante la rimozione dell'azione. ".Constants::ADMIN_CONTACT;
+
     //Keys
     const KEY_AUTH = "AngularBlogAuth";
     const KEY_DATA = "data";

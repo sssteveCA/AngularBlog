@@ -4,7 +4,6 @@ require_once("../../../../../../vendor/autoload.php");
 
 use AngularBlog\Classes\Action\GetUserActionsController;
 use AngularBlog\Classes\Action\GetUserActionsView;
-use AngularBlog\Classes\Token;
 use AngularBlog\Interfaces\Constants as C;
 use Dotenv\Dotenv;
 
