@@ -28,6 +28,15 @@ class DeleteUserActionController implements Duace{
         }
     }
 
+    /**
+     * Check if array provided has valid values
+     */
+    private function checkValues(array $data){
+        if(!isset($data['action'])){
+            
+        }
+    }
+
 }
 
 ?>
