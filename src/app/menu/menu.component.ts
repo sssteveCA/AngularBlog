@@ -9,6 +9,9 @@ import * as constants from '../../constants/constants';
 import * as messages from '../../messages/messages';
 import { ApiService } from '../api.service';
 import { Keys } from 'src/constants/keys';
+import LogoutRequestInterface from 'src/interfaces/requests/logoutrequest.interface';
+import LogoutRequest from 'src/classes/requests/logoutrequest';
+import { messageDialog } from 'src/functions/functions';
 
 @Component({
   selector: 'app-menu',
@@ -46,37 +49,25 @@ export class MenuComponent implements OnInit {
     cd.bt_yes.addEventListener('click', ()=>{
       cd.instance.dispose();
       cd.div_dialog.remove();
-      let token_key = localStorage.getItem("token_key");
-      //console.log(token_key);
-      this.http.get(constants.logoutUrl,{
-        headers: new HttpHeaders().set(Keys.AUTH, token_key as string),
-        responseType: 'text'
-      }).subscribe({
-        next: (res) => {
-          //console.log(res);
-          let rJson = JSON.parse(res);
-          if(rJson[Keys.DONE] == true){
-            this.api.removeItems();
-            this.api.changeUserdata({});
-            this.router.navigate([constants.logoutRedirect]);
-          }//if(rJson[Keys.DONE] == true){
-          else{
-            const data: MessageDialogInterface = {
-              title: 'Logout',
-              message: rJson[Keys.MESSAGE]
-            };
-            let md = new MessageDialog(data);
-            md.bt_ok.addEventListener('click',()=>{
-              md.instance.dispose();
-              md.div_dialog.remove();
-              document.body.style.overflow = 'auto';
-            });
-          }     
-        },
-        error: (error) => {
-          console.warn(error);
-        } 
+      let lrData: LogoutRequestInterface = {
+        http: this.http, token_key: this.userCookie['token_key'], url: constants.logoutUrl
+      }
+      let lr: LogoutRequest = new LogoutRequest(lrData)
+      lr.logout().then(obj => {
+        if(obj[Keys.DONE] == true){
+          this.api.removeItems();
+          this.api.changeUserdata({});
+          this.router.navigate([constants.logoutRedirect]);
+        }//if(obj[Keys.DONE] == true){
+        else{
+          const mdData: MessageDialogInterface = {
+            title: 'Logout',
+            message: obj[Keys.MESSAGE]
+          };
+          messageDialog(mdData)
+        }
       })
+      
     });//cd.bt_yes.addEventListener('click', ()=>{
     cd.bt_no.addEventListener('click', ()=>{
       cd.instance.dispose();

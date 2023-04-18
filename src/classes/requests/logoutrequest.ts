@@ -1,6 +1,4 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
-import { rejects } from "assert";
-import { resolve } from "dns";
 import { Keys } from "src/constants/keys";
 import LogoutRequestInterface from "src/interfaces/requests/logoutrequest.interface";
 
