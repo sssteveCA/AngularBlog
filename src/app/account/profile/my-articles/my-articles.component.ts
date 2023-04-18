@@ -125,7 +125,7 @@ export class MyArticlesComponent implements OnInit {
           md.div_dialog.remove();
           document.body.style.overflow = 'auto';
           if(obj[Keys.DONE] == true)
-            this.getArticles(); 
+            this.articles = this.articles.filter((article)=> article.id != da.article_id) 
         });
       }).catch(err => {
         this.spinnerShow = -1;
