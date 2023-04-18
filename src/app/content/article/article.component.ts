@@ -52,7 +52,6 @@ export class ArticleComponent implements OnInit {
     };
     let ga: GetArticle = new GetArticle(ga_data);
     ga.getArticle().then(obj => {
-      console.log("then");
       this.showSpinner = false;
       this.done = obj[Keys.DONE];
       if(obj[Keys.DONE] == true){

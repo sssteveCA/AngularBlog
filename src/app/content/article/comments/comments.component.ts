@@ -57,7 +57,9 @@ export class CommentsComponent implements OnInit,AfterViewInit {
 
   }
 
-  //Set the reactive form for add new comment element
+  /**
+   * Set the reactive form for add new comment element
+   */
   addComment(){
     if(this.newComment.valid){
       const ac_data: AddCommentInterface = {
@@ -99,7 +101,10 @@ export class CommentsComponent implements OnInit,AfterViewInit {
     }
   }
 
-  //delete comment event
+  /**
+   * delete comment event
+   * @param event 
+   */
   deleteComment(event): void{
     let link: JQuery = $(event.target);
     let input: JQuery = link.siblings('input');
@@ -126,7 +131,7 @@ export class CommentsComponent implements OnInit,AfterViewInit {
         if(obj[Keys.DONE] === true){
           //delete operation executed
           setTimeout(()=>{
-            this.getCommnents();
+            this.comments = this.comments.filter((comment)=> comment.id != dd.comment_id)
           },500);
         }//if(obj[Keys.DONE] === true){
         else{
@@ -153,7 +158,9 @@ export class CommentsComponent implements OnInit,AfterViewInit {
     });
   }
 
-  //Get comments of this article
+  /**
+   * Get comments of this article
+   */
   getCommnents(): void{
     let gc_data: GetCommentsInterface = {
       http: this.http,

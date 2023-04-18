@@ -3,10 +3,10 @@ import { Messages } from "src/constants/messages";
 import DeleteCommentInterface from "src/interfaces/requests/article/comment/deletecomment.interface";
 
 export default class DeleteComment{
-    _comment_id: string;
-    _http: HttpClient;
-    _token_key: string;
-    _url: string;
+    private _comment_id: string;
+    private _http: HttpClient;
+    private _token_key: string;
+    private _url: string;
 
     constructor(data: DeleteCommentInterface){
         this._comment_id = data.comment_id;
