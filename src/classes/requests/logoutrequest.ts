@@ -1,4 +1,7 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
+import { rejects } from "assert";
+import { resolve } from "dns";
+import { Keys } from "src/constants/keys";
 import LogoutRequestInterface from "src/interfaces/requests/logoutrequest.interface";
 
 export default class LogoutRequest{
@@ -31,6 +34,44 @@ export default class LogoutRequest{
                 break;
         }
         return this._error;
+    }
+
+    public async logout(): Promise<object>{
+        let response: object = {}
+        this._errno = 0;
+        try{
+            await this.logoutPromise().then(res => {
+                response = JSON.parse(res)
+            }).catch(err => {
+                throw err;
+            })
+        }catch(err){
+            response = { done: false }
+            if(err instanceof HttpErrorResponse){
+                let errorString: string = err.error as string;
+                //console.log(errorString);
+                let errorBody: object = JSON.parse(errorString);
+                response[Keys.MESSAGE] = errorBody[Keys.MESSAGE];
+            }
+            else{
+                this._errno = LogoutRequest.ERR_REQUEST;
+                response[Keys.MESSAGE] = ""
+            } 
+        }
+        return response;
+    }
+
+    private async logoutPromise(): Promise<string>{
+        return await new Promise<string>((resolve,reject)=>{
+            const headers = new HttpHeaders().set(Keys.AUTH,this._token_key)
+            this._http.get(this._url,{
+                headers: headers,
+                responseType: 'text'
+            }).subscribe({
+                next: (res) => resolve(res),
+                error: (err) => reject(err),
+            })
+        })
     }
 
 }

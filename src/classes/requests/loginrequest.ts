@@ -9,6 +9,12 @@ export default class LoginRequest{
     private _password: string;
     private _url: string;
     private _username: string;
+    private _errno: number = 0;
+    private _error: string|null = null;
+
+    public static ERR_REQUEST: number = 1;
+
+    private static ERR_REQUEST_MSG: string = "Errore durante l'esecuzione della richiesta";
 
     constructor(data: LoginRequestInterface){
         this._http = data.http;
@@ -20,6 +26,18 @@ export default class LoginRequest{
     get password(){return this._password;}
     get url(){return this._url;}
     get username(){return this._username;}
+    get errno(){return this._errno;}
+    get error(){
+        switch(this._errno){
+            case LoginRequest.ERR_REQUEST:
+                this._error = LoginRequest.ERR_REQUEST_MSG;
+                break;
+            default:
+                this._error = null;
+                break;
+        }
+        return this._error;
+    }
 
     public async login(): Promise<object>{
         let response: object = {};
@@ -36,6 +54,7 @@ export default class LoginRequest{
                 throw err;
             });
         }catch(err){
+            this._errno = LoginRequest.ERR_REQUEST;
             response = { done: false };
             if(err instanceof HttpErrorResponse){
                 let errorString: string = err.error as string;
