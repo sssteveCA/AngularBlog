@@ -30,9 +30,7 @@ export default class AddComment{
                 'permalink': this._permalink,
             };
             await this.addCommentPromise(addcomment_values).then(res => {
-                //console.log(res);
                 response = JSON.parse(res);
-                //console.log(response);
             }).catch(err => {
                 throw err;
             });

@@ -35,9 +35,7 @@ export default class UpdatePassword{
                 old_password: this._old_password,
             };
             await this.updatePasswordPromise(passwordUpdate_values).then(res => {
-                //console.log(res);
                 response = JSON.parse(res);
-                //console.log(response);
             }).catch(err => {
                 throw err;
             });

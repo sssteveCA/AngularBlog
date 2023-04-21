@@ -18,14 +18,18 @@ export class NotAuthGuard implements CanActivate {
       this.userCookie["token_key"] = token_key;
       this.userCookie["username"] = username;
     }
-    //console.log(this.userCookie);
     this.api.userChanged.subscribe(user => {
       //detect changes from cookie value
       this.userCookie = user;
     });
   }
 
-  //redirect to home if user is authenticated
+  /**
+   * redirect to home if user is authenticated
+   * @param route 
+   * @param state 
+   * @returns 
+   */
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {

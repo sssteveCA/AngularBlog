@@ -33,7 +33,6 @@ export class ArticleComponent implements OnInit {
     articleParams(): void{
       this.route.paramMap.subscribe((params: ParamMap) => {
         this.article = params.get('article');
-        //console.log("Articolo: "+this.article);
         let permalink = (typeof this.article === "string")? this.article : "";
         this.getArticle(permalink);
       });
@@ -65,7 +64,6 @@ export class ArticleComponent implements OnInit {
           this.message = obj[Keys.MESSAGE];
       }//else{
     }).catch(err => {
-      console.log("catch");
       this.showSpinner = false;
       this.done = false;
       this.message = Messages.GETARTICLE_ERROR;

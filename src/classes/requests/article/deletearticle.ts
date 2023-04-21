@@ -27,9 +27,7 @@ export default class DeleteArticle{
                 article_id: this._article_id,
             };
             await this.deleteArticlePromise(deletearticle_values).then(res => {
-                //console.log(res);
                 response = JSON.parse(res);
-                //console.log(response);
             }).catch(err => {
                 throw err;
             });

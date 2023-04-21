@@ -40,7 +40,6 @@ export default class SearchedArticles{
         let response: object = {};
         try{
             await this.searchedArticlesPromise().then(res => {
-                console.log(res);
                 response = JSON.parse(res);
             }).catch(err => {
                 throw err;

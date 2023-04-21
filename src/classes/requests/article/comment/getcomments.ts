@@ -34,9 +34,7 @@ export default class GetComments{
         let response: object = {};
         try{
             await this.getCommentsPromise().then(res => {
-                //console.log(res);
                 response = JSON.parse(res);
-                //console.log(response);
             }).catch(err => {
                 throw err;
             });

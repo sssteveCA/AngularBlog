@@ -48,7 +48,6 @@ export class ContactsComponent implements OnInit {
         subject : this.contactForm.controls['subject'].value,
         url: constants.contactUrl  
       };
-      //console.log(data: ContactsRequestInterface);
       this.sendEmail(data);
     }//if(this.contactForm.valid){
     else{

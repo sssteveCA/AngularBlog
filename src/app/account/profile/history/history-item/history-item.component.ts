@@ -22,7 +22,6 @@ export class HistoryItemComponent implements OnInit, OnChanges{
 
   
   ngOnChanges(changes: SimpleChanges): void{
-    //console.log(changes)
     this.actionId.setValue(changes['id'].currentValue)
   }
 
@@ -31,7 +30,6 @@ export class HistoryItemComponent implements OnInit, OnChanges{
   }
 
   removeButtonClick(): void{
-    //console.log(action_id_val)
     const cdData: ConfirmDialogInterface = {
       title: 'Rimuovi azione',
       message: 'Sei sicuro di voler rimuovere questa azione?'

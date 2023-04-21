@@ -26,9 +26,7 @@ export default class DeleteComment{
                 'comment_id': this._comment_id,
             }
             await this.deleteCommentPromise(deletecomment_values).then(res => {
-                //console.log(res);
                 response = JSON.parse(res);
-                //console.log(response);
             }).catch(err => {
                 throw err;
             });

@@ -57,7 +57,6 @@ export class LoginComponent implements OnInit {
     this.showSpinner = true;
     login.login().then(obj => {
       this.showSpinner = false;
-      //console.log(obj);
       if(obj[Keys.DONE] && typeof obj['username'] !== 'undefined'){
         localStorage.setItem("token_key",obj["token_key"]);
         localStorage.setItem("username",obj["username"]);
@@ -67,7 +66,6 @@ export class LoginComponent implements OnInit {
         this.router.navigate([constants.loginRedirect]);
       }
       else{
-        //console.log(rJson);
         const md_data: MessageDialogInterface = {
           title: 'Login',
           message: obj[Keys.MESSAGE]
@@ -75,7 +73,6 @@ export class LoginComponent implements OnInit {
         messageDialog(md_data);
       }
     }).catch(err => {
-      //console.log(err);
       this.showSpinner = false;
       const md_data: MessageDialogInterface = {
         title: 'Login',

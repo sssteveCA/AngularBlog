@@ -18,27 +18,31 @@ export class ApiService {
 
   }
 
-  //wait for HTTP post request response
+  /**
+   * wait for HTTP post request response
+   * @param url 
+   * @param body 
+   * @param headers 
+   * @returns 
+   */
   async loginStatusRequest(url: string, body: any, headers: any){
-    //console.log("api service loginStatusRequest");
     let promise = await new Promise((resolve,reject) => {
-      this.http.post(url,body,{headers: headers, responseType: 'text'}).subscribe(res => {
-        //console.log("Login status request resolve => ");
-        //console.log(res);
-        resolve(res);       
-      },
-      error =>{
-        console.warn("Login status request error => ");
-        //console.warn(error);
-        reject(error);
-      });
+      this.http.post(url,body,{headers: headers, responseType: 'text'}).subscribe({
+        next: (res) => resolve(res),
+        error: (error) => {
+          console.warn("Login status request error => ");
+          reject(error);
+        }
+      })
     });
     return promise;
   }
 
-  //change login status
+  /**
+   * change login status
+   * @returns 
+   */
   async getLoginStatus(): Promise<boolean>{
-    //console.log("api service getLoginStatus()");
     let logged = false;
     const token_key = localStorage.getItem('token_key');
     const username = localStorage.getItem('username');
@@ -54,7 +58,6 @@ export class ApiService {
       }).catch(err => {
       });
     }//if(token_key && username){
-    //console.log("api service getLoginStatus() finish");
     return logged;
   }
 
@@ -62,12 +65,17 @@ export class ApiService {
     this.loginStatus.next(logged);
   }
 
-  //when the value assigned to localStorage item "username" change
+  /**
+   * when the value assigned to localStorage item "username" change
+   * @param u 
+   */
   changeUserdata(u: any){
     this.userCookie.next(u);
   }
 
-  //Remove localStorage items and redirect to non private area
+  /**
+   * Remove localStorage items and redirect to non private area
+   */
   removeItems(){
     const token_key = localStorage.getItem('token_key');
     const username = localStorage.getItem('username');

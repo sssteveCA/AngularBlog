@@ -20,7 +20,6 @@ export class ArticleListItemComponent implements OnInit {
    * @param permalink the permalink of the post
    */
   onClickItem(permalink: string): void{
-    //console.log(permalink);
     let url: string = `blog/${permalink}`;
     window.open(url);
   }

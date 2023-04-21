@@ -34,7 +34,6 @@ export default class UpdateNames{
                 new_name: this._new_name, new_surname: this._new_surname,
             }
             await this.updateNamesPromise(updatenames_values).then(res => {
-                //console.log(res);
                 response = JSON.parse(res);
             }).catch(err => {
                 throw err;

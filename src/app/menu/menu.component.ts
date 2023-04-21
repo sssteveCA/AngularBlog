@@ -28,7 +28,6 @@ export class MenuComponent implements OnInit {
     this.userCookie["username"] = localStorage.getItem("username");
     this.observeFromService();
     this.api.getLoginStatus().then(logged => {
-      //console.log("getLoginStatus logged => "+logged);
       if(!logged){
         localStorage.removeItem("token_key");
         localStorage.removeItem("username");
@@ -76,18 +75,12 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    /* console.log("userCookie => ");
-    console.log(this.userCookie);  */
   }
 
   observeFromService(): void{
     this.api.loginChanged.subscribe(logged => {
-      //console.log("logged");
-      //console.log(logged);
     });
     this.api.userChanged.subscribe(userdata => {
-      /* console.log("userdata");
-      console.log(userdata); */
       this.userCookie['token_key'] = userdata['token_key'];
       this.userCookie['username'] = userdata['username'];
     });

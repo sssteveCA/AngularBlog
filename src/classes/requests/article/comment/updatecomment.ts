@@ -34,11 +34,8 @@ export default class UpdateComment{
                 new_comment: this._new_comment,
                 old_comment: this._old_comment
             };
-            //console.log(commentupdate_values);
             await this.updateCommentPromise(commentupdate_values).then(res => {
-                //console.log(res);
                 response = JSON.parse(res);
-                //console.log(response);
             }).catch(err => {
                 throw err;
             });

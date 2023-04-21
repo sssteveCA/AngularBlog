@@ -47,7 +47,6 @@ export default class LogoutRequest{
             response = { done: false }
             if(err instanceof HttpErrorResponse){
                 let errorString: string = err.error as string;
-                //console.log(errorString);
                 let errorBody: object = JSON.parse(errorString);
                 response[Keys.MESSAGE] = errorBody[Keys.MESSAGE];
             }

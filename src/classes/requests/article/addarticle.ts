@@ -28,9 +28,7 @@ export default class AddArticle{
                 article: this._article
             };
             await this.createArticlePromise(addarticle_values).then(res => {
-                //console.log(res);
                 response = JSON.parse(res);
-                //console.log(response);
             }).catch(err => {
                 throw err;
             });

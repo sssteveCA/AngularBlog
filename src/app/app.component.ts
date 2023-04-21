@@ -13,9 +13,7 @@ export class AppComponent {
   path : string;
 
   constructor(private router: Router, private api: ApiService){
-    //console.log(this.router);
     this.router.events.subscribe((event) => {
-      //console.log(event);
       if(event instanceof NavigationEnd){
         this.path = event.url.split('?')[0];
       }

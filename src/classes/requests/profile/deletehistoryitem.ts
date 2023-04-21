@@ -25,9 +25,7 @@ export default class DeleteHistoryItem{
         let response: object = {}
         try{
             await this.deletePromise().then(res => {
-                //console.log(res)
                 response = JSON.parse(res)
-
             }).catch(err => {
                 throw err;
             })

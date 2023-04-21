@@ -40,8 +40,6 @@ export class UsernameComponent implements OnInit, OnChanges {
    }
 
    ngOnChanges(changes: SimpleChanges){
-    /* console.log("username component ngOnChanges changes => ");
-    console.log(changes); */
     if('usernameObject' in changes){
       this.usernameError = changes['usernameObject']['currentValue'][Keys.DONE] == false ? true : false;
       if(changes['usernameObject']['currentValue']['username']){

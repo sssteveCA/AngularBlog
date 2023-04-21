@@ -28,7 +28,6 @@ export default class ContactsRequest{
         let response: object = {};
         try{
             await this.contactsRequestPromise().then(res => {
-                //console.log(res);
                 response = JSON.parse(res);
             }).catch(err => {
                 throw err;

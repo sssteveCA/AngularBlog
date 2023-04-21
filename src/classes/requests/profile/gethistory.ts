@@ -37,7 +37,6 @@ export default class GetHistory{
         this._errno = 0;
         try{
             await this.historyPromise().then(res => {
-                //console.log(res);
                 response = JSON.parse(res);
             }).catch(err => {
                 throw err;

@@ -33,7 +33,6 @@ export default class UpdateUsername{
                 new_username: this._new_username, password: this._password
             };
             await this.updateUsernamePromise(updateusername_values).then(res => {
-                //console.log(res);
                 response = JSON.parse(res);
             }).catch(err => {
                 throw err;

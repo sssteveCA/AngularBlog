@@ -43,8 +43,6 @@ export class EditArticleComponent implements OnInit {
    editArticleParams(): void{
     this.route.paramMap.subscribe((params: ParamMap) => {
       let id = params.get('articleId');
-      /* console.log("id => ");
-      console.log(id); */
       if(typeof id !== 'undefined' && id != null){
         this.article.id = id;
         this.getArticleInfo(this.article.id,this.api2);
@@ -87,12 +85,8 @@ export class EditArticleComponent implements OnInit {
 
    observeFromService(): void{
     this.api.loginChanged.subscribe(logged => {
-      /* console.log("logged");
-      console.log(logged); */
     });
     this.api.userChanged.subscribe(userdata => {
-      /* console.log("userdata");
-      console.log(userdata); */
       this.userCookie['token_key'] = userdata['token_key'];
       this.userCookie['username'] = userdata['username'];
     });
@@ -104,8 +98,6 @@ export class EditArticleComponent implements OnInit {
   //Get article info and put in inputs
   getArticleInfo(id: string,api2: Api2Service): void{
     api2.isAuthorizedArticle(this.article.id).then(res => {
-      /* console.log("EditArticleComponent isAuthorized article =>");
-      console.log(res); */
       //Check if user is authorized to edit this article
       this.authorized = res['authorized'];
       this.message = res[Keys.MESSAGE];
@@ -118,7 +110,6 @@ export class EditArticleComponent implements OnInit {
         this.article.tags = res['article']['tags'];
         this.setFields();
       }
-      //console.log(this.message);
     }).catch(err => {
 
     });
@@ -133,7 +124,6 @@ export class EditArticleComponent implements OnInit {
     cd.bt_yes.addEventListener('click',()=>{
       cd.instance.dispose();
       document.body.removeChild(cd.div_dialog);
-      //console.log(this.article);
       this.article.title = this.form.controls['title'].value;
       this.article.introtext = this.form.controls['introtext'].value;
       this.article.introtext = this.form.controls['introtext'].value;

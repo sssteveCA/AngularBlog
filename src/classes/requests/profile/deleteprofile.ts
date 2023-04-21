@@ -49,9 +49,7 @@ export default class DeleteProfile{
                 password: this._password
             };
             await this.deleteProfilePromise(deleteProfile_values).then(res => {
-                //console.log(res);
                 response = JSON.parse(res);
-                //console.log(response);
             }).catch(err => {
                 throw err;
             })

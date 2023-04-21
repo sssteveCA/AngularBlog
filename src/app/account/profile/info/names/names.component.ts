@@ -36,8 +36,6 @@ export class NamesComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-      /* console.log("Names component ngOnChanges changes => ");
-      console.log(changes); */
       if('namesObject' in changes){
         this.namesError = changes['namesObject']['currentValue'][Keys.DONE] == false ? true : false;
         if(changes['namesObject']['currentValue']['name'] && changes['namesObject']['currentValue']['surname']){

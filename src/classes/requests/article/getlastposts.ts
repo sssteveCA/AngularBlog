@@ -37,7 +37,6 @@ export default class GetLastPosts{
         let response: object = {};
         try{
             await this.getLastPostsPromise().then(res => {
-                //console.log(res);
                 response = JSON.parse(res);
             }).catch(err => {
                 throw err;

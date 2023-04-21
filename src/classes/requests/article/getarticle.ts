@@ -24,9 +24,7 @@ export class GetArticle{
         let response: object = {};
         try{
             await this.getArticlePromise().then(res => {
-                //console.log(res);
                 response = JSON.parse(res);
-                //console.log(response);
             }).catch(err => {
                 throw err;
             });

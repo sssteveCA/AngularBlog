@@ -21,7 +21,6 @@ export class AttivaComponent implements OnInit {
 
   constructor(public http: HttpClient, private route: ActivatedRoute) {
     this.route.queryParams.subscribe(params =>{
-      //console.log(params);
       if(typeof params['emailVerif'] !== "undefined"){
         this.urlParams = constants.activationUrl+'?emailVerif='+params['emailVerif'];
       }
@@ -38,12 +37,9 @@ export class AttivaComponent implements OnInit {
 
   active(urlParams: any): void{
     //account activation
-    //console.log(urlParams);
     this.http.get(urlParams,{responseType: 'text'}).subscribe(resp => {
-      //console.log(resp);
       let rJson = JSON.parse(resp);
       this.status = rJson.status;
-      //console.log(this.status);
       if(this.fromSubmit){
         //display dialog message if get request was performed from form 
         if(this.status == 0){

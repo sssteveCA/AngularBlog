@@ -51,7 +51,6 @@ export class HistoryComponent implements OnInit {
       this.notLoading = true;
       if(res[Keys.DONE]){
         this.historyItems = res[Keys.DATA]['actions'];
-        //console.log(this.historyItems)
         this.empty = res[Keys.EMPTY];
       }
       else this.error = true;
@@ -83,12 +82,8 @@ export class HistoryComponent implements OnInit {
 
   observeFromService(): void{
     this.api.loginChanged.subscribe(logged => {
-      /* console.log("logged");
-      console.log(logged); */
     });
     this.api.userChanged.subscribe(userdata => {
-      /* console.log("userdata");
-      console.log(userdata); */
       this.userCookie['token_key'] = userdata['token_key'];
       this.userCookie['username'] = userdata['username'];
     });

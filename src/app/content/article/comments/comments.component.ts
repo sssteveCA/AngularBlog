@@ -49,7 +49,6 @@ export class CommentsComponent implements OnInit,AfterViewInit {
    }
 
   ngAfterViewInit(): void {
-    //console.log(this.permalink);
     this.getCommnents();
   }
 
@@ -119,7 +118,6 @@ export class CommentsComponent implements OnInit,AfterViewInit {
       cd.instance.dispose();
       cd.div_dialog.remove();
       document.body.style.overflow = 'auto';
-      //console.log(this.userCookie);
       let dd_data: DeleteCommentInterface = {
         comment_id: comment_id,
         http: this.http,
@@ -198,14 +196,9 @@ export class CommentsComponent implements OnInit,AfterViewInit {
     }).catch(err => {
       this.removeCookie();
     });//this.api.getLoginStatus().then(res => {
-    //console.log("observeFormService logged => "+this.logged);
     this.api.loginChanged.subscribe(logged => {
-      //console.log("logged");
-      //console.log(logged);
     });
     this.api.userChanged.subscribe(userdata => {
-      /* console.log("userdata");
-      console.log(userdata); */
       this.userCookie['token_key'] = userdata['token_key'];
       this.userCookie['username'] = userdata['username'];
     });
@@ -225,7 +218,6 @@ export class CommentsComponent implements OnInit,AfterViewInit {
     let comment_div: JQuery = link.parents('.comment');
     let text_div: JQuery = comment_div.find('.text');
     let textarea_inside: boolean = text_div.find('textarea').length > 0 ? true : false;
-    //console.log(textarea_inside);
     if(textarea_inside == false){
       //If element is a div turn into a textarea
       let comment_text: string = text_div.children('div').html() as string;
@@ -243,7 +235,6 @@ export class CommentsComponent implements OnInit,AfterViewInit {
         token_key: this.userCookie['token_key'],
         url: this.updateComment_url
       };
-      //console.log(uc_data);
       let ec: UpdateComment = new UpdateComment(uc_data);
       ec.updateComment().then(obj => {
         if(obj[Keys.DONE] == true){

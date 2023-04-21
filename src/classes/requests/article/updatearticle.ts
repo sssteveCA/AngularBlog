@@ -28,9 +28,7 @@ export default class UpdateArticle{
                 article: this._article,
             };
             await this.updateArticlePromise(updatearticle_values).then(res => {
-                //console.log(res);
                 response = JSON.parse(res);
-                //console.log(response);
             }).catch(err => {
                 throw err;
             });

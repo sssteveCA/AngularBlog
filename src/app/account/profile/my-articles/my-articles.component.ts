@@ -73,12 +73,8 @@ export class MyArticlesComponent implements OnInit {
 
   observeFromService(): void{
     this.api.loginChanged.subscribe(logged => {
-      //console.log("logged");
-      //console.log(logged);
     });
     this.api.userChanged.subscribe(userdata => {
-      //console.log("userdata");
-      //console.log(userdata);
       this.userCookie['token_key'] = userdata['token_key'];
       this.userCookie['username'] = userdata['username'];
     });
@@ -150,11 +146,8 @@ export class MyArticlesComponent implements OnInit {
       token_key: this.userCookie['token_key'],
       url: this.getArticles_url
     };
-    /* console.log("myArticles getArticles ga_data");
-    console.log(ga_data); */
     let ga: GetArticles = new GetArticles(ga_data);
     ga.getArticles().then(obj => {
-      console.log(obj);
       if(obj[Keys.DONE] == true){
         this.done = true;
         this.message = null;

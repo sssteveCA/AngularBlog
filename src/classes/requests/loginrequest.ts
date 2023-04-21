@@ -47,7 +47,6 @@ export default class LoginRequest{
                 password: this._password
             };
             await this.loginPromise(login_values).then(res => {
-                //console.log(res);
                 response = JSON.parse(res);
             }).catch(err => {
                 console.warn(err);
@@ -58,7 +57,6 @@ export default class LoginRequest{
             response = { done: false };
             if(err instanceof HttpErrorResponse){
                 let errorString: string = err.error as string;
-                //console.log(errorString);
                 let errorBody: object = JSON.parse(errorString);
                 response[Keys.MESSAGE] = errorBody[Keys.MESSAGE];
             }//if(err instanceof HttpErrorResponse){
