@@ -35,7 +35,6 @@ if(isset($headers[C::KEY_AUTH]) && $headers[C::KEY_AUTH] != ''){
     }catch(Exception $e){
         http_response_code(500);
         $error = $e->getMessage();
-        file_put_contents(C::FILE_LOG, "{$error}\r\n",FILE_APPEND);
     }
 }//if(isset($headers[C::KEY_AUTH]) && $headers[C::KEY_AUTH] != ''){
 else{

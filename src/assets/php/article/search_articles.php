@@ -26,7 +26,6 @@ if(isset($post['query']) && $post['query'] != ''){
         $filter = array(
             'title' =>  $regex
         );
-        //file_put_contents(C::FILE_LOG,"Search articles filter => ".var_export($filter,true)."\r\n",FILE_APPEND);
         $found = $al->articlelist_get($filter);
         if($found){
             //At least one article found
@@ -47,7 +46,6 @@ if(isset($post['query']) && $post['query'] != ''){
         }
             
     }catch(Exception $e){
-        //file_put_contents(C::FILE_LOG,"Search articles Exception => ".var_export($e,true)."\r\n",FILE_APPEND);
         $response[C::KEY_MESSAGE] = C::SEARCH_ERROR;
     }
 }//if(isset($post['query']) && $post['query'] != ''){

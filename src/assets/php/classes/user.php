@@ -204,49 +204,36 @@ class User extends Model implements Ue{
     private function validate(){
         $valid = true;
         if(isset($this->id) && !preg_match(User::$regex['id'],$this->id)){
-            file_put_contents(C::FILE_LOG,"User validate() id ",FILE_APPEND);
             $valid = false;
         }
         if(isset($this->name) && !preg_match(User::$regex['name'],$this->name)){
-            file_put_contents(C::FILE_LOG,"User validate() name ",FILE_APPEND);
             $valid = false;
         }
         if(isset($this->surname) && !preg_match(User::$regex['surname'],$this->surname)){
-            file_put_contents(C::FILE_LOG,"User validate() surname ",FILE_APPEND);
             $valid = false;
         }
         if(isset($this->username) && !preg_match(User::$regex['username'],$this->username)){
-            file_put_contents(C::FILE_LOG,"User validate() username ",FILE_APPEND);
             $valid = false;
         }
         if(isset($this->email) && !preg_match(User::$regex['email'],$this->email)){
-            file_put_contents(C::FILE_LOG,"User validate() email {$this->email} ",FILE_APPEND);
             $valid = false;
         }
         /*if(isset($this->password) && !preg_match(User::$regex['password'],$this->password)){
             $valid = false;
         }*/
         if(isset($this->emailVerif) && !preg_match(User::$regex['emailVerif'],$this->emailVerif)){
-            file_put_contents(C::FILE_LOG,"User validate() emailVerif ",FILE_APPEND);
             $valid = false;
         }
         if(isset($this->changeVerif) && !preg_match(User::$regex['changeVerif'],$this->changeVerif)){
-            file_put_contents(C::FILE_LOG,"User validate() changeVerif ",FILE_APPEND);
             $valid = false;
         }
         if(isset($this->pwdChangeDate) && !preg_match(User::$regex['time'],$this->pwdChangeDate)){
-            file_put_contents(C::FILE_LOG,"{$this->pwdChangeDate}",FILE_APPEND);
-            file_put_contents(C::FILE_LOG,"User validate() pwdChangeDate ",FILE_APPEND);
             $valid = false;
         }
         if(isset($this->creation_time) && !preg_match(User::$regex['time'],$this->creation_time)){
-            file_put_contents(C::FILE_LOG,"{$this->creation_time}",FILE_APPEND);
-            file_put_contents(C::FILE_LOG,"User validate() cr_time ",FILE_APPEND);
             $valid = false;
         }
         if(isset($this->last_modified) && !preg_match(User::$regex['time'],$this->last_modified)){
-            file_put_contents(C::FILE_LOG,"{$this->last_modified}",FILE_APPEND);
-            file_put_contents(C::FILE_LOG,"User validate() last_mod ",FILE_APPEND);
             $valid = false;
         }
         return $valid;

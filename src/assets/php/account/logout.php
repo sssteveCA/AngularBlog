@@ -43,7 +43,6 @@ if(isset($headers[C::KEY_AUTH]) && $headers[C::KEY_AUTH] != ''){
         }          
     }catch(Exception $e){
         http_response_code(500);
-        file_put_contents(C::FILE_LOG,$e->getMessage()."\r\n",FILE_APPEND);
         $response[C::KEY_MESSAGE] = C::LOGOUT_ERROR;
     }
 }//if(isset($_GET['token_key']) && $_GET['token_key'] != ''){

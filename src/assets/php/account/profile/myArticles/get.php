@@ -47,7 +47,6 @@ if(isset($headers[C::KEY_AUTH]) && $headers[C::KEY_AUTH] != ''){
     }catch(Exception $e){
         http_response_code(500);
         $response[C::KEY_MESSAGE] = C::SEARCH_ERROR;
-        file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
     }  
 }//if(isset($headers[C::KEY_AUTH]) && $headers[C::KEY_AUTH] != ''){
 else{

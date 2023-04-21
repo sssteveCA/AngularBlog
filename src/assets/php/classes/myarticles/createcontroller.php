@@ -140,7 +140,6 @@ HTML
         }
         else
             $this->errno = Cce::NOUSERIDFOUND;
-        //file_put_contents(CreateController::$logFile,"setToken() result => ".var_export($set,true)."\r\n",FILE_APPEND);
         return $set;
     }
 

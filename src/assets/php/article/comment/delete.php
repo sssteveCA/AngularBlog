@@ -42,7 +42,6 @@ if(isset($headers[C::KEY_AUTH],$delete['comment_id']) && $headers[C::KEY_AUTH] !
         http_response_code($deleteView->getResponseCode());
     }catch(Exception $e){
         http_response_code(500);
-        file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
         $response[C::KEY_MESSAGE] = C::COMMENTDELETE_ERROR;
     }
 }//if(isset($headers[C::KEY_AUTH],$delete['comment_id']) && $headers[C::KEY_AUTH] != '' && $delete['comment_id'] != ''){

@@ -72,7 +72,6 @@ class Comment extends Model implements Ce{
         $this->creation_time = date('Y-m-d H:i:s');
         $this->last_modified = date('Y-m-d H:i:s');
         $validate = $this->validate(Comment::OPERATION_CREATE);
-        file_put_contents(Comment::$logFile,"Validate => ".var_export($validate,true)."\r\n",FILE_APPEND);
         if($validate){
             //All data are valid and can be inserted
             $values = [
@@ -123,7 +122,6 @@ class Comment extends Model implements Ce{
         //Set last modified date before update
         $data['$set']['last_modified'] = date('Y-m-d H:i:s');
         parent::update($filter,$data);
-        file_put_contents(Comment::$logFile,"Comment update errno => ".var_export($this->errno,true)."\r\n",FILE_APPEND);
         if($this->errno == 0)$updated = true;
         return $updated;
     }

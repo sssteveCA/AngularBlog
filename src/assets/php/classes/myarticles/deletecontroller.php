@@ -107,7 +107,6 @@ HTML
         $del = false;
         $this->errno = 0;
         $article_id = $this->article->getId();
-        file_put_contents(DeleteController::$logFile,"DeleteController delete_article article id => {$article_id}\r\n",FILE_APPEND);
         $filter = ['_id' => new ObjectId($article_id)];
         $article_delete = $this->article->article_delete($filter);
         if($article_delete)
@@ -120,7 +119,6 @@ HTML
 
     //Set the response to send to the view
     private function setResponse(){
-        //file_put_contents(DeleteController::$logFile,"DeleteController setResponse errno => {$this->errno}\r\n",FILE_APPEND);
         switch($this->errno){
             case 0:
             case Dce::FROM_ACTION:

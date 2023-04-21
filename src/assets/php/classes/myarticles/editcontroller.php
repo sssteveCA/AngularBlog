@@ -38,7 +38,6 @@ class EditContoller implements Ece{
             if($this->edit_article())
                 $this->addAction();
         }
-        //file_put_contents(EditContoller::$logFile,"Edit Controller => ".var_export($this->getError(),true)."\r\n",FILE_APPEND);
         $this->setResponse();
     }
 
@@ -113,7 +112,6 @@ HTML
      * Update article information
      **/
     private function edit_article(): bool{
-        file_put_contents(EditContoller::$logFile,"Edit Controller edit Article\r\n",FILE_APPEND);
         $edited = false;
         $this->errno = 0;
         $article_id = $this->article->getId();

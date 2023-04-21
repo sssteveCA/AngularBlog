@@ -28,7 +28,6 @@ if(isset($post['username'],$post['password']) && $post['username'] != '' && $pos
         if($logged){
             //Correct credentials and account activated
             $token = $loginController->getToken();
-            //file_put_contents(C::FILE_LOG,"Login token => ".var_export($token,true)."\r\n",FILE_APPEND);
             $response['username'] = $token->getUsername();
             $response['token_key'] = $token->getTokenKey();
             $response[C::KEY_DONE] = true;
@@ -40,7 +39,6 @@ if(isset($post['username'],$post['password']) && $post['username'] != '' && $pos
     }
     catch(Exception $e){
         http_response_code(500);
-        file_put_contents(C::FILE_LOG,$e->getMessage()."\r\n",FILE_APPEND);
         $response[C::KEY_MESSAGE] = C::LOGIN_ERROR;
     }  
 }//if(isset($_POST['username'],$_POST['password']) && $_POST['username'] != '' && $_POST['password'] != ''){

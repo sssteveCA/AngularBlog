@@ -35,14 +35,11 @@ if(isset($postDecode['token_key'],$postDecode['username'])){
                 
         }//if($get){
     }catch(Exception $e){
-        file_put_contents(C::FILE_LOG,$e->getMessage()."\r\n",FILE_APPEND);
     }
     
 }//if(isset($postDecode['token_key'],$postDecode['username'])){
 else{
-    file_put_contents(C::FILE_LOG,"loginStatus response not set => \r\n",FILE_APPEND);
 }
 
-file_put_contents(C::FILE_LOG,"loginStatus response => ".var_export($response,true)."\r\n",FILE_APPEND);
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
 ?>

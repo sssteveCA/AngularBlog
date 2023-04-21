@@ -26,7 +26,6 @@ class ArticleAuthorizedController implements Aace{
     private static string $logFile = C::FILE_LOG;
 
     public function __construct(array $data){
-        //file_put_contents(ArticleAuthorizedController::$logFile,"ArticleAuthorizedController construct\r\n",FILE_APPEND);
         $this->checkValues($data);
         $this->article = $data['article'];
         $this->token = $data['token'];
@@ -39,7 +38,6 @@ class ArticleAuthorizedController implements Aace{
                 $authOk = $this->isUserAuthorizedCheck();
             }
         }
-        //file_put_contents(ArticleAuthorizedController::$logFile,var_export($this->errno,true)."\r\n",FILE_APPEND);
         $this->setResponse();
     }
 
@@ -106,7 +104,6 @@ class ArticleAuthorizedController implements Aace{
         $got = false;
         $this->errno = 0;
         $article_id = $this->article->getId();
-        file_put_contents(ArticleAuthorizedController::$logFile,"getArticle article id => ".var_export($article_id,true)."\r\n",FILE_APPEND);
         $data = ['_id' => new ObjectId($article_id)];
         $article_got = $this->article->article_get($data);
         if($article_got){

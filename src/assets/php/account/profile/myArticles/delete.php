@@ -45,7 +45,6 @@ if(isset($delete['article_id'],$headers[C::KEY_AUTH]) && $delete['article_id'] !
         http_response_code($deleteView->getResponseCode());
     }catch(Exception $e){
         http_response_code(500);
-        file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
         $response[C::KEY_MESSAGE] = C::ARTICLEDELETE_ERROR;
     }
 }//if(isset($delete['article_id'],$headers[C::KEY_AUTH]) && $delete['article_id'] != '' && $headers[C::KEY_AUTH] != '' ){

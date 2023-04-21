@@ -38,7 +38,6 @@ class CommentList extends Models implements Cle{
     public function commentlist_get(array $filter): bool{
         $got = false;
         $this->errno = 0;
-        file_put_contents(CommentList::$logFile,"commentlist_get filter => ".var_export($filter,true)."\r\n",FILE_APPEND);
         $cursor = parent::get($filter);
         if($this->errno == 0){
             //Superclass get does not return any error

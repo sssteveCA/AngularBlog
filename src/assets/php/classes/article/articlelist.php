@@ -38,20 +38,15 @@ class ArticleList extends Models implements Ale,C,Me{
     }
 
     public function articlelist_get(array $filter, array $options = []): bool{
-        file_put_contents(ArticleList::$logFile,"ArticleList get \r\n",FILE_APPEND);
         $got = false;
         $this->errno = 0;
         $cursor = parent::get($filter,$options);
-        //file_put_contents(ArticleList::$logFile,"ArticleList get => ".var_export($cursor,true)."\r\n",FILE_APPEND);
         if($this->errno == 0){
             $results = $cursor->toArray();
-            //file_put_contents(ArticleList::$logFile,"ArticleList results array => ".var_export($results,true)."\r\n",FILE_APPEND);
             foreach($results as $article){
                 //Add Article object from values gotten
                 $categories = $article['categories']->bsonSerialize();
                 $tags = $article['tags']->bsonSerialize();
-                //file_put_contents(ArticleList::$logFile,"ArticleList results categories => ".var_export($categories,true)."\r\n",FILE_APPEND);
-                //file_put_contents(ArticleList::$logFile,"ArticleList results tags => ".var_export($tags,true)."\r\n",FILE_APPEND);
                 $data = [
                     "id" => $article["_id"],
                     "title" => $article["title"],
@@ -68,7 +63,6 @@ class ArticleList extends Models implements Ale,C,Me{
             }
             $got = true;
         }//if($this->errno == 0){
-        //file_put_contents(ArticleList::$logFile,"Articles => ".var_export($this->results,true)."\r\n",FILE_APPEND);
         return $got;
     }
 }

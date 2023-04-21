@@ -58,7 +58,6 @@ class GetController implements Gce{
             $set = true;
         else
             $this->errno = Gce::NOUSERIDFOUND;
-        //file_put_contents(GetController::$logFile,"setToken() result => ".var_export($set,true)."\r\n",FILE_APPEND);
         return $set;
     }
 
@@ -76,12 +75,10 @@ class GetController implements Gce{
         }
         else 
             $this->errno = Gce::NOARTICLESFOUND;
-        //file_put_contents(GetController::$logFile,"setUSerArticles() result => ".var_export($set,true)."\r\n",FILE_APPEND);
         return $set;
     }
 
     private function setResponse(){
-        file_put_contents(GetController::$logFile,var_export($this->errno,true)."\r\n",FILE_APPEND);
         switch($this->errno){
             case 0:
                 $this->response_code = 200;

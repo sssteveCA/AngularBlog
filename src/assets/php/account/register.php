@@ -38,7 +38,6 @@ if(isset($post['name'],$post['surname'],$post['username'],$post['email'],$post['
             }
             catch(Exception $e){
                 http_response_code(500);
-                file_put_contents(C::FILE_LOG,$e->getMessage()."\r\n",FILE_APPEND);
                 $response[C::KEY_MESSAGE] = C::REG_ERROR;
             }
         }//if($post['password'] == $post['confPwd']){

@@ -23,8 +23,6 @@ if(isset($_REQUEST['emailVerif']) && $_REQUEST['emailVerif'] != ''){
             $vc = new VerifyController($user);
             $vv = new VerifyView($vc);
             $response[C::KEY_MESSAGE] = $vv->getMessage();
-            file_put_contents(C::FILE_LOG,"Msg => \r\n",FILE_APPEND);
-            file_put_contents(C::FILE_LOG,$response[C::KEY_MESSAGE]."\r\n",FILE_APPEND);
             switch($response[C::KEY_MESSAGE]){
                 case C::ACTIVATION_OK:
                     http_response_code(200);
@@ -42,7 +40,6 @@ if(isset($_REQUEST['emailVerif']) && $_REQUEST['emailVerif'] != ''){
         }
         catch(Exception $e){
             http_response_code(500);
-            file_put_contents(C::FILE_LOG,$e."\r\n",FILE_APPEND);
             $response['status'] = -2;
         }
     }//if(preg_match(User::$regex['emailVerif'],$_REQUEST['emailVerif'])){

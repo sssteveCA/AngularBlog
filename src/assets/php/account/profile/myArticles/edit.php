@@ -59,7 +59,6 @@ if(isset($post['article'],$headers[C::KEY_AUTH]) && $headers[C::KEY_AUTH] != '')
             http_response_code($editView->getResponseCode());
         }catch(Exception $e){
             http_response_code(500);
-            file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
             $response[C::KEY_MESSAGE] = C::ARTICLEEDITING_ERROR;
         }
     }//if(isset($post['article']['id'],$post['article']['title'],$post['article']['introtext'],$post['article']['content'],$post['article']['permalink'],$post['article']['categories'],$post['article']['tags']) && $post['article']['id'] != '' && $post['article']['title'] != '' && $post['article']['introtext'] != '' && $post['article']['content'] != '' && $post['article']['permalink'] != ''){

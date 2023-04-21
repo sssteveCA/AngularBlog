@@ -103,7 +103,6 @@ HTML
             'author' => new ObjectId($author_id),
             'comment' => $this->comment_text
         ];
-        //file_put_contents(AddCommentController::$logFile,"insertComment data => ".var_export($data,true)."\r\n",FILE_APPEND);
         $this->comment = new Comment($data);
         $insert = $this->comment->comment_create();
         if($insert){
@@ -186,7 +185,6 @@ HTML
         }
         else
             $this->errno = Ace::NOUSERIDFOUND;
-        //file_put_contents(CreateController::$logFile,"setToken() result => ".var_export($set,true)."\r\n",FILE_APPEND);
         return $set;
     }
 

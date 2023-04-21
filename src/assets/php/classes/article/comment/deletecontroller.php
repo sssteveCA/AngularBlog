@@ -127,7 +127,6 @@ HTML
      * Set the response to send to the view
      **/
     private function setResponse(){
-        file_put_contents(DeleteController::$logFile,"DeleteController setResponse errno => {$this->errno}\r\n",FILE_APPEND);
         switch($this->errno){
             case 0:
             case Dce::FROM_ACTION:

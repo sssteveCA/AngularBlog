@@ -27,7 +27,6 @@ if(isset($post['permalink'],$headers[C::KEY_AUTH],$post['comment_text']) && $pos
             'comment_text' => $post['comment_text'],
             'permalink' => $post['permalink']
         ];
-        file_put_contents(C::FILE_LOG,"create data => ".var_export($data,true)."\r\n",FILE_APPEND);
         $addController = new AddController($data);
         $addCommentView = new AddView($addController);
         if($addCommentView->isDone())
@@ -39,7 +38,6 @@ if(isset($post['permalink'],$headers[C::KEY_AUTH],$post['comment_text']) && $pos
     }catch(Exception $e){
         http_response_code(500);
         $msg = $e->getMessage();
-        file_put_contents(C::FILE_LOG,"create exception => ".var_export($msg,true)."\r\n",FILE_APPEND);
         switch($msg){
             case Ace::NOARTICLEPERMALINK_EXC:
             case Ace::NOCOMMENT_EXC:

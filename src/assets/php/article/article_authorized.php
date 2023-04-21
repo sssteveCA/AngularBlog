@@ -24,7 +24,6 @@ if(isset($post['token_key'],$post['username'],$post['article_id']) && $post['tok
     $dotenv->safeLoad();
     $token_key = $post['token_key'];
     $article_id = $post['article_id'];
-    //file_put_contents(C::FILE_LOG,"article_authorized article id => ".var_export($article_id,true)."\r\n",FILE_APPEND);
     try{
         $article = new Article(['id' => $article_id]);
         $token = new Token(['token_key' => $token_key]);
@@ -53,7 +52,6 @@ if(isset($post['token_key'],$post['username'],$post['article_id']) && $post['tok
         http_response_code($aav->getResponseCode());  
     }catch(Exception $e){
         http_response_code(500);
-        file_put_contents(C::FILE_LOG,var_export($e->getMessage(),true)."\r\n",FILE_APPEND);
         $response[C::KEY_MESSAGE] = C::ERROR_UNKNOWN;
     }
 }//if(isset($post['token_key'],$post['username'],$post['article_id']) && $post['token_key'] != '' && $post['username'] != '' && $post['article_id'] != ''){
