@@ -117,18 +117,9 @@ class DeleteAccountController implements Dace{
         if(password_verify($this->password,$user_password_hash)){
             $user_id = $this->token->getUserId();
             $user_id_object = new ObjectId($user_id);
-            if(!$this->action_list->actionlist_delete(['user_id' => $user_id_object])){
-                 $this->errno = Dace::DELETE_ACTIONS;
-                 return false;
-            }
-            if(!$this->article_list->articlelist_delete(['author' => $user_id_object])){
-                $this->errno = Dace::DELETE_ARTICLES;
-                 return false;
-            }
-            if(!$this->comment_list->commentlist_delete(['author' => $user_id_object])){
-                $this->errno = Dace::DELETE_COMMENTS;
-                 return false;
-            }
+            $this->action_list->actionlist_delete(['user_id' => $user_id_object]);
+            $this->article_list->articlelist_delete(['author' => $user_id_object]);
+            $this->comment_list->commentlist_delete(['author' => $user_id_object]);
             if(!$this->token->token_delete(['user_id' => $user_id_object])){
                 $this->errno = Dace::DELETE_TOKEN;
                  return false;
@@ -137,6 +128,7 @@ class DeleteAccountController implements Dace{
                 $this->errno = Dace::DELETE_USER;
                  return false;
             }
+            $this->errno = 0;
             return true;
         }//if(password_verify($this->password,$user_password_hash)){
         else $this->errno = Dace::CURRENT_PASSWORD_WRONG;

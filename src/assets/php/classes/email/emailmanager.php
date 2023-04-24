@@ -60,8 +60,6 @@ class EmailManager extends PHPMailer implements Eme{
             $this->send();
         }catch(Exception $e){
             $this->errno = Eme::ERR_EMAIL_SEND;
-            /* echo "EmailManager sendMessage exception => ".$e->getMessage()."\r\n";
-            echo "Errore invio mail ".$this->ErrorInfo."\r\n"; */
         }
     }
 }

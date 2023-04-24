@@ -47,7 +47,6 @@ if(isset($headers[C::KEY_AUTH],$update["new_username"],$update["password"]) && $
             http_response_code($uuView->getResponseCode());
         }catch(Exception $e){
             http_response_code(500);
-            //echo "Exception message => ".$e->getMessage()."\r\n";
             $response[C::KEY_MESSAGE] = C::USERNAME_UPDATE_ERROR;
         }
     }//if(preg_match(User::$regex["username"],$update["new_username"])){
