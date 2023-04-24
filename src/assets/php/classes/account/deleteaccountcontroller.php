@@ -3,6 +3,7 @@
 namespace AngularBlog\Classes\Account;
 
 use AngularBlog\Classes\Action\Action;
+use AngularBlog\Classes\ActionList;
 use AngularBlog\Classes\Article\ArticleList;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\User;
@@ -25,6 +26,7 @@ class DeleteAccountController implements Dace{
     private string $conf_password;
     private string $password;
 
+    private ?ActionList $action_list;
     private ?ArticleList $article_list;
     private ?Token $token;
     private ?User $user;
@@ -39,6 +41,7 @@ class DeleteAccountController implements Dace{
         $this->setResponse();
     }
    
+    public function getActionList(){return $this->action_list;}
     public function getArticlesList(){return $this->article_list;}
     public function getToken(){return $this->token;}
     public function getUser(){return $this->user;}
@@ -70,6 +73,7 @@ class DeleteAccountController implements Dace{
         $this->password = $data['password'];
         $this->token = $data['token'];
         $this->user = $data['user'];
+        $this->action_list = new ActionList();
         $this->article_list = new ArticleList();
     }
 
@@ -96,10 +100,24 @@ class DeleteAccountController implements Dace{
         $user_password_hash = $this->uac_user->getPasswordHash();
         if(password_verify($this->password,$user_password_hash)){
             $user_id = $this->token->getUserId();
-            $filter = ['_id' => new ObjectId($user_id)];
-            $account_delete = $this->user->user_delete($filter);
-            if($account_delete) return true; 
-            else $this->errno = Dace::DELETE_USER;
+            $user_id_object = new ObjectId($user_id);
+            if(!$this->action_list->actionlist_delete(['user_id' => $user_id_object])){
+                 $this->errno = Dace::DELETE_USER;
+                 return false;
+            }
+            if(!$this->article_list->articlelist_delete(['user_id' => $user_id_object])){
+                $this->errno = Dace::DELETE_USER;
+                 return false;
+            }
+            if(!$this->token->token_delete(['user_id' => $user_id_object])){
+                $this->errno = Dace::DELETE_USER;
+                 return false;
+            }
+            if(!$this->user->delete(['_id' => $user_id_object])){
+                $this->errno = Dace::DELETE_USER;
+                 return false;
+            }
+            return true;
         }//if(password_verify($this->password,$user_password_hash)){
         else $this->errno = Dace::CURRENT_PASSWORD_WRONG;
         return false;

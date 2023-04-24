@@ -42,7 +42,7 @@ class ArticleList extends Models implements Ale,C,Me{
      */
     public function articlelist_delete(array $filter): bool{
         $this->errno = 0;
-        $delete = parent::delete($filter);
+        parent::delete($filter);
         if($this->errno == 0) return true;
         return false;
     }

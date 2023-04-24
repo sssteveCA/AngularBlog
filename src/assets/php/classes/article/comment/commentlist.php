@@ -35,8 +35,20 @@ class CommentList extends Models implements Cle{
         return $this->error;
     }
 
+    /**
+     * Delete one or more comments that match the filter
+     */
+    public function commentlist_delete(array $filter): bool{
+        $this->errno = 0;
+        parent::delete($filter);
+        if($this->errno == 0) return true;
+        return false;
+    }
+
+    /**
+     * Get one or more comments that match the filter
+     */
     public function commentlist_get(array $filter): bool{
-        $got = false;
         $this->errno = 0;
         $cursor = parent::get($filter);
         if($this->errno == 0){
@@ -53,9 +65,9 @@ class CommentList extends Models implements Cle{
                 ];
                 $this->results[] = new Comment($data);
             }//foreach($results as $comment){
-            $got = true;
+            return true;
         }//if($this->errno == 0){
-        return $got;
+        return false;
     }
 }
 
