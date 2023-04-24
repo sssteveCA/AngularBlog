@@ -45,7 +45,6 @@ if(isset($headers[C::KEY_AUTH],$update["new_name"],$update["new_surname"]) && $h
             http_response_code($unv->getResponseCode());
         }catch(Exception $e){
             http_response_code(500);
-            //echo "Exception message => ".$e->getMessage()."\r\n";
             $response[C::KEY_MESSAGE] = C::NAMES_UPDATE_ERROR;
         }
     }//if(preg_match(User::$regex["name"],$update["name"]) && preg_match(User::$regex["surname"],$update["surname"])){

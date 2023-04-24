@@ -1,5 +1,6 @@
 <?php
 
+require_once("../../../interfaces/article/articlelist_errors.php");
 require_once("../../../../../../vendor/autoload.php");
 
 use AngularBlog\Classes\Account\DeleteAccountController;
@@ -46,7 +47,6 @@ if(isset($headers[C::KEY_AUTH],$delete["password"],$delete["conf_password"])){
             }
             http_response_code($dacView->getResponseCode());
         }catch(Exception $e){
-            //echo "deleteprofile.php exception => ".var_export($e->getMessage(),true)."\r\n";
             http_response_code(500);
             $response[C::KEY_MESSAGE] = C::ACCOUNTDELETE_ERROR;
         }

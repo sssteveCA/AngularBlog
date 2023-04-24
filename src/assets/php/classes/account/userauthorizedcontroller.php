@@ -117,7 +117,6 @@ class UserAuthorizedController implements Uace{
     private function getUserByTokenKey(): bool{
         $this->errno = 0;
         $user_id = $this->token->getUserId();
-        //echo "UserAutorizedController user_id =>".var_export($user_id,true)."\r\n";
         $filter = ['_id' => new ObjectId($user_id)];
         $got = $this->user->user_get($filter);
         if($got){
@@ -131,7 +130,6 @@ class UserAuthorizedController implements Uace{
      * Set the response to send to the view
      */
     private function setResponse(){
-        //echo "UpdateAuthorizedController setResponse errno =>".var_export($this->errno,true)."\r\n";
         switch($this->errno){
             case 0:
                 $this->response = "OK";

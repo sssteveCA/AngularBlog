@@ -47,7 +47,6 @@ if(isset($headers[C::KEY_AUTH],$update["conf_new_password"],$update["new_passwor
                 http_response_code($upView->getResponseCode());
             }catch(Exception $e){
                 http_response_code(500);
-                //echo "updatepassword.php exception =>".var_export($e->getMessage(),true)."\r\n";
                 $response[C::KEY_MESSAGE] = C::PASSWORD_UPDATE_ERROR;
             }
         }//if($update["new_password"] == $update["conf_new_password"]){
