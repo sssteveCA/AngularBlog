@@ -37,8 +37,20 @@ class ArticleList extends Models implements Ale,C,Me{
         return $this->error;
     }
 
+    /**
+     * Delete one or more articles that match the filter
+     */
+    public function articlelist_delete(array $filter): bool{
+        $this->errno = 0;
+        $delete = parent::delete($filter);
+        if($delete) return true;
+        return false;
+    }
+
+    /**
+     * Get one or more articles that match the filter
+     */
     public function articlelist_get(array $filter, array $options = []): bool{
-        $got = false;
         $this->errno = 0;
         $cursor = parent::get($filter,$options);
         if($this->errno == 0){
@@ -61,9 +73,9 @@ class ArticleList extends Models implements Ale,C,Me{
                 ];
                 $this->results[] = new Article($data);
             }
-            $got = true;
+            return true;
         }//if($this->errno == 0){
-        return $got;
+        return false;
     }
 }
 ?>

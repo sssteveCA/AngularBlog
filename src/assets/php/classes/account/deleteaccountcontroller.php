@@ -2,6 +2,8 @@
 
 namespace AngularBlog\Classes\Account;
 
+use AngularBlog\Classes\Action\Action;
+use AngularBlog\Classes\Article\ArticleList;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\User;
 use AngularBlog\Exceptions\MissingValuesException;
@@ -22,6 +24,8 @@ class DeleteAccountController implements Dace{
 
     private string $conf_password;
     private string $password;
+
+    private ?ArticleList $article_list;
     private ?Token $token;
     private ?User $user;
     private ?User $uac_user;
@@ -35,6 +39,7 @@ class DeleteAccountController implements Dace{
         $this->setResponse();
     }
    
+    public function getArticlesList(){return $this->article_list;}
     public function getToken(){return $this->token;}
     public function getUser(){return $this->user;}
     public function getError(){
