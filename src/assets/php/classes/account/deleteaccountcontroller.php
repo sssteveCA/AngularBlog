@@ -56,6 +56,18 @@ class DeleteAccountController implements Dace{
             case Dace::DELETE_USER:
                 $this->error = Dace::DELETE_USER_MSG;
                 break;
+            case Dace::DELETE_ACTIONS:
+                $this->error = Dace::DELETE_ACTIONS_MSG;
+                break;
+            case Dace::DELETE_ARTICLES:
+                $this->error = Dace::DELETE_ARTICLES_MSG;
+                break;
+            case Dace::DELETE_COMMENTS:
+                $this->error = Dace::DELETE_COMMENTS_MSG;
+                break;
+            case Dace::DELETE_TOKEN:
+                $this->error = Dace::DELETE_TOKEN_MSG;
+                break;
             case Dace::FROM_USERAUTHORIZEDCONTROLLER:
                 $this->error = Dace::FROM_USERAUTHORIZEDCONTROLLER_MSG;
                 break;
@@ -106,19 +118,19 @@ class DeleteAccountController implements Dace{
             $user_id = $this->token->getUserId();
             $user_id_object = new ObjectId($user_id);
             if(!$this->action_list->actionlist_delete(['user_id' => $user_id_object])){
-                 $this->errno = Dace::DELETE_USER;
+                 $this->errno = Dace::DELETE_ACTIONS;
                  return false;
             }
             if(!$this->article_list->articlelist_delete(['author' => $user_id_object])){
-                $this->errno = Dace::DELETE_USER;
+                $this->errno = Dace::DELETE_ARTICLES;
                  return false;
             }
             if(!$this->comment_list->commentlist_delete(['author' => $user_id_object])){
-                $this->errno = Dace::DELETE_USER;
+                $this->errno = Dace::DELETE_COMMENTS;
                  return false;
             }
             if(!$this->token->token_delete(['user_id' => $user_id_object])){
-                $this->errno = Dace::DELETE_USER;
+                $this->errno = Dace::DELETE_TOKEN;
                  return false;
             }
             if(!$this->user->delete(['_id' => $user_id_object])){
