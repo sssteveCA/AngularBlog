@@ -32,6 +32,19 @@ class ActionList extends Models implements Me{
         return $this->error;
     }
 
+    /**
+     * Delete one or more actions that match the filter
+     */
+    public function actionlist_delete(array $filter): bool{
+        $this->errno = 0;
+        parent::delete($filter);
+        if($this->errno == 0) return true;
+        return false;
+    }
+
+    /**
+     * Get one or more actions that match the filter
+     */
     public function actionlist_get(array $filter, array $options = []): bool{
         $this->errno = 0;
         $cursor = parent::get($filter,$options);

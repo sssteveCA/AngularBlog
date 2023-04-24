@@ -8,7 +8,7 @@ use AngularBlog\Interfaces\FromErrors;
 interface DeleteAccountControllerErrors extends ExceptionMessages, FromErrors{
     //Numbers
     const CURRENT_PASSWORD_WRONG = 1;
-    CONST DELETE_USER = 2;
+    const DELETE_USER = 2;
 
     //Messages
     const CURRENT_PASSWORD_WRONG_MSG = "La password attuale non è corretta, riprova";

@@ -70,6 +70,7 @@ class DeleteAccountController implements Dace{
         $this->password = $data['password'];
         $this->token = $data['token'];
         $this->user = $data['user'];
+        $this->article_list = new ArticleList();
     }
 
     /**
