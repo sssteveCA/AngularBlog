@@ -5,6 +5,7 @@ namespace AngularBlog\Classes\Account;
 use AngularBlog\Classes\Action\Action;
 use AngularBlog\Classes\ActionList;
 use AngularBlog\Classes\Article\ArticleList;
+use AngularBlog\Classes\Comment\CommentList;
 use AngularBlog\Classes\Token;
 use AngularBlog\Classes\User;
 use AngularBlog\Exceptions\MissingValuesException;
@@ -28,6 +29,7 @@ class DeleteAccountController implements Dace{
 
     private ?ActionList $action_list;
     private ?ArticleList $article_list;
+    private ?CommentList $comment_list;
     private ?Token $token;
     private ?User $user;
     private ?User $uac_user;
@@ -43,6 +45,7 @@ class DeleteAccountController implements Dace{
    
     public function getActionList(){return $this->action_list;}
     public function getArticlesList(){return $this->article_list;}
+    public function getCommentsList(){return $this->comment_list;}
     public function getToken(){return $this->token;}
     public function getUser(){return $this->user;}
     public function getError(){
@@ -75,6 +78,7 @@ class DeleteAccountController implements Dace{
         $this->user = $data['user'];
         $this->action_list = new ActionList();
         $this->article_list = new ArticleList();
+        $this->comment_list = new CommentList();
     }
 
     /**
@@ -105,7 +109,11 @@ class DeleteAccountController implements Dace{
                  $this->errno = Dace::DELETE_USER;
                  return false;
             }
-            if(!$this->article_list->articlelist_delete(['user_id' => $user_id_object])){
+            if(!$this->article_list->articlelist_delete(['author' => $user_id_object])){
+                $this->errno = Dace::DELETE_USER;
+                 return false;
+            }
+            if(!$this->comment_list->commentlist_delete(['author' => $user_id_object])){
                 $this->errno = Dace::DELETE_USER;
                  return false;
             }
