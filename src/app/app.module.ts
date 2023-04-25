@@ -46,6 +46,7 @@ import { TitleComponent } from './partials/title/title.component';
 import { BackComponent } from './partials/back/back.component';
 import { ProfileItemComponent } from './account/profile/profile-item/profile-item.component';
 import { HistoryItemComponent } from './account/profile/history/history-item/history-item.component';
+import { ArticleItemComponent } from './account/profile/my-articles/article-item/article-item.component';
 
 
 
@@ -87,7 +88,8 @@ import { HistoryItemComponent } from './account/profile/history/history-item/his
     TitleComponent,
     BackComponent,
     ProfileItemComponent,
-    HistoryItemComponent
+    HistoryItemComponent,
+    ArticleItemComponent
   ],
   imports: [
     BrowserModule,
