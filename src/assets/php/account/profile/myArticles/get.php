@@ -5,11 +5,12 @@ require_once("../../../../../../vendor/autoload.php");
 
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\Myarticles\GetController;
+use AngularBlog\Interfaces\MyArticles\GetControllerErrors as Gce;
 use AngularBlog\Classes\Myarticles\GetView;
 use Dotenv\Dotenv;
 
 $response = [
-    C::KEY_DONE => false, C::KEY_MESSAGE => ''
+    C::KEY_DONE => false, C::KEY_EMPTY => false, C::KEY_MESSAGE => '', 'articles' => []
 ];
 $headers = getallheaders();
 
@@ -41,8 +42,13 @@ if(isset($headers[C::KEY_AUTH]) && $headers[C::KEY_AUTH] != ''){
             }//foreach($articles as $article){
             $response[C::KEY_DONE] = true;
         }
-        else
+        else{
+            if($getView->getMessage() == Gce::NOARTICLESFOUND_MSG){
+                $response[C::KEY_DONE] = true;
+                $response[C::KEY_EMPTY] = true;
+            } 
             $response[C::KEY_MESSAGE] = $getView->getMessage();
+        }
         http_response_code($getView->getResponseCode());
     }catch(Exception $e){
         http_response_code(500);
@@ -54,6 +60,5 @@ else{
     $response[C::KEY_MESSAGE] = C::FILL_ALL_FIELDS;
 }
     
-
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
 ?>

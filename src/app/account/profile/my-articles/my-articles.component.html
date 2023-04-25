@@ -2,7 +2,8 @@
 <app-back [backlink]="backlink"></app-back>
 <!-- Articles getted from backend -->
 <div id="articles-list" *ngIf="done == true">
-    <div class="article" *ngFor="let article of articles; index as i">
+    <ng-template [ngIf]="articles.length > 0" [ngIfElse]="empty_list">
+        <div class="article" *ngFor="let article of articles; index as i">
         <div class="article-title">
             <a class="article-link" href="{{blog_url}}/{{article.permalink}}" target="_blank">
                 <h3>{{article.title}}</h3>
@@ -21,6 +22,11 @@
             
         </div>
     </div>
+    </ng-template>
+    <ng-template #empty_list>
+        <div class="alert alert-secondary" role="alert">Nessun articolo da mostrare</div>
+    </ng-template>
+    
 </div>
 <!-- Error while getting articles -->
 <div *ngIf="done == false && message != null" class="alert alert-danger my-5">

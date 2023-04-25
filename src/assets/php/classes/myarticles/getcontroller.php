@@ -85,7 +85,7 @@ class GetController implements Gce{
                 $this->response = "";
                 break;
             case Gce::NOARTICLESFOUND:
-                $this->response_code = 404;
+                $this->response_code = 200;
                 $this->response = Gce::NOARTICLESFOUND_MSG;
                 break;
             case Gce::NOUSERIDFOUND:

@@ -29,7 +29,7 @@ export class MyArticlesComponent implements OnInit {
 
   backlink: string = "../";
   userCookie: any = {};
-  articles: Article[] = new Array();
+  articles: Article[] = [];
   deleteArticle_url: string = constants.articleDeleteUrl;
   editArticle_url: string = constants.articleEditUrl;
   getArticles_url: string = constants.myArticlesUrl;
