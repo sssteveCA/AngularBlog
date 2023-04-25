@@ -14,7 +14,7 @@ export class ArticleItemComponent implements OnInit {
   @Input() editArticle_url: string;
   @Input() i: number;
   @Input() spinnerShow: number;
-  @Output() deleteAction: EventEmitter<object>;
+  @Output() deleteAction: EventEmitter<object> = new EventEmitter<object>();
 
   constructor() { }
 
