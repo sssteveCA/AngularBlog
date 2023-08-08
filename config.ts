@@ -9,12 +9,12 @@ export namespace Config{
 
     //Server for php scripts
     export const PHP_SCHEME: string = "http";
-    export const PHP_HOST: string = "localhost";
+    export const PHP_HOST: string = "www.angularblog.com";
     export const PHP_PORT:number = 80;
     export const PHP_MAIN_URL: string = PHP_SCHEME+'://'+PHP_HOST+':'+PHP_PORT;
 
     //Angular project relative path
-    export const SITE_PATH: string = "/repo/AngularBlog/src";
+    export const SITE_PATH: string = "";
 
     //main directory of php files
     export const PHP_FOLDER: string = "/assets/php";

@@ -47,6 +47,7 @@ import { BackComponent } from './partials/back/back.component';
 import { ProfileItemComponent } from './account/profile/profile-item/profile-item.component';
 import { HistoryItemComponent } from './account/profile/history/history-item/history-item.component';
 import { ArticleItemComponent } from './account/profile/my-articles/article-item/article-item.component';
+import { AlertComponent } from './partials/messages/alert/alert.component';
 
 
 
@@ -89,7 +90,8 @@ import { ArticleItemComponent } from './account/profile/my-articles/article-item
     BackComponent,
     ProfileItemComponent,
     HistoryItemComponent,
-    ArticleItemComponent
+    ArticleItemComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,

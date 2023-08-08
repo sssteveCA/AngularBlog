@@ -2,6 +2,7 @@
 
 require_once('../../../../vendor/autoload.php');
 
+
 use AngularBlog\Interfaces\Constants as C;
 use AngularBlog\Classes\User;
 use AngularBlog\Classes\Subscribe\VerifyController;

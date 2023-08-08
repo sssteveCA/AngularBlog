@@ -1,0 +1,27 @@
+@import "../../../scss/partials/rules";
+
+@mixin attiva-style(){
+    body{
+        @extend %flex-horizontal-center;
+        fieldset{
+            margin: 10px;
+            div{
+                > *{
+                    margin-right: 10px;
+                    &:last-child{
+                        @extend %flex-horizontal-center;
+                    }
+                }         
+            }     
+        }
+        input#codAut{
+            margin-right: 5px;
+        }
+        input#attiva{
+            padding: 5px;
+        }
+    }
+}
+
+@include attiva-style();
+
