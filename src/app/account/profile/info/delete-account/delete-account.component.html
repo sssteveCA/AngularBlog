@@ -11,9 +11,5 @@
             </div>
         </div>
     </form>
-    <div class="mt-2 text-center" [class.d-none]="!showDeleteProfileSpinner">
-        <div class="spinner-grow"  role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-    </div>
+    <app-block-spinner [spinnerId]="spinnerId" [showSpinner]="showDeleteProfileSpinner"></app-block-spinner>
 </div>

@@ -23,11 +23,7 @@
             </div>
         </div>
     </form>
-    <div class="mt-2 text-center" [class.d-none]="!showNamesSpinner">
-        <div class="spinner-grow"  role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-    </div>
+    <app-block-spinner [spinnerId]="spinnerId" [showSpinner]="showNamesSpinner"></app-block-spinner>
     <ng-template [ngIf]="namesError">
         <div class="alert alert-danger mt-5 text-center" role="alert">Impossibile rilevare il tuo nome e cognome</div>
     </ng-template>

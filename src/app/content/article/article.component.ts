@@ -20,6 +20,7 @@ export class ArticleComponent implements OnInit {
   done: boolean = false;
   message: string;
   showSpinner: boolean = true;
+  spinnerId: string = "news-spinner";
   //articles: Article = new Array();
   getArticle_url: string = constants.articleView;
 

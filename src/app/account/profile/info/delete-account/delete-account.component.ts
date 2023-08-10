@@ -29,6 +29,7 @@ export class DeleteAccountComponent implements OnInit {
 
   deleteProfileUrl: string = constants.profileDeleteUrl;
   showDeleteProfileSpinner: boolean = false;
+  spinnerId: string = "delete-account-spinner"
 
   constructor(public http: HttpClient, public api: ApiService, public fb: FormBuilder, public router: Router) {
     this.observeFromService();

@@ -31,6 +31,7 @@ export class PasswordComponent implements OnInit {
 
   updatePasswordUrl: string = constants.profileUpdatePasswordUrl;
   showPasswordSpinner: boolean = false;
+  spinnerId: string = "password-spinner"
 
   constructor(public http: HttpClient, public api: ApiService, public fb: FormBuilder) {
     this.observeFromService();

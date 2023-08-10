@@ -30,6 +30,7 @@ export class HistoryComponent implements OnInit {
   empty: boolean = false;
   error: boolean = false;
   notLoading: boolean = false;
+  spinnerId: string = "history-spinner"
 
   constructor(private api: ApiService, private http: HttpClient, private router: Router) {
     this.loginStatus(); 

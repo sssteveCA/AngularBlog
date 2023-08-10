@@ -27,6 +27,7 @@ export class RegisterComponent implements OnInit {
   showConf: boolean = false;
   subscribe_url: string = constants.registerUrl;
   showSpinner: boolean = false;
+  spinnerId: string = "register-spinner";
   confPwdValidatorsTrue: boolean = true;
   title:string = "Registrati";
   

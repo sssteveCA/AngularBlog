@@ -10,9 +10,7 @@
         <div>
             <input type="hidden" name="article_pos" value="{{i}}">
             <a mat-raised-button color="warn" class="btn_delete" (click)="delete()">ELIMINA</a>
-            <div class="spinner-grow ms-4" [ngClass]="{'d-none': spinnerShow != i}" style="width: 3rem; height: 3rem;" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
+            <app-inline-spinner [spinnerId]="spinnerId" [showSpinner]="showSpinnerBool"></app-inline-spinner>
         </div>
         
     </div>

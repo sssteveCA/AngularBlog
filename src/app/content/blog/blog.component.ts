@@ -16,6 +16,7 @@ export class BlogComponent implements OnInit {
 
   requestFailed: boolean = false;
   searchSpinner: boolean = false;
+  spinnerId: string = "news-spinner"
   done: boolean = false;
   empty: boolean = false;
   message: string|null = null;

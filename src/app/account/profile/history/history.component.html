@@ -1,11 +1,7 @@
 <app-title [title]="title"></app-title>
 <app-back [backlink]="backlink"></app-back>
 <div class="history-container pt-5">
-    <div>
-        <div class="spinner-grow" [ngClass]="{'d-none': notLoading}" style="width: 3rem; height: 3rem;" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-    </div>
+    <app-block-spinner [spinnerId]="spinnerId" [showSpinner]="!notLoading"></app-block-spinner>
     <div *ngIf="historyItems.length > 0; then historyItemsList; else historyItemsVoid"></div>
     <ng-template #historyItemsList>
         <app-history-item 
@@ -18,10 +14,10 @@
             ></app-history-item>
     </ng-template>
     <ng-template #historyItemsVoid>
-        <ng-template #noItems [ngIf]="empty && !error" [ngIfElse]="errorMessage">
+        <ng-template #noItems [ngIf]="empty && !error">
             <div class="alert alert-secondary" role="alert">Nessun azione effettuata</div>
         </ng-template>
-        <ng-template #errorMessage>
+        <ng-template #errorMessage [ngIf]="error">
             <div class="alert alert-danger" role="alert">Errore durante la lettura delle azioni effettuate</div>
         </ng-template>
     </ng-template>

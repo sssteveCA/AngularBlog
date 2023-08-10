@@ -3,11 +3,7 @@
   <a href="javascript:void(0)" [routerLink] = "['../']">Torna indietro</a>
 </div>
 <div class="container-fluid py-5">
-  <div class="row mt-5 justify-content-center" [ngClass]="{'d-none':!showSpinner}">
-    <div id="news-spinner" class="spinner-grow"  style="width: 3rem; height: 3rem;" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-  </div>
+  <app-block-spinner [spinnerId]="spinnerId" [showSpinner]="showSpinner"></app-block-spinner>
   <!-- Show the last posts list -->
   <div *ngIf="!showSpinner && done && !empty">
     <app-article-list-item *ngFor="let post of lastPosts" [article]="post"></app-article-list-item>
