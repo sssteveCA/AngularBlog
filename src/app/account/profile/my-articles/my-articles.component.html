@@ -1,9 +1,10 @@
 <app-title [title]="title"></app-title>
 <app-back [backlink]="backlink"></app-back>
+<app-block-spinner [spinnerId] = "spinnerStartId" [showSpinner]="showStartSpinner"></app-block-spinner>
 <!-- Articles getted from backend -->
 <div id="articles-list" *ngIf="done == true">
     <ng-template [ngIf]="articles.length > 0" [ngIfElse]="empty_list">
-        <app-article-item [article]="article" [blog_url]="blog_url" [deleteArticle_url]="deleteArticle_url" [editArticle_url]="editArticle_url" [spinnerShow]="spinnerShow" *ngFor="let article of articles; index as i" (deleteAction)="deleteArticle($event)"></app-article-item>
+        <app-article-item [article]="article" [blog_url]="blog_url" [deleteArticle_url]="deleteArticle_url" [editArticle_url]="editArticle_url" [i]="i" [spinnerShow]="spinnerShow" *ngFor="let article of articles; index as i" (deleteAction)="deleteArticle($event)"></app-article-item>
     </ng-template>
     <ng-template #empty_list>
         <div class="alert alert-secondary" role="alert">Nessun articolo da mostrare</div>

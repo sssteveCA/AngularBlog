@@ -10,7 +10,7 @@
         <div>
             <input type="hidden" name="article_pos" value="{{i}}">
             <a mat-raised-button color="warn" class="btn_delete" (click)="delete()">ELIMINA</a>
-            <app-inline-spinner [spinnerId]="spinnerId" [showSpinner]="showSpinnerBool"></app-inline-spinner>
+            <app-inline-spinner [spinnerId]="spinnerId+i" [showSpinner]="showSpinnerBool"></app-inline-spinner>
         </div>
         
     </div>
