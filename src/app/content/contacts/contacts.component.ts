@@ -21,6 +21,7 @@ export class ContactsComponent implements OnInit {
 
   contactForm: FormGroup;
   showSpinner: boolean = false;
+  spinnerId: string = "contacts-spinner";
   title: string = "Contatti";
 
   constructor(public fb: FormBuilder, public http: HttpClient) {

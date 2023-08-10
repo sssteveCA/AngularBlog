@@ -48,6 +48,8 @@ import { ProfileItemComponent } from './account/profile/profile-item/profile-ite
 import { HistoryItemComponent } from './account/profile/history/history-item/history-item.component';
 import { ArticleItemComponent } from './account/profile/my-articles/article-item/article-item.component';
 import { AlertComponent } from './partials/messages/alert/alert.component';
+import { BlockSpinnerComponent } from './partials/spinner/block-spinner/block-spinner.component';
+import { InlineSpinnerComponent } from './partials/spinner/inline-spinner/inline-spinner.component';
 
 
 
@@ -91,7 +93,9 @@ import { AlertComponent } from './partials/messages/alert/alert.component';
     ProfileItemComponent,
     HistoryItemComponent,
     ArticleItemComponent,
-    AlertComponent
+    AlertComponent,
+    BlockSpinnerComponent,
+    InlineSpinnerComponent
   ],
   imports: [
     BrowserModule,

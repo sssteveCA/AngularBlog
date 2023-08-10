@@ -26,6 +26,7 @@ export class NamesComponent implements OnInit, OnChanges {
   getNamesUrl: string = constants.profileGetNamesUrl;
   groupNames: FormGroup;
   showNamesSpinner: boolean = false;
+  spinnerId: string = "names-spinner"
   namesError: boolean = false;
   @Input() namesObject: object;
   

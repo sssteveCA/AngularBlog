@@ -19,6 +19,7 @@ export class NewsComponent implements OnInit, AfterViewInit {
   lastPosts: Article[] = [];
   message: string|null = null;
   showSpinner: boolean = true;
+  spinnerId: string = "news-spinner";
   url: string = constants.lastPostsUrl;
   title: string = "News";
 

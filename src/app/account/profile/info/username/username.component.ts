@@ -31,6 +31,7 @@ export class UsernameComponent implements OnInit, OnChanges {
   getUsernameUrl: string = constants.profileGetUsernameUrl;
   updateUsernameUrl: string = constants.profileUpdateUsernameUrl;
   showUsernameSpinner: boolean = false;
+  spinnerId: string = "username-spinner"
   usernameError: boolean = false;
   @Input() usernameObject: object;
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Article } from 'src/app/models/article.model';
 
 @Component({
@@ -6,7 +6,7 @@ import { Article } from 'src/app/models/article.model';
   templateUrl: './article-item.component.html',
   styleUrls: ['./article-item.component.scss']
 })
-export class ArticleItemComponent implements OnInit {
+export class ArticleItemComponent implements OnInit, OnChanges {
 
   @Input() article: Article;
   @Input() blog_url: string;
@@ -16,7 +16,18 @@ export class ArticleItemComponent implements OnInit {
   @Input() spinnerShow: number;
   @Output() deleteAction: EventEmitter<object> = new EventEmitter<object>();
 
+  showSpinnerBool: boolean = false;
+  spinnerId: string = "article-item-spinner"
+
   constructor() { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(
+      (changes['spinnerShow'].previousValue != changes['spinnerShow'].currentValue) || 
+      (changes['i'].previousValue != changes['i'].currentValue)){
+        this.showSpinnerBool = (this.spinnerShow == this.i);
+    }
+  }
 
   ngOnInit(): void {
   }
