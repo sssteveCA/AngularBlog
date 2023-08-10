@@ -28,6 +28,8 @@ export class EditArticleComponent implements OnInit {
   form: FormGroup;
   authorized: boolean = false; //true if user can edit the founded article
   message: string = "";
+  showSpinner: boolean = false;
+  spinnerId: string = "edit-article-spinner"
   title: string = "Modifica articolo";
   updateArticle_url: string = constants.articleEditScriptUrl;
   userCookie: any = {};
@@ -137,8 +139,10 @@ export class EditArticleComponent implements OnInit {
         token_key: this.userCookie['token_key'],
         url: this.updateArticle_url
       };
+      this.showSpinner = true;
       let ua: UpdateArticle = new UpdateArticle(ua_data);
       ua.updateArticle().then(obj => {
+        this.showSpinner = false;
         if(obj[Keys.EXPIRED] == true){
           //Session expired
           this.api.removeItems();

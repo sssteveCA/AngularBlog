@@ -51,8 +51,15 @@
             </div>
             <div class="row my-3">
                 <div class="col-12 d-flex justify-content-around">
-                    <button type="submit" class="btn btn-primary">MODIFICA</button>
-                    <button type="reset" class="btn btn-danger">ANNULLA</button>
+                    <div class="d-flex align-items-center">
+                        <button type="submit" class="btn btn-primary">MODIFICA</button>
+                        <app-inline-spinner [spinnerId] = "spinnerId" [showSpinner]="showSpinner"></app-inline-spinner>
+                    </div>
+                    <div>
+                        <button type="reset" class="btn btn-danger">ANNULLA</button>
+                    </div>
+                    
+                    
                 </div>
             </div>
         </div>
