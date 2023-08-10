@@ -28,6 +28,10 @@ export class EditArticleComponent implements OnInit {
   form: FormGroup;
   authorized: boolean = false; //true if user can edit the founded article
   message: string = "";
+  showSpinner: boolean = false;
+  showStartSpinner: boolean = true;
+  spinnerId: string = "edit-article-spinner"
+  spinnerIdStart: string = "edit-article-start-spinner"
   title: string = "Modifica articolo";
   updateArticle_url: string = constants.articleEditScriptUrl;
   userCookie: any = {};
@@ -98,6 +102,7 @@ export class EditArticleComponent implements OnInit {
   //Get article info and put in inputs
   getArticleInfo(id: string,api2: Api2Service): void{
     api2.isAuthorizedArticle(this.article.id).then(res => {
+      this.showStartSpinner = false;
       //Check if user is authorized to edit this article
       this.authorized = res['authorized'];
       this.message = res[Keys.MESSAGE];
@@ -137,8 +142,10 @@ export class EditArticleComponent implements OnInit {
         token_key: this.userCookie['token_key'],
         url: this.updateArticle_url
       };
+      this.showSpinner = true;
       let ua: UpdateArticle = new UpdateArticle(ua_data);
       ua.updateArticle().then(obj => {
+        this.showSpinner = false;
         if(obj[Keys.EXPIRED] == true){
           //Session expired
           this.api.removeItems();

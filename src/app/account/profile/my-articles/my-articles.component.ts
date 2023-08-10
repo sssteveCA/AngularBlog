@@ -36,6 +36,8 @@ export class MyArticlesComponent implements OnInit {
   blog_url: string = Config.ANGULAR_MAIN_URL+constants.blogUrl;
   message: string|null = null;
   done: boolean = false; //True if request has returned article list
+  showStartSpinner: boolean = true;
+  spinnerStartId: string = "my-artcles-start-spinner"
   spinnerShow: number = -1; //Spinner to show specifying the position whe delete button click occurs
   title: string = "I miei articoli";
 
@@ -143,6 +145,7 @@ export class MyArticlesComponent implements OnInit {
     };
     let ga: GetArticles = new GetArticles(ga_data);
     ga.getArticles().then(obj => {
+      this.showStartSpinner = false;
       if(obj[Keys.DONE] == true){
         this.done = true;
         this.message = null;

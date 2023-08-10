@@ -22,11 +22,8 @@ export class ArticleItemComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(
-      (changes['spinnerShow'].previousValue != changes['spinnerShow'].currentValue) || 
-      (changes['i'].previousValue != changes['i'].currentValue)){
-        this.showSpinnerBool = (this.spinnerShow == this.i);
-    }
+    if(!changes['spinnerShow'].firstChange)
+      this.showSpinnerBool = (changes['spinnerShow'].currentValue == this.i)
   }
 
   ngOnInit(): void {
