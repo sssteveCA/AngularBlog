@@ -27,6 +27,8 @@ export class NewArticleComponent implements OnInit {
   backlink: string = "../../";
   article: Article = new Article();
   form: FormGroup;
+  showSpinner: boolean = false;
+  spinnerId: string = "new-article-spinner";
   userCookie: any = {};
   title: string = "Crea un nuovo articolo";
 
@@ -119,7 +121,9 @@ export class NewArticleComponent implements OnInit {
       url: this.addArticle_url
     };
     let aa: AddArticle = new AddArticle(aa_data);
+    this.showSpinner = true;
     aa.createArticle().then(obj => {
+      this.showSpinner = false;
       if(obj[Keys.EXPIRED] == true){
         //session expired
         this.api.removeItems();
