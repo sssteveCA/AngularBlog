@@ -35,8 +35,14 @@
         </div>
         <div class="row my-3">
             <div class="col-12 d-flex justify-content-around">
-                <button mat-raised-button color="primary" type="submit">CREA</button>
-                <button mat-raised-button color="warn" type="reset">ANNULLA</button>
+                <div class="d-flex align-items-center">
+                    <button mat-raised-button color="primary" type="submit">CREA</button>
+                    <app-inline-spinner [spinnerId] = "spinnerId" [showSpinner]="showSpinner"></app-inline-spinner>
+                </div>
+                <div>
+                    <button mat-raised-button color="warn" type="reset">ANNULLA</button>
+                </div>
+                
             </div>
         </div>
     </div>

@@ -1,7 +1,10 @@
+
+<app-title [title]="title"></app-title>
+    <app-back [backlink]="backlink"></app-back>
+    <app-block-spinner [spinnerId]="spinnerIdStart" [showSpinner]="showStartSpinner"></app-block-spinner>
 <ng-container *ngIf="authorized == true; else notshowed">
     <!-- Article found -->
-    <app-title [title]="title"></app-title>
-    <app-back [backlink]="backlink"></app-back>
+    
     <form id="fEdit" method="post" action="#" (ngSubmit)="edit(); $event.preventDefault();" [formGroup]="form">
         <div class="container-fluid">
             <div class="row">
@@ -51,8 +54,15 @@
             </div>
             <div class="row my-3">
                 <div class="col-12 d-flex justify-content-around">
-                    <button type="submit" class="btn btn-primary">MODIFICA</button>
-                    <button type="reset" class="btn btn-danger">ANNULLA</button>
+                    <div class="d-flex align-items-center">
+                        <button type="submit" class="btn btn-primary">MODIFICA</button>
+                        <app-inline-spinner [spinnerId] = "spinnerId" [showSpinner]="showSpinner"></app-inline-spinner>
+                    </div>
+                    <div>
+                        <button type="reset" class="btn btn-danger">ANNULLA</button>
+                    </div>
+                    
+                    
                 </div>
             </div>
         </div>
