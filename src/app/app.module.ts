@@ -50,6 +50,7 @@ import { ArticleItemComponent } from './account/profile/my-articles/article-item
 import { AlertComponent } from './partials/messages/alert/alert.component';
 import { BlockSpinnerComponent } from './partials/spinner/block-spinner/block-spinner.component';
 import { InlineSpinnerComponent } from './partials/spinner/inline-spinner/inline-spinner.component';
+import { MessageComponent } from './partials/alert/message/message.component';
 
 
 
@@ -95,7 +96,8 @@ import { InlineSpinnerComponent } from './partials/spinner/inline-spinner/inline
     ArticleItemComponent,
     AlertComponent,
     BlockSpinnerComponent,
-    InlineSpinnerComponent
+    InlineSpinnerComponent,
+    MessageComponent
   ],
   imports: [
     BrowserModule,
