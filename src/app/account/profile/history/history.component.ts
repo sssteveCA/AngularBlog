@@ -30,6 +30,7 @@ export class HistoryComponent implements OnInit {
   empty: boolean = false;
   error: boolean = false;
   messageError: string = "Errore durante la lettura delle azioni effettuate";
+  messageSecondary: string = "Nessun azione effettuata";
   notLoading: boolean = false;
   spinnerId: string = "history-spinner"
 

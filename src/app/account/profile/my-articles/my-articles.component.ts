@@ -35,6 +35,7 @@ export class MyArticlesComponent implements OnInit {
   getArticles_url: string = constants.myArticlesUrl;
   blog_url: string = Config.ANGULAR_MAIN_URL+constants.blogUrl;
   message: string|null = null;
+  messageSecondary: string = "Nessun articolo da mostrare";
   done: boolean = false; //True if request has returned article list
   showStartSpinner: boolean = true;
   spinnerStartId: string = "my-artcles-start-spinner"

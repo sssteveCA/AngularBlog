@@ -7,7 +7,7 @@
         <app-article-item [article]="article" [blog_url]="blog_url" [deleteArticle_url]="deleteArticle_url" [editArticle_url]="editArticle_url" [i]="i" [spinnerShow]="spinnerShow" *ngFor="let article of articles; index as i" (deleteAction)="deleteArticle($event)"></app-article-item>
     </ng-template>
     <ng-template #empty_list>
-        <div class="alert alert-secondary" role="alert">Nessun articolo da mostrare</div>
+        <app-message [message]="messageSecondary"></app-message>
     </ng-template>
     
 </div>
