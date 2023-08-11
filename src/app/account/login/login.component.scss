@@ -32,6 +32,7 @@ $reg-align: center;
 
 @mixin buttons(){
     width: $bt-width;
+    height: fit-content;
     //margin: $bt-margin;
 }
 
