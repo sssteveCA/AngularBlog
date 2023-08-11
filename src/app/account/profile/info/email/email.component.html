@@ -3,7 +3,5 @@
         <span *ngIf="emailObject['done']">{{emailObject['email']}}</span>
 </div>
 <ng-template [ngIf]="emailObject['done'] === false">
-    <div class="alert alert-danger mt-5 text-center" role="alert">
-        Impossibile rilevare il tuo indirizzo email
-    </div>
+    <app-error [message]="messageError"></app-error>
 </ng-template>

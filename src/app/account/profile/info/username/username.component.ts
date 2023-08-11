@@ -33,6 +33,7 @@ export class UsernameComponent implements OnInit, OnChanges {
   showUsernameSpinner: boolean = false;
   spinnerId: string = "username-spinner"
   usernameError: boolean = false;
+  messageError: string = "Impossibile rilevare il tuo nome utente";
   @Input() usernameObject: object;
 
   constructor(public http: HttpClient, public fb: FormBuilder, public api: ApiService, public router: Router) {

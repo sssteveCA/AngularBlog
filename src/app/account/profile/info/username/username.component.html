@@ -19,6 +19,6 @@
     </form>
     <app-block-spinner [spinnerId]="spinnerId" [showSpinner]="showUsernameSpinner"></app-block-spinner>
     <ng-template [ngIf]="usernameError">
-        <div class="alert alert-danger mt-5 text-center" role="alert">Impossibile rilevare il tuo nome utente</div>
+        <app-error [message]="messageError"></app-error>
     </ng-template>
 </div>

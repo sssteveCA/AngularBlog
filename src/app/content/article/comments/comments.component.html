@@ -50,9 +50,7 @@
         </ng-template>
         <ng-template #error_template [ngIf]="error == true && message">
             <!--Error message template-->
-            <div class="alert alert-danger" role="alert">
-                {{message}}
-            </div>
+            <app-error [message]="message"></app-error>
         </ng-template>
     </ng-template>
     

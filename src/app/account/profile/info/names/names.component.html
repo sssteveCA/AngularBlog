@@ -25,6 +25,6 @@
     </form>
     <app-block-spinner [spinnerId]="spinnerId" [showSpinner]="showNamesSpinner"></app-block-spinner>
     <ng-template [ngIf]="namesError">
-        <div class="alert alert-danger mt-5 text-center" role="alert">Impossibile rilevare il tuo nome e cognome</div>
+        <app-error [message]="messageError"></app-error>
     </ng-template>
 </div>

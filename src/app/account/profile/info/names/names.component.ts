@@ -28,6 +28,7 @@ export class NamesComponent implements OnInit, OnChanges {
   showNamesSpinner: boolean = false;
   spinnerId: string = "names-spinner"
   namesError: boolean = false;
+  messageError: string = "Impossibile rilevare il tuo nome e cognome";
   @Input() namesObject: object;
   
 

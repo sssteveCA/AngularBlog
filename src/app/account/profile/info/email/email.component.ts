@@ -7,6 +7,8 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class EmailComponent implements OnInit {
 
+  messageError: string = " Impossibile rilevare il tuo indirizzo email";
+
   @Input() emailObject: object;
 
   constructor() { }
