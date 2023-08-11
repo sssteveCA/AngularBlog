@@ -30,7 +30,7 @@
         <app-comments [permalink]="article"></app-comments>
     </div>
     <div *ngIf="!showSpinner && !done && message">
-        <app-alert [message]="message"></app-alert>
+        <app-error [message]="message"></app-error>
     </div>
 </div>
 

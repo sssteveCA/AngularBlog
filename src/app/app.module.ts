@@ -47,7 +47,6 @@ import { BackComponent } from './partials/back/back.component';
 import { ProfileItemComponent } from './account/profile/profile-item/profile-item.component';
 import { HistoryItemComponent } from './account/profile/history/history-item/history-item.component';
 import { ArticleItemComponent } from './account/profile/my-articles/article-item/article-item.component';
-import { AlertComponent } from './partials/messages/alert/alert.component';
 import { BlockSpinnerComponent } from './partials/spinner/block-spinner/block-spinner.component';
 import { InlineSpinnerComponent } from './partials/spinner/inline-spinner/inline-spinner.component';
 import { MessageComponent } from './partials/alert/message/message.component';
@@ -95,7 +94,6 @@ import { ErrorComponent } from './partials/alert/error/error.component';
     ProfileItemComponent,
     HistoryItemComponent,
     ArticleItemComponent,
-    AlertComponent,
     BlockSpinnerComponent,
     InlineSpinnerComponent,
     MessageComponent,

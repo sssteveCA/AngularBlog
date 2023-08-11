@@ -27,10 +27,10 @@
             </div>
             <!-- Invalid verification code -->
             <div *ngIf="status == -1" class="w-100 h-100">
-                <app-alert [message]="invalidCode"></app-alert>
+                <app-error [message]="invalidCode"></app-error>
             </div>
             <div *ngIf="status == -2" class="w-100 h-100">
-                <app-alert [message]="activationError"></app-alert>
+                <app-error [message]="activationError"></app-error>
             </div>
         </ng-template>
         
