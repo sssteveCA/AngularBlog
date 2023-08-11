@@ -51,6 +51,7 @@ import { AlertComponent } from './partials/messages/alert/alert.component';
 import { BlockSpinnerComponent } from './partials/spinner/block-spinner/block-spinner.component';
 import { InlineSpinnerComponent } from './partials/spinner/inline-spinner/inline-spinner.component';
 import { MessageComponent } from './partials/alert/message/message.component';
+import { ErrorComponent } from './partials/alert/error/error.component';
 
 
 
@@ -97,7 +98,8 @@ import { MessageComponent } from './partials/alert/message/message.component';
     AlertComponent,
     BlockSpinnerComponent,
     InlineSpinnerComponent,
-    MessageComponent
+    MessageComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
