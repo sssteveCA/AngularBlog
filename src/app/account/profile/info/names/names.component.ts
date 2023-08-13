@@ -33,7 +33,7 @@ export class NamesComponent implements OnInit, OnChanges {
   
 
   constructor(public http: HttpClient, public api: ApiService, public router: Router, public fb: FormBuilder) { 
-    this.observeFromService();
+    //this.observeFromService();
     this.setFormGroupNames();
   }
 
@@ -53,7 +53,7 @@ export class NamesComponent implements OnInit, OnChanges {
   private editNamesRequest(en_params: EnParams): void{
     let un_data: UpdateNamesInterface = {
       http: this.http,
-      token_key: this.userCookie['token_key'],
+      token_key: localStorage.getItem('token_key') as string,
       new_name: en_params.name,
       new_surname: en_params.surname,
       url: this.updateNamesUrl

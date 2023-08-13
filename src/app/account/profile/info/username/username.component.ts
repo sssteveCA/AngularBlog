@@ -15,8 +15,9 @@ import UpdateUsername from 'src/classes/requests/profile/updateusername';
 import { ApiService } from 'src/app/api.service';
 import PasswordDialogInterface from 'src/interfaces/dialogs/passworddialog.interface';
 import PasswordDialog from 'src/classes/dialogs/passworddialog';
-import { EuParams } from 'src/constants/types';
+import { EuParams, UserCookie } from 'src/constants/types';
 import { Keys } from 'src/constants/keys';
+import { LogindataService } from 'src/app/services/logindata.service';
 
 
 @Component({
@@ -26,6 +27,7 @@ import { Keys } from 'src/constants/keys';
 })
 export class UsernameComponent implements OnInit, OnChanges {
 
+  cookie: UserCookie = {}
   userCookie: any = {};
   groupEu: FormGroup; //Edit username form group
   getUsernameUrl: string = constants.profileGetUsernameUrl;
@@ -36,8 +38,7 @@ export class UsernameComponent implements OnInit, OnChanges {
   messageError: string = "Impossibile rilevare il tuo nome utente";
   @Input() usernameObject: object;
 
-  constructor(public http: HttpClient, public fb: FormBuilder, public api: ApiService, public router: Router) {
-    this.observeFromService();
+  constructor(public http: HttpClient, public fb: FormBuilder, public api: ApiService, public router: Router, private loginData: LogindataService) {
     this.setFormGroupUsername();
    }
 
@@ -57,7 +58,7 @@ export class UsernameComponent implements OnInit, OnChanges {
   private editUsernameRequest(eu_params: EuParams): void{
     let uu_data: UpdateUsernameInterface = {
       http: this.http,
-      token_key: this.userCookie['token_key'],
+      token_key: localStorage.getItem('token_key') as string,
       new_username: eu_params.username,
       password: eu_params.password,
       url: this.updateUsernameUrl
@@ -67,6 +68,11 @@ export class UsernameComponent implements OnInit, OnChanges {
       if(obj[Keys.DONE]){
           localStorage.setItem('username', obj['new_username']);
           this.userCookie['username'] = localStorage.getItem('username');
+          (this.cookie).username = localStorage.getItem('username');
+          this.loginData.changeUserCookieData({
+            token_key: localStorage.getItem('token_key'),
+            username: localStorage.getItem('username')
+          })
           this.api.changeUserdata(this.userCookie);
           let md_data: MessageDialogInterface = {
             title: "Modifica nome utente",
@@ -76,6 +82,7 @@ export class UsernameComponent implements OnInit, OnChanges {
       }//if(obj[Keys.DONE]){
       else{
         if(obj[Keys.EXPIRED] == true){
+          this.loginData.removeItems();
           this.api.removeItems();
           this.userCookie = {};
           this.api.changeUserdata(this.userCookie);
@@ -146,13 +153,6 @@ export class UsernameComponent implements OnInit, OnChanges {
         messageDialog(mdi);
       }
     }
-
-  private observeFromService(): void{
-    this.api.userChanged.subscribe(userdata => {
-      this.userCookie['token_key'] = userdata['token_key'];
-      this.userCookie['username'] = userdata['username'];
-    });
-  }
 
   private setFormGroupUsername(): void{
     this.groupEu = this.fb.group({

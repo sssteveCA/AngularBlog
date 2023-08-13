@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
 import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
@@ -12,30 +12,32 @@ import { Keys } from 'src/constants/keys';
 import LogoutRequestInterface from 'src/interfaces/requests/logoutrequest.interface';
 import LogoutRequest from 'src/classes/requests/logoutrequest';
 import { messageDialog } from 'src/functions/functions';
+import { LogindataService } from '../services/logindata.service';
+import { UserCookie } from 'src/constants/types';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent implements OnInit, OnChanges {
 
+  @Input() username: string|null;
   userCookie : any = {};
   menuColor: string = 'bg-dark';
 
-  constructor(private http:HttpClient, private router:Router, private api: ApiService) {
-    this.userCookie["token_key"] = localStorage.getItem("token_key");
-    this.userCookie["username"] = localStorage.getItem("username");
-    this.observeFromService();
-    this.api.getLoginStatus().then(logged => {
-      if(!logged){
-        localStorage.removeItem("token_key");
-        localStorage.removeItem("username");
-      }
-    }).catch(err => {
-      console.warn("GetLoginStatus err");
-      //console.warn(err);
-    });
+  constructor(private http:HttpClient, private router:Router, private api: ApiService, private loginData: LogindataService) {
+    if(this.username == null && localStorage.getItem('username')){
+      this.loginData.removeItems();
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.username = changes['username'].currentValue;
+    if(this.username == null){
+      this.loginData.removeItems();
+    }
+    console.log(this.username)
   }
 
   //user wants  logout from his account
@@ -49,11 +51,14 @@ export class MenuComponent implements OnInit {
       cd.instance.dispose();
       cd.div_dialog.remove();
       let lrData: LogoutRequestInterface = {
-        http: this.http, token_key: this.userCookie['token_key'], url: constants.logoutUrl
+        http: this.http, token_key: localStorage.getItem('token_key') as string, url: constants.logoutUrl
       }
       let lr: LogoutRequest = new LogoutRequest(lrData)
       lr.logout().then(obj => {
         if(obj[Keys.DONE] == true){
+          this.loginData.removeItems();
+          this.loginData.changeUserCookieData({});
+          this.username = null;
           this.api.removeItems();
           this.api.changeUserdata({});
           this.router.navigate([constants.logoutRedirect]);
@@ -75,15 +80,6 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  }
-
-  observeFromService(): void{
-    this.api.loginChanged.subscribe(logged => {
-    });
-    this.api.userChanged.subscribe(userdata => {
-      this.userCookie['token_key'] = userdata['token_key'];
-      this.userCookie['username'] = userdata['username'];
-    });
   }
 
 }

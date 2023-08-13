@@ -15,6 +15,8 @@ import UpdateArticleInterface from 'src/interfaces/requests/article/updatearticl
 import UpdateArticle from 'src/classes/requests/article/updatearticle';
 import { Messages } from 'src/constants/messages';
 import { Keys } from 'src/constants/keys';
+import { LogindataService } from 'src/app/services/logindata.service';
+import { UserCookie } from 'src/constants/types';
 
 @Component({
   selector: 'app-edit-article',
@@ -34,12 +36,13 @@ export class EditArticleComponent implements OnInit {
   spinnerIdStart: string = "edit-article-start-spinner"
   title: string = "Modifica articolo";
   updateArticle_url: string = constants.articleEditScriptUrl;
+  cookie: UserCookie = {};
   userCookie: any = {};
 
   constructor(
-    public http: HttpClient, public fb: FormBuilder, public api: ApiService, private router: Router, public route: ActivatedRoute, private api2: Api2Service) {
-    this.loginStatus();
-    this.observeFromService();
+    public http: HttpClient, public fb: FormBuilder, public api: ApiService, private router: Router, public route: ActivatedRoute, private api2: Api2Service, private loginData: LogindataService) {
+    /* this.loginStatus();
+    this.observeFromService(); */
     this.formBuild();
     this.editArticleParams();
    }
@@ -62,37 +65,6 @@ export class EditArticleComponent implements OnInit {
       'permalink': ['',Validators.required],
       'categories': ['',Validators.pattern('^[a-zA-Z0-9,]*$')],
       'tags': ['',Validators.pattern('^[a-zA-Z0-9,]*$')]
-    });
-   }
-
-   loginStatus(): void{
-    this.api.getLoginStatus().then(res => {
-      //Check if user is logged
-      if(res == true){
-        this.userCookie['token_key'] = localStorage.getItem("token_key");
-        this.userCookie['username'] = localStorage.getItem("username");
-        this.api.changeUserdata(this.userCookie);
-      }//if(res == true){
-      else{
-        this.api.removeItems();
-        this.userCookie = {};
-        this.api.changeUserdata(this.userCookie);
-        this.router.navigateByUrl(constants.notLoggedRedirect)
-      }
-    }).catch(err => {
-      this.api.removeItems();
-        this.userCookie = {};
-        this.api.changeUserdata(this.userCookie);
-        this.router.navigateByUrl(constants.notLoggedRedirect)
-    });
-   }
-
-   observeFromService(): void{
-    this.api.loginChanged.subscribe(logged => {
-    });
-    this.api.userChanged.subscribe(userdata => {
-      this.userCookie['token_key'] = userdata['token_key'];
-      this.userCookie['username'] = userdata['username'];
     });
    }
 
@@ -139,7 +111,7 @@ export class EditArticleComponent implements OnInit {
       const ua_data: UpdateArticleInterface = {
         article: this.article,
         http: this.http,
-        token_key: this.userCookie['token_key'],
+        token_key: localStorage.getItem("token_key") as string,
         url: this.updateArticle_url
       };
       this.showSpinner = true;
@@ -148,6 +120,7 @@ export class EditArticleComponent implements OnInit {
         this.showSpinner = false;
         if(obj[Keys.EXPIRED] == true){
           //Session expired
+          this.loginData.removeItems();
           this.api.removeItems();
           this.userCookie = {};
           this.api.changeUserdata(this.userCookie);
