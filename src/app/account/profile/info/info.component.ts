@@ -24,7 +24,7 @@ export class InfoComponent implements OnInit {
   title: string = "Modifica il tuo account";
 
   constructor(public http: HttpClient, public api: ApiService, public router: Router, public fb: FormBuilder) {
-    this.observeFromService();
+    //this.observeFromService();
     this.getUserInfo();
    }
 

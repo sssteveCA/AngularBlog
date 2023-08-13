@@ -34,7 +34,7 @@ export class PasswordComponent implements OnInit {
   spinnerId: string = "password-spinner"
 
   constructor(public http: HttpClient, public api: ApiService, public fb: FormBuilder) {
-    this.observeFromService();
+    //this.observeFromService();
     this.setFormGroupPassword();
    }
 
@@ -47,7 +47,7 @@ export class PasswordComponent implements OnInit {
       http: this.http,
       new_password: ep_params.new_password,
       old_password: ep_params.old_password,
-      token_key: this.userCookie['token_key'],
+      token_key: localStorage.getItem('token_key') as string,
       url: this.updatePasswordUrl
     };
     let ep: UpdatePassword = new UpdatePassword(ep_data);
