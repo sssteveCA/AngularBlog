@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
 import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
@@ -20,14 +20,18 @@ import { UserCookie } from 'src/constants/types';
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent implements OnInit, OnChanges {
 
-  cookie: UserCookie = {}
+  @Input() cookie: UserCookie;
   userCookie : any = {};
   menuColor: string = 'bg-dark';
 
   constructor(private http:HttpClient, private router:Router, private api: ApiService, private loginData: LogindataService) {
-    this.loginDataObserver();
+    //this.loginDataObserver();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.cookie = changes['cookie'].currentValue;
   }
 
   loginDataObserver(): void{

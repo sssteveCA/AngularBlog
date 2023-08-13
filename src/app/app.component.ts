@@ -16,6 +16,7 @@ export class AppComponent {
   cookie: UserCookie = {};
 
   constructor(private router: Router, private api: ApiService, private loginData: LogindataService ){
+    this.loginDataObserver();
     this.router.events.subscribe((event) => {
       if(event instanceof NavigationEnd){
         this.path = event.url.split('?')[0];
