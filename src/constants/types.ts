@@ -40,3 +40,19 @@ export type EuParams = {
     password: string;
     username: string;
 }
+
+/**
+ * Object returned after login status check
+ */
+export type LoginStatusResponse = UserCookie & {
+    logged: boolean;
+    userCookie?: UserCookie;
+}
+
+/**
+ * Cookie object with logged user information
+ */
+export type UserCookie = {
+    token_key: string;
+    username: string;
+}
