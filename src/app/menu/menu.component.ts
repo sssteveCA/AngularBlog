@@ -29,6 +29,7 @@ export class MenuComponent implements OnInit, OnChanges {
   constructor(private http:HttpClient, private router:Router, private api: ApiService, private loginData: LogindataService) {
     if(this.username == null && localStorage.getItem('username')){
       this.loginData.removeItems();
+      this.loginData.changeUserCookieData({});
     }
   }
 
@@ -36,8 +37,8 @@ export class MenuComponent implements OnInit, OnChanges {
     this.username = changes['username'].currentValue;
     if(this.username == null){
       this.loginData.removeItems();
+      this.loginData.changeUserCookieData({});
     }
-    console.log(this.username)
   }
 
   //user wants  logout from his account

@@ -83,6 +83,7 @@ export class UsernameComponent implements OnInit, OnChanges {
       else{
         if(obj[Keys.EXPIRED] == true){
           this.loginData.removeItems();
+          this.loginData.changeUserCookieData({});
           this.api.removeItems();
           this.userCookie = {};
           this.api.changeUserdata(this.userCookie);
