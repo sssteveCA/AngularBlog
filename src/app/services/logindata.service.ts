@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { LoginStatusResponse } from 'src/constants/types';
+import { UserCookie } from 'src/constants/types';
 import * as constants from '../../constants/constants';
 
 @Injectable({
@@ -9,10 +9,15 @@ import * as constants from '../../constants/constants';
 })
 export class LogindataService {
 
-  private userCookie = new Subject<LoginStatusResponse>();
+  private userCookie = new Subject<UserCookie>();
+  private userCookieObservable = this.userCookie.asObservable();
 
   constructor(private http: HttpClient) {
-
+    this.loginStatusRequest().then(logged => {
+      if(logged == false){
+        this.removeItems();
+      }
+    })
   }
 
   /**
@@ -49,6 +54,27 @@ export class LogindataService {
       })
     });
     return promise;
+  }
+
+  /**
+   * Chenga the value of the userCookie property
+   * @param userCookie the new value of the userCookie property
+   */
+  public changeUserCookieData(userCookie: UserCookie): void{
+    this.userCookie.next(userCookie);
+  }
+
+  /**
+   * Remove userCookie values and from local storage
+   */
+  removeItems(){
+    const token_key = localStorage.getItem('token_key');
+    const username = localStorage.getItem('username');
+    if(token_key)
+      localStorage.removeItem("token_key");
+    if(username)
+      localStorage.removeItem("username");
+    this.changeUserCookieData({});
   }
 
 
