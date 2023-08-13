@@ -12,6 +12,8 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import LoginRequest from 'src/classes/requests/loginrequest';
 import { messageDialog } from 'src/functions/functions';
 import { Keys } from 'src/constants/keys';
+import { LogindataService } from 'src/app/services/logindata.service';
+import { UserCookie } from 'src/constants/types';
 
 @Component({
   selector: 'app-login',
@@ -28,8 +30,9 @@ export class LoginComponent implements OnInit {
   showSpinner: boolean = false;
   spinnerId: string = "login-spinner";
   title: string = "Accedi";
+  cookie: UserCookie = {};
   userCookie : any = {};
-  constructor(private fb: FormBuilder,private router: Router, private http:HttpClient, private api: ApiService) {
+  constructor(private fb: FormBuilder,private router: Router, private http:HttpClient, private api: ApiService, private loginData: LogindataService) {
     this.loginForm = fb.group({
       'username' : ['',Validators.compose([Validators.required,Validators.minLength(5)])],
       'password' : ['',Validators.compose([Validators.required,Validators.minLength(6)])]
@@ -63,6 +66,9 @@ export class LoginComponent implements OnInit {
         localStorage.setItem("username",obj["username"]);
         this.userCookie["token_key"] = localStorage.getItem("token_key");
         this.userCookie["username"] = localStorage.getItem("username");
+        this.loginData.changeUserCookieData({
+          token_key: localStorage.getItem("token_key") as string, 
+          username: localStorage.getItem("username") as string })
         this.api.changeUserdata(this.userCookie);
         this.router.navigate([constants.loginRedirect]);
       }

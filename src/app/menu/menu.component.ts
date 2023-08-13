@@ -12,6 +12,8 @@ import { Keys } from 'src/constants/keys';
 import LogoutRequestInterface from 'src/interfaces/requests/logoutrequest.interface';
 import LogoutRequest from 'src/classes/requests/logoutrequest';
 import { messageDialog } from 'src/functions/functions';
+import { LogindataService } from '../services/logindata.service';
+import { UserCookie } from 'src/constants/types';
 
 @Component({
   selector: 'app-menu',
@@ -20,10 +22,11 @@ import { messageDialog } from 'src/functions/functions';
 })
 export class MenuComponent implements OnInit {
 
+  cookie: UserCookie = {}
   userCookie : any = {};
   menuColor: string = 'bg-dark';
 
-  constructor(private http:HttpClient, private router:Router, private api: ApiService) {
+  constructor(private http:HttpClient, private router:Router, private api: ApiService, private loginData: LogindataService) {
     this.userCookie["token_key"] = localStorage.getItem("token_key");
     this.userCookie["username"] = localStorage.getItem("username");
     this.observeFromService();
@@ -54,6 +57,8 @@ export class MenuComponent implements OnInit {
       let lr: LogoutRequest = new LogoutRequest(lrData)
       lr.logout().then(obj => {
         if(obj[Keys.DONE] == true){
+          this.loginData.removeItems();
+          this.loginData.changeUserCookieData({});
           this.api.removeItems();
           this.api.changeUserdata({});
           this.router.navigate([constants.logoutRedirect]);

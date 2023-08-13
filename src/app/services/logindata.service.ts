@@ -13,17 +13,12 @@ export class LogindataService {
   private userCookieObservable = this.userCookie.asObservable();
 
   constructor(private http: HttpClient) {
-    this.loginStatusRequest().then(logged => {
-      if(logged == false){
-        this.removeItems();
-      }
-    })
   }
 
   /**
    * Check if user is still logged
    */
-  private async loginStatusRequest(): Promise<boolean>{
+  public async loginStatusRequest(): Promise<boolean>{
     let logged = false;
     const token_key = localStorage.getItem('token_key');
     const username = localStorage.getItem('username');
