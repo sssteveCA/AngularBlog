@@ -27,20 +27,19 @@ export class MenuComponent implements OnInit {
   menuColor: string = 'bg-dark';
 
   constructor(private http:HttpClient, private router:Router, private api: ApiService, private loginData: LogindataService) {
-    this.cookie.token_key = localStorage.getItem("token_key");
-    this.cookie.username = localStorage.getItem("username");
-    this.userCookie["token_key"] = localStorage.getItem("token_key");
-    this.userCookie["username"] = localStorage.getItem("username");
-    this.observeFromService();
-    this.api.getLoginStatus().then(logged => {
-      if(!logged){
-        localStorage.removeItem("token_key");
-        localStorage.removeItem("username");
+    this.loginDataObserver();
+  }
+
+  loginDataObserver(): void{
+    this.loginData.userCookieObservable.subscribe(userCookie => {
+      if(userCookie && userCookie.token_key && userCookie.username && userCookie.token_key != "" && userCookie.username != ""){
+        this.cookie = userCookie;
       }
-    }).catch(err => {
-      console.warn("GetLoginStatus err");
-      //console.warn(err);
-    });
+      else{
+        this.cookie = {}
+        this.loginData.removeItems();
+      }
+    })
   }
 
   //user wants  logout from his account
@@ -54,7 +53,7 @@ export class MenuComponent implements OnInit {
       cd.instance.dispose();
       cd.div_dialog.remove();
       let lrData: LogoutRequestInterface = {
-        http: this.http, token_key: this.userCookie['token_key'], url: constants.logoutUrl
+        http: this.http, token_key: localStorage.getItem('token_key') as string, url: constants.logoutUrl
       }
       let lr: LogoutRequest = new LogoutRequest(lrData)
       lr.logout().then(obj => {
@@ -82,15 +81,6 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  }
-
-  observeFromService(): void{
-    this.api.loginChanged.subscribe(logged => {
-    });
-    this.api.userChanged.subscribe(userdata => {
-      this.userCookie['token_key'] = userdata['token_key'];
-      this.userCookie['username'] = userdata['username'];
-    });
   }
 
 }
