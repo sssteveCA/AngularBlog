@@ -19,6 +19,7 @@ import GetArticles from 'src/classes/requests/article/getarticles';
 import { Config } from 'config';
 import { messageDialog } from 'src/functions/functions';
 import { Keys } from 'src/constants/keys';
+import { LogindataService } from 'src/app/services/logindata.service';
 
 @Component({
   selector: 'app-my-articles',
@@ -42,45 +43,11 @@ export class MyArticlesComponent implements OnInit {
   spinnerShow: number = -1; //Spinner to show specifying the position whe delete button click occurs
   title: string = "I miei articoli";
 
-  constructor(public http: HttpClient, public api: ApiService,private router: Router) {
-    this.loginStatus();
-    this.observeFromService();
+  constructor(public http: HttpClient, public api: ApiService,private router: Router, private loginData: LogindataService) {
    }
 
   ngOnInit(): void {
-  }
-
-  loginStatus(): void{
-    this.api.getLoginStatus().then(res => {
-      //Check if user is logged
-      if(res == true){
-        this.userCookie['token_key'] = localStorage.getItem("token_key");
-        this.userCookie['username'] = localStorage.getItem("username");
-        this.api.changeUserdata(this.userCookie);
-        this.getArticles();
-      }//if(res == true){
-      else{
-        this.api.removeItems();
-        this.userCookie = {};
-        this.api.changeUserdata(this.userCookie);
-        this.router.navigateByUrl(constants.notLoggedRedirect);
-      }
-      
-  }).catch(err => {
-    this.api.removeItems();
-    this.userCookie = {};
-    this.api.changeUserdata(this.userCookie);
-    this.router.navigate([constants.notLoggedRedirect]);
-  });
-  }
-
-  observeFromService(): void{
-    this.api.loginChanged.subscribe(logged => {
-    });
-    this.api.userChanged.subscribe(userdata => {
-      this.userCookie['token_key'] = userdata['token_key'];
-      this.userCookie['username'] = userdata['username'];
-    });
+    this.getArticles();
   }
 
   public deleteArticle(data: object): void{
@@ -96,7 +63,7 @@ export class MyArticlesComponent implements OnInit {
       let da_data: DeleteArticleInterface = {
         article_id: data['article_id'],
         http: this.http,
-        token_key: this.userCookie['token_key'],
+        token_key: localStorage.getItem('token_key') as string,
         url: this.deleteArticle_url
       };
       let da: DeleteArticle = new DeleteArticle(da_data);
@@ -105,6 +72,7 @@ export class MyArticlesComponent implements OnInit {
         this.spinnerShow = -1;
         if(obj[Keys.EXPIRED] == true){
           //Session expired
+          this.loginData.removeItems();
           this.api.removeItems();
           this.userCookie = {};
           this.api.changeUserdata(this.userCookie);
@@ -141,7 +109,7 @@ export class MyArticlesComponent implements OnInit {
   private getArticles(): void{
     const ga_data: GetArticlesInterface = {
       http: this.http,
-      token_key: this.userCookie['token_key'],
+      token_key: localStorage.getItem("token_key") as string,
       url: this.getArticles_url
     };
     let ga: GetArticles = new GetArticles(ga_data);
