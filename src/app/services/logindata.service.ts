@@ -85,7 +85,7 @@ export class LogindataService {
       localStorage.removeItem("token_key");
     if(username)
       localStorage.removeItem("username");
-    this.changeUserCookieData({});
+    //this.changeUserCookieData({});
   }
 
 

@@ -75,6 +75,7 @@ export class MyArticlesComponent implements OnInit {
         if(obj[Keys.EXPIRED] == true){
           //Session expired
           this.loginData.removeItems();
+          this.loginData.changeUserCookieData({});
           this.api.removeItems();
           this.userCookie = {};
           this.api.changeUserdata(this.userCookie);
