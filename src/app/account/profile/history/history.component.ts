@@ -34,9 +34,9 @@ export class HistoryComponent implements OnInit {
   notLoading: boolean = false;
   spinnerId: string = "history-spinner"
 
-  constructor(private api: ApiService, private http: HttpClient, private router: Router) {
-    this.loginStatus(); 
-    this.observeFromService();
+  constructor(private http: HttpClient, private router: Router) {
+    /* this.loginStatus(); 
+    this.observeFromService(); */
     this.getHistory();
    }
 
@@ -60,43 +60,11 @@ export class HistoryComponent implements OnInit {
     });
   }
 
-  loginStatus(): void{
-    this.api.getLoginStatus().then(res => {
-      if(res == true){
-        this.userCookie['token_key'] = localStorage.getItem("token_key");
-        this.userCookie['username'] = localStorage.getItem("username");
-        this.api.changeUserdata(this.userCookie);
-      }
-      else{
-        this.api.removeItems();
-        this.userCookie = {};
-        this.api.changeUserdata(this.userCookie);
-        this.router.navigate([constants.notLoggedRedirect]);
-      }
-      
-      
-  }).catch(err => {
-    this.api.removeItems();
-    this.userCookie = {};
-    this.api.changeUserdata(this.userCookie);
-    this.router.navigate([constants.notLoggedRedirect]);
-  });
-  }
-
-  observeFromService(): void{
-    this.api.loginChanged.subscribe(logged => {
-    });
-    this.api.userChanged.subscribe(userdata => {
-      this.userCookie['token_key'] = userdata['token_key'];
-      this.userCookie['username'] = userdata['username'];
-    });
-  }
-
   onActionIdReceived(action_id: string): void{
     let dhiData: DeleteHistoryItemInterface = {
       action_id: action_id,
       http: this.http,
-      token_key: this.userCookie['token_key'],
+      token_key: localStorage.getItem("token_key") as string,
       url: this.urlDeleteHistoryItem
     }
     let dhi: DeleteHistoryItem = new DeleteHistoryItem(dhiData)
