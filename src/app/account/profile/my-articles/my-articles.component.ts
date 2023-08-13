@@ -20,6 +20,7 @@ import { Config } from 'config';
 import { messageDialog } from 'src/functions/functions';
 import { Keys } from 'src/constants/keys';
 import { LogindataService } from 'src/app/services/logindata.service';
+import { UserCookie } from 'src/constants/types';
 
 @Component({
   selector: 'app-my-articles',
@@ -29,6 +30,7 @@ import { LogindataService } from 'src/app/services/logindata.service';
 export class MyArticlesComponent implements OnInit {
 
   backlink: string = "../";
+  cookie: UserCookie = {};
   userCookie: any = {};
   articles: Article[] = [];
   deleteArticle_url: string = constants.articleDeleteUrl;

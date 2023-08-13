@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
 import * as constants from '../../../constants/constants';
+import { UserCookie } from 'src/constants/types';
 
 @Component({
   selector: 'app-profile',
@@ -11,6 +12,7 @@ import * as constants from '../../../constants/constants';
 })
 export class ProfileComponent implements OnInit {
 
+  cookie: UserCookie = {};
   userCookie: any = {};
   menuItems: object[] = [
     {title: "Il mio account", text: "Personalizza le informazioni del tuo profilo", link: "info" },
@@ -22,6 +24,9 @@ export class ProfileComponent implements OnInit {
   constructor(private http:HttpClient, private api: ApiService, private router: Router) {
     //this.loginStatus(); 
     //this.observeFromService();
+    this.cookie = {
+      token_key: localStorage.getItem('token_key'), username: localStorage.getItem('username')
+    }
    }
 
   ngOnInit(): void {
