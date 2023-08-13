@@ -20,8 +20,8 @@ export class ProfileComponent implements OnInit {
   ]
 
   constructor(private http:HttpClient, private api: ApiService, private router: Router) {
-    this.loginStatus(); 
-    this.observeFromService();
+    //this.loginStatus(); 
+    //this.observeFromService();
    }
 
   ngOnInit(): void {

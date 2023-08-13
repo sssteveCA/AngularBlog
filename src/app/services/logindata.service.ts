@@ -10,15 +10,31 @@ import * as constants from '../../constants/constants';
 export class LogindataService {
 
   private userCookie = new Subject<UserCookie>();
-  private userCookieObservable = this.userCookie.asObservable();
+  public userCookieObservable = this.userCookie.asObservable();
 
   constructor(private http: HttpClient) {
   }
 
   /**
    * Check if user is still logged
+   * @returns 
    */
-  public async loginStatusRequest(): Promise<boolean>{
+  public async checkLoginStatus(): Promise<boolean>{
+    return await new Promise<boolean>((resolve,reject) => {
+      this.loginStatusRequest().then(logged => {
+        if(logged) resolve(true);
+        else{
+          this.removeItems();
+          reject(false);
+        } 
+      })
+    })
+  }
+
+  /**
+   * Check if user is still logged
+   */
+  private  async loginStatusRequest(): Promise<boolean>{
     let logged = false;
     const token_key = localStorage.getItem('token_key');
     const username = localStorage.getItem('username');

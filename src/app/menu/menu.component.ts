@@ -27,6 +27,8 @@ export class MenuComponent implements OnInit {
   menuColor: string = 'bg-dark';
 
   constructor(private http:HttpClient, private router:Router, private api: ApiService, private loginData: LogindataService) {
+    this.cookie.token_key = localStorage.getItem("token_key");
+    this.cookie.username = localStorage.getItem("username");
     this.userCookie["token_key"] = localStorage.getItem("token_key");
     this.userCookie["username"] = localStorage.getItem("username");
     this.observeFromService();
