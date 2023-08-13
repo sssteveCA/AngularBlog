@@ -47,4 +47,4 @@ export type EuParams = {
 export type UserCookie = {
     token_key?: string|null;
     username?: string|null;
-}
+};

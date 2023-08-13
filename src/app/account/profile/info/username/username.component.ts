@@ -68,7 +68,7 @@ export class UsernameComponent implements OnInit, OnChanges {
       if(obj[Keys.DONE]){
           localStorage.setItem('username', obj['new_username']);
           this.userCookie['username'] = localStorage.getItem('username');
-          this.cookie.username = localStorage.getItem('username');
+          (this.cookie).username = localStorage.getItem('username');
           this.loginData.changeUserCookieData({
             token_key: localStorage.getItem('token_key'),
             username: localStorage.getItem('username')

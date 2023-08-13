@@ -14,6 +14,7 @@ export class AppComponent {
   title = 'AngularBlog';
   path : string;
   cookie: UserCookie = {};
+  username: string|null;
 
   constructor(private router: Router, private api: ApiService, private loginData: LogindataService ){
     this.loginDataObserver();
@@ -27,10 +28,10 @@ export class AppComponent {
   loginDataObserver(): void{
     this.loginData.userCookieObservable.subscribe(userCookie => {
       if(userCookie && userCookie.token_key && userCookie.username && userCookie.token_key != "" && userCookie.username != ""){
-        this.cookie = userCookie;
+        this.username = userCookie.username;
       }
       else{
-        this.cookie = {}
+        this.username = null;
         this.loginData.removeItems();
       }
     })

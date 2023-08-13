@@ -19,12 +19,12 @@
           </li>
           <app-policy-item [menuColor]="menuColor"></app-policy-item>
         </ul>
-        <div *ngIf="cookie.username != null; then logged else notlogged" ></div>
+        <div *ngIf="username != null; then logged else notlogged" ></div>
         <!-- User logged-->
         <ng-template #logged>
           <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex justify-content-between col col-sm-2 offset-sm-2">
             <li class="nav-item">
-              <a class="nav-link" href="javascript:void(0)" [routerLink]="['/profile']">{{cookie.username}}</a>
+              <a class="nav-link" href="javascript:void(0)" [routerLink]="['/profile']">{{username}}</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="javascript:void(0)" (click)="logout()">Logout</a>

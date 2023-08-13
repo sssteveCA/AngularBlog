@@ -22,28 +22,22 @@ import { UserCookie } from 'src/constants/types';
 })
 export class MenuComponent implements OnInit, OnChanges {
 
-  @Input() cookie: UserCookie;
+  @Input() username: string|null;
   userCookie : any = {};
   menuColor: string = 'bg-dark';
 
   constructor(private http:HttpClient, private router:Router, private api: ApiService, private loginData: LogindataService) {
-    //this.loginDataObserver();
+    if(this.username == null && localStorage.getItem('username')){
+      this.loginData.removeItems();
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.cookie = changes['cookie'].currentValue;
-  }
-
-  loginDataObserver(): void{
-    this.loginData.userCookieObservable.subscribe(userCookie => {
-      if(userCookie && userCookie.token_key && userCookie.username && userCookie.token_key != "" && userCookie.username != ""){
-        this.cookie = userCookie;
-      }
-      else{
-        this.cookie = {}
-        this.loginData.removeItems();
-      }
-    })
+    this.username = changes['username'].currentValue;
+    if(this.username == null){
+      this.loginData.removeItems();
+    }
+    console.log(this.username)
   }
 
   //user wants  logout from his account
@@ -64,6 +58,7 @@ export class MenuComponent implements OnInit, OnChanges {
         if(obj[Keys.DONE] == true){
           this.loginData.removeItems();
           this.loginData.changeUserCookieData({});
+          this.username = null;
           this.api.removeItems();
           this.api.changeUserdata({});
           this.router.navigate([constants.logoutRedirect]);
