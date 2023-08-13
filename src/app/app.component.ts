@@ -38,8 +38,6 @@ export class AppComponent implements OnDestroy {
       }
       else{
         this.username = null;
-        this.loginData.removeItems();
-        this.loginData.changeUserCookieData({});
       }
     })
   }

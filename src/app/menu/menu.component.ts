@@ -34,11 +34,14 @@ export class MenuComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.username = changes['username'].currentValue;
-    if(this.username == null){
-      this.loginData.removeItems();
-      this.loginData.changeUserCookieData({});
+    if(changes['username'].currentValue != changes['username'].previousValue){
+      this.username = changes['username'].currentValue;
+      if(this.username == null){
+        this.loginData.removeItems();
+        this.loginData.changeUserCookieData({});
+      }
     }
+    
   }
 
   //user wants  logout from his account
