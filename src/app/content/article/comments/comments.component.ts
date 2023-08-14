@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Comment } from 'src/app/models/comment.model';
 import * as constants from "../../../../constants/constants";
 import { Messages } from 'src/constants/messages';
@@ -20,13 +20,15 @@ import UpdateComment from 'src/classes/requests/article/comment/updatecomment';
 import { messageDialog } from 'src/functions/functions';
 import { Keys } from 'src/constants/keys';
 import { LogindataService } from 'src/app/services/logindata.service';
+import { Subscription } from 'rxjs';
+import { UserCookie } from 'src/constants/types';
 
 @Component({
   selector: 'app-comments',
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.scss']
 })
-export class CommentsComponent implements OnInit,AfterViewInit {
+export class CommentsComponent implements OnInit,AfterViewInit, OnDestroy {
 
   @Input() permalink: string|null;
   addComment_url: string = constants.createComment;
@@ -42,19 +44,37 @@ export class CommentsComponent implements OnInit,AfterViewInit {
    newComment: FormControl = new FormControl('',Validators.required);
    oldComment_str: string;
    logged: boolean;
+   cookie: UserCookie = {};
    userCookie: any = {};
+   loginDataSubscription: Subscription;
 
 
   constructor(public http: HttpClient, public api: ApiService, public loginData: LogindataService) {
     //this.observeFromService();
    }
 
+   loginDataObserver(): void{
+    this.loginDataSubscription = this.loginData.userCookieObservable.subscribe(userCookie => {
+      this.cookie.username = userCookie.username;
+      this.cookie.token_key = userCookie.token_key;
+      this.logged = this.cookie.token_key ? true : false;
+    })
+  }
+
   ngAfterViewInit(): void {
     this.getCommnents();
   }
 
   ngOnInit(): void {
-    this.logged = localStorage.getItem('token_key') ? true : false;
+    this.loginDataObserver()
+    this.loginData.changeUserCookieData({
+      token_key: localStorage.getItem('token_key'), username: localStorage.getItem('username')
+    })
+    
+  }
+
+  ngOnDestroy(): void {
+    if(this.loginDataSubscription) this.loginDataSubscription.unsubscribe();
   }
 
   /**

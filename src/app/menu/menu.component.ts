@@ -34,13 +34,8 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   loginDataObserver(): void{
     this.loginDataSubscription = this.loginData.userCookieObservable.subscribe(userCookie => {
-      if(userCookie && userCookie.token_key && userCookie.username && userCookie.token_key != "" && userCookie.username != ""){
-        this.cookie.username = userCookie.username;
-        this.cookie.token_key = userCookie.token_key;
-      }
-      else{
-        this.cookie = {}
-      }
+      this.cookie.username = userCookie.username;
+      this.cookie.token_key = userCookie.token_key;
     })
   }
 
@@ -84,8 +79,9 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loginDataObserver()
-    this.cookie.username = localStorage.getItem('username');
-    this.cookie.token_key = localStorage.getItem('token_key');
+    this.loginData.changeUserCookieData({
+      token_key: localStorage.getItem('token_key'), username: localStorage.getItem('username')
+    })
   }
 
   ngOnDestroy(): void {
