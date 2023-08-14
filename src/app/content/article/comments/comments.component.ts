@@ -6,7 +6,6 @@ import { Messages } from 'src/constants/messages';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import MessageDialog from 'src/classes/dialogs/messagedialog';
-import { ApiService } from 'src/app/api.service';
 import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
 import AddCommentInterface from 'src/interfaces/requests/article/comment/addcomment.interface';
@@ -20,7 +19,6 @@ import UpdateComment from 'src/classes/requests/article/comment/updatecomment';
 import { messageDialog } from 'src/functions/functions';
 import { Keys } from 'src/constants/keys';
 import { LogindataService } from 'src/app/services/logindata.service';
-import { Subscription } from 'rxjs';
 import { UserCookie } from 'src/constants/types';
 
 @Component({

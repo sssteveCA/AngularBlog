@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ApiService } from 'src/app/api.service';
 import GetUserInfo from 'src/classes/requests/profile/getuserinfo';
 import { Keys } from 'src/constants/keys';
 import GetUserInfoInterface from 'src/interfaces/requests/profile/getuserinfo.interface';

@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import * as constants from 'src/constants/constants';
 import * as messages from 'src/messages/messages';
-import { ApiService } from 'src/app/api.service';
 import { Api2Service } from 'src/app/api2.service';
 import { Article } from 'src/app/models/article.model';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';

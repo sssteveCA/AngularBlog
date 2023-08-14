@@ -1,11 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService } from 'src/app/api.service';
 import { HistoryItem } from 'src/app/models/historyitem.model';
-import History from 'src/classes/requests/profile/gethistory';
 import { Keys } from 'src/constants/keys';
-import HistoryInterface from 'src/interfaces/requests/profile/gethistory.interface';
 import * as constants from '../../../../constants/constants';
 import GetHistory from 'src/classes/requests/profile/gethistory';
 import GetHistoryInterface from 'src/interfaces/requests/profile/gethistory.interface';

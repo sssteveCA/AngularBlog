@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { ApiService } from './api.service';
 import * as constants from '../constants/constants';
 import { LogindataService } from './services/logindata.service';
 import { UserCookie } from 'src/constants/types';
