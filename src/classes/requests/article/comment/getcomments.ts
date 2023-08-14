@@ -50,7 +50,9 @@ export default class GetComments{
 
     private async getCommentsPromise(): Promise<string>{
         return await new Promise<string>((resolve,reject)=>{
-            const headers: HttpHeaders = new HttpHeaders().set(Keys.AUTH, this._token_key as string);
+            const headers: HttpHeaders = new HttpHeaders();
+            if(this.token_key != null)
+                headers.set(Keys.AUTH, this._token_key as string)
             this._http.get(this._full_url,{
                 headers: headers, responseType: 'text'
             }).subscribe({
