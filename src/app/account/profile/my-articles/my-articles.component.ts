@@ -36,7 +36,7 @@ export class MyArticlesComponent implements OnInit {
   deleteArticle_url: string = constants.articleDeleteUrl;
   editArticle_url: string = constants.articleEditUrl;
   getArticles_url: string = constants.myArticlesUrl;
-  blog_url: string = Config.ANGULAR_MAIN_URL+constants.blogUrl;
+  blog_url: string = constants.blogUrl;
   message: string|null = null;
   messageSecondary: string = "Nessun articolo da mostrare";
   done: boolean = false; //True if request has returned article list
