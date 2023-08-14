@@ -6,6 +6,7 @@ import { Keys } from 'src/constants/keys';
 import SearchedArticlesInterface from 'src/interfaces/requests/article/searchedarticles.interface';
 import SearchedArticles from 'src/classes/requests/article/searchedarticles';
 import { Messages } from 'src/constants/messages';
+import { Config } from 'config';
 
 @Component({
   selector: 'app-blog',
@@ -14,6 +15,7 @@ import { Messages } from 'src/constants/messages';
 })
 export class BlogComponent implements OnInit {
 
+  blogUrl: string = constants.blogUrl;
   requestFailed: boolean = false;
   searchSpinner: boolean = false;
   spinnerId: string = "news-spinner"

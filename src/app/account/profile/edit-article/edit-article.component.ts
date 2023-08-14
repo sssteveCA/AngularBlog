@@ -1,10 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import * as constants from 'src/constants/constants';
 import * as messages from 'src/messages/messages';
-import { ApiService } from 'src/app/api.service';
 import { Api2Service } from 'src/app/api2.service';
 import { Article } from 'src/app/models/article.model';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
@@ -15,13 +14,16 @@ import UpdateArticleInterface from 'src/interfaces/requests/article/updatearticl
 import UpdateArticle from 'src/classes/requests/article/updatearticle';
 import { Messages } from 'src/constants/messages';
 import { Keys } from 'src/constants/keys';
+import { LogindataService } from 'src/app/services/logindata.service';
+import { UserCookie } from 'src/constants/types';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-edit-article',
   templateUrl: './edit-article.component.html',
   styleUrls: ['./edit-article.component.scss']
 })
-export class EditArticleComponent implements OnInit {
+export class EditArticleComponent implements OnInit, OnDestroy {
 
   article: Article = new Article();
   backlink: string = "../../";
@@ -34,18 +36,26 @@ export class EditArticleComponent implements OnInit {
   spinnerIdStart: string = "edit-article-start-spinner"
   title: string = "Modifica articolo";
   updateArticle_url: string = constants.articleEditScriptUrl;
-  userCookie: any = {};
+  cookie: UserCookie = {};
+  subscription: Subscription;
 
   constructor(
-    public http: HttpClient, public fb: FormBuilder, public api: ApiService, private router: Router, public route: ActivatedRoute, private api2: Api2Service) {
-    this.loginStatus();
-    this.observeFromService();
+    public http: HttpClient, public fb: FormBuilder, private router: Router, public route: ActivatedRoute, private api2: Api2Service, private loginData: LogindataService) {
+    /* this.loginStatus();
+    this.observeFromService(); */
     this.formBuild();
-    this.editArticleParams();
    }
+   
+   ngOnInit(): void {
+    this.editArticleParams();
+  }
+
+  ngOnDestroy(): void {
+    if(this.subscription) this.subscription.unsubscribe();
+  }
 
    editArticleParams(): void{
-    this.route.paramMap.subscribe((params: ParamMap) => {
+    this.subscription = this.route.paramMap.subscribe((params: ParamMap) => {
       let id = params.get('articleId');
       if(typeof id !== 'undefined' && id != null){
         this.article.id = id;
@@ -65,39 +75,7 @@ export class EditArticleComponent implements OnInit {
     });
    }
 
-   loginStatus(): void{
-    this.api.getLoginStatus().then(res => {
-      //Check if user is logged
-      if(res == true){
-        this.userCookie['token_key'] = localStorage.getItem("token_key");
-        this.userCookie['username'] = localStorage.getItem("username");
-        this.api.changeUserdata(this.userCookie);
-      }//if(res == true){
-      else{
-        this.api.removeItems();
-        this.userCookie = {};
-        this.api.changeUserdata(this.userCookie);
-        this.router.navigateByUrl(constants.notLoggedRedirect)
-      }
-    }).catch(err => {
-      this.api.removeItems();
-        this.userCookie = {};
-        this.api.changeUserdata(this.userCookie);
-        this.router.navigateByUrl(constants.notLoggedRedirect)
-    });
-   }
-
-   observeFromService(): void{
-    this.api.loginChanged.subscribe(logged => {
-    });
-    this.api.userChanged.subscribe(userdata => {
-      this.userCookie['token_key'] = userdata['token_key'];
-      this.userCookie['username'] = userdata['username'];
-    });
-   }
-
-  ngOnInit(): void {
-  }
+  
 
   //Get article info and put in inputs
   getArticleInfo(id: string,api2: Api2Service): void{
@@ -139,7 +117,7 @@ export class EditArticleComponent implements OnInit {
       const ua_data: UpdateArticleInterface = {
         article: this.article,
         http: this.http,
-        token_key: this.userCookie['token_key'],
+        token_key: localStorage.getItem("token_key") as string,
         url: this.updateArticle_url
       };
       this.showSpinner = true;
@@ -148,9 +126,9 @@ export class EditArticleComponent implements OnInit {
         this.showSpinner = false;
         if(obj[Keys.EXPIRED] == true){
           //Session expired
-          this.api.removeItems();
-          this.userCookie = {};
-          this.api.changeUserdata(this.userCookie);
+          this.loginData.removeItems();
+          this.loginData.changeUserCookieData({});
+          this.router.navigateByUrl(constants.notLoggedRedirect);
         }
         const data: MessageDialogInterface = {
           title: 'Modifica articolo',

@@ -1,8 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Article } from 'src/app/models/article.model';
-import { ApiService } from 'src/app/api.service';
-import * as functions from 'src/functions/functions';
 import * as constants from 'src/constants/constants';
 import * as messages from 'src/messages/messages';
 import { Router } from '@angular/router';
@@ -15,6 +13,8 @@ import { Messages } from 'src/constants/messages';
 import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
 import { Keys } from 'src/constants/keys';
+import { LogindataService } from 'src/app/services/logindata.service';
+import { UserCookie } from 'src/constants/types';
 
 @Component({
   selector: 'app-new-article',
@@ -29,12 +29,10 @@ export class NewArticleComponent implements OnInit {
   form: FormGroup;
   showSpinner: boolean = false;
   spinnerId: string = "new-article-spinner";
-  userCookie: any = {};
+  cookie: UserCookie = {}
   title: string = "Crea un nuovo articolo";
 
-  constructor(public http: HttpClient, public fb: FormBuilder, public api: ApiService, private router: Router) {
-    this.observeFromService();
-    this.loginStatus();
+  constructor(public http: HttpClient, public fb: FormBuilder, private router: Router, private loginData: LogindataService) {
     this.formBuild();
    }
 
@@ -49,28 +47,6 @@ export class NewArticleComponent implements OnInit {
       'permalink': ['',Validators.required],
       'categories': ['',Validators.pattern('^[a-zA-Z0-9,]*$')],
       'tags': ['',Validators.pattern('^[a-zA-Z0-9,]*$')]
-    });
-  }
-
-  loginStatus(): void{
-    this.api.getLoginStatus().then(res => {
-      //Check if user is logged
-      if(res == true){
-        this.userCookie['token_key'] = localStorage.getItem("token_key");
-        this.userCookie['username'] = localStorage.getItem("username");
-        this.api.changeUserdata(this.userCookie);
-      }//if(res == true){
-      else{
-        this.api.removeItems();
-        this.userCookie = {};
-        this.api.changeUserdata(this.userCookie);
-        this.router.navigate([constants.notLoggedRedirect]);
-      }
-    }).catch(err => {
-      this.api.removeItems();
-        this.userCookie = {};
-        this.api.changeUserdata(this.userCookie);
-        this.router.navigate([constants.notLoggedRedirect]);
     });
   }
 
@@ -117,7 +93,7 @@ export class NewArticleComponent implements OnInit {
     const aa_data: AddArticleInterface = {
       article: this.article,
       http: this.http,
-      token_key: this.userCookie['token_key'],
+      token_key: localStorage.getItem("token_key") as string,
       url: this.addArticle_url
     };
     let aa: AddArticle = new AddArticle(aa_data);
@@ -126,10 +102,9 @@ export class NewArticleComponent implements OnInit {
       this.showSpinner = false;
       if(obj[Keys.EXPIRED] == true){
         //session expired
-        this.api.removeItems();
-        this.userCookie = {};
-        this.api.changeUserdata(this.userCookie);
-        //this.router.navigateByUrl(constants.notLoggedRedirect);
+        this.loginData.removeItems();
+          this.loginData.changeUserCookieData({});
+          this.router.navigateByUrl(constants.notLoggedRedirect);
       }
       const md_data: MessageDialogInterface = {
         title: 'Creazione articolo',
@@ -152,15 +127,6 @@ export class NewArticleComponent implements OnInit {
         md.div_dialog.remove();
         document.body.style.overflow = 'auto';
       });
-    });
-  }
-
-  observeFromService(): void{
-    this.api.loginChanged.subscribe(logged => {
-    });
-    this.api.userChanged.subscribe(userdata => {
-      this.userCookie['token_key'] = userdata['token_key'];
-      this.userCookie['username'] = userdata['username'];
     });
   }
 

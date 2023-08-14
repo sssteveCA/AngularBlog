@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ApiService } from 'src/app/api.service';
 import GetUserInfo from 'src/classes/requests/profile/getuserinfo';
 import { Keys } from 'src/constants/keys';
 import GetUserInfoInterface from 'src/interfaces/requests/profile/getuserinfo.interface';
@@ -20,15 +19,14 @@ export class InfoComponent implements OnInit {
   namesObject: object = {};
   usernameObject: object = {};
   urlUserInfo: string = constants.profileGetUserInfoUrl;
-  userCookie: any = {};
   title: string = "Modifica il tuo account";
 
-  constructor(public http: HttpClient, public api: ApiService, public router: Router, public fb: FormBuilder) {
-    this.observeFromService();
-    this.getUserInfo();
+  constructor(public http: HttpClient, public router: Router, public fb: FormBuilder) {
+    
    }
 
   ngOnInit(): void {
+    this.getUserInfo();
   }
 
   private getUserInfo(): void{
@@ -54,34 +52,5 @@ export class InfoComponent implements OnInit {
       this.usernameObject = { 'done': false }
     })
   }
-
-  observeFromService(): void{
-    this.api.getLoginStatus().then(res => {
-      if(res == true){
-        this.userCookie['token_key'] = localStorage.getItem("token_key");
-        this.userCookie['username'] = localStorage.getItem("username");
-        this.api.changeUserdata(this.userCookie);
-      }//if(res == true){
-      else{
-        this.api.removeItems();
-        this.userCookie = {};
-        this.api.changeUserdata(this.userCookie);
-        this.router.navigateByUrl(constants.notLoggedRedirect);
-      }
-    }).catch(err => {
-      this.api.removeItems();
-        this.userCookie = {};
-        this.api.changeUserdata(this.userCookie);
-        this.router.navigateByUrl(constants.notLoggedRedirect);
-    });
-    this.api.loginChanged.subscribe(logged => {
-
-    });
-    this.api.userChanged.subscribe(userdata => {
-      this.userCookie['token_key'] = userdata['token_key'];
-      this.userCookie['username'] = userdata['username'];
-    });
-  }
-
   
 }

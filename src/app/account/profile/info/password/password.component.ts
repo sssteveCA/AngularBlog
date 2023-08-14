@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatCheckbox } from '@angular/material/checkbox';
-import { ApiService } from 'src/app/api.service';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
 import UpdatePassword from 'src/classes/requests/profile/updatepassword';
 import { Keys } from 'src/constants/keys';
@@ -13,6 +12,7 @@ import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interfa
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import UpdatePasswordInterface from 'src/interfaces/requests/profile/updatepassword.interface';
 import * as constants from '../../../../../constants/constants';
+import { LogindataService } from 'src/app/services/logindata.service';
 
 @Component({
   selector: 'app-password',
@@ -26,15 +26,14 @@ export class PasswordComponent implements OnInit {
   @ViewChild('confNewPwd', {static: false}) iConfNewPwd: ElementRef<HTMLInputElement>;
   @ViewChild('showPwd', {static: false}) cbShowPwd: MatCheckbox;
 
-  userCookie: any = {};
   groupEp: FormGroup; //Edit password form group
 
   updatePasswordUrl: string = constants.profileUpdatePasswordUrl;
   showPasswordSpinner: boolean = false;
   spinnerId: string = "password-spinner"
 
-  constructor(public http: HttpClient, public api: ApiService, public fb: FormBuilder) {
-    this.observeFromService();
+  constructor(public http: HttpClient, public fb: FormBuilder, private loginData: LogindataService) {
+    //this.observeFromService();
     this.setFormGroupPassword();
    }
 
@@ -47,7 +46,7 @@ export class PasswordComponent implements OnInit {
       http: this.http,
       new_password: ep_params.new_password,
       old_password: ep_params.old_password,
-      token_key: this.userCookie['token_key'],
+      token_key: localStorage.getItem('token_key') as string,
       url: this.updatePasswordUrl
     };
     let ep: UpdatePassword = new UpdatePassword(ep_data);
@@ -101,13 +100,6 @@ export class PasswordComponent implements OnInit {
         };
         messageDialog(md_data);
       }
-    }
-
-    private observeFromService(): void{
-      this.api.userChanged.subscribe(userdata => {
-        this.userCookie['token_key'] = userdata['token_key'];
-        this.userCookie['username'] = userdata['username'];
-      });
     }
 
     private setFormGroupPassword(): void{

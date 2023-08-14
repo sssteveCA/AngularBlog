@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ApiService } from 'src/app/api.service';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
 import UpdateNames from 'src/classes/requests/profile/updatenames';
 import { Keys } from 'src/constants/keys';
@@ -13,6 +12,7 @@ import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interfa
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import UpdateNamesInterface from 'src/interfaces/requests/profile/updatenames.interface';
 import * as constants from '../../../../../constants/constants';
+import { LogindataService } from 'src/app/services/logindata.service';
 
 @Component({
   selector: 'app-names',
@@ -21,7 +21,6 @@ import * as constants from '../../../../../constants/constants';
 })
 export class NamesComponent implements OnInit, OnChanges {
 
-  userCookie: any = {};
   updateNamesUrl: string = constants.profileUpdateNamesUrl;
   getNamesUrl: string = constants.profileGetNamesUrl;
   groupNames: FormGroup;
@@ -32,8 +31,8 @@ export class NamesComponent implements OnInit, OnChanges {
   @Input() namesObject: object;
   
 
-  constructor(public http: HttpClient, public api: ApiService, public router: Router, public fb: FormBuilder) { 
-    this.observeFromService();
+  constructor(public http: HttpClient, public router: Router, public fb: FormBuilder, private loginData: LogindataService) { 
+    //this.observeFromService();
     this.setFormGroupNames();
   }
 
@@ -53,7 +52,7 @@ export class NamesComponent implements OnInit, OnChanges {
   private editNamesRequest(en_params: EnParams): void{
     let un_data: UpdateNamesInterface = {
       http: this.http,
-      token_key: this.userCookie['token_key'],
+      token_key: localStorage.getItem('token_key') as string,
       new_name: en_params.name,
       new_surname: en_params.surname,
       url: this.updateNamesUrl
@@ -103,13 +102,6 @@ export class NamesComponent implements OnInit, OnChanges {
       };
       messageDialog(mdi);
     }
-  }
-
-  private observeFromService(): void{
-    this.api.userChanged.subscribe(userdata => {
-      this.userCookie['token_key'] = userdata['token_key'];
-      this.userCookie['username'] = userdata['username'];
-    });
   }
 
   private setFormGroupNames(): void{

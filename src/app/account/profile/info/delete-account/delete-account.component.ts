@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ApiService } from 'src/app/api.service';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
 import MessageDialog from 'src/classes/dialogs/messagedialog';
 import PasswordConfirmDialog from 'src/classes/dialogs/passwordconfirmdialog';
@@ -17,6 +16,7 @@ import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interfa
 import PasswordConfirmDialogInterface from 'src/interfaces/dialogs/passwordconfirmdialog.interface';
 import DeleteProfileInterface from 'src/interfaces/requests/profile/deleteprofile.interface';
 import * as constants from '../../../../../constants/constants';
+import { LogindataService } from 'src/app/services/logindata.service';
 
 @Component({
   selector: 'app-delete-account',
@@ -25,14 +25,11 @@ import * as constants from '../../../../../constants/constants';
 })
 export class DeleteAccountComponent implements OnInit {
 
-  userCookie: any = {};
-
   deleteProfileUrl: string = constants.profileDeleteUrl;
   showDeleteProfileSpinner: boolean = false;
   spinnerId: string = "delete-account-spinner"
 
-  constructor(public http: HttpClient, public api: ApiService, public fb: FormBuilder, public router: Router) {
-    this.observeFromService();
+  constructor(public http: HttpClient, public fb: FormBuilder, public router: Router, private loginData: LogindataService) {
    }
 
   ngOnInit(): void {
@@ -43,7 +40,7 @@ export class DeleteAccountComponent implements OnInit {
       conf_password: da_params.conf_password,
       http: this.http,
       password: da_params.password,
-      token_key: this.userCookie['token_key'],
+      token_key: localStorage.getItem('token_key') as string,
       url: this.deleteProfileUrl
     };
     let da: DeleteProfile = new DeleteProfile(da_data);
@@ -59,8 +56,8 @@ export class DeleteAccountComponent implements OnInit {
         md.div_dialog.remove();
         document.body.style.overflow = 'auto';
         if(obj[Keys.DONE] == true){
-          this.api.removeItems();
-          this.api.changeUserdata({});
+          this.loginData.removeItems();
+          this.loginData.changeUserCookieData({});
           this.router.navigateByUrl(constants.deleteAccountRedirect);
         }
       });
@@ -109,13 +106,6 @@ export class DeleteAccountComponent implements OnInit {
       cd.instance.dispose();
       cd.div_dialog.remove();
       document.body.style.overflow = 'auto';
-    });
-  }
-
-  private observeFromService(): void{
-    this.api.userChanged.subscribe(userdata => {
-      this.userCookie['token_key'] = userdata['token_key'];
-      this.userCookie['username'] = userdata['username'];
     });
   }
 

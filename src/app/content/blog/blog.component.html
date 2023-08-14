@@ -12,7 +12,7 @@
 <div id="articlesList" *ngIf="!searchSpinner && !requestFailed">
   <ng-template [ngIf]="done && !empty">
     <div class="container-fluid">
-      <app-article-list-item *ngFor="let article of articles" [article]="article"></app-article-list-item>
+      <app-article-list-item *ngFor="let article of articles" [article]="article" [blogUrl]="blogUrl"></app-article-list-item>
     </div>
   </ng-template>
 </div>

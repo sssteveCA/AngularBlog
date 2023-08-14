@@ -2,7 +2,7 @@
 <app-back [backlink]="backlink"></app-back>
 <div class="history-container pt-5">
     <app-block-spinner [spinnerId]="spinnerId" [showSpinner]="!notLoading"></app-block-spinner>
-    <div *ngIf="historyItems.length > 0; then historyItemsList; else historyItemsVoid"></div>
+    <div *ngIf="historyItems != null && historyItems.length > 0; then historyItemsList; else historyItemsVoid"></div>
     <ng-template #historyItemsList>
         <app-history-item 
             *ngFor="let item of historyItems" 

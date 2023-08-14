@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Article } from 'src/app/models/article.model';
 import { GetArticle } from 'src/classes/requests/article/getarticle';
 import * as constants from 'src/constants/constants';
@@ -13,7 +14,7 @@ import GetArticleInterface from 'src/interfaces/requests/article/getarticle.inte
   templateUrl: './article.component.html',
   styleUrls: ['./article.component.scss']
 })
-export class ArticleComponent implements OnInit {
+export class ArticleComponent implements OnInit, OnDestroy {
 
   article: string | null;
   articleObj: Article;
@@ -21,18 +22,23 @@ export class ArticleComponent implements OnInit {
   message: string;
   showSpinner: boolean = true;
   spinnerId: string = "news-spinner";
-  //articles: Article = new Array();
   getArticle_url: string = constants.articleView;
+  subscription: Subscription;
+  
 
   constructor(public route: ActivatedRoute, public http: HttpClient, private router: Router) {
-    this.articleParams();
    }
 
   ngOnInit(): void {
-    }
+    this.articleParams();
+  }
+
+  ngOnDestroy(): void {
+    if(this.subscription) this.subscription.unsubscribe();
+  }
 
     articleParams(): void{
-      this.route.paramMap.subscribe((params: ParamMap) => {
+      this.subscription = this.route.paramMap.subscribe((params: ParamMap) => {
         this.article = params.get('article');
         let permalink = (typeof this.article === "string")? this.article : "";
         this.getArticle(permalink);

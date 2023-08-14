@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
 import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
@@ -7,35 +7,33 @@ import MessageDialog from 'src/classes/dialogs/messagedialog';
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import * as constants from '../../constants/constants';
 import * as messages from '../../messages/messages';
-import { ApiService } from '../api.service';
 import { Keys } from 'src/constants/keys';
 import LogoutRequestInterface from 'src/interfaces/requests/logoutrequest.interface';
 import LogoutRequest from 'src/classes/requests/logoutrequest';
 import { messageDialog } from 'src/functions/functions';
+import { LogindataService } from '../services/logindata.service';
+import { UserCookie } from 'src/constants/types';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent implements OnInit, OnDestroy {
 
-  userCookie : any = {};
+  cookie: UserCookie = {}
   menuColor: string = 'bg-dark';
+  loginDataSubscription: Subscription;
 
-  constructor(private http:HttpClient, private router:Router, private api: ApiService) {
-    this.userCookie["token_key"] = localStorage.getItem("token_key");
-    this.userCookie["username"] = localStorage.getItem("username");
-    this.observeFromService();
-    this.api.getLoginStatus().then(logged => {
-      if(!logged){
-        localStorage.removeItem("token_key");
-        localStorage.removeItem("username");
-      }
-    }).catch(err => {
-      console.warn("GetLoginStatus err");
-      //console.warn(err);
-    });
+  constructor(private http:HttpClient, private router:Router, private loginData: LogindataService) {
+  }
+
+  loginDataObserver(): void{
+    this.loginDataSubscription = this.loginData.userCookieObservable.subscribe(userCookie => {
+      this.cookie.username = userCookie.username;
+      this.cookie.token_key = userCookie.token_key;
+    })
   }
 
   //user wants  logout from his account
@@ -49,22 +47,25 @@ export class MenuComponent implements OnInit {
       cd.instance.dispose();
       cd.div_dialog.remove();
       let lrData: LogoutRequestInterface = {
-        http: this.http, token_key: this.userCookie['token_key'], url: constants.logoutUrl
+        http: this.http, token_key: localStorage.getItem('token_key') as string, url: constants.logoutUrl
       }
       let lr: LogoutRequest = new LogoutRequest(lrData)
       lr.logout().then(obj => {
         if(obj[Keys.DONE] == true){
-          this.api.removeItems();
-          this.api.changeUserdata({});
-          this.router.navigate([constants.logoutRedirect]);
+          /* this.loginData.removeItems();
+          this.loginData.changeUserCookieData({});
+          this.router.navigateByUrl(constants.logoutRedirect); */
         }//if(obj[Keys.DONE] == true){
-        else{
+        this.loginData.removeItems();
+        this.loginData.changeUserCookieData({});
+        this.router.navigateByUrl(constants.logoutRedirect);
+        /* else{
           const mdData: MessageDialogInterface = {
             title: 'Logout',
             message: obj[Keys.MESSAGE]
           };
           messageDialog(mdData)
-        }
+        } */
       })
       
     });//cd.bt_yes.addEventListener('click', ()=>{
@@ -75,15 +76,14 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loginDataObserver()
+    this.loginData.changeUserCookieData({
+      token_key: localStorage.getItem('token_key'), username: localStorage.getItem('username')
+    })
   }
 
-  observeFromService(): void{
-    this.api.loginChanged.subscribe(logged => {
-    });
-    this.api.userChanged.subscribe(userdata => {
-      this.userCookie['token_key'] = userdata['token_key'];
-      this.userCookie['username'] = userdata['username'];
-    });
+  ngOnDestroy(): void {
+    if(this.loginDataSubscription) this.loginDataSubscription.unsubscribe();
   }
 
 }

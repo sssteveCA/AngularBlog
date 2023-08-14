@@ -2,16 +2,15 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ApiService } from 'src/app/api.service';
-import MessageDialog from 'src/classes/dialogs/messagedialog';
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import { Messages } from 'src/constants/messages';
 import * as constants from '../../../constants/constants';
 import LoginRequestInterface from 'src/interfaces/requests/loginrequest.interface';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import LoginRequest from 'src/classes/requests/loginrequest';
 import { messageDialog } from 'src/functions/functions';
 import { Keys } from 'src/constants/keys';
+import { LogindataService } from 'src/app/services/logindata.service';
+import { UserCookie } from 'src/constants/types';
 
 @Component({
   selector: 'app-login',
@@ -28,8 +27,9 @@ export class LoginComponent implements OnInit {
   showSpinner: boolean = false;
   spinnerId: string = "login-spinner";
   title: string = "Accedi";
+  cookie: UserCookie = {};
   userCookie : any = {};
-  constructor(private fb: FormBuilder,private router: Router, private http:HttpClient, private api: ApiService) {
+  constructor(private fb: FormBuilder,private router: Router, private http:HttpClient, private loginData: LogindataService) {
     this.loginForm = fb.group({
       'username' : ['',Validators.compose([Validators.required,Validators.minLength(5)])],
       'password' : ['',Validators.compose([Validators.required,Validators.minLength(6)])]
@@ -63,7 +63,9 @@ export class LoginComponent implements OnInit {
         localStorage.setItem("username",obj["username"]);
         this.userCookie["token_key"] = localStorage.getItem("token_key");
         this.userCookie["username"] = localStorage.getItem("username");
-        this.api.changeUserdata(this.userCookie);
+        this.loginData.changeUserCookieData({
+          token_key: localStorage.getItem("token_key"), 
+          username: localStorage.getItem("username") })
         this.router.navigate([constants.loginRedirect]);
       }
       else{
