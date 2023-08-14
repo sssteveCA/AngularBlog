@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService } from 'src/app/api.service';
 import * as constants from 'src/constants/constants';
 import * as messages from 'src/messages/messages';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
@@ -31,12 +30,11 @@ export class MyArticlesComponent implements OnInit {
 
   backlink: string = "../";
   cookie: UserCookie = {};
-  userCookie: any = {};
   articles: Article[] = [];
   deleteArticle_url: string = constants.articleDeleteUrl;
   editArticle_url: string = constants.articleEditUrl;
   getArticles_url: string = constants.myArticlesUrl;
-  blog_url: string = Config.ANGULAR_MAIN_URL+constants.blogUrl;
+  blog_url: string = constants.blogUrl;
   message: string|null = null;
   messageSecondary: string = "Nessun articolo da mostrare";
   done: boolean = false; //True if request has returned article list
@@ -45,7 +43,7 @@ export class MyArticlesComponent implements OnInit {
   spinnerShow: number = -1; //Spinner to show specifying the position whe delete button click occurs
   title: string = "I miei articoli";
 
-  constructor(public http: HttpClient, public api: ApiService,private router: Router, private loginData: LogindataService) {
+  constructor(public http: HttpClient,private router: Router, private loginData: LogindataService) {
    }
 
   ngOnInit(): void {
@@ -76,9 +74,7 @@ export class MyArticlesComponent implements OnInit {
           //Session expired
           this.loginData.removeItems();
           this.loginData.changeUserCookieData({});
-          this.api.removeItems();
-          this.userCookie = {};
-          this.api.changeUserdata(this.userCookie);
+          this.router.navigateByUrl(constants.notLoggedRedirect);
         }
         let md_data: MessageDialogInterface = {
           title: 'Rimuovi articolo',

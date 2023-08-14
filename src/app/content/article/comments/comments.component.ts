@@ -1,12 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Comment } from 'src/app/models/comment.model';
 import * as constants from "../../../../constants/constants";
 import { Messages } from 'src/constants/messages';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import MessageDialog from 'src/classes/dialogs/messagedialog';
-import { ApiService } from 'src/app/api.service';
 import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
 import AddCommentInterface from 'src/interfaces/requests/article/comment/addcomment.interface';
@@ -19,6 +18,8 @@ import UpdateCommentInterface from 'src/interfaces/requests/article/comment/upda
 import UpdateComment from 'src/classes/requests/article/comment/updatecomment';
 import { messageDialog } from 'src/functions/functions';
 import { Keys } from 'src/constants/keys';
+import { LogindataService } from 'src/app/services/logindata.service';
+import { UserCookie } from 'src/constants/types';
 
 @Component({
   selector: 'app-comments',
@@ -41,10 +42,10 @@ export class CommentsComponent implements OnInit,AfterViewInit {
    newComment: FormControl = new FormControl('',Validators.required);
    oldComment_str: string;
    logged: boolean;
-   userCookie: any = {};
+   cookie: UserCookie = {};
 
 
-  constructor(public http: HttpClient, public api: ApiService) {
+  constructor(public http: HttpClient, public loginData: LogindataService) {
     //this.observeFromService();
    }
 
@@ -53,7 +54,8 @@ export class CommentsComponent implements OnInit,AfterViewInit {
   }
 
   ngOnInit(): void {
-
+    this.logged = localStorage.getItem('token_key') != null ? true : false;
+    
   }
 
   /**

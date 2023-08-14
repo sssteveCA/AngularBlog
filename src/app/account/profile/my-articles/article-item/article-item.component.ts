@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
 import { Article } from 'src/app/models/article.model';
 
 @Component({
@@ -19,7 +20,7 @@ export class ArticleItemComponent implements OnInit, OnChanges {
   showSpinnerBool: boolean = false;
   spinnerId: string = "article-item-spinner"
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if(!changes['spinnerShow'].firstChange)
