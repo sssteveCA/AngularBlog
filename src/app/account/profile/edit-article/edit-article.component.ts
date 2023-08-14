@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import * as constants from 'src/constants/constants';
@@ -17,13 +17,14 @@ import { Messages } from 'src/constants/messages';
 import { Keys } from 'src/constants/keys';
 import { LogindataService } from 'src/app/services/logindata.service';
 import { UserCookie } from 'src/constants/types';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-edit-article',
   templateUrl: './edit-article.component.html',
   styleUrls: ['./edit-article.component.scss']
 })
-export class EditArticleComponent implements OnInit {
+export class EditArticleComponent implements OnInit, OnDestroy {
 
   article: Article = new Article();
   backlink: string = "../../";
@@ -37,18 +38,25 @@ export class EditArticleComponent implements OnInit {
   title: string = "Modifica articolo";
   updateArticle_url: string = constants.articleEditScriptUrl;
   cookie: UserCookie = {};
-  userCookie: any = {};
+  subscription: Subscription;
 
   constructor(
     public http: HttpClient, public fb: FormBuilder, private router: Router, public route: ActivatedRoute, private api2: Api2Service, private loginData: LogindataService) {
     /* this.loginStatus();
     this.observeFromService(); */
     this.formBuild();
-    this.editArticleParams();
    }
+   
+   ngOnInit(): void {
+    this.editArticleParams();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
    editArticleParams(): void{
-    this.route.paramMap.subscribe((params: ParamMap) => {
+    this.subscription = this.route.paramMap.subscribe((params: ParamMap) => {
       let id = params.get('articleId');
       if(typeof id !== 'undefined' && id != null){
         this.article.id = id;
@@ -68,8 +76,7 @@ export class EditArticleComponent implements OnInit {
     });
    }
 
-  ngOnInit(): void {
-  }
+  
 
   //Get article info and put in inputs
   getArticleInfo(id: string,api2: Api2Service): void{
