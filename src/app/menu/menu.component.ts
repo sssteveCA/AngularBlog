@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
 import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interface';
@@ -14,34 +14,34 @@ import LogoutRequest from 'src/classes/requests/logoutrequest';
 import { messageDialog } from 'src/functions/functions';
 import { LogindataService } from '../services/logindata.service';
 import { UserCookie } from 'src/constants/types';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']
 })
-export class MenuComponent implements OnInit, OnChanges {
+export class MenuComponent implements OnInit, OnDestroy {
 
-  @Input() username: string|null;
+  cookie: UserCookie = {}
   userCookie : any = {};
   menuColor: string = 'bg-dark';
+  loginDataSubscription: Subscription;
 
   constructor(private http:HttpClient, private router:Router, private api: ApiService, private loginData: LogindataService) {
-    if(this.username == null && localStorage.getItem('username')){
-      this.loginData.removeItems();
-      this.loginData.changeUserCookieData({});
-    }
+    console.log(localStorage)
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if(changes['username'].currentValue != changes['username'].previousValue){
-      this.username = changes['username'].currentValue;
-      if(this.username == null){
-        this.loginData.removeItems();
-        this.loginData.changeUserCookieData({});
+  loginDataObserver(): void{
+    this.loginDataSubscription = this.loginData.userCookieObservable.subscribe(userCookie => {
+      if(userCookie && userCookie.token_key && userCookie.username && userCookie.token_key != "" && userCookie.username != ""){
+        this.cookie.username = userCookie.username;
+        this.cookie.token_key = userCookie.token_key;
       }
-    }
-    
+      else{
+        this.cookie = {}
+      }
+    })
   }
 
   //user wants  logout from his account
@@ -62,7 +62,6 @@ export class MenuComponent implements OnInit, OnChanges {
         if(obj[Keys.DONE] == true){
           this.loginData.removeItems();
           this.loginData.changeUserCookieData({});
-          this.username = null;
           this.api.removeItems();
           this.api.changeUserdata({});
           this.router.navigate([constants.logoutRedirect]);
@@ -84,6 +83,11 @@ export class MenuComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    this.loginDataObserver()
+  }
+
+  ngOnDestroy(): void {
+    if(this.loginDataSubscription) this.loginDataSubscription.unsubscribe();
   }
 
 }

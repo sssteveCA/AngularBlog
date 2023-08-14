@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Article } from 'src/app/models/article.model';
 
 @Component({
@@ -10,7 +11,7 @@ export class ArticleListItemComponent implements OnInit {
 
   @Input() article: Article;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -21,7 +22,7 @@ export class ArticleListItemComponent implements OnInit {
    */
   onClickItem(permalink: string): void{
     let url: string = `blog/${permalink}`;
-    window.open(url);
+    this.router.navigateByUrl(url);
   }
 
 }

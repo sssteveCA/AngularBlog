@@ -11,15 +11,11 @@ import { Subscription } from 'rxjs';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent {
   title = 'AngularBlog';
   path : string;
-  cookie: UserCookie = {};
-  username: string|null;
-  loginDataSubscription: Subscription;
 
-  constructor(private router: Router, private api: ApiService, private loginData: LogindataService ){
-    this.loginDataObserver();
+  constructor(private router: Router, private loginData: LogindataService ){
     this.router.events.subscribe((event) => {
       if(event instanceof NavigationEnd){
         this.path = event.url.split('?')[0];
@@ -27,20 +23,7 @@ export class AppComponent implements OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.loginDataSubscription.unsubscribe();
-  }
-
-  loginDataObserver(): void{
-    this.loginDataSubscription = this.loginData.userCookieObservable.subscribe(userCookie => {
-      if(userCookie && userCookie.token_key && userCookie.username && userCookie.token_key != "" && userCookie.username != ""){
-        this.username = userCookie.username;
-      }
-      else{
-        this.username = null;
-      }
-    })
-  }
+  
 
   //show the background-image
   backgroundStyle() : Object{
