@@ -13,6 +13,7 @@ import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interfa
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import UpdateNamesInterface from 'src/interfaces/requests/profile/updatenames.interface';
 import * as constants from '../../../../../constants/constants';
+import { LogindataService } from 'src/app/services/logindata.service';
 
 @Component({
   selector: 'app-names',
@@ -21,7 +22,6 @@ import * as constants from '../../../../../constants/constants';
 })
 export class NamesComponent implements OnInit, OnChanges {
 
-  userCookie: any = {};
   updateNamesUrl: string = constants.profileUpdateNamesUrl;
   getNamesUrl: string = constants.profileGetNamesUrl;
   groupNames: FormGroup;
@@ -32,7 +32,7 @@ export class NamesComponent implements OnInit, OnChanges {
   @Input() namesObject: object;
   
 
-  constructor(public http: HttpClient, public api: ApiService, public router: Router, public fb: FormBuilder) { 
+  constructor(public http: HttpClient, public router: Router, public fb: FormBuilder, private loginData: LogindataService) { 
     //this.observeFromService();
     this.setFormGroupNames();
   }
@@ -103,13 +103,6 @@ export class NamesComponent implements OnInit, OnChanges {
       };
       messageDialog(mdi);
     }
-  }
-
-  private observeFromService(): void{
-    this.api.userChanged.subscribe(userdata => {
-      this.userCookie['token_key'] = userdata['token_key'];
-      this.userCookie['username'] = userdata['username'];
-    });
   }
 
   private setFormGroupNames(): void{

@@ -13,6 +13,7 @@ import ConfirmDialogInterface from 'src/interfaces/dialogs/confirmdialog.interfa
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import UpdatePasswordInterface from 'src/interfaces/requests/profile/updatepassword.interface';
 import * as constants from '../../../../../constants/constants';
+import { LogindataService } from 'src/app/services/logindata.service';
 
 @Component({
   selector: 'app-password',
@@ -26,14 +27,13 @@ export class PasswordComponent implements OnInit {
   @ViewChild('confNewPwd', {static: false}) iConfNewPwd: ElementRef<HTMLInputElement>;
   @ViewChild('showPwd', {static: false}) cbShowPwd: MatCheckbox;
 
-  userCookie: any = {};
   groupEp: FormGroup; //Edit password form group
 
   updatePasswordUrl: string = constants.profileUpdatePasswordUrl;
   showPasswordSpinner: boolean = false;
   spinnerId: string = "password-spinner"
 
-  constructor(public http: HttpClient, public api: ApiService, public fb: FormBuilder) {
+  constructor(public http: HttpClient, public fb: FormBuilder, private loginData: LogindataService) {
     //this.observeFromService();
     this.setFormGroupPassword();
    }
@@ -101,13 +101,6 @@ export class PasswordComponent implements OnInit {
         };
         messageDialog(md_data);
       }
-    }
-
-    private observeFromService(): void{
-      this.api.userChanged.subscribe(userdata => {
-        this.userCookie['token_key'] = userdata['token_key'];
-        this.userCookie['username'] = userdata['username'];
-      });
     }
 
     private setFormGroupPassword(): void{
