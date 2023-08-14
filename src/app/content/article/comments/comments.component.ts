@@ -19,6 +19,7 @@ import UpdateCommentInterface from 'src/interfaces/requests/article/comment/upda
 import UpdateComment from 'src/classes/requests/article/comment/updatecomment';
 import { messageDialog } from 'src/functions/functions';
 import { Keys } from 'src/constants/keys';
+import { LogindataService } from 'src/app/services/logindata.service';
 
 @Component({
   selector: 'app-comments',
@@ -44,7 +45,7 @@ export class CommentsComponent implements OnInit,AfterViewInit {
    userCookie: any = {};
 
 
-  constructor(public http: HttpClient, public api: ApiService) {
+  constructor(public http: HttpClient, public api: ApiService, public loginData: LogindataService) {
     //this.observeFromService();
    }
 
@@ -53,7 +54,7 @@ export class CommentsComponent implements OnInit,AfterViewInit {
   }
 
   ngOnInit(): void {
-
+    this.logged = localStorage.getItem('token_key') ? true : false;
   }
 
   /**
