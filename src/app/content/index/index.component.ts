@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { PassvariablesService } from 'src/app/services/passvariables.service';
 
 @Component({
@@ -6,9 +7,10 @@ import { PassvariablesService } from 'src/app/services/passvariables.service';
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss']
 })
-export class IndexComponent implements OnInit {
+export class IndexComponent implements OnInit, OnDestroy {
 
   text_container: string = "";
+  subscription: Subscription;
 
   constructor(private pvs: PassvariablesService) {
     
@@ -18,8 +20,12 @@ export class IndexComponent implements OnInit {
     this.passVariablesObserver();
   }
 
+  ngOnDestroy(): void {
+    if(this.subscription) this.subscription.unsubscribe();
+  }
+
   passVariablesObserver(): void{
-    this.pvs.textContainer$.subscribe(tc_class => {
+    this.subscription = this.pvs.textContainer$.subscribe(tc_class => {
       this.text_container = tc_class;
     });
   }
