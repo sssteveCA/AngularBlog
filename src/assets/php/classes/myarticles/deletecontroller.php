@@ -108,8 +108,8 @@ HTML
         $this->errno = 0;
         $article_id = $this->article->getId();
         $filter = ['_id' => new ObjectId($article_id)];
-        //$article_delete = $this->article->article_delete($filter);
-        $article_delete = true;
+        $article_delete = $this->article->article_delete($filter);
+        //$article_delete = true;
         if($article_delete)
             $del = true;
         else{
