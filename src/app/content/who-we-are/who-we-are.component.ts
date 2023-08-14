@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { PassvariablesService } from 'src/app/services/passvariables.service';
 
 @Component({
@@ -10,16 +11,22 @@ export class WhoWeAreComponent implements OnInit {
 
   backlink: string = "/";
   text_container: string = "";
+  subscription: Subscription;
 
   constructor(private pvs: PassvariablesService) { 
-    this.passVariablesObserver();
+    
   }
 
   ngOnInit(): void {
+    this.passVariablesObserver();
+  }
+
+  ngOnDestroy(): void {
+    if(this.subscription) this.subscription.unsubscribe();
   }
 
   passVariablesObserver(): void{
-    this.pvs.textContainer$.subscribe(tc_class => {
+    this.subscription = this.pvs.textContainer$.subscribe(tc_class => {
       this.text_container = tc_class;
     });
   }
