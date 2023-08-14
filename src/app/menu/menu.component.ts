@@ -24,11 +24,10 @@ import { Subscription } from 'rxjs';
 export class MenuComponent implements OnInit, OnDestroy {
 
   cookie: UserCookie = {}
-  userCookie : any = {};
   menuColor: string = 'bg-dark';
   loginDataSubscription: Subscription;
 
-  constructor(private http:HttpClient, private router:Router, private api: ApiService, private loginData: LogindataService) {
+  constructor(private http:HttpClient, private router:Router, private loginData: LogindataService) {
   }
 
   loginDataObserver(): void{
@@ -56,9 +55,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         if(obj[Keys.DONE] == true){
           this.loginData.removeItems();
           this.loginData.changeUserCookieData({});
-          this.api.removeItems();
-          this.api.changeUserdata({});
-          this.router.navigate([constants.logoutRedirect]);
+          this.router.navigateByUrl(constants.logoutRedirect);
         }//if(obj[Keys.DONE] == true){
         else{
           const mdData: MessageDialogInterface = {
