@@ -10,6 +10,7 @@ import { Article } from 'src/app/models/article.model';
 export class ArticleListItemComponent implements OnInit {
 
   @Input() article: Article;
+  @Input() blogUrl: string;
 
   constructor(private router: Router) { }
 
