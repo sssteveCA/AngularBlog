@@ -7,7 +7,6 @@ import MessageDialog from 'src/classes/dialogs/messagedialog';
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import * as constants from '../../constants/constants';
 import * as messages from '../../messages/messages';
-import { ApiService } from '../api.service';
 import { Keys } from 'src/constants/keys';
 import LogoutRequestInterface from 'src/interfaces/requests/logoutrequest.interface';
 import LogoutRequest from 'src/classes/requests/logoutrequest';

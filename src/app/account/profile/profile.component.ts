@@ -1,8 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService } from 'src/app/api.service';
-import * as constants from '../../../constants/constants';
 import { UserCookie } from 'src/constants/types';
 
 @Component({

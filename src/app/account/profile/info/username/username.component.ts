@@ -12,7 +12,6 @@ import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interfa
 import { messageDialog } from 'src/functions/functions';
 import UpdateUsernameInterface from 'src/interfaces/requests/profile/updateusername.interface';
 import UpdateUsername from 'src/classes/requests/profile/updateusername';
-import { ApiService } from 'src/app/api.service';
 import PasswordDialogInterface from 'src/interfaces/dialogs/passworddialog.interface';
 import PasswordDialog from 'src/classes/dialogs/passworddialog';
 import { EuParams, UserCookie } from 'src/constants/types';
@@ -28,7 +27,6 @@ import { LogindataService } from 'src/app/services/logindata.service';
 export class UsernameComponent implements OnInit, OnChanges {
 
   cookie: UserCookie = {}
-  userCookie: any = {};
   groupEu: FormGroup; //Edit username form group
   getUsernameUrl: string = constants.profileGetUsernameUrl;
   updateUsernameUrl: string = constants.profileUpdateUsernameUrl;
@@ -38,7 +36,7 @@ export class UsernameComponent implements OnInit, OnChanges {
   messageError: string = "Impossibile rilevare il tuo nome utente";
   @Input() usernameObject: object;
 
-  constructor(public http: HttpClient, public fb: FormBuilder, public api: ApiService, public router: Router, private loginData: LogindataService) {
+  constructor(public http: HttpClient, public fb: FormBuilder, public router: Router, private loginData: LogindataService) {
     this.setFormGroupUsername();
    }
 
@@ -67,13 +65,11 @@ export class UsernameComponent implements OnInit, OnChanges {
     uu.updateUsername().then(obj => {
       if(obj[Keys.DONE]){
           localStorage.setItem('username', obj['new_username']);
-          this.userCookie['username'] = localStorage.getItem('username');
           (this.cookie).username = localStorage.getItem('username');
           this.loginData.changeUserCookieData({
             token_key: localStorage.getItem('token_key'),
             username: localStorage.getItem('username')
           })
-          this.api.changeUserdata(this.userCookie);
           let md_data: MessageDialogInterface = {
             title: "Modifica nome utente",
             message: obj[Keys.MESSAGE]
@@ -84,9 +80,6 @@ export class UsernameComponent implements OnInit, OnChanges {
         if(obj[Keys.EXPIRED] == true){
           this.loginData.removeItems();
           this.loginData.changeUserCookieData({});
-          this.api.removeItems();
-          this.userCookie = {};
-          this.api.changeUserdata(this.userCookie);
           this.router.navigateByUrl(constants.notLoggedRedirect);
         }
         else{

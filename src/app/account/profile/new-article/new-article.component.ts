@@ -1,8 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Article } from 'src/app/models/article.model';
-import { ApiService } from 'src/app/api.service';
-import * as functions from 'src/functions/functions';
 import * as constants from 'src/constants/constants';
 import * as messages from 'src/messages/messages';
 import { Router } from '@angular/router';

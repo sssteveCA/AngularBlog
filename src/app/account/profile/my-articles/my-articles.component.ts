@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService } from 'src/app/api.service';
 import * as constants from 'src/constants/constants';
 import * as messages from 'src/messages/messages';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
