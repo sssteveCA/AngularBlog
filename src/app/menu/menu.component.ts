@@ -29,7 +29,6 @@ export class MenuComponent implements OnInit, OnDestroy {
   loginDataSubscription: Subscription;
 
   constructor(private http:HttpClient, private router:Router, private api: ApiService, private loginData: LogindataService) {
-    console.log(localStorage)
   }
 
   loginDataObserver(): void{

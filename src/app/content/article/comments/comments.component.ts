@@ -57,7 +57,7 @@ export class CommentsComponent implements OnInit,AfterViewInit, OnDestroy {
     this.loginDataSubscription = this.loginData.userCookieObservable.subscribe(userCookie => {
       this.cookie.username = userCookie.username;
       this.cookie.token_key = userCookie.token_key;
-      this.logged = this.cookie.token_key ? true : false;
+      this.logged = this.cookie.token_key && this.cookie.token_key != null ? true : false;
     })
   }
 
