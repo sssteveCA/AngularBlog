@@ -35,8 +35,6 @@ export class HistoryComponent implements OnInit {
   spinnerId: string = "history-spinner"
 
   constructor(private http: HttpClient, private router: Router) {
-    /* this.loginStatus(); 
-    this.observeFromService(); */
     this.getHistory();
    }
 

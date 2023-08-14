@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
   title: string = "Accedi";
   cookie: UserCookie = {};
   userCookie : any = {};
-  constructor(private fb: FormBuilder,private router: Router, private http:HttpClient, private api: ApiService, private loginData: LogindataService) {
+  constructor(private fb: FormBuilder,private router: Router, private http:HttpClient, private loginData: LogindataService) {
     this.loginForm = fb.group({
       'username' : ['',Validators.compose([Validators.required,Validators.minLength(5)])],
       'password' : ['',Validators.compose([Validators.required,Validators.minLength(6)])]
@@ -69,7 +69,6 @@ export class LoginComponent implements OnInit {
         this.loginData.changeUserCookieData({
           token_key: localStorage.getItem("token_key"), 
           username: localStorage.getItem("username") })
-        this.api.changeUserdata(this.userCookie);
         this.router.navigate([constants.loginRedirect]);
       }
       else{

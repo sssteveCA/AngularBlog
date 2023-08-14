@@ -31,7 +31,6 @@ export class MyArticlesComponent implements OnInit {
 
   backlink: string = "../";
   cookie: UserCookie = {};
-  userCookie: any = {};
   articles: Article[] = [];
   deleteArticle_url: string = constants.articleDeleteUrl;
   editArticle_url: string = constants.articleEditUrl;
@@ -45,7 +44,7 @@ export class MyArticlesComponent implements OnInit {
   spinnerShow: number = -1; //Spinner to show specifying the position whe delete button click occurs
   title: string = "I miei articoli";
 
-  constructor(public http: HttpClient, public api: ApiService,private router: Router, private loginData: LogindataService) {
+  constructor(public http: HttpClient,private router: Router, private loginData: LogindataService) {
    }
 
   ngOnInit(): void {
@@ -76,9 +75,7 @@ export class MyArticlesComponent implements OnInit {
           //Session expired
           this.loginData.removeItems();
           this.loginData.changeUserCookieData({});
-          this.api.removeItems();
-          this.userCookie = {};
-          this.api.changeUserdata(this.userCookie);
+          this.router.navigateByUrl(constants.notLoggedRedirect);
         }
         let md_data: MessageDialogInterface = {
           title: 'Rimuovi articolo',

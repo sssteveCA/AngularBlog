@@ -28,7 +28,7 @@ import { UserCookie } from 'src/constants/types';
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.scss']
 })
-export class CommentsComponent implements OnInit,AfterViewInit, OnDestroy {
+export class CommentsComponent implements OnInit,AfterViewInit {
 
   @Input() permalink: string|null;
   addComment_url: string = constants.createComment;
@@ -46,35 +46,19 @@ export class CommentsComponent implements OnInit,AfterViewInit, OnDestroy {
    logged: boolean;
    cookie: UserCookie = {};
    userCookie: any = {};
-   loginDataSubscription: Subscription;
 
 
   constructor(public http: HttpClient, public api: ApiService, public loginData: LogindataService) {
     //this.observeFromService();
    }
 
-   loginDataObserver(): void{
-    this.loginDataSubscription = this.loginData.userCookieObservable.subscribe(userCookie => {
-      this.cookie.username = userCookie.username;
-      this.cookie.token_key = userCookie.token_key;
-      this.logged = this.cookie.token_key && this.cookie.token_key != null ? true : false;
-    })
-  }
-
   ngAfterViewInit(): void {
     this.getCommnents();
   }
 
   ngOnInit(): void {
-    this.loginDataObserver()
-    this.loginData.changeUserCookieData({
-      token_key: localStorage.getItem('token_key'), username: localStorage.getItem('username')
-    })
+    this.logged = localStorage.getItem('token_key') != null ? true : false;
     
-  }
-
-  ngOnDestroy(): void {
-    if(this.loginDataSubscription) this.loginDataSubscription.unsubscribe();
   }
 
   /**
