@@ -40,7 +40,7 @@ export class EditArticleComponent implements OnInit {
   userCookie: any = {};
 
   constructor(
-    public http: HttpClient, public fb: FormBuilder, public api: ApiService, private router: Router, public route: ActivatedRoute, private api2: Api2Service, private loginData: LogindataService) {
+    public http: HttpClient, public fb: FormBuilder, private router: Router, public route: ActivatedRoute, private api2: Api2Service, private loginData: LogindataService) {
     /* this.loginStatus();
     this.observeFromService(); */
     this.formBuild();
@@ -122,9 +122,7 @@ export class EditArticleComponent implements OnInit {
           //Session expired
           this.loginData.removeItems();
           this.loginData.changeUserCookieData({});
-          this.api.removeItems();
-          this.userCookie = {};
-          this.api.changeUserdata(this.userCookie);
+          this.router.navigateByUrl(constants.notLoggedRedirect);
         }
         const data: MessageDialogInterface = {
           title: 'Modifica articolo',
