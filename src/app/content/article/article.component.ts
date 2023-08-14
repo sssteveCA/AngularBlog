@@ -21,8 +21,8 @@ export class ArticleComponent implements OnInit {
   message: string;
   showSpinner: boolean = true;
   spinnerId: string = "news-spinner";
-  //articles: Article = new Array();
   getArticle_url: string = constants.articleView;
+  
 
   constructor(public route: ActivatedRoute, public http: HttpClient, private router: Router) {
     this.articleParams();

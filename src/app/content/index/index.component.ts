@@ -11,11 +11,11 @@ export class IndexComponent implements OnInit {
   text_container: string = "";
 
   constructor(private pvs: PassvariablesService) {
-    this.passVariablesObserver();
+    
   }
 
   ngOnInit(): void {
-    
+    this.passVariablesObserver();
   }
 
   passVariablesObserver(): void{
