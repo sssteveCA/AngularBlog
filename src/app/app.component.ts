@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { ApiService } from './api.service';
 import * as constants from '../constants/constants';
@@ -11,16 +11,23 @@ import { Subscription } from 'rxjs';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'AngularBlog';
   path : string;
+  subscription: Subscription;
 
-  constructor(private router: Router, private loginData: LogindataService ){
-    this.router.events.subscribe((event) => {
+  constructor(private router: Router){
+  }
+  ngOnInit(): void {
+    this.subscription = this.router.events.subscribe((event) => {
       if(event instanceof NavigationEnd){
         this.path = event.url.split('?')[0];
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   
