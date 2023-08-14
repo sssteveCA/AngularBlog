@@ -32,10 +32,9 @@ export class NewArticleComponent implements OnInit {
   showSpinner: boolean = false;
   spinnerId: string = "new-article-spinner";
   cookie: UserCookie = {}
-  userCookie: any = {};
   title: string = "Crea un nuovo articolo";
 
-  constructor(public http: HttpClient, public fb: FormBuilder, public api: ApiService, private router: Router, private loginData: LogindataService) {
+  constructor(public http: HttpClient, public fb: FormBuilder, private router: Router, private loginData: LogindataService) {
     this.formBuild();
    }
 
@@ -106,11 +105,8 @@ export class NewArticleComponent implements OnInit {
       if(obj[Keys.EXPIRED] == true){
         //session expired
         this.loginData.removeItems();
-        this.loginData.changeUserCookieData({});
-        this.api.removeItems();
-        this.userCookie = {};
-        this.api.changeUserdata(this.userCookie);
-        //this.router.navigateByUrl(constants.notLoggedRedirect);
+          this.loginData.changeUserCookieData({});
+          this.router.navigateByUrl(constants.notLoggedRedirect);
       }
       const md_data: MessageDialogInterface = {
         title: 'Creazione articolo',
