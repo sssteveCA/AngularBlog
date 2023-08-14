@@ -15,7 +15,7 @@ import { Config } from 'config';
 })
 export class BlogComponent implements OnInit {
 
-  blogUrl: string = Config.ANGULAR_MAIN_URL+constants.blogUrl;
+  blogUrl: string = constants.blogUrl;
   requestFailed: boolean = false;
   searchSpinner: boolean = false;
   spinnerId: string = "news-spinner"
