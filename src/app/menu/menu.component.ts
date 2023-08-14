@@ -52,17 +52,20 @@ export class MenuComponent implements OnInit, OnDestroy {
       let lr: LogoutRequest = new LogoutRequest(lrData)
       lr.logout().then(obj => {
         if(obj[Keys.DONE] == true){
-          this.loginData.removeItems();
+          /* this.loginData.removeItems();
           this.loginData.changeUserCookieData({});
-          this.router.navigateByUrl(constants.logoutRedirect);
+          this.router.navigateByUrl(constants.logoutRedirect); */
         }//if(obj[Keys.DONE] == true){
-        else{
+        this.loginData.removeItems();
+        this.loginData.changeUserCookieData({});
+        this.router.navigateByUrl(constants.logoutRedirect);
+        /* else{
           const mdData: MessageDialogInterface = {
             title: 'Logout',
             message: obj[Keys.MESSAGE]
           };
           messageDialog(mdData)
-        }
+        } */
       })
       
     });//cd.bt_yes.addEventListener('click', ()=>{
