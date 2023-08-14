@@ -84,6 +84,8 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loginDataObserver()
+    this.cookie.username = localStorage.getItem('username');
+    this.cookie.token_key = localStorage.getItem('token_key');
   }
 
   ngOnDestroy(): void {
