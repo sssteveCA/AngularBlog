@@ -45,10 +45,9 @@ export class CommentsComponent implements OnInit,AfterViewInit {
    oldComment_str: string;
    logged: boolean;
    cookie: UserCookie = {};
-   userCookie: any = {};
 
 
-  constructor(public http: HttpClient, public api: ApiService, public loginData: LogindataService) {
+  constructor(public http: HttpClient, public loginData: LogindataService) {
     //this.observeFromService();
    }
 
