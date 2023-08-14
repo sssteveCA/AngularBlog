@@ -14,6 +14,7 @@ import * as constants from "../../../constants/constants";
 })
 export class NewsComponent implements OnInit, AfterViewInit {
 
+  blogUrl: string = constants.blogUrl;
   done: boolean = false;
   empty: boolean = false;
   lastPosts: Article[] = [];

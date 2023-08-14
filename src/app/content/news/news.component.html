@@ -6,7 +6,7 @@
   <app-block-spinner [spinnerId]="spinnerId" [showSpinner]="showSpinner"></app-block-spinner>
   <!-- Show the last posts list -->
   <div *ngIf="!showSpinner && done && !empty">
-    <app-article-list-item *ngFor="let post of lastPosts" [article]="post"></app-article-list-item>
+    <app-article-list-item *ngFor="let post of lastPosts" [article]="post" [blogUrl]="blogUrl"></app-article-list-item>
   </div>
 </div>
   <ng-template [ngIf]="!showSpinner && message !== null">
