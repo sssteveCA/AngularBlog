@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatCheckbox } from '@angular/material/checkbox';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
@@ -13,6 +13,7 @@ import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interfa
 import UpdatePasswordInterface from 'src/interfaces/requests/profile/updatepassword.interface';
 import * as constants from '../../../../../constants/constants';
 import { LogindataService } from 'src/app/services/logindata.service';
+import MessageDialog from 'src/classes/dialogs/messagedialog';
 
 @Component({
   selector: 'app-password',
@@ -27,6 +28,7 @@ export class PasswordComponent implements OnInit {
   @ViewChild('showPwd', {static: false}) cbShowPwd: MatCheckbox;
 
   groupEp: FormGroup; //Edit password form group
+  @Output() sessionExpired: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   updatePasswordUrl: string = constants.profileUpdatePasswordUrl;
   showPasswordSpinner: boolean = false;
@@ -56,7 +58,15 @@ export class PasswordComponent implements OnInit {
       let md_data: MessageDialogInterface = {
         title: 'Modifica password', message: obj[Keys.MESSAGE]
       };
-      messageDialog(md_data);
+      let md: MessageDialog = new MessageDialog(md_data);
+      md.bt_ok.addEventListener('click', ()=> {
+        md.instance.dispose();
+        md.div_dialog.remove();
+        document.body.style.overflow = 'auto';
+        if(obj[Keys.EXPIRED] == true){
+          this.sessionExpired.emit(true);
+        }
+      })
     }).catch(err => {
       this.showPasswordSpinner = false;
       let md_data: MessageDialogInterface = {
