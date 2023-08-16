@@ -57,5 +57,6 @@ else{
     $response[C::KEY_MESSAGE] = C::COMMENTUPDATE_ERROR;
 }
 
+
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
 ?>

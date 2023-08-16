@@ -220,8 +220,11 @@ export class CommentsComponent implements OnInit,AfterViewInit, OnDestroy {
         this.logged = true;
       else{
         this.logged = false;
-        if(loginData.logout == false)
+        if(loginData.logout != true){
+          this.loginData.removeItems();
           this.router.navigateByUrl(constants.notLoggedRedirect);
+        }
+        
       }
         
     })
@@ -266,7 +269,12 @@ export class CommentsComponent implements OnInit,AfterViewInit, OnDestroy {
             md.instance.dispose();
             md.div_dialog.remove();
             document.body.style.overflow = 'auto';
-            text_div.html('<div>'+this.oldComment_str+'</div>');
+            if(obj[Keys.EXPIRED] == true){
+              this.loginData.changeLoginData({
+                logout: false, userCookie: {}
+              })
+            }
+            else text_div.html('<div>'+this.oldComment_str+'</div>');
           });
         }
       }).catch(err => {
