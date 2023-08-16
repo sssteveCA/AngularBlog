@@ -58,7 +58,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         }//if(obj[Keys.DONE] == true){
         this.loginData.removeItems();
         this.loginData.changeUserCookieData({});
-        this.router.navigateByUrl(constants.logoutRedirect);
+        //this.router.navigateByUrl(constants.logoutRedirect);
         /* else{
           const mdData: MessageDialogInterface = {
             title: 'Logout',
