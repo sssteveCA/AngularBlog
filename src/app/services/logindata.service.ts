@@ -70,14 +70,6 @@ export class LogindataService {
   }
 
   /**
-   * Chenga the value of the userCookie property
-   * @param userCookie the new values of the userCookie properties
-   */
-  public changeUserCookieData(userCookie: UserCookie): void{
-    this.userCookie.next(userCookie);
-  }
-
-  /**
    * Change the value of the loginDataObject property
    * @param loginData the new values of the loginDataObject properties
    */
