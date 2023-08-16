@@ -24,19 +24,23 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   cookie: UserCookie = {}
   menuColor: string = 'bg-dark';
-  loginDataSubscription: Subscription;
+  subscription: Subscription;
 
   constructor(private http:HttpClient, private router:Router, private loginData: LogindataService) {
   }
 
+
   loginDataObserver(): void{
-    this.loginDataSubscription = this.loginData.userCookieObservable.subscribe(userCookie => {
-      if(userCookie && 'token_key' in userCookie && 'username' in userCookie){
-        this.cookie.username = userCookie.username;
-      this.cookie.token_key = userCookie.token_key;
+    this.subscription = this.loginData.loginDataObservable.subscribe(loginData => {
+      if(loginData.userCookie && loginData.userCookie.token_key != null && loginData.userCookie.username != null){
+        this.cookie.token_key = loginData.userCookie.token_key;
+        this.cookie.username = loginData.userCookie.username;
       }
-      else this.cookie = {}
+      else{
+        this.cookie = {}
+      }
     })
+
   }
 
   //user wants  logout from his account
@@ -54,13 +58,12 @@ export class MenuComponent implements OnInit, OnDestroy {
       }
       let lr: LogoutRequest = new LogoutRequest(lrData)
       lr.logout().then(obj => {
-        if(obj[Keys.DONE] == true){
-          /* this.loginData.removeItems();
-          this.loginData.changeUserCookieData({});
-          this.router.navigateByUrl(constants.logoutRedirect); */
-        }//if(obj[Keys.DONE] == true){
+        if(obj[Keys.DONE] == true){}//if(obj[Keys.DONE] == true){
         this.loginData.removeItems();
-        this.loginData.changeUserCookieData({});
+        this.loginData.changeLoginData({
+          logout: true,
+          userCookie: {}
+        })
         //this.router.navigateByUrl(constants.logoutRedirect);
         /* else{
           const mdData: MessageDialogInterface = {
@@ -80,13 +83,15 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loginDataObserver()
-    this.loginData.changeUserCookieData({
-      token_key: localStorage.getItem('token_key'), username: localStorage.getItem('username')
+    this.loginData.changeLoginData({
+      userCookie: {
+        token_key: localStorage.getItem('token_key'), username: localStorage.getItem('username')
+      }
     })
   }
 
   ngOnDestroy(): void {
-    if(this.loginDataSubscription) this.loginDataSubscription.unsubscribe();
+    if(this.subscription) this.subscription.unsubscribe();
   }
 
 }

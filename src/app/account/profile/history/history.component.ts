@@ -45,11 +45,12 @@ export class HistoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loginDataObserver();
-    this.loginData.changeUserCookieData({
-      token_key: localStorage.getItem('token_key'),
-      username: localStorage.getItem('username')
-    });
+    this.loginDataObserver()
+    this.loginData.changeLoginData({
+      userCookie: {
+        token_key: localStorage.getItem('token_key'), username: localStorage.getItem('username')
+      }
+    })
   }
 
   getHistory(): void{
@@ -70,13 +71,16 @@ export class HistoryComponent implements OnInit, OnDestroy {
   }
 
   loginDataObserver(): void{
-    this.subscription = this.loginData.userCookieObservable.subscribe(userCookie => {
-      if(userCookie.token_key != null && userCookie.username != null){
-        this.cookie.username = userCookie.username;
-        this.cookie.token_key = userCookie.token_key;
+    this.subscription = this.loginData.loginDataObservable.subscribe(loginData => {
+      if(loginData.userCookie && loginData.userCookie.token_key != null && loginData.userCookie.username != null){
+        this.cookie.token_key = loginData.userCookie.token_key;
+        this.cookie.username = loginData.userCookie.username;
       }
       else{
-        this.router.navigateByUrl(constants.homeUrl);
+        if(loginData.logout && loginData.logout == true)
+          this.router.navigateByUrl(constants.homeUrl)
+        else
+          this.router.navigateByUrl(constants.notLoggedRedirect)
       }
     })
   }
