@@ -73,5 +73,17 @@ export class InfoComponent implements OnInit, OnDestroy {
       }
     })
   }
+
+  /**
+   * Emitted from child components when the session is expired
+   * @param event 
+   */
+  onSessionExpired(expired: boolean): void{
+    if(expired){
+      this.loginData.changeLoginData({
+        logout: false, userCookie: {}
+      })
+    }
+  }
   
 }

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatFormField, MatFormFieldControl } from '@angular/material/form-field';
@@ -17,6 +17,7 @@ import PasswordDialog from 'src/classes/dialogs/passworddialog';
 import { EuParams, UserCookie } from 'src/constants/types';
 import { Keys } from 'src/constants/keys';
 import { LogindataService } from 'src/app/services/logindata.service';
+import { EventEmitter } from '@angular/core'
 
 
 @Component({
@@ -35,6 +36,7 @@ export class UsernameComponent implements OnInit, OnChanges {
   usernameError: boolean = false;
   messageError: string = "Impossibile rilevare il tuo nome utente";
   @Input() usernameObject: object;
+  @Output() sessionExpired: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(public http: HttpClient, public fb: FormBuilder, public router: Router, private loginData: LogindataService) {
     this.setFormGroupUsername();
@@ -78,9 +80,7 @@ export class UsernameComponent implements OnInit, OnChanges {
       }//if(obj[Keys.DONE]){
       else{
         if(obj[Keys.EXPIRED] == true){
-          this.loginData.removeItems();
-          this.loginData.changeUserCookieData({});
-          this.router.navigateByUrl(constants.notLoggedRedirect);
+          this.sessionExpired.emit(true);
         }
         else{
           let md_data: MessageDialogInterface = {

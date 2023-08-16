@@ -139,8 +139,9 @@ export class EditArticleComponent implements OnInit, OnDestroy {
         if(obj[Keys.EXPIRED] == true){
           //Session expired
           this.loginData.removeItems();
-          this.loginData.changeUserCookieData({});
-          this.router.navigateByUrl(constants.notLoggedRedirect);
+          this.loginData.changeLoginData({
+            logout: false, userCookie: {}
+          })
         }
         const data: MessageDialogInterface = {
           title: 'Modifica articolo',
