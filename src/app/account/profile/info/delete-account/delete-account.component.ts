@@ -1,6 +1,6 @@
 import { CdkAriaLive } from '@angular/cdk/a11y';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
@@ -28,6 +28,7 @@ export class DeleteAccountComponent implements OnInit {
   deleteProfileUrl: string = constants.profileDeleteUrl;
   showDeleteProfileSpinner: boolean = false;
   spinnerId: string = "delete-account-spinner"
+  @Output() accountDeleted: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(public http: HttpClient, public fb: FormBuilder, public router: Router, private loginData: LogindataService) {
    }
@@ -56,9 +57,7 @@ export class DeleteAccountComponent implements OnInit {
         md.div_dialog.remove();
         document.body.style.overflow = 'auto';
         if(obj[Keys.DONE] == true){
-          this.loginData.removeItems();
-          this.loginData.changeUserCookieData({});
-          this.router.navigateByUrl(constants.deleteAccountRedirect);
+          this.accountDeleted.emit(true);
         }
       });
     }).catch(err => {

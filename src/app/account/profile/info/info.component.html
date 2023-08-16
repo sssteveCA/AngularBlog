@@ -5,5 +5,5 @@
     <app-username [usernameObject]="usernameObject" (sessionExpired)="onSessionExpired($event)"></app-username>
     <app-names [namesObject]="namesObject" (sessionExpired)="onSessionExpired($event)"></app-names>
     <app-password (sessionExpired)="onSessionExpired($event)"></app-password>
-    <app-delete-account></app-delete-account>
+    <app-delete-account (accountDeleted)="onAccountDeleted($event)"></app-delete-account>
 </div>

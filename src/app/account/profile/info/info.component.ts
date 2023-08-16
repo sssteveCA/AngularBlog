@@ -75,8 +75,20 @@ export class InfoComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Emitted when delete account child component remove the logged account
+   * @param deleted 
+   */
+  onAccountDeleted(deleted: boolean): void{
+    if(deleted){
+      this.loginData.changeLoginData({
+        logout: true, userCookie: {}
+      })
+    }
+  }
+
+  /**
    * Emitted from child components when the session is expired
-   * @param event 
+   * @param expired
    */
   onSessionExpired(expired: boolean): void{
     if(expired){
