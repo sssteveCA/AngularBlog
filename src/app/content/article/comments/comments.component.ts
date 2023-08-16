@@ -27,7 +27,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.scss']
 })
-export class CommentsComponent implements OnInit,AfterViewInit {
+export class CommentsComponent implements OnInit,AfterViewInit, OnDestroy {
 
   @Input() permalink: string|null;
   @Input() cookie: UserCookie;
@@ -50,6 +50,9 @@ export class CommentsComponent implements OnInit,AfterViewInit {
   constructor(public http: HttpClient, public loginData: LogindataService) {
     //this.observeFromService();
    }
+  ngOnDestroy(): void {
+    if(this.subscription != null) this.subscription.unsubscribe();
+  }
 
   ngAfterViewInit(): void {
     this.getCommnents();
@@ -57,7 +60,12 @@ export class CommentsComponent implements OnInit,AfterViewInit {
 
   ngOnInit(): void {
     this.loginDataObserver()
-    this.logged = localStorage.getItem('token_key') != null ? true : false;
+    this.loginData.changeLoginData({
+      userCookie: {
+        token_key: localStorage.getItem('token_key'),
+        username: localStorage.getItem('username')
+      }
+    })
   }
 
   /**

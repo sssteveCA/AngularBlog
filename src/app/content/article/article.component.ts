@@ -27,7 +27,6 @@ export class ArticleComponent implements OnInit, OnDestroy {
   spinnerId: string = "news-spinner";
   getArticle_url: string = constants.articleView;
   subscription: Subscription;
-  subscriptionCookie: Subscription;
   
 
   constructor(public route: ActivatedRoute, public http: HttpClient, private router: Router, private loginData: LogindataService) {
@@ -39,7 +38,6 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if(this.subscription != null) this.subscription.unsubscribe();
-    if(this.subscriptionCookie != null) this.subscriptionCookie.unsubscribe();
   }
 
     articleParams(): void{
@@ -82,16 +80,4 @@ export class ArticleComponent implements OnInit, OnDestroy {
       //this.router.navigateByUrl(constants.notFoundUrl);
     });
    }
-
-   loginDataObserver(): void{
-    this.subscription = this.loginData.loginDataObservable.subscribe(loginData => {
-      if(loginData.userCookie && loginData.userCookie.token_key != null && loginData.userCookie.username != null){
-        this.cookie.token_key = loginData.userCookie.token_key;
-        this.cookie.username = loginData.userCookie.username;
-      }
-      else{
-        this.cookie = {};
-      }
-    })
-  }
 }
