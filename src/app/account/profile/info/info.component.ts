@@ -1,29 +1,38 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import GetUserInfo from 'src/classes/requests/profile/getuserinfo';
 import { Keys } from 'src/constants/keys';
 import GetUserInfoInterface from 'src/interfaces/requests/profile/getuserinfo.interface';
 import * as constants from '../../../../constants/constants';
+import {Subscription } from 'rxjs';
+import { LogindataService } from 'src/app/services/logindata.service';
+import { UserCookie } from 'src/constants/types';
 
 @Component({
   selector: 'app-info',
   templateUrl: './info.component.html',
   styleUrls: ['./info.component.scss']
 })
-export class InfoComponent implements OnInit {
+export class InfoComponent implements OnInit, OnDestroy {
 
   backlink: string = "../";
+  cookie: UserCookie = {};
   emailObject: object = {};
   namesObject: object = {};
   usernameObject: object = {};
   urlUserInfo: string = constants.profileGetUserInfoUrl;
   title: string = "Modifica il tuo account";
+  subscription: Subscription;
 
-  constructor(public http: HttpClient, public router: Router, public fb: FormBuilder) {
+  constructor(public http: HttpClient, public router: Router, public fb: FormBuilder, private loginData: LogindataService) {
     
    }
+
+   ngOnDestroy(): void {
+    if(this.subscription != null) this.subscription.unsubscribe();
+  }
 
   ngOnInit(): void {
     this.getUserInfo();
@@ -50,6 +59,18 @@ export class InfoComponent implements OnInit {
       this.emailObject = { 'done': false }
       this.namesObject = { 'done': false }
       this.usernameObject = { 'done': false }
+    })
+  }
+
+  loginDataObserver(): void{
+    this.subscription = this.loginData.userCookieObservable.subscribe(userCookie => {
+      if(userCookie && 'token_key' in userCookie && 'username' in userCookie){
+        this.cookie.username = userCookie.username;
+        this.cookie.token_key = userCookie.token_key;
+      }
+      else{
+        this.router.navigateByUrl(constants.homeUrl);
+      }
     })
   }
   

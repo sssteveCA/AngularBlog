@@ -46,6 +46,10 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loginDataObserver();
+    this.loginData.changeUserCookieData({
+      token_key: localStorage.getItem('token_key'),
+      username: localStorage.getItem('username')
+    });
   }
 
   getHistory(): void{
