@@ -20,6 +20,7 @@ import { messageDialog } from 'src/functions/functions';
 import { Keys } from 'src/constants/keys';
 import { LogindataService } from 'src/app/services/logindata.service';
 import { UserCookie } from 'src/constants/types';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-comments',
@@ -42,7 +43,7 @@ export class CommentsComponent implements OnInit,AfterViewInit {
    newComment: FormControl = new FormControl('',Validators.required);
    oldComment_str: string;
    logged: boolean;
-   cookie: UserCookie = {};
+   subscription: Subscription;
 
 
   constructor(public http: HttpClient, public loginData: LogindataService) {
@@ -54,8 +55,8 @@ export class CommentsComponent implements OnInit,AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.loginDataObserver()
     this.logged = localStorage.getItem('token_key') != null ? true : false;
-    
   }
 
   /**
@@ -181,6 +182,15 @@ export class CommentsComponent implements OnInit,AfterViewInit {
       this.error = true;
       this.message = Messages.COMMENTLIST_ERROR;
     });
+  }
+
+  loginDataObserver(): void{
+    this.subscription = this.loginData.loginDataObservable.subscribe(loginData => {
+      if(loginData.userCookie && loginData.userCookie.token_key != null && loginData.userCookie.username != null)
+        this.logged = true;
+      else
+        this.logged = false;
+    })
   }
 
   updateComment(event): void{
