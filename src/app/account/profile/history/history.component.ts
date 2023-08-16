@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { HistoryItem } from 'src/app/models/historyitem.model';
 import { Keys } from 'src/constants/keys';
@@ -10,15 +10,19 @@ import DeleteHistoryItemInterface from 'src/interfaces/requests/profile/deletehi
 import DeleteHistoryItem from 'src/classes/requests/profile/deletehistoryitem';
 import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interface';
 import MessageDialog from 'src/classes/dialogs/messagedialog';
+import { Subscription } from 'rxjs';
+import { LogindataService } from 'src/app/services/logindata.service';
+import { UserCookie } from 'src/constants/types';
 
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
   styleUrls: ['./history.component.scss']
 })
-export class HistoryComponent implements OnInit {
+export class HistoryComponent implements OnInit, OnDestroy {
 
   backlink: string = "../";
+  cookie: UserCookie = {};
   title: string = "Cronologia azioni effettuate";
   urlDeleteHistoryItem: string = constants.profileDeleteHistoryItemUrl;
   urlGetHistory: string = constants.profileGetHistoryUrl;
@@ -30,12 +34,18 @@ export class HistoryComponent implements OnInit {
   messageSecondary: string = "Nessun azione effettuata";
   notLoading: boolean = false;
   spinnerId: string = "history-spinner"
+  subscription: Subscription;
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private loginData: LogindataService) {
     this.getHistory();
    }
 
+   ngOnDestroy(): void {
+    if(this.subscription != null) this.subscription.unsubscribe();
+  }
+
   ngOnInit(): void {
+    this.loginDataObserver();
   }
 
   getHistory(): void{
@@ -53,6 +63,18 @@ export class HistoryComponent implements OnInit {
       }
       else this.error = true;
     });
+  }
+
+  loginDataObserver(): void{
+    this.subscription = this.loginData.userCookieObservable.subscribe(userCookie => {
+      if(userCookie.token_key != null && userCookie.username != null){
+        this.cookie.username = userCookie.username;
+        this.cookie.token_key = userCookie.token_key;
+      }
+      else{
+        this.router.navigateByUrl(constants.homeUrl);
+      }
+    })
   }
 
   onActionIdReceived(action_id: string): void{

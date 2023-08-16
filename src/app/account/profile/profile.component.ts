@@ -31,15 +31,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-     this.cookie = {
-      token_key: localStorage.getItem('token_key'), username: localStorage.getItem('username')
-    }
+    this.loginDataObserver();
+    this.loginData.changeUserCookieData({
+      token_key: localStorage.getItem('token_key'),
+      username: localStorage.getItem('username')
+    });
   }
 
 
   loginDataObserver(): void{
     this.subscription = this.loginData.userCookieObservable.subscribe(userCookie => {
-      if(userCookie && 'token_key' in userCookie && 'username' in userCookie){
+      if(userCookie.token_key != null && userCookie.username != null){
         this.cookie.username = userCookie.username;
         this.cookie.token_key = userCookie.token_key;
       }
