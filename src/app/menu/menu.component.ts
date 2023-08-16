@@ -31,8 +31,11 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   loginDataObserver(): void{
     this.loginDataSubscription = this.loginData.userCookieObservable.subscribe(userCookie => {
-      this.cookie.username = userCookie.username;
+      if(userCookie && 'token_key' in userCookie && 'username' in userCookie){
+        this.cookie.username = userCookie.username;
       this.cookie.token_key = userCookie.token_key;
+      }
+      else this.cookie = {}
     })
   }
 
