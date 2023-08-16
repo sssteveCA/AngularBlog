@@ -121,8 +121,9 @@ export class NewArticleComponent implements OnInit, OnDestroy {
       if(obj[Keys.EXPIRED] == true){
         //session expired
         this.loginData.removeItems();
-          this.loginData.changeUserCookieData({});
-          this.router.navigateByUrl(constants.notLoggedRedirect);
+        this.loginData.changeLoginData({
+          logout: false, userCookie: {}
+        })
       }
       const md_data: MessageDialogInterface = {
         title: 'Creazione articolo',

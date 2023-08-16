@@ -77,10 +77,11 @@ export class UsernameComponent implements OnInit, OnChanges {
         document.body.style.overflow = 'auto';
         if(obj[Keys.DONE]){
           localStorage.setItem('username', obj['new_username']);
-          (this.cookie).username = localStorage.getItem('username');
-          this.loginData.changeUserCookieData({
-            token_key: localStorage.getItem('token_key'),
-            username: localStorage.getItem('username')
+          this.loginData.changeLoginData({
+            userCookie: {
+              token_key: localStorage.getItem('token_key'),
+              username: localStorage.getItem('username')
+            }
           })
         }//if(obj[Keys.DONE]){
         else{

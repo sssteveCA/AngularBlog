@@ -79,8 +79,9 @@ export class MyArticlesComponent implements OnInit, OnDestroy {
         if(obj[Keys.EXPIRED] == true){
           //Session expired
           this.loginData.removeItems();
-          this.loginData.changeUserCookieData({});
-          this.router.navigateByUrl(constants.notLoggedRedirect);
+          this.loginData.changeLoginData({
+            logout: false, userCookie: {}
+          })
         }
         let md_data: MessageDialogInterface = {
           title: 'Rimuovi articolo',

@@ -63,9 +63,12 @@ export class LoginComponent implements OnInit {
         localStorage.setItem("username",obj["username"]);
         this.userCookie["token_key"] = localStorage.getItem("token_key");
         this.userCookie["username"] = localStorage.getItem("username");
-        this.loginData.changeUserCookieData({
-          token_key: localStorage.getItem("token_key"), 
-          username: localStorage.getItem("username") })
+        this.loginData.changeLoginData({
+          userCookie:{
+            token_key: localStorage.getItem("token_key"),
+            username: localStorage.getItem("username")
+          }
+        })
         this.router.navigate([constants.loginRedirect]);
       }
       else{
