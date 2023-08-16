@@ -21,6 +21,7 @@ import { Keys } from 'src/constants/keys';
 import { LogindataService } from 'src/app/services/logindata.service';
 import { UserCookie } from 'src/constants/types';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-comments',
@@ -47,7 +48,7 @@ export class CommentsComponent implements OnInit,AfterViewInit, OnDestroy {
    subscription: Subscription;
 
 
-  constructor(public http: HttpClient, public loginData: LogindataService) {
+  constructor(public http: HttpClient, private loginData: LogindataService, private router: Router) {
     //this.observeFromService();
    }
   ngOnDestroy(): void {
@@ -92,7 +93,17 @@ export class CommentsComponent implements OnInit,AfterViewInit, OnDestroy {
             title: 'Nuovo commento',
             message: obj[Keys.MESSAGE]
           };
-          messageDialog(md_data);
+          let md: MessageDialog = new MessageDialog(md_data);
+          md.bt_ok.addEventListener('click', ()=>{
+            md.instance.dispose();
+            md.div_dialog.remove();
+            document.body.style.overflow = 'auto';
+            if(obj[Keys.EXPIRED] == true){
+              this.loginData.changeLoginData({
+                logout: false, userCookie: {}
+              })
+            }
+          });
         }
       }).catch(err => {
         console.warn(err);
@@ -197,8 +208,12 @@ export class CommentsComponent implements OnInit,AfterViewInit, OnDestroy {
     this.subscription = this.loginData.loginDataObservable.subscribe(loginData => {
       if(loginData.userCookie && loginData.userCookie.token_key != null && loginData.userCookie.username != null)
         this.logged = true;
-      else
+      else{
         this.logged = false;
+        if(loginData.logout == false)
+          this.router.navigateByUrl(constants.notLoggedRedirect);
+      }
+        
     })
   }
 
