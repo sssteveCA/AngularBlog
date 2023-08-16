@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { UserCookie } from 'src/constants/types';
+import { LoginDataType, UserCookie } from 'src/constants/types';
 import * as constants from '../../constants/constants';
 
 @Injectable({
@@ -9,8 +9,10 @@ import * as constants from '../../constants/constants';
 })
 export class LogindataService {
 
+  private loginDataObject = new Subject<LoginDataType>();
   private userCookie = new Subject<UserCookie>();
   public userCookieObservable = this.userCookie.asObservable();
+  public loginDataObservable = this.loginDataObject.asObservable();
 
   constructor(private http: HttpClient) {
   }
@@ -69,10 +71,18 @@ export class LogindataService {
 
   /**
    * Chenga the value of the userCookie property
-   * @param userCookie the new value of the userCookie property
+   * @param userCookie the new values of the userCookie properties
    */
   public changeUserCookieData(userCookie: UserCookie): void{
     this.userCookie.next(userCookie);
+  }
+
+  /**
+   * Change the value of the loginDataObject property
+   * @param loginData the new values of the loginDataObject properties
+   */
+  public changeLoginData(loginData: LoginDataType): void{
+    this.loginDataObject.next(loginData);
   }
 
   /**
