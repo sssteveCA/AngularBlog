@@ -45,13 +45,14 @@ export class EditArticleComponent implements OnInit, OnDestroy {
     this.observeFromService(); */
     this.formBuild();
    }
-   
-   ngOnInit(): void {
-    this.editArticleParams();
+
+   ngOnDestroy(): void {
+    if(this.subscription != null) this.subscription.unsubscribe();
   }
 
-  ngOnDestroy(): void {
-    if(this.subscription) this.subscription.unsubscribe();
+  ngOnInit(): void {
+    this.loginDataObserver()
+    this.editArticleParams();
   }
 
    editArticleParams(): void{
@@ -96,6 +97,17 @@ export class EditArticleComponent implements OnInit, OnDestroy {
     }).catch(err => {
 
     });
+  }
+
+  loginDataObserver(): void{
+    this.subscription = this.loginData.loginDataObservable.subscribe(loginData => {
+      if(!(loginData.userCookie && loginData.userCookie.token_key != null && loginData.userCookie.username != null)){
+        if(loginData.logout && loginData.logout == true)
+          this.router.navigateByUrl(constants.homeUrl)
+        else
+          this.router.navigateByUrl(constants.notLoggedRedirect)
+      }
+    })
   }
 
   edit(): void{
