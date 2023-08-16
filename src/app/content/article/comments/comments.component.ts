@@ -161,7 +161,17 @@ export class CommentsComponent implements OnInit,AfterViewInit, OnDestroy {
             title: 'Elimina commento',
             message: obj[Keys.MESSAGE]
           };
-          messageDialog(md_data);
+          let md: MessageDialog = new MessageDialog(md_data);
+          md.bt_ok.addEventListener('click', ()=>{
+            md.instance.dispose();
+            md.div_dialog.remove();
+            document.body.style.overflow = 'auto';
+            if(obj[Keys.EXPIRED] == true){
+              this.loginData.changeLoginData({
+                logout: false, userCookie: {}
+              })
+            }
+          });
         }
       }).catch(err => {
         console.warn(err);

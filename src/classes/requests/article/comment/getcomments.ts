@@ -50,9 +50,12 @@ export default class GetComments{
 
     private async getCommentsPromise(): Promise<string>{
         return await new Promise<string>((resolve,reject)=>{
-            const headers: HttpHeaders = new HttpHeaders();
-            if(this.token_key != null)
-                headers.set(Keys.AUTH, this._token_key as string)
+            let headers: HttpHeaders|undefined = undefined;
+            if(this._token_key != null){
+                headers = new HttpHeaders({
+                    'AngularBlogAuth': this._token_key
+                });
+            }
             this._http.get(this._full_url,{
                 headers: headers, responseType: 'text'
             }).subscribe({

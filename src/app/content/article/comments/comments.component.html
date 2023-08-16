@@ -14,7 +14,7 @@
                         </div>
                     </div>
                     <div class="comment-container-3">
-                        <div *ngIf="comment.cu_comment">
+                        <div *ngIf="logged && comment.cu_comment">
                             <!-- Comment edit -->
                             <div class="fEdit">
                                 <input type="hidden" name="comment_id" value="{{comment.id}}">
