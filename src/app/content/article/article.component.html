@@ -27,7 +27,7 @@
               </div>
             </div>
         </div> 
-        <app-comments [permalink]="article"></app-comments>
+        <app-comments [cookie]="cookie" [permalink]="article"></app-comments>
     </div>
     <div *ngIf="!showSpinner && !done && message">
         <app-error [message]="message"></app-error>

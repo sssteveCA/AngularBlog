@@ -102,6 +102,7 @@ export class EditArticleComponent implements OnInit, OnDestroy {
   loginDataObserver(): void{
     this.subscription = this.loginData.loginDataObservable.subscribe(loginData => {
       if(!(loginData.userCookie && loginData.userCookie.token_key != null && loginData.userCookie.username != null)){
+        this.loginData.removeItems();
         if(loginData.logout && loginData.logout == true)
           this.router.navigateByUrl(constants.homeUrl)
         else
@@ -136,13 +137,6 @@ export class EditArticleComponent implements OnInit, OnDestroy {
       let ua: UpdateArticle = new UpdateArticle(ua_data);
       ua.updateArticle().then(obj => {
         this.showSpinner = false;
-        if(obj[Keys.EXPIRED] == true){
-          //Session expired
-          this.loginData.removeItems();
-          this.loginData.changeLoginData({
-            logout: false, userCookie: {}
-          })
-        }
         const data: MessageDialogInterface = {
           title: 'Modifica articolo',
           message: obj[Keys.MESSAGE]
@@ -152,6 +146,12 @@ export class EditArticleComponent implements OnInit, OnDestroy {
           cd.instance.dispose();
           cd.div_dialog.remove();
           document.body.style.overflow = 'auto';
+          if(obj[Keys.EXPIRED] == true){
+            //Session expired
+            this.loginData.changeLoginData({
+              logout: false, userCookie: {}
+            })
+          }
         }); 
       }).catch(err => {
         const data: MessageDialogInterface = {

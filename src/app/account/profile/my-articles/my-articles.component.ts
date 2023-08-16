@@ -76,13 +76,6 @@ export class MyArticlesComponent implements OnInit, OnDestroy {
       this.spinnerShow = data['article_pos'];
       da.deleteArticle().then(obj => {
         this.spinnerShow = -1;
-        if(obj[Keys.EXPIRED] == true){
-          //Session expired
-          this.loginData.removeItems();
-          this.loginData.changeLoginData({
-            logout: false, userCookie: {}
-          })
-        }
         let md_data: MessageDialogInterface = {
           title: 'Rimuovi articolo',
           message: obj[Keys.MESSAGE]
@@ -94,6 +87,14 @@ export class MyArticlesComponent implements OnInit, OnDestroy {
           document.body.style.overflow = 'auto';
           if(obj[Keys.DONE] == true)
             this.articles = this.articles.filter((article)=> article.id != da.article_id) 
+          else{
+            if(obj[Keys.EXPIRED] == true){
+              //Session expired
+              this.loginData.changeLoginData({
+                logout: false, userCookie: {}
+              })
+            }
+          }
         });
       }).catch(err => {
         this.spinnerShow = -1;
@@ -141,6 +142,7 @@ export class MyArticlesComponent implements OnInit, OnDestroy {
   loginDataObserver(): void{
     this.subscription = this.loginData.loginDataObservable.subscribe(loginData => {
       if(!(loginData.userCookie && loginData.userCookie.token_key != null && loginData.userCookie.username != null)){
+        this.loginData.removeItems();
         if(loginData.logout && loginData.logout == true)
           this.router.navigateByUrl(constants.homeUrl)
         else

@@ -30,6 +30,7 @@ import { Subscription } from 'rxjs';
 export class CommentsComponent implements OnInit,AfterViewInit {
 
   @Input() permalink: string|null;
+  @Input() cookie: UserCookie;
   addComment_url: string = constants.createComment;
   deleteComment_url: string = constants.deleteComment;
   getComments_url: string = constants.articleComments;

@@ -77,6 +77,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
         this.cookie.username = loginData.userCookie.username;
       }
       else{
+        this.loginData.removeItems();
         if(loginData.logout && loginData.logout == true)
           this.router.navigateByUrl(constants.homeUrl)
         else
@@ -105,6 +106,11 @@ export class HistoryComponent implements OnInit, OnDestroy {
         document.body.style.overflow = 'auto'
         if(obj[Keys.DONE]){
           this.historyItems = this.historyItems.filter(item => item.id != action_id)
+        }
+        else if(obj[Keys.EXPIRED]){
+          this.loginData.changeLoginData({
+            logout: false, userCookie: {}
+          })
         }
      })
     });

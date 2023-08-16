@@ -47,6 +47,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.cookie.username = loginData.userCookie.username;
       }
       else{
+        this.loginData.removeItems();
         if(loginData.logout && loginData.logout == true)
           this.router.navigateByUrl(constants.homeUrl)
         else

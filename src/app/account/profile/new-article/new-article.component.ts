@@ -99,6 +99,7 @@ export class NewArticleComponent implements OnInit, OnDestroy {
   loginDataObserver(): void{
     this.subscription = this.loginData.loginDataObservable.subscribe(loginData => {
       if(!(loginData.userCookie && loginData.userCookie.token_key != null && loginData.userCookie.username != null)){
+        this.loginData.removeItems();
         if(loginData.logout && loginData.logout == true)
           this.router.navigateByUrl(constants.homeUrl)
         else
@@ -118,13 +119,6 @@ export class NewArticleComponent implements OnInit, OnDestroy {
     this.showSpinner = true;
     aa.createArticle().then(obj => {
       this.showSpinner = false;
-      if(obj[Keys.EXPIRED] == true){
-        //session expired
-        this.loginData.removeItems();
-        this.loginData.changeLoginData({
-          logout: false, userCookie: {}
-        })
-      }
       const md_data: MessageDialogInterface = {
         title: 'Creazione articolo',
         message: obj[Keys.MESSAGE]
@@ -134,6 +128,12 @@ export class NewArticleComponent implements OnInit, OnDestroy {
         md.instance.dispose();
         md.div_dialog.remove();
         document.body.style.overflow = 'auto';
+        if(obj[Keys.EXPIRED] == true){
+          //session expired
+          this.loginData.changeLoginData({
+            logout: false, userCookie: {}
+          })
+        }
       });
     }).catch(err => {
       const md_data: MessageDialogInterface = {

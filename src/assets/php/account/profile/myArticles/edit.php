@@ -71,8 +71,7 @@ else{
     http_response_code(400);
     $response[C::KEY_MESSAGE] = C::ARTICLEEDITING_ERROR;
 }
-    
-
+  
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
 
 

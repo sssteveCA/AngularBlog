@@ -66,6 +66,7 @@ export class InfoComponent implements OnInit, OnDestroy {
   loginDataObserver(): void{
     this.subscription = this.loginData.loginDataObservable.subscribe(loginData => {
       if(!(loginData.userCookie && loginData.userCookie.token_key != null && loginData.userCookie.username != null)){
+        this.loginData.removeItems();
         if(loginData.logout && loginData.logout == true)
           this.router.navigateByUrl(constants.homeUrl)
         else

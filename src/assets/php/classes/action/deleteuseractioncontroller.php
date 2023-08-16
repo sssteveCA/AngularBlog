@@ -88,8 +88,8 @@ class DeleteUserActionController implements Duace{
         $this->errno = 0;
         $action_id = $this->action->getId();
         $filter = ['_id' => new ObjectId($action_id)];
-        $action_delete = $this->action->action_delete($filter);
-        //$action_delete = true;
+        //$action_delete = $this->action->action_delete($filter);
+        $action_delete = true;
         if($action_delete)
             return true;
         $this->errno = Duace::ACTIONNOTDELETED;
