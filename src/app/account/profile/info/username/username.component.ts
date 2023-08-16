@@ -18,6 +18,7 @@ import { EuParams, UserCookie } from 'src/constants/types';
 import { Keys } from 'src/constants/keys';
 import { LogindataService } from 'src/app/services/logindata.service';
 import { EventEmitter } from '@angular/core'
+import MessageDialog from 'src/classes/dialogs/messagedialog';
 
 
 @Component({
@@ -65,31 +66,29 @@ export class UsernameComponent implements OnInit, OnChanges {
     };
     let uu: UpdateUsername = new UpdateUsername(uu_data);
     uu.updateUsername().then(obj => {
-      if(obj[Keys.DONE]){
+      let md_data: MessageDialogInterface = {
+        title: "Modifica nome utente",
+        message: obj[Keys.MESSAGE]
+      };
+      let md: MessageDialog = new MessageDialog(md_data);
+      md.bt_ok.addEventListener('click',()=> {
+        md.instance.dispose();
+        md.div_dialog.remove();
+        document.body.style.overflow = 'auto';
+        if(obj[Keys.DONE]){
           localStorage.setItem('username', obj['new_username']);
           (this.cookie).username = localStorage.getItem('username');
           this.loginData.changeUserCookieData({
             token_key: localStorage.getItem('token_key'),
             username: localStorage.getItem('username')
           })
-          let md_data: MessageDialogInterface = {
-            title: "Modifica nome utente",
-            message: obj[Keys.MESSAGE]
-          };
-          messageDialog(md_data);
-      }//if(obj[Keys.DONE]){
-      else{
-        if(obj[Keys.EXPIRED] == true){
-          this.sessionExpired.emit(true);
-        }
+        }//if(obj[Keys.DONE]){
         else{
-          let md_data: MessageDialogInterface = {
-            title: "Modifica nome utente",
-            message: obj[Keys.MESSAGE]
-          };
-          messageDialog(md_data);
+          if(obj[Keys.EXPIRED] == true){
+            this.sessionExpired.emit(true)
+          }
         }
-      }
+      })
     }).catch(err => {
       let md_data: MessageDialogInterface = {
         title: "Modifica nome utente",

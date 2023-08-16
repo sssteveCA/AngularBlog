@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
@@ -13,6 +13,7 @@ import MessageDialogInterface from 'src/interfaces/dialogs/messagedialog.interfa
 import UpdateNamesInterface from 'src/interfaces/requests/profile/updatenames.interface';
 import * as constants from '../../../../../constants/constants';
 import { LogindataService } from 'src/app/services/logindata.service';
+import MessageDialog from 'src/classes/dialogs/messagedialog';
 
 @Component({
   selector: 'app-names',
@@ -29,6 +30,7 @@ export class NamesComponent implements OnInit, OnChanges {
   namesError: boolean = false;
   messageError: string = "Impossibile rilevare il tuo nome e cognome";
   @Input() namesObject: object;
+  @Output() sessionExpired: EventEmitter<boolean> = new EventEmitter<boolean>();
   
 
   constructor(public http: HttpClient, public router: Router, public fb: FormBuilder, private loginData: LogindataService) { 
@@ -65,7 +67,15 @@ export class NamesComponent implements OnInit, OnChanges {
         title: 'Modifica nome e cognome',
         message: obj[Keys.MESSAGE]
       }
-      messageDialog(mdi);
+      let md: MessageDialog = new MessageDialog(mdi);
+      md.bt_ok.addEventListener('click',()=> {
+        md.instance.dispose();
+        md.div_dialog.remove();
+        document.body.style.overflow = 'auto';
+        if(obj[Keys.EXPIRED] == true){
+          this.sessionExpired.emit(true);
+        }
+      })
     });
   }
 
