@@ -20,15 +20,19 @@ import { messageDialog } from 'src/functions/functions';
 import { Keys } from 'src/constants/keys';
 import { LogindataService } from 'src/app/services/logindata.service';
 import { UserCookie } from 'src/constants/types';
+import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-comments',
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.scss']
 })
-export class CommentsComponent implements OnInit,AfterViewInit {
+export class CommentsComponent implements OnInit,AfterViewInit, OnDestroy {
 
   @Input() permalink: string|null;
+  @Input() cookie: UserCookie;
   addComment_url: string = constants.createComment;
   deleteComment_url: string = constants.deleteComment;
   getComments_url: string = constants.articleComments;
@@ -42,20 +46,29 @@ export class CommentsComponent implements OnInit,AfterViewInit {
    newComment: FormControl = new FormControl('',Validators.required);
    oldComment_str: string;
    logged: boolean;
-   cookie: UserCookie = {};
+   subscription: Subscription;
 
 
-  constructor(public http: HttpClient, public loginData: LogindataService) {
+  constructor(public http: HttpClient, private loginData: LogindataService, private router: Router) {
     //this.observeFromService();
    }
+  ngOnDestroy(): void {
+    if(this.subscription != null) this.subscription.unsubscribe();
+  }
 
   ngAfterViewInit(): void {
     this.getCommnents();
   }
 
   ngOnInit(): void {
-    this.logged = localStorage.getItem('token_key') != null ? true : false;
-    
+    this.loginDataObserver()
+    this.loginData.changeLoginData({
+      userCookie: {
+        token_key: localStorage.getItem('token_key'),
+        username: localStorage.getItem('username')
+      }
+    })
+
   }
 
   /**
@@ -82,7 +95,17 @@ export class CommentsComponent implements OnInit,AfterViewInit {
             title: 'Nuovo commento',
             message: obj[Keys.MESSAGE]
           };
-          messageDialog(md_data);
+          let md: MessageDialog = new MessageDialog(md_data);
+          md.bt_ok.addEventListener('click', ()=>{
+            md.instance.dispose();
+            md.div_dialog.remove();
+            document.body.style.overflow = 'auto';
+            if(obj[Keys.EXPIRED] == true){
+              this.loginData.changeLoginData({
+                logout: false, userCookie: {}
+              })
+            }
+          });
         }
       }).catch(err => {
         console.warn(err);
@@ -140,7 +163,17 @@ export class CommentsComponent implements OnInit,AfterViewInit {
             title: 'Elimina commento',
             message: obj[Keys.MESSAGE]
           };
-          messageDialog(md_data);
+          let md: MessageDialog = new MessageDialog(md_data);
+          md.bt_ok.addEventListener('click', ()=>{
+            md.instance.dispose();
+            md.div_dialog.remove();
+            document.body.style.overflow = 'auto';
+            if(obj[Keys.EXPIRED] == true){
+              this.loginData.changeLoginData({
+                logout: false, userCookie: {}
+              })
+            }
+          });
         }
       }).catch(err => {
         console.warn(err);
@@ -183,6 +216,23 @@ export class CommentsComponent implements OnInit,AfterViewInit {
     });
   }
 
+  loginDataObserver(): void{
+    this.subscription = this.loginData.loginDataObservable.subscribe(loginData => {
+      if(loginData.userCookie && loginData.userCookie.token_key != null && loginData.userCookie.username != null)
+        this.logged = true;
+      else{
+        this.logged = false;
+        if(loginData.logout != true){
+          this.loginData.removeItems();
+          this.router.navigateByUrl(constants.notLoggedRedirect);
+        }
+        
+      }
+        
+    })
+  }
+
+
   updateComment(event): void{
     let link: JQuery = $(event.target);
     let input: JQuery = link.siblings('input');
@@ -222,7 +272,12 @@ export class CommentsComponent implements OnInit,AfterViewInit {
             md.instance.dispose();
             md.div_dialog.remove();
             document.body.style.overflow = 'auto';
-            text_div.html('<div>'+this.oldComment_str+'</div>');
+            if(obj[Keys.EXPIRED] == true){
+              this.loginData.changeLoginData({
+                logout: false, userCookie: {}
+              })
+            }
+            else text_div.html('<div>'+this.oldComment_str+'</div>');
           });
         }
       }).catch(err => {

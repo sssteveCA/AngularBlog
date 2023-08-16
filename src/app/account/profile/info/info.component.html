@@ -2,8 +2,8 @@
 <app-back [backlink]="backlink"></app-back>
 <div class="edit-username container">
     <app-email [emailObject]="emailObject"></app-email>
-    <app-username [usernameObject]="usernameObject"></app-username>
-    <app-names [namesObject]="namesObject"></app-names>
-    <app-password></app-password>
-    <app-delete-account></app-delete-account>
+    <app-username [usernameObject]="usernameObject" (sessionExpired)="onSessionExpired($event)"></app-username>
+    <app-names [namesObject]="namesObject" (sessionExpired)="onSessionExpired($event)"></app-names>
+    <app-password (sessionExpired)="onSessionExpired($event)"></app-password>
+    <app-delete-account (accountDeleted)="onAccountDeleted($event)"></app-delete-account>
 </div>

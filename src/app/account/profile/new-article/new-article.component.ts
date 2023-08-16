@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Article } from 'src/app/models/article.model';
 import * as constants from 'src/constants/constants';
@@ -15,13 +15,14 @@ import ConfirmDialog from 'src/classes/dialogs/confirmdialog';
 import { Keys } from 'src/constants/keys';
 import { LogindataService } from 'src/app/services/logindata.service';
 import { UserCookie } from 'src/constants/types';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-new-article',
   templateUrl: './new-article.component.html',
   styleUrls: ['./new-article.component.scss']
 })
-export class NewArticleComponent implements OnInit {
+export class NewArticleComponent implements OnInit, OnDestroy {
 
   addArticle_url: string = constants.articleCreateUrl;
   backlink: string = "../../";
@@ -31,12 +32,18 @@ export class NewArticleComponent implements OnInit {
   spinnerId: string = "new-article-spinner";
   cookie: UserCookie = {}
   title: string = "Crea un nuovo articolo";
+  subscription: Subscription;
 
   constructor(public http: HttpClient, public fb: FormBuilder, private router: Router, private loginData: LogindataService) {
     this.formBuild();
    }
 
-  ngOnInit(): void {
+   ngOnDestroy(): void {
+    if(this.subscription != null) this.subscription.unsubscribe();
+  }
+
+   ngOnInit(): void {
+    this.loginDataObserver()
   }
 
   formBuild(): void{
@@ -89,6 +96,18 @@ export class NewArticleComponent implements OnInit {
     }
   }
 
+  loginDataObserver(): void{
+    this.subscription = this.loginData.loginDataObservable.subscribe(loginData => {
+      if(!(loginData.userCookie && loginData.userCookie.token_key != null && loginData.userCookie.username != null)){
+        this.loginData.removeItems();
+        if(loginData.logout && loginData.logout == true)
+          this.router.navigateByUrl(constants.homeUrl)
+        else
+          this.router.navigateByUrl(constants.notLoggedRedirect)
+      }
+    })
+  }
+
   newArticle(): void{
     const aa_data: AddArticleInterface = {
       article: this.article,
@@ -100,12 +119,6 @@ export class NewArticleComponent implements OnInit {
     this.showSpinner = true;
     aa.createArticle().then(obj => {
       this.showSpinner = false;
-      if(obj[Keys.EXPIRED] == true){
-        //session expired
-        this.loginData.removeItems();
-          this.loginData.changeUserCookieData({});
-          this.router.navigateByUrl(constants.notLoggedRedirect);
-      }
       const md_data: MessageDialogInterface = {
         title: 'Creazione articolo',
         message: obj[Keys.MESSAGE]
@@ -115,6 +128,12 @@ export class NewArticleComponent implements OnInit {
         md.instance.dispose();
         md.div_dialog.remove();
         document.body.style.overflow = 'auto';
+        if(obj[Keys.EXPIRED] == true){
+          //session expired
+          this.loginData.changeLoginData({
+            logout: false, userCookie: {}
+          })
+        }
       });
     }).catch(err => {
       const md_data: MessageDialogInterface = {

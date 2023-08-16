@@ -3,10 +3,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Article } from 'src/app/models/article.model';
+import { LogindataService } from 'src/app/services/logindata.service';
 import { GetArticle } from 'src/classes/requests/article/getarticle';
 import * as constants from 'src/constants/constants';
 import { Keys } from 'src/constants/keys';
 import { Messages } from 'src/constants/messages';
+import { UserCookie } from 'src/constants/types';
 import GetArticleInterface from 'src/interfaces/requests/article/getarticle.interface';
 
 @Component({
@@ -18,6 +20,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
   article: string | null;
   articleObj: Article;
+  cookie: UserCookie = {}
   done: boolean = false;
   message: string;
   showSpinner: boolean = true;
@@ -26,7 +29,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   
 
-  constructor(public route: ActivatedRoute, public http: HttpClient, private router: Router) {
+
+  constructor(public route: ActivatedRoute, public http: HttpClient, private router: Router, private loginData: LogindataService) {
    }
 
   ngOnInit(): void {
@@ -34,7 +38,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if(this.subscription) this.subscription.unsubscribe();
+    if(this.subscription != null) this.subscription.unsubscribe();
   }
 
     articleParams(): void{

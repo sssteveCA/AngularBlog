@@ -42,6 +42,14 @@ export type EuParams = {
 }
 
 /**
+ * LogindataService object used for logged user check
+ */
+export type LoginDataType = {
+    logout?: boolean;
+    userCookie?: UserCookie
+}
+
+/**
  * Cookie object with logged user information
  */
 export type UserCookie = {

@@ -78,6 +78,11 @@ export const deleteComment: string = Config.PHP_SCRIPTS_URL+"/article/comment/de
 //export const homeUrl: string = "http://localhost:4200";
 
 /**
+ * Angular Home url
+ */
+export const homeUrl: string = "/";
+
+/**
  * background image url
  */
 export const imgUrl : string = Config.ANGULAR_MAIN_URL+"/assets/img/background.jfif"; 

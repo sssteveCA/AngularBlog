@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatFormField, MatFormFieldControl } from '@angular/material/form-field';
@@ -17,6 +17,8 @@ import PasswordDialog from 'src/classes/dialogs/passworddialog';
 import { EuParams, UserCookie } from 'src/constants/types';
 import { Keys } from 'src/constants/keys';
 import { LogindataService } from 'src/app/services/logindata.service';
+import { EventEmitter } from '@angular/core'
+import MessageDialog from 'src/classes/dialogs/messagedialog';
 
 
 @Component({
@@ -35,6 +37,7 @@ export class UsernameComponent implements OnInit, OnChanges {
   usernameError: boolean = false;
   messageError: string = "Impossibile rilevare il tuo nome utente";
   @Input() usernameObject: object;
+  @Output() sessionExpired: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(public http: HttpClient, public fb: FormBuilder, public router: Router, private loginData: LogindataService) {
     this.setFormGroupUsername();
@@ -63,33 +66,30 @@ export class UsernameComponent implements OnInit, OnChanges {
     };
     let uu: UpdateUsername = new UpdateUsername(uu_data);
     uu.updateUsername().then(obj => {
-      if(obj[Keys.DONE]){
-          localStorage.setItem('username', obj['new_username']);
-          (this.cookie).username = localStorage.getItem('username');
-          this.loginData.changeUserCookieData({
-            token_key: localStorage.getItem('token_key'),
-            username: localStorage.getItem('username')
+      let md_data: MessageDialogInterface = {
+        title: "Modifica nome utente",
+        message: obj[Keys.MESSAGE]
+      };
+      let md: MessageDialog = new MessageDialog(md_data);
+      md.bt_ok.addEventListener('click',()=> {
+        md.instance.dispose();
+        md.div_dialog.remove();
+        document.body.style.overflow = 'auto';
+        if(obj[Keys.DONE]){
+          localStorage.setItem('username', obj['new_username']);         
+          this.loginData.changeLoginData({
+             userCookie: {
+              token_key: localStorage.getItem('token_key'),
+              username: localStorage.getItem('username')
+             }
           })
-          let md_data: MessageDialogInterface = {
-            title: "Modifica nome utente",
-            message: obj[Keys.MESSAGE]
-          };
-          messageDialog(md_data);
-      }//if(obj[Keys.DONE]){
-      else{
-        if(obj[Keys.EXPIRED] == true){
-          this.loginData.removeItems();
-          this.loginData.changeUserCookieData({});
-          this.router.navigateByUrl(constants.notLoggedRedirect);
-        }
+        }//if(obj[Keys.DONE]){
         else{
-          let md_data: MessageDialogInterface = {
-            title: "Modifica nome utente",
-            message: obj[Keys.MESSAGE]
-          };
-          messageDialog(md_data);
+          if(obj[Keys.EXPIRED] == true){
+            this.sessionExpired.emit(true)
+          }
         }
-      }
+      })
     }).catch(err => {
       let md_data: MessageDialogInterface = {
         title: "Modifica nome utente",

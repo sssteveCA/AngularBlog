@@ -48,6 +48,9 @@ else{
     $response[C::KEY_MESSAGE] = C::FILL_ALL_FIELDS;
 }
 
+$response[C::KEY_DONE] = false;
+$response[C::KEY_EXPIRED] = true;
+$response[C::KEY_MESSAGE] = Te::TOKENEXPIRED_MSG;
 echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
 
 ?>

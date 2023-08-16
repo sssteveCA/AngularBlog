@@ -1,31 +1,42 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import GetUserInfo from 'src/classes/requests/profile/getuserinfo';
 import { Keys } from 'src/constants/keys';
 import GetUserInfoInterface from 'src/interfaces/requests/profile/getuserinfo.interface';
 import * as constants from '../../../../constants/constants';
+import {Subscription } from 'rxjs';
+import { LogindataService } from 'src/app/services/logindata.service';
+import { UserCookie } from 'src/constants/types';
 
 @Component({
   selector: 'app-info',
   templateUrl: './info.component.html',
   styleUrls: ['./info.component.scss']
 })
-export class InfoComponent implements OnInit {
+export class InfoComponent implements OnInit, OnDestroy {
 
   backlink: string = "../";
+  cookie: UserCookie = {};
   emailObject: object = {};
   namesObject: object = {};
   usernameObject: object = {};
   urlUserInfo: string = constants.profileGetUserInfoUrl;
   title: string = "Modifica il tuo account";
+  subscription: Subscription;
 
-  constructor(public http: HttpClient, public router: Router, public fb: FormBuilder) {
+
+  constructor(public http: HttpClient, public router: Router, public fb: FormBuilder, private loginData: LogindataService) {
     
    }
 
+   ngOnDestroy(): void {
+    if(this.subscription != null) this.subscription.unsubscribe();
+  }
+
   ngOnInit(): void {
+    this.loginDataObserver()
     this.getUserInfo();
   }
 
@@ -51,6 +62,42 @@ export class InfoComponent implements OnInit {
       this.namesObject = { 'done': false }
       this.usernameObject = { 'done': false }
     })
+  }
+
+  loginDataObserver(): void{
+    this.subscription = this.loginData.loginDataObservable.subscribe(loginData => {
+      if(!(loginData.userCookie && loginData.userCookie.token_key != null && loginData.userCookie.username != null)){
+        this.loginData.removeItems();
+        if(loginData.logout && loginData.logout == true)
+          this.router.navigateByUrl(constants.homeUrl)
+        else
+          this.router.navigateByUrl(constants.notLoggedRedirect)
+      }
+    })
+  }
+
+  /**
+   * Emitted when delete account child component remove the logged account
+   * @param deleted 
+   */
+  onAccountDeleted(deleted: boolean): void{
+    if(deleted){
+      this.loginData.changeLoginData({
+        logout: true, userCookie: {}
+      })
+    }
+  }
+
+  /**
+   * Emitted from child components when the session is expired
+   * @param expired
+   */
+  onSessionExpired(expired: boolean): void{
+    if(expired){
+      this.loginData.changeLoginData({
+        logout: false, userCookie: {}
+      })
+    }
   }
   
 }
