@@ -62,6 +62,7 @@ interface Constants{
 
     //Keys
     const KEY_AUTH = "AngularBlogAuth";
+    const KEY_CODE = 'code';
     const KEY_DATA = "data";
     const KEY_DONE = "done";
     const KEY_EMPTY = "empty";
