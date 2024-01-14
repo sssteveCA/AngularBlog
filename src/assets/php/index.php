@@ -1,5 +1,5 @@
 <?php
 
-var_dump($_SERVER);
+echo json_encode($_SERVER,JSON_PRETTY_PRINT);
 
 ?>

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ANGULARBLOG_OUTPUT_PATH=/volume/angularblog.com
 
 build(){
