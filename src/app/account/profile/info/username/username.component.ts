@@ -76,12 +76,12 @@ export class UsernameComponent implements OnInit, OnChanges {
         md.div_dialog.remove();
         document.body.style.overflow = 'auto';
         if(obj[Keys.DONE]){
-          localStorage.setItem('username', obj['new_username']);
+          localStorage.setItem('username', obj['new_username']);         
           this.loginData.changeLoginData({
-            userCookie: {
+             userCookie: {
               token_key: localStorage.getItem('token_key'),
               username: localStorage.getItem('username')
-            }
+             }
           })
         }//if(obj[Keys.DONE]){
         else{

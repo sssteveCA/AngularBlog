@@ -23,6 +23,7 @@ import { UserCookie } from 'src/constants/types';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-comments',
   templateUrl: './comments.component.html',
@@ -67,6 +68,7 @@ export class CommentsComponent implements OnInit,AfterViewInit, OnDestroy {
         username: localStorage.getItem('username')
       }
     })
+
   }
 
   /**
@@ -229,6 +231,7 @@ export class CommentsComponent implements OnInit,AfterViewInit, OnDestroy {
         
     })
   }
+
 
   updateComment(event): void{
     let link: JQuery = $(event.target);

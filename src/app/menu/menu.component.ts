@@ -29,7 +29,6 @@ export class MenuComponent implements OnInit, OnDestroy {
   constructor(private http:HttpClient, private router:Router, private loginData: LogindataService) {
   }
 
-
   loginDataObserver(): void{
     this.subscription = this.loginData.loginDataObservable.subscribe(loginData => {
       if(loginData.userCookie && loginData.userCookie.token_key != null && loginData.userCookie.username != null){
@@ -40,7 +39,6 @@ export class MenuComponent implements OnInit, OnDestroy {
         this.cookie = {}
       }
     })
-
   }
 
   //user wants  logout from his account

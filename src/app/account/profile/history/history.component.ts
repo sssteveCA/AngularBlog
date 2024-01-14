@@ -36,6 +36,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
   spinnerId: string = "history-spinner"
   subscription: Subscription;
 
+
   constructor(private http: HttpClient, private router: Router, private loginData: LogindataService) {
     this.getHistory();
    }

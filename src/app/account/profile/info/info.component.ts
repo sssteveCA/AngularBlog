@@ -26,6 +26,7 @@ export class InfoComponent implements OnInit, OnDestroy {
   title: string = "Modifica il tuo account";
   subscription: Subscription;
 
+
   constructor(public http: HttpClient, public router: Router, public fb: FormBuilder, private loginData: LogindataService) {
     
    }
