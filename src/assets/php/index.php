@@ -3,6 +3,7 @@
 require_once('../../../vendor/autoload.php');
 
 use AngularBlog\Responses\Register;
+use AngularBlog\Responses\Login;
 use AngularBlog\Interfaces\Constants as C;
 
 //echo json_encode($_SERVER,JSON_PRETTY_PRINT);
@@ -19,7 +20,9 @@ else if($method == "POST"){
     $post = json_decode($input, true);
     $params = [ 'post' => $post ];
     if($uri == $prefix."/login"){
-
+        $response = Login::content($params);
+        http_response_code($response[C::KEY_CODE]);
+        echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
     }
     else if($uri == $prefix."/register"){
         $response = Register::content($params);
