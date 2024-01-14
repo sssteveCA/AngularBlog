@@ -1,0 +1,8 @@
+{
+    "/api/v1": {
+        "target": "http://localhost:4200",
+        "secure": false,
+        "bypass": "http://localhost:4200/assets/php/index.php"
+    }
+}
+  
