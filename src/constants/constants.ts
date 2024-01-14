@@ -105,7 +105,8 @@ export const loginStatusUrl: string = Config.PHP_SCRIPTS_URL+"/account/loginstat
 /**
  * php script for user login
  */
-export const loginUrl: string = Config.PHP_SCRIPTS_URL+"/account/login.php";
+//export const loginUrl: string = Config.PHP_SCRIPTS_URL+"/account/login.php";
+export const loginUrl: string = Config.PHP_API_PREFIX+"/register";
 
 /**
  * url redirect after logout
