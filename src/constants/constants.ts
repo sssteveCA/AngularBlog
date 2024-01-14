@@ -185,7 +185,8 @@ export const profileUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile.php";
 /**
  * php script for user registration
  */
-export const registerUrl: string = Config.PHP_SCRIPTS_URL+"/account/register.php";
+//export const registerUrl: string = Config.PHP_SCRIPTS_URL+"/account/register.php";
+export const registerUrl: string = Config.PHP_API_PREFIX+"/register";
 
 /**
  * php script for articles search
