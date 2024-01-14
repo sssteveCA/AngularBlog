@@ -22,7 +22,7 @@ class Register{
             if(preg_match(User::$regex['password'],$post['password'])){
                 if($post['password'] == $post['confPwd']){
                     $dotenv = Dotenv::createImmutable(__DIR__."/../../../../");
-                    $dotenv->safeLoad();
+                    $dotenv->load();
                     try{
                         $data = array(
                             'name' => $post['name'],

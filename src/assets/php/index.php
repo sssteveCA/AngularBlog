@@ -1,6 +1,6 @@
 <?php
 
-require_once('../../vendor/autoload.php');
+require_once('../../../vendor/autoload.php');
 
 use AngularBlog\Responses\Register;
 use AngularBlog\Interfaces\Constants as C;
