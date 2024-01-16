@@ -2,6 +2,7 @@
 
 require_once('../../../vendor/autoload.php');
 
+use AngularBlog\Responses\Activate;
 use AngularBlog\Responses\Register;
 use AngularBlog\Responses\Login;
 use AngularBlog\Interfaces\Constants as C;
@@ -13,7 +14,13 @@ $uri = $_SERVER['REQUEST_URI'];
 $prefix = "/api/v1";
 
 if($method == "GET"){
-
+    $prefixSlashes = addslashes($prefix);
+    if(preg_match("/^{$prefixSlashes}\/activate\/([0-9a-zA-Z]{64})/",$uri,$matches)){
+        $params = [ 'get' => ['emailVerif' => $matches[1]]];
+        $response = Activate::content($params);
+        http_response_code($response[C::KEY_CODE]);
+        echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
+    }
 }
 else if($method == "POST"){
     $input = file_get_contents("php://input");
