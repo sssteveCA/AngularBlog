@@ -3,8 +3,9 @@
 require_once('../../../vendor/autoload.php');
 
 use AngularBlog\Responses\Activate;
-use AngularBlog\Responses\Register;
+use AngularBlog\Responses\LastPosts;
 use AngularBlog\Responses\Login;
+use AngularBlog\Responses\Register;
 use AngularBlog\Interfaces\Constants as C;
 
 //echo json_encode($_SERVER,JSON_PRETTY_PRINT);
@@ -18,6 +19,11 @@ if($method == "GET"){
     if(preg_match("/^{$prefixSlashes}\/activate\/([0-9a-zA-Z]{64})/",$uri,$matches)){
         $params = [ 'get' => ['emailVerif' => $matches[1]]];
         $response = Activate::content($params);
+        http_response_code($response[C::KEY_CODE]);
+        echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
+    }
+    else if($uri = $prefix."/lastposts"){
+        $response = LastPosts::content([]);
         http_response_code($response[C::KEY_CODE]);
         echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
     }
