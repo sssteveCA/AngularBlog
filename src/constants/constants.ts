@@ -12,7 +12,8 @@ export const phpFolder: string = "/src/assets/php"; */
 /**
  * php script fro account activation
  */
-export const activationUrl: string = Config.PHP_SCRIPTS_URL+"/account/activate.php";
+//export const activationUrl: string = Config.PHP_SCRIPTS_URL+"/account/activate.php";
+export const activationUrl: string = Config.PHP_API_PREFIX+"/activate";
 
 /**
  * blog url
