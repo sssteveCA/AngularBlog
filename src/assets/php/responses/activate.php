@@ -19,7 +19,7 @@ class Activate{
         ];
         $get = $params['get'];
         if(isset($get['emailVerif']) && $get['emailVerif'] != ''){
-            if(preg_match(User::$regex['emailVerif'],$_REQUEST['emailVerif'])){
+            if(preg_match(User::$regex['emailVerif'],$get['emailVerif'])){
                 try{
                     $dotenv = Dotenv::createImmutable(__DIR__."/../../../../");
                     $dotenv->load();
@@ -31,6 +31,7 @@ class Activate{
                     $response[C::KEY_MESSAGE] = $vv->getMessage();
                     switch($response[C::KEY_MESSAGE]){
                         case C::ACTIVATION_OK:
+                            $response[C::KEY_DONE] = true;
                             $response[C::KEY_CODE] = 200;
                             $response['status'] = 1;
                             break;

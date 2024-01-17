@@ -14,7 +14,7 @@ $uri = $_SERVER['REQUEST_URI'];
 $prefix = "/api/v1";
 
 if($method == "GET"){
-    $prefixSlashes = addslashes($prefix);
+    $prefixSlashes = str_replace('/','\/',$prefix);
     if(preg_match("/^{$prefixSlashes}\/activate\/([0-9a-zA-Z]{64})/",$uri,$matches)){
         $params = [ 'get' => ['emailVerif' => $matches[1]]];
         $response = Activate::content($params);
