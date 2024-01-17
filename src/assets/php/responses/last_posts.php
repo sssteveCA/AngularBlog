@@ -14,7 +14,7 @@ use Exception;
  */
 class LastPosts{
 
-    public function content(array $params): array{
+    public static function content(array $params): array{
         $response = [
             C::KEY_CODE => 200, C::KEY_DATA => [], C::KEY_DONE => false, C::KEY_EMPTY => false, C::KEY_MESSAGE => ""
         ];

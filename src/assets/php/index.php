@@ -1,5 +1,6 @@
 <?php
 
+require_once('interfaces/article/articlelist_errors.php');
 require_once('../../../vendor/autoload.php');
 
 use AngularBlog\Responses\Activate;
