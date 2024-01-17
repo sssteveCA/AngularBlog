@@ -91,7 +91,8 @@ export const imgUrl : string = Config.ANGULAR_MAIN_URL+"/assets/img/background.j
 /**
  * url to get the last updated articles
  */
-export const lastPostsUrl: string = Config.PHP_SCRIPTS_URL+"/article/last_posts.php";
+//export const lastPostsUrl: string = Config.PHP_SCRIPTS_URL+"/article/last_posts.php";
+export const lastPostsUrl: string = Config.PHP_API_PREFIX+"/lastposts";
 
 /**
  * url redirect after login success
