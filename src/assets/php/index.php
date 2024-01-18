@@ -6,6 +6,7 @@ require_once('../../../vendor/autoload.php');
 use AngularBlog\Responses\Activate;
 use AngularBlog\Responses\LastPosts;
 use AngularBlog\Responses\Login;
+use AngularBlog\Responses\Logout;
 use AngularBlog\Responses\Register;
 use AngularBlog\Interfaces\Constants as C;
 
@@ -23,10 +24,16 @@ if($method == "GET"){
         http_response_code($response[C::KEY_CODE]);
         echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
     }
-    else if($uri = $prefix."/lastposts"){
+    else if($uri == $prefix."/lastposts"){
         $response = LastPosts::content([]);
         http_response_code($response[C::KEY_CODE]);
         echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
+    }
+    else if($uri == $prefix."/logout"){
+        $params = [ 'headers' => getallheaders() ];
+        $response = Logout::content($params);
+        http_response_code($response[C::KEY_CODE]);
+        echo json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
     }
 }
 else if($method == "POST"){
