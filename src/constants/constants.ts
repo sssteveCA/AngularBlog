@@ -118,7 +118,8 @@ export const logoutRedirect: string = "/";
 /**
  * php script for user logout
  */
-export const logoutUrl: string = Config.PHP_SCRIPTS_URL+"/account/logout.php";
+//export const logoutUrl: string = Config.PHP_SCRIPTS_URL+"/account/logout.php";
+export const logoutUrl: string = Config.PHP_API_PREFIX+"/logout";
 
 /**
  * php script for get articles created by specific user
