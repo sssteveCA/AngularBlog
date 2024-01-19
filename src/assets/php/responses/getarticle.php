@@ -2,9 +2,9 @@
 
 namespace AngularBlog\Responses;
 
-use AngularBlog\Classes\Article\ArticleList;
-use AngularBlog\Classes\User;
 use AngularBlog\Interfaces\Constants as C;
+use AngularBlog\Classes\Article\Article;
+use AngularBlog\Classes\User;
 use Dotenv\Dotenv;
 use MongoDB\BSON\ObjectId;
 use Exception;
