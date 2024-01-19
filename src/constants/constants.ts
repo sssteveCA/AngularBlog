@@ -33,7 +33,8 @@ export const articleComments: string = Config.PHP_SCRIPTS_URL+"/article/comment/
 /**
  * php script for article view
  */
-export const articleView: string = Config.PHP_SCRIPTS_URL+"/article/search_article.php";
+//export const articleView: string = Config.PHP_SCRIPTS_URL+"/article/search_article.php";
+export const articleView: string = Config.PHP_API_PREFIX+"/articles/";
 
 /**
  * php script for create an article

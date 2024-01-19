@@ -13,7 +13,7 @@ export class GetArticle{
         this._http = data.http;
         this._permalink = data.permalink;
         this._url = data.url;
-        this._full_url = this._url+"?permalink="+this._permalink;
+        this._full_url = this._url+"/"+this._permalink;
     }
 
     get full_url(){return this._full_url;}
