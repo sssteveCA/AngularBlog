@@ -5,6 +5,7 @@ require_once('../../../vendor/autoload.php');
 
 use AngularBlog\Responses\Activate;
 use AngularBlog\Responses\GetArticle;
+use AngularBlog\Responses\GetArticlesByQuery;
 use AngularBlog\Responses\LastPosts;
 use AngularBlog\Responses\Login;
 use AngularBlog\Responses\Logout;
@@ -28,6 +29,12 @@ if($method == "GET"){
     else if(preg_match("/^{$prefixSlashes}\/articles\/([a-zA-Z\d\-_]{5,30})/",$uri,$matches)){
         $params = [ 'get' => [ 'permalink' => $matches[1] ] ];
         $response = GetArticle::content($params);
+        http_response_code($response[C::KEY_CODE]);
+        echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
+    }
+    else if(substr($uri,0,strlen($prefix."/articles")) == $prefix."/articles" && isset($_GET['query'])){
+        $params = [ 'get' => [ 'query' => $_GET['query'] ] ];
+        $response = GetArticlesByQuery::content($params);
         http_response_code($response[C::KEY_CODE]);
         echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
     }
