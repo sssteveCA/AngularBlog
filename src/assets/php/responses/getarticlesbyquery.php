@@ -18,7 +18,6 @@ class GetArticlesByQuery{
             C::KEY_CODE => 200, C::KEY_DONE => false, C::KEY_MESSAGE => ''
         ];
         $get = $params['get'];
-        $field = 'title';
         if(isset($get['query']) && $get['query'] != ''){
             try{
                 $dotenv = Dotenv::createImmutable(__DIR__."/../../../../");

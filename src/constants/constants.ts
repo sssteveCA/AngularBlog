@@ -196,7 +196,8 @@ export const registerUrl: string = Config.PHP_API_PREFIX+"/register";
 /**
  * php script for articles search
  */
-export const searchArticles: string = Config.PHP_SCRIPTS_URL+"/article/search_articles.php";
+//export const searchArticles: string = Config.PHP_SCRIPTS_URL+"/article/search_articles.php";
+export const searchArticles: string = Config.PHP_API_PREFIX+"/articles.php";
 
 /**
  * php script for comment update
