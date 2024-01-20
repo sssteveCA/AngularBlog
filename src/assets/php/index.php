@@ -5,6 +5,7 @@ require_once('../../../vendor/autoload.php');
 
 use AngularBlog\Responses\Activate;
 use AngularBlog\Responses\ArticleComments;
+use AngularBlog\Responses\CreateArticle;
 use AngularBlog\Responses\DeleteArticle;
 use AngularBlog\Responses\EditArticle;
 use AngularBlog\Responses\GetArticle;
@@ -54,8 +55,11 @@ if($method == "GET"){
 else if($method == "POST"){
     $input = file_get_contents("php://input");
     $post = json_decode($input, true);
-    $params = [ 'post' => $post ];
-    if($uri == $prefix."/login"){
+    $params = [ 'headers' => $headers, 'post' => $post ];
+    if($uri == $prefix."/articles"){
+        $response = CreateArticle::content($params);
+    }
+    else if($uri == $prefix."/login"){
         $response = Login::content($params);
     }
     else if($uri == $prefix."/register"){
