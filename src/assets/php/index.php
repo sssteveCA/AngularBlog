@@ -23,6 +23,11 @@ $headers = getallheaders();
 $method = $_SERVER['REQUEST_METHOD'];
 $uri = $_SERVER['REQUEST_URI'];
 $prefix = "/api/v1";
+$regex = [
+    "objectId" => "([0-9a-fA-F]{24})",
+    "permalink" => "([a-zA-Z\d\-_]{5,30})",
+    "token" => "([0-9a-zA-Z]{64})"
+];
 $objectIdRegex = "([0-9a-fA-F]{24})";
 $prefixSlashes = str_replace('/','\/',$prefix);
 $permalinkRegex = "([a-zA-Z\d\-_]{5,30})";
@@ -30,15 +35,15 @@ $tokenRegex = "([0-9a-zA-Z]{64})";
 
 if($method == "GET"){
     $params = [ 'get' => [], 'headers' => $headers ];
-    if(preg_match("/^{$prefixSlashes}\/activate\/{$tokenRegex}/",$uri,$matches)){
+    if(preg_match("/^{$prefixSlashes}\/activate\/{$regex['token']}/",$uri,$matches)){
         $params['get']['emailVerif'] = $matches[1];
         $response = Activate::content($params);
     }
-    else if(preg_match("/^{$prefixSlashes}\/articles\/{$permalinkRegex}\/?$/",$uri,$matches)){
+    else if(preg_match("/^{$prefixSlashes}\/articles\/{$regex['permalink']}\/?$/",$uri,$matches)){
         $params['get']['permalink'] = $matches[1];
         $response = GetArticle::content($params);
     }
-    else if(preg_match("/^{$prefixSlashes}\/articles\/{$permalinkRegex}\/comments/",$uri,$matches)){
+    else if(preg_match("/^{$prefixSlashes}\/articles\/{$regex['permalink']}\/comments/",$uri,$matches)){
         $params['get']['permalink'] = $matches[1];
         $response = ArticleComments::content($params);
     }
@@ -75,7 +80,7 @@ else if($method == "PUT"){
     $input = file_get_contents("php://input");
     $put = json_decode($input, true);
     $params = [ 'headers' => $headers, 'put' => $put ];
-    if(preg_match("/^{$prefixSlashes}\/articles\/{$objectIdRegex}/",$uri,$matches)){
+    if(preg_match("/^{$prefixSlashes}\/articles\/{$regex['objectId']}/",$uri,$matches)){
         $params['put']['article']['id'] = $matches[1];
         $response = EditArticle::content($params);
     }
@@ -83,7 +88,7 @@ else if($method == "PUT"){
 
 else if($method == "DELETE"){
     $params = [ 'delete' => [], 'headers' => $headers ];
-    if(preg_match("/^{$prefixSlashes}\/articles\/{$objectIdRegex}/",$uri,$matches)){
+    if(preg_match("/^{$prefixSlashes}\/articles\/{$regex['objectId']}/",$uri,$matches)){
         $params['delete']['article_id'] = $matches[1];
         $response = DeleteArticle::content($params);
     }
