@@ -28,7 +28,8 @@ export const articleAuthorizedUrl: string = Config.PHP_SCRIPTS_URL+"/article/art
 /**
  * php script for get the article comments
  */
-export const articleComments: string = Config.PHP_SCRIPTS_URL+"/article/comment/article_comments.php";
+//export const articleComments: string = Config.PHP_SCRIPTS_URL+"/article/comment/article_comments.php";
+export const articleComments: string = Config.PHP_API_PREFIX+"/articles/";
 
 /**
  * php script for article view

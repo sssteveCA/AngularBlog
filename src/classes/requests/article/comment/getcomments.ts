@@ -27,7 +27,7 @@ export default class GetComments{
     get url(){return this._url;}
 
     private setFullUrl(): void{
-        this._full_url = this._url+"?permalink="+this._permalink;
+        this._full_url = `${this._url}/${this._permalink}/comments`;
     }
 
     public async getComments(): Promise<object>{
