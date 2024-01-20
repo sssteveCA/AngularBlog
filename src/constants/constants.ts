@@ -40,7 +40,8 @@ export const articleView: string = Config.PHP_API_PREFIX+"/articles/";
 /**
  * php script for create an article
  */
-export const articleCreateUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/myArticles/create.php";
+//export const articleCreateUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/myArticles/create.php";
+export const articleCreateUrl: string = Config.PHP_API_PREFIX+"/articles";
 
 /**
  * article delete url script

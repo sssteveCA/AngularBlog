@@ -66,6 +66,7 @@ else if($method == "POST"){
         $response = Register::content($params);
     }
 }
+
 else if($method == "PUT"){
     $input = file_get_contents("php://input");
     $put = json_decode($input, true);
