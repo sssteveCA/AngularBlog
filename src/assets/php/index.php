@@ -10,6 +10,7 @@ use AngularBlog\Responses\DeleteArticle;
 use AngularBlog\Responses\EditArticle;
 use AngularBlog\Responses\GetArticle;
 use AngularBlog\Responses\GetArticlesByQuery;
+use AngularBlog\Responses\GetUserArticles;
 use AngularBlog\Responses\LastPosts;
 use AngularBlog\Responses\Login;
 use AngularBlog\Responses\Logout;
@@ -50,6 +51,9 @@ if($method == "GET"){
     }
     else if($uri == $prefix."/logout"){
         $response = Logout::content($params);
+    }
+    else if($uri == $prefix."/profile/articles"){
+        $response = GetUserArticles::content($params);
     }
 }
 else if($method == "POST"){
