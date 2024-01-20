@@ -33,13 +33,13 @@ class EditArticle{
                     ];
                     $token_data = ['token_key' => $headers[C::KEY_AUTH]];
                     $article_data = [
-                        'id' => $post['article']['id'],
-                        'title' => $post['article']['title'],
-                        'introtext' => $post['article']['introtext'],
-                        'content' => $post['article']['content'],
-                        'permalink' => $post['article']['permalink'],
-                        'categories' => explode(",",$post['article']['categories']),
-                        'tags' => explode(",",$post['article']['tags'])
+                        'id' => $put['article']['id'],
+                        'title' => $put['article']['title'],
+                        'introtext' => $put['article']['introtext'],
+                        'content' => $put['article']['content'],
+                        'permalink' => $put['article']['permalink'],
+                        'categories' => explode(",",$put['article']['categories']),
+                        'tags' => explode(",",$put['article']['tags'])
                     ];
                     $token = new Token($token_data);
                     $article = new Article($article_data);
