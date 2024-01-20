@@ -129,7 +129,8 @@ export const logoutUrl: string = Config.PHP_API_PREFIX+"/logout";
 /**
  * php script for get articles created by specific user
  */
-export const myArticlesUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/myArticles/get.php";
+//export const myArticlesUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/myArticles/get.php";
+export const myArticlesUrl: string = Config.PHP_API_PREFIX+"/profile/articles.php";
 
 /**
  * url redirect if user not logged try access to poute that need to be authenticated
