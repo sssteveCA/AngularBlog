@@ -54,7 +54,8 @@ export const articleEditUrl: string = "/profile/myArticles/edit";
 /**
  * article edit url script
  */
-export const articleEditScriptUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/myArticles/edit.php";
+//export const articleEditScriptUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/myArticles/edit.php";
+export const articleEditScriptUrl: string = Config.PHP_API_PREFIX+"/articles/";
 
 /**
  * php script for send assistance email
