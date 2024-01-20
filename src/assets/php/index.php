@@ -4,6 +4,7 @@ require_once('interfaces/article/articlelist_errors.php');
 require_once('../../../vendor/autoload.php');
 
 use AngularBlog\Responses\Activate;
+use AngularBlog\Responses\ArticleComments;
 use AngularBlog\Responses\DeleteArticle;
 use AngularBlog\Responses\EditArticle;
 use AngularBlog\Responses\GetArticle;
@@ -26,34 +27,28 @@ $permalinkRegex = "([a-zA-Z\d\-_]{5,30})";
 $tokenRegex = "([0-9a-zA-Z]{64})";
 
 if($method == "GET"){
+    $params = [ 'get' => [], 'headers' => $headers ];
     if(preg_match("/^{$prefixSlashes}\/activate\/{$tokenRegex}/",$uri,$matches)){
-        $params = [ 'get' => [ 'emailVerif' => $matches[1] ] ];
+        $params['get']['emailVerif'] = $matches[1];
         $response = Activate::content($params);
-        http_response_code($response[C::KEY_CODE]);
-        echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
     }
-    else if(preg_match("/^{$prefixSlashes}\/articles\/{$permalinkRegex}/",$uri,$matches)){
-        $params = [ 'get' => [ 'permalink' => $matches[1] ] ];
+    else if(preg_match("/^{$prefixSlashes}\/articles\/{$permalinkRegex}\/?$/",$uri,$matches)){
+        $params['get']['permalink'] = $matches[1];
         $response = GetArticle::content($params);
-        http_response_code($response[C::KEY_CODE]);
-        echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
+    }
+    else if(preg_match("/^{$prefixSlashes}\/articles\/{$permalinkRegex}\/comments/",$uri,$matches)){
+        $params['get']['permalink'] = $matches[1];
+        $response = ArticleComments::content($params);
     }
     else if(substr($uri,0,strlen($prefix."/articles")) == $prefix."/articles" && isset($_GET['query'])){
-        $params = [ 'get' => [ 'query' => $_GET['query'] ] ];
+        $params['get']['query'] = $_GET['query'];
         $response = GetArticlesByQuery::content($params);
-        http_response_code($response[C::KEY_CODE]);
-        echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
     }
     else if($uri == $prefix."/lastposts"){
         $response = LastPosts::content([]);
-        http_response_code($response[C::KEY_CODE]);
-        echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
     }
     else if($uri == $prefix."/logout"){
-        $params = [ 'headers' => getallheaders() ];
         $response = Logout::content($params);
-        http_response_code($response[C::KEY_CODE]);
-        echo json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
     }
 }
 else if($method == "POST"){
@@ -62,13 +57,9 @@ else if($method == "POST"){
     $params = [ 'post' => $post ];
     if($uri == $prefix."/login"){
         $response = Login::content($params);
-        http_response_code($response[C::KEY_CODE]);
-        echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
     }
     else if($uri == $prefix."/register"){
         $response = Register::content($params);
-        http_response_code($response[C::KEY_CODE]);
-        echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
     }
 }
 else if($method == "PUT"){
@@ -78,8 +69,6 @@ else if($method == "PUT"){
     if(preg_match("/^{$prefixSlashes}\/articles\/{$objectIdRegex}/",$uri,$matches)){
         $params['put']['article']['id'] = $matches[1];
         $response = EditArticle::content($params);
-        http_response_code($response[C::KEY_CODE]);
-        echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
     }
 }
 
@@ -88,9 +77,10 @@ else if($method == "DELETE"){
     if(preg_match("/^{$prefixSlashes}\/articles\/{$objectIdRegex}/",$uri,$matches)){
         $params['delete']['article_id'] = $matches[1];
         $response = DeleteArticle::content($params);
-        http_response_code($response[C::KEY_CODE]);
-        echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
     }
 }
+
+http_response_code($response[C::KEY_CODE]);
+echo json_encode($response,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
 
 ?>
