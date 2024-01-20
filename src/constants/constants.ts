@@ -44,7 +44,8 @@ export const articleCreateUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile
 /**
  * article delete url script
  */
-export const articleDeleteUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/myArticles/delete.php";
+//export const articleDeleteUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/myArticles/delete.php";
+export const articleDeleteUrl: string = Config.PHP_API_PREFIX+"/articles";
 
 /**
  * article edit url (without param)

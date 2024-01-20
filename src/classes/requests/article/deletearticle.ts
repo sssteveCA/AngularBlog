@@ -51,7 +51,7 @@ export default class DeleteArticle{
                 .set('Content-Type','application/json')
                 .set('Accept','application/json')
                 .set(Keys.AUTH,this._token_key);
-            this._http.post(this._url,deleteData,{headers: headers, responseType: 'text'}).subscribe({
+            this._http.delete(`${this._url}/${this._article_id}`,{headers: headers, responseType: 'text'}).subscribe({
                 next: (res) => resolve(res),
                 error: (error) => reject(error) 
             })
