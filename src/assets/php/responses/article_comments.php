@@ -92,6 +92,7 @@ class ArticleComments{
                     $response['comments'][$i]['cu_comment'] = true;
                 }
             }
+            $i++;
         }
     }
 
