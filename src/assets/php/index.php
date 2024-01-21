@@ -6,6 +6,7 @@ require_once('../../../vendor/autoload.php');
 use AngularBlog\Responses\Activate;
 use AngularBlog\Responses\ArticleComments;
 use AngularBlog\Responses\CreateArticle;
+use AngularBlog\Responses\CreateComment;
 use AngularBlog\Responses\DeleteArticle;
 use AngularBlog\Responses\EditArticle;
 use AngularBlog\Responses\ErrorMessage;
@@ -58,7 +59,8 @@ if($method == "GET"){
         $response = GetUserArticles::content($params);
     }
     else{
-        $params = [ C::KEY_CODE => 404, C::KEY_MESSAGE => 'Risorsa non trovata' ];
+        $params[C::KEY_CODE] = 404; 
+        $params[C::KEY_MESSAGE] = 'Risorsa non trovata' ;
         $response = ErrorMessage::content($params);
     }
 }
@@ -69,6 +71,9 @@ else if($method == "POST"){
     if(preg_match("/^{$prefixSlashes}\/articles\/?$/",$uri)){
         $response = CreateArticle::content($params);
     }
+    else if(preg_match("/^{$prefixSlashes}\/articles\/{$regex['permalink']}\/comments\/?$/",$uri,$matches)){
+        $response = CreateComment::content($params);
+    }
     else if(preg_match("/^{$prefixSlashes}\/login\/?$/",$uri)){
         $response = Login::content($params);
     }
@@ -76,7 +81,8 @@ else if($method == "POST"){
         $response = Register::content($params);
     }
     else{
-        $params = [ C::KEY_CODE => 404, C::KEY_MESSAGE => 'Risorsa non trovata' ];
+        $params[C::KEY_CODE] = 404; 
+        $params[C::KEY_MESSAGE] = 'Risorsa non trovata' ;
         $response = ErrorMessage::content($params);
     }
 }
@@ -90,7 +96,8 @@ else if($method == "PUT"){
         $response = EditArticle::content($params);
     }
     else{
-        $params = [ C::KEY_CODE => 404, C::KEY_MESSAGE => 'Risorsa non trovata' ];
+        $params[C::KEY_CODE] = 404; 
+        $params[C::KEY_MESSAGE] = 'Risorsa non trovata' ;
         $response = ErrorMessage::content($params);
     }
 }
@@ -102,12 +109,14 @@ else if($method == "DELETE"){
         $response = DeleteArticle::content($params);
     }
     else{
-        $params = [ C::KEY_CODE => 404, C::KEY_MESSAGE => 'Risorsa non trovata' ];
+        $params[C::KEY_CODE] = 404; 
+        $params[C::KEY_MESSAGE] = 'Risorsa non trovata' ;
         $response = ErrorMessage::content($params);
     }
 }
 else{
-    $params = [ C::KEY_CODE => 404, C::KEY_MESSAGE => 'Risorsa non trovata' ];
+    $params[C::KEY_CODE] = 404; 
+    $params[C::KEY_MESSAGE] = 'Risorsa non trovata' ;
     $response = ErrorMessage::content($params);
 }
 
