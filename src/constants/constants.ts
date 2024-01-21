@@ -68,7 +68,8 @@ export const contactUrl: string = Config.PHP_SCRIPTS_URL+"/contact.php";
 /**
  * php script fot create new comment
  */
-export const createComment: string = Config.PHP_SCRIPTS_URL+"/article/comment/create.php";
+//export const createComment: string = Config.PHP_SCRIPTS_URL+"/article/comment/create.php";
+export const createComment: string = Config.PHP_API_PREFIX+"/articles";
 
 /**
  * Url redirect after successfully deleted the logged account

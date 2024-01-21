@@ -50,7 +50,7 @@ export default class AddComment{
               'Accept': 'application/json',
               'AngularBlogAuth': this._token_key
             });
-            this._http.post(this.url,createData,{headers: headers, responseType: 'text'}).subscribe({
+            this._http.post(`${this.url}/${this._permalink}/comments`,createData,{headers: headers, responseType: 'text'}).subscribe({
                 next: (res) => resolve(res),
                 error: (error) => reject(error) 
           });
