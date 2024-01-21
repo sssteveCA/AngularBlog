@@ -8,6 +8,7 @@ use AngularBlog\Responses\ArticleComments;
 use AngularBlog\Responses\CreateArticle;
 use AngularBlog\Responses\DeleteArticle;
 use AngularBlog\Responses\EditArticle;
+use AngularBlog\Responses\ErrorMessage;
 use AngularBlog\Responses\GetArticle;
 use AngularBlog\Responses\GetArticlesByQuery;
 use AngularBlog\Responses\GetUserArticles;
@@ -56,6 +57,10 @@ if($method == "GET"){
     else if(preg_match("/^{$prefixSlashes}\/profile\/articles\/?$/",$uri)){
         $response = GetUserArticles::content($params);
     }
+    else{
+        $params = [ C::KEY_CODE => 404, C::KEY_MESSAGE => 'Risorsa non trovata' ];
+        $response = ErrorMessage::content($params);
+    }
 }
 else if($method == "POST"){
     $input = file_get_contents("php://input");
@@ -70,6 +75,10 @@ else if($method == "POST"){
     else if(preg_match("/^{$prefixSlashes}\/register\/?$/",$uri)){
         $response = Register::content($params);
     }
+    else{
+        $params = [ C::KEY_CODE => 404, C::KEY_MESSAGE => 'Risorsa non trovata' ];
+        $response = ErrorMessage::content($params);
+    }
 }
 
 else if($method == "PUT"){
@@ -80,6 +89,10 @@ else if($method == "PUT"){
         $params['put']['article']['id'] = $matches[1];
         $response = EditArticle::content($params);
     }
+    else{
+        $params = [ C::KEY_CODE => 404, C::KEY_MESSAGE => 'Risorsa non trovata' ];
+        $response = ErrorMessage::content($params);
+    }
 }
 
 else if($method == "DELETE"){
@@ -88,6 +101,14 @@ else if($method == "DELETE"){
         $params['delete']['article_id'] = $matches[1];
         $response = DeleteArticle::content($params);
     }
+    else{
+        $params = [ C::KEY_CODE => 404, C::KEY_MESSAGE => 'Risorsa non trovata' ];
+        $response = ErrorMessage::content($params);
+    }
+}
+else{
+    $params = [ C::KEY_CODE => 404, C::KEY_MESSAGE => 'Risorsa non trovata' ];
+    $response = ErrorMessage::content($params);
 }
 
 http_response_code($response[C::KEY_CODE]);
