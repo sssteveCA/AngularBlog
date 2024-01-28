@@ -9,6 +9,7 @@ use AngularBlog\Responses\CreateArticle;
 use AngularBlog\Responses\CreateComment;
 use AngularBlog\Responses\DeleteArticle;
 use AngularBlog\Responses\EditArticle;
+use AngularBlog\Responses\EditComment;
 use AngularBlog\Responses\ErrorMessage;
 use AngularBlog\Responses\GetArticle;
 use AngularBlog\Responses\GetArticlesByQuery;
@@ -96,6 +97,10 @@ else if($method == "PUT"){
     if(preg_match("/^{$regex['prefix']}\/articles\/{$regex['objectId']}\/?$/",$uri,$matches)){
         $params['put']['article']['id'] = $matches[1];
         $response = EditArticle::content($params);
+    }
+    else if(preg_match("/^{$regex['prefix']}\/articles\/{$regex['permalink']}\/comments\/{$regex['objectId']}\/?$/",$uri,$matches)){
+        $params['put']['comment_id'] = $matches[2];
+        $response = EditComment::content($params);
     }
     else{
         $params[C::KEY_CODE] = 404; 
