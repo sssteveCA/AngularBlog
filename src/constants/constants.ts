@@ -79,7 +79,8 @@ export const deleteAccountRedirect: string = "/";
 /**
  * php script for delete comment
  */
-export const deleteComment: string = Config.PHP_SCRIPTS_URL+"/article/comment/delete.php";
+//export const deleteComment: string = Config.PHP_SCRIPTS_URL+"/article/comment/delete.php";
+export const deleteComment: string = Config.PHP_API_PREFIX+"/articles";
 
 //home url of site
 //export const homeUrl: string = "http://localhost:4200";
