@@ -8,6 +8,7 @@ use AngularBlog\Responses\ArticleComments;
 use AngularBlog\Responses\CreateArticle;
 use AngularBlog\Responses\CreateComment;
 use AngularBlog\Responses\DeleteArticle;
+use AngularBlog\Responses\DeleteComment;
 use AngularBlog\Responses\EditArticle;
 use AngularBlog\Responses\EditComment;
 use AngularBlog\Responses\ErrorMessage;
@@ -112,9 +113,14 @@ else if($method == "PUT"){
 
 else if($method == "DELETE"){
     $params = [ 'delete' => [], 'headers' => $headers ];
-    if(preg_match("/^{$regex['prefix']}\/articles\/{$regex['objectId']}/",$uri,$matches)){
+    if(preg_match("/^{$regex['prefix']}\/articles\/{$regex['objectId']}\/?$/",$uri,$matches)){
         $params['delete']['article_id'] = $matches[1];
         $response = DeleteArticle::content($params);
+    }
+    else if(preg_match("/^{$regex['prefix']}\/articles\/{$regex['permalink']}\/comments\/{$regex['objectId']}\/?$/")){
+        $params['delete']['permalink'] = $matches[1];
+        $params['delete']['comment_id'] = $matches[2];
+        $response = DeleteComment::content($params);
     }
     else{
         $params[C::KEY_CODE] = 404; 
