@@ -117,7 +117,7 @@ else if($method == "DELETE"){
         $params['delete']['article_id'] = $matches[1];
         $response = DeleteArticle::content($params);
     }
-    else if(preg_match("/^{$regex['prefix']}\/articles\/{$regex['permalink']}\/comments\/{$regex['objectId']}\/?$/")){
+    else if(preg_match("/^{$regex['prefix']}\/articles\/{$regex['permalink']}\/comments\/{$regex['objectId']}\/?$/",$uri,$matches)){
         $params['delete']['permalink'] = $matches[1];
         $params['delete']['comment_id'] = $matches[2];
         $response = DeleteComment::content($params);

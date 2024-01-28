@@ -19,6 +19,8 @@ class DeleteComment{
         $response = [
             C::KEY_CODE => 200, C::KEY_DONE => false, C::KEY_EXPIRED => false, C::KEY_MESSAGE => ''
         ];
+        $delete = $params['delete'];
+        $headers = $params['headers'];
         if(isset($headers[C::KEY_AUTH],$delete['comment_id']) && $headers[C::KEY_AUTH] != '' && $delete['comment_id'] != ''){
             try{
                 $dotenv = Dotenv::createImmutable(__DIR__."/../../../../");
