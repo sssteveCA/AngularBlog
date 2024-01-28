@@ -146,6 +146,7 @@ export class CommentsComponent implements OnInit,AfterViewInit, OnDestroy {
       let dd_data: DeleteCommentInterface = {
         comment_id: comment_id,
         http: this.http,
+        permalink: this.permalink as string,
         token_key: localStorage.getItem('token_key') as string,
         url: this.deleteComment_url
       };
