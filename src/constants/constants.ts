@@ -208,4 +208,5 @@ export const searchArticles: string = Config.PHP_API_PREFIX+"/articles.php";
 /**
  * php script for comment update
  */
-export const commentUpdate: string = Config.PHP_SCRIPTS_URL+"/article/comment/edit.php";
+//export const commentUpdate: string = Config.PHP_SCRIPTS_URL+"/article/comment/edit.php";
+export const commentUpdate: string = Config.PHP_API_PREFIX+"/articles";
