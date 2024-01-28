@@ -5,6 +5,7 @@ export default interface UpdateCommentInterface{
     http: HttpClient;
     new_comment: string;
     old_comment: string;
+    permalink: string;
     token_key: string;
     url: string;
 }

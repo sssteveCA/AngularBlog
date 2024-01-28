@@ -7,6 +7,7 @@ export default class UpdateComment{
     private _http: HttpClient;
     private _new_comment: string;
     private _old_comment: string;
+    private _permalink: string;
     private _token_key: string;
     private _url: string;
 
@@ -15,6 +16,7 @@ export default class UpdateComment{
         this._http = data.http;
         this._new_comment = data.new_comment;
         this._old_comment = data.old_comment;
+        this._permalink = data.permalink;
         this._token_key = data.token_key;
         this._url = data.url;
     }
@@ -23,6 +25,7 @@ export default class UpdateComment{
     get http(){return this._http;}
     get new_comment(){return this._new_comment;}
     get old_comment(){return this._old_comment;}
+    get permalink(){return this._permalink;}
     get token_key(){return this._token_key;}
     get url(){return this._url;}
 
@@ -30,7 +33,6 @@ export default class UpdateComment{
         let response: object = {};
         try{
             const commentupdate_values: object = {
-                comment_id: this._comment_id,
                 new_comment: this._new_comment,
                 old_comment: this._old_comment
             };
@@ -55,7 +57,8 @@ export default class UpdateComment{
                 'Accept': 'application/json',
                 'AngularBlogAuth': this._token_key
             });
-            this._http.put(this._url,updateData,{headers: headers, responseType: 'text'}).subscribe({
+
+            this._http.put(`${this._url}/${this._permalink}/comments/${this._comment_id}`,updateData,{headers: headers, responseType: 'text'}).subscribe({
                 next: (res) => resolve(res),
                 error: (error) => reject(error) 
               })

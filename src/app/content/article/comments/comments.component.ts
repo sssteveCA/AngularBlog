@@ -254,6 +254,7 @@ export class CommentsComponent implements OnInit,AfterViewInit, OnDestroy {
         http: this.http,
         new_comment: new_comment_val,
         old_comment: this.oldComment_str,
+        permalink: this.permalink as string,
         token_key: localStorage.getItem("token_key") as string,
         url: this.updateComment_url
       };

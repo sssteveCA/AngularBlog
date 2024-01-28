@@ -99,6 +99,7 @@ else if($method == "PUT"){
         $response = EditArticle::content($params);
     }
     else if(preg_match("/^{$regex['prefix']}\/articles\/{$regex['permalink']}\/comments\/{$regex['objectId']}\/?$/",$uri,$matches)){
+        $params['put']['permalink'] = $matches[1];
         $params['put']['comment_id'] = $matches[2];
         $response = EditComment::content($params);
     }
