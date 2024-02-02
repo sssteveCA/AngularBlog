@@ -157,7 +157,8 @@ export const profileGetNamesUrl: string = Config.PHP_SCRIPTS_URL+"/account/profi
 /**
  * URL to get the information of the logged user
  */
-export const profileGetUserInfoUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/info/getuserinfo.php";
+//export const profileGetUserInfoUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/info/getuserinfo.php";
+export const profileGetUserInfoUrl: string = Config.PHP_API_PREFIX+"/profile";
 
 /**
  * URL to get the logged username
