@@ -14,6 +14,7 @@ use AngularBlog\Responses\EditComment;
 use AngularBlog\Responses\ErrorMessage;
 use AngularBlog\Responses\GetArticle;
 use AngularBlog\Responses\GetArticlesByQuery;
+use AngularBlog\Responses\GetProfile;
 use AngularBlog\Responses\GetUserArticles;
 use AngularBlog\Responses\LastPosts;
 use AngularBlog\Responses\Login;
@@ -57,6 +58,9 @@ if($method == "GET"){
     }
     else if(preg_match("/^{$regex['prefix']}\/logout\/?$/",$uri)){
         $response = Logout::content($params);
+    }
+    else if(preg_match("/^{$regex['prefix']}\/profile\/?$/")){
+        $response = GetProfile::content($params);
     }
     else if(preg_match("/^{$regex['prefix']}\/profile\/articles\/?$/",$uri)){
         $response = GetUserArticles::content($params);
