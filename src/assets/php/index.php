@@ -11,6 +11,7 @@ use AngularBlog\Responses\DeleteArticle;
 use AngularBlog\Responses\DeleteComment;
 use AngularBlog\Responses\EditArticle;
 use AngularBlog\Responses\EditComment;
+use AngularBlog\Responses\EditUsername;
 use AngularBlog\Responses\ErrorMessage;
 use AngularBlog\Responses\GetArticle;
 use AngularBlog\Responses\GetArticlesByQuery;
@@ -107,6 +108,9 @@ else if($method == "PUT"){
         $params['put']['permalink'] = $matches[1];
         $params['put']['comment_id'] = $matches[2];
         $response = EditComment::content($params);
+    }
+    else if(preg_match("/^{$regex['prefix']}\/profile\/username\/?$/",$uri)){
+        $response = EditUsername::content($params);
     }
     else{
         $params[C::KEY_CODE] = 404; 
