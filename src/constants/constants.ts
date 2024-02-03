@@ -188,7 +188,8 @@ export const profileUpdateNamesUrl: string = Config.PHP_SCRIPTS_URL+"/account/pr
 /**
  * URL to update the logged username
  */
- export const profileUpdateUsernameUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/info/updateusername.php";
+ //export const profileUpdateUsernameUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/info/updateusername.php";
+ export const profileUpdateUsernameUrl: string = Config.PHP_API_PREFIX+"/profile/username";
 
 /**
  * url for get information of the logged account
