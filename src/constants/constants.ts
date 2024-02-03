@@ -183,7 +183,8 @@ export const profileUpdateNamesUrl: string = Config.PHP_API_PREFIX+"/profile/nam
 /**
  * URL to update the account logged password
  */
- export const profileUpdatePasswordUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/info/updatepassword.php";
+ //export const profileUpdatePasswordUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/info/updatepassword.php";
+ export const profileUpdatePasswordUrl: string = Config.PHP_API_PREFIX+"/profile/password";
 
 /**
  * URL to update the logged username
