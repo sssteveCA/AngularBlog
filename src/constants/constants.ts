@@ -178,8 +178,8 @@ export const profileGetHistoryUrl: string = Config.PHP_SCRIPTS_URL+"/account/pro
 /**
  * URL to update the name and the surname of the logged user
  */
-export const profileUpdateNamesUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/info/updatenames.php";
-
+//export const profileUpdateNamesUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/info/updatenames.php";
+export const profileUpdateNamesUrl: string = Config.PHP_API_PREFIX+"/profile/names";
 /**
  * URL to update the account logged password
  */
