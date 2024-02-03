@@ -12,6 +12,7 @@ use AngularBlog\Responses\DeleteComment;
 use AngularBlog\Responses\EditArticle;
 use AngularBlog\Responses\EditComment;
 use AngularBlog\Responses\EditNames;
+use AngularBlog\Responses\EditPassword;
 use AngularBlog\Responses\EditUsername;
 use AngularBlog\Responses\ErrorMessage;
 use AngularBlog\Responses\GetArticle;
@@ -112,6 +113,9 @@ else if($method == "PUT"){
     }
     else if(preg_match("/^{$regex['prefix']}\/profile\/names\/?$/",$uri)){
         $response = EditNames::content($params);
+    }
+    else if(preg_match("/^{$regex['prefix']}\/profile\/password\/?$/",$uri)){
+        $response = EditPassword::content($params);
     }
     else if(preg_match("/^{$regex['prefix']}\/profile\/username\/?$/",$uri)){
         $response = EditUsername::content($params);
