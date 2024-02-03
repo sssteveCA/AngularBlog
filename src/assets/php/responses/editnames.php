@@ -12,7 +12,7 @@ use Dotenv\Dotenv;
 use Exception;
 
 /**
- * JSON response for edit names PUT route
+ * JSON response for edit account name and surname PUT route
  */
 class EditNames{
 
