@@ -11,6 +11,7 @@ use AngularBlog\Responses\DeleteArticle;
 use AngularBlog\Responses\DeleteComment;
 use AngularBlog\Responses\EditArticle;
 use AngularBlog\Responses\EditComment;
+use AngularBlog\Responses\EditNames;
 use AngularBlog\Responses\EditUsername;
 use AngularBlog\Responses\ErrorMessage;
 use AngularBlog\Responses\GetArticle;
@@ -60,7 +61,7 @@ if($method == "GET"){
     else if(preg_match("/^{$regex['prefix']}\/logout\/?$/",$uri)){
         $response = Logout::content($params);
     }
-    else if(preg_match("/^{$regex['prefix']}\/profile\/?$/")){
+    else if(preg_match("/^{$regex['prefix']}\/profile\/?$/",$uri)){
         $response = GetProfile::content($params);
     }
     else if(preg_match("/^{$regex['prefix']}\/profile\/articles\/?$/",$uri)){
@@ -108,6 +109,9 @@ else if($method == "PUT"){
         $params['put']['permalink'] = $matches[1];
         $params['put']['comment_id'] = $matches[2];
         $response = EditComment::content($params);
+    }
+    else if(preg_match("/^{$regex['prefix']}\/profile\/names\/?$/",$uri)){
+        $response = EditNames::content($params);
     }
     else if(preg_match("/^{$regex['prefix']}\/profile\/username\/?$/",$uri)){
         $response = EditUsername::content($params);

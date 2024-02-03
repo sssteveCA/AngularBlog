@@ -16,7 +16,7 @@ use Exception;
  */
 class EditNames{
 
-    public static function content(array $paras): array{
+    public static function content(array $params): array{
         $response = [
             C::KEY_CODE => 200, C::KEY_DONE => false, C::KEY_EXPIRED => false, C::KEY_MESSAGE => ""
         ];
