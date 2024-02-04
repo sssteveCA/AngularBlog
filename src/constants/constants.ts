@@ -147,7 +147,8 @@ export const notFoundUrl: string = '/404';
 /**
  * URL to delete the logged account
  */
- export const profileDeleteUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/info/deleteprofile.php";
+ //export const profileDeleteUrl: string = Config.PHP_SCRIPTS_URL+"/account/profile/info/deleteprofile.php";
+ export const profileDeleteUrl: string = Config.PHP_API_PREFIX+"/profile";
 
 /**
  * URL to get the name and the surname of the logged user
