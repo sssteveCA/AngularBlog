@@ -9,6 +9,7 @@ use AngularBlog\Responses\CreateArticle;
 use AngularBlog\Responses\CreateComment;
 use AngularBlog\Responses\DeleteArticle;
 use AngularBlog\Responses\DeleteComment;
+use AngularBlog\Responses\DeleteProfile;
 use AngularBlog\Responses\EditArticle;
 use AngularBlog\Responses\EditComment;
 use AngularBlog\Responses\EditNames;
@@ -87,6 +88,9 @@ else if($method == "POST"){
     }
     else if(preg_match("/^{$regex['prefix']}\/login\/?$/",$uri)){
         $response = Login::content($params);
+    }
+    else if(preg_match("/^{$regex['prefix']}\/profile\/?$/",$uri)){
+        $response = DeleteProfile::content($params);
     }
     else if(preg_match("/^{$regex['prefix']}\/register\/?$/",$uri)){
         $response = Register::content($params);
