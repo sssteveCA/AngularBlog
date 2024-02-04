@@ -26,7 +26,7 @@ class DeleteProfile{
             if($post["password"] == $post["conf_password"]){
                 $token_data = [ "token_key" => $headers[C::KEY_AUTH]];
                 try{
-                    $dotenv = Dotenv::createImmutable(__DIR__."/../../../../../../");
+                    $dotenv = Dotenv::createImmutable(__DIR__."/../../../../");
                     $dotenv->load();
                     $token = new Token($token_data);
                     $user = new User();
